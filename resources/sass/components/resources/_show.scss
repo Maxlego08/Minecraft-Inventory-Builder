@@ -1,0 +1,30 @@
+.content_resources_show {
+    .tab-content {
+        border-bottom-left-radius: $border-radius-xl;
+        border-bottom-right-radius: $border-radius-xl;
+    }
+
+    .tab-pane {
+        .card {
+            &:first-child {
+                border-top-left-radius: 0;
+                border-top-right-radius: 0;
+            }
+        }
+    }
+
+    @include media-breakpoint-up(lg) {
+        .tab-content {
+            .nav {
+                li {
+                    span {
+                        &:first-child {
+                            width: 230px;
+                            display: inline-block;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

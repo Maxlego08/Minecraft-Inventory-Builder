@@ -1,0 +1,11 @@
+.btn {
+    text-transform: uppercase;
+    font-weight: $font-weight-bold;
+
+    &-danger,
+    &-secondary,
+    &-success,
+    &-primary {
+        @extend .text-white
+    }
+}

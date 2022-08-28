@@ -1,0 +1,97 @@
+.content_home {
+    .home {
+        &_background {
+            position: relative;
+            min-height: 560px;
+            max-height: 814px;
+
+            img {
+                min-height: 560px;
+                object-fit: cover;
+                object-position: right;
+            }
+
+            &:after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(180deg, rgba(37, 37, 57, 0) 50%, #252539 95%);
+                pointer-events: none;
+            }
+
+            &_text {
+                position: absolute;
+                top: 62px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 100%;
+                text-align: center;
+                padding: 0 2rem;
+                max-width: 780px;
+            }
+        }
+
+        &_arrow_scroll {
+            position: absolute;
+            top: auto;
+            bottom: 25%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: $zindex-dropdown;
+        }
+
+        &_marketplace {
+            scroll-margin-top: 5rem;
+
+            .container {
+                position: relative;
+                top: -75px;
+            }
+
+            &_block {
+                > div {
+                    max-width: 221px;
+                }
+            }
+        }
+
+        &_abonnement {
+            position: relative;
+        }
+
+        &_ressources {
+            &_add {
+                width: 100%;
+            }
+        }
+    }
+
+    @include media-breakpoint-up(lg) {
+        .home {
+            &_background {
+                &_text {
+                    top: 150px;
+                }
+            }
+
+            &_marketplace {
+                .container {
+                    top: -40px;
+                }
+            }
+
+            &_abonnement {
+                //top: -50px;
+            }
+
+            &_ressources {
+                &_add {
+                    width: 75%;
+                }
+            }
+        }
+    }
+}

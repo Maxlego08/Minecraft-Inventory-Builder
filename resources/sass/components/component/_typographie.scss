@@ -1,0 +1,15 @@
+a {
+    transition: color 0.235s linear;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6{
+  //font-family: $font-family-PenumbraSansStd;
+}
+
+//Font PenumbraSansStd
+//@include font-face(#{$font-family-PenumbraSansStd}, '#{$font-path}#{$font-family-PenumbraSansStd}-Regular', $font-weight-normal, normal, otf);
+

@@ -1,0 +1,10 @@
+.list-group {
+    &-item {
+        border-radius: $border-radius-lg;
+    }
+
+    .list-group-item + .list-group-item {
+        margin-top: 1rem;
+    }
+
+}

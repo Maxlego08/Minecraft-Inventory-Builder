@@ -1,0 +1,26 @@
+table,
+.table {
+    & > :not(caption) > * > * {
+        border-bottom-width: 0;
+    }
+
+    > :not(:first-child) {
+        border-top: 0;
+    }
+
+    td,
+    th {
+        padding: 0.5rem 1rem;
+        border-color: transparent;
+        vertical-align: middle;
+        //font-size: 1.25rem;
+    }
+
+    td {
+        padding: 1rem 1rem;
+    }
+
+    thead {
+        //font-size: $h4-font-size;
+    }
+}
