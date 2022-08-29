@@ -14,5 +14,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
+})->name('home');
+
+Route::get('/profil', function () {
+    return view('auth.profil');
+})->name('profil')->middleware('auth');
+
+Route::prefix('resources')->name('resources.')->group(function () {
+
+    Route::get('/')->name('index');
+    Route::get('/create')->name('create');
+
 });
