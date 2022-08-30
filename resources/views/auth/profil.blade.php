@@ -109,6 +109,7 @@
                         </div>
                     </div>
                 </div>
+                @include('profile.two-factor-authentication-form')
             </div>
         </div>
     </div>
