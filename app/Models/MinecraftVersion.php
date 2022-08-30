@@ -6,11 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @method static Version create(array $values)
+ * @method static MinecraftVersion create(array $values)
  */
-class Version extends Model
+class MinecraftVersion extends Model
 {
     use HasFactory;
+
+    protected $table = "versions";
 
     protected $fillable = ['version', 'minecraft_version', 'released_at'];
 }
