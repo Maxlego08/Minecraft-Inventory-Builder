@@ -14,11 +14,13 @@
                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas egestas nibh at
                                     ante luctus convallis.</p>
                             </div>
-                            <div class="col-lg-4 offset-lg-1">
-                                <a href="#"
-                                   class="btn btn-danger btn-sm rounded-4 d-flex align-items-center justify-content-center">Se
-                                    déconnecter</a>
-                            </div>
+                            <form method="POST" action="{{ route('logout') }}" class="col-lg-4 offset-lg-1">
+                                @csrf
+                                <button type="submit"
+                                        class="btn btn-danger btn-sm rounded-4 d-flex align-items-center justify-content-center">
+                                    {{ __('Logout') }}
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
