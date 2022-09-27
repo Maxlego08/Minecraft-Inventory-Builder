@@ -368,10 +368,6 @@ $gradient: linear-gradient(180deg, rgba($white, .15), rgba($white, 0));
 // scss-docs-end variable-gradient
 
 // Spacing
-//
-// Control the default styling of most Bootstrap elements by modifying these
-// variables. Mostly focused on spacing.
-// You can add more entries to the $spacers map, should you need more variation.
 
 // scss-docs-start spacer-variables-maps
 $spacer: 1rem;
@@ -744,8 +740,6 @@ $input-btn-border-width: $border-width;
 
 
 // Buttons
-//
-// For each of Bootstrap's buttons, define text, background, and border color.
 
 // scss-docs-start btn-variables
 $btn-padding-y: $input-btn-padding-y;
@@ -1196,29 +1190,29 @@ $pagination-padding-x-lg: 1.5rem;
 
 $pagination-font-size: $font-size-base;
 
-$pagination-color: var(--#{$prefix}link-color);
-$pagination-bg: $white;
+$pagination-color: $white;
+$pagination-bg: transparent;
 $pagination-border-radius: $border-radius;
-$pagination-border-width: $border-width;
+$pagination-border-width: 0;
 $pagination-margin-start: ($pagination-border-width * -1);
 $pagination-border-color: $gray-300;
 
 $pagination-focus-color: var(--#{$prefix}link-hover-color);
-$pagination-focus-bg: $gray-200;
+$pagination-focus-bg: transparent;
 $pagination-focus-box-shadow: $input-btn-focus-box-shadow;
 $pagination-focus-outline: 0;
 
 $pagination-hover-color: var(--#{$prefix}link-hover-color);
-$pagination-hover-bg: $gray-200;
-$pagination-hover-border-color: $gray-300;
+$pagination-hover-bg: transparent;
+$pagination-hover-border-color: transparent;
 
-$pagination-active-color: $component-active-color;
-$pagination-active-bg: $component-active-bg;
-$pagination-active-border-color: $pagination-active-bg;
+$pagination-active-color: $primary;
+$pagination-active-bg: transparent;
+$pagination-active-border-color: transparent;
 
 $pagination-disabled-color: $gray-600;
-$pagination-disabled-bg: $white;
-$pagination-disabled-border-color: $gray-300;
+$pagination-disabled-bg: transparent;
+$pagination-disabled-border-color: transparent;
 
 $pagination-transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 
@@ -1308,7 +1302,7 @@ $tooltip-margin: null; // TODO: remove this in v6
 $tooltip-arrow-width: .8rem;
 $tooltip-arrow-height: .4rem;
 // fusv-disable
-$tooltip-arrow-color: null; // Deprecated in Bootstrap 5.2.0 for CSS variables
+$tooltip-arrow-color: null;
 // fusv-enable
 // scss-docs-end tooltip-variables
 
@@ -1350,7 +1344,6 @@ $popover-arrow-height: .5rem;
 // scss-docs-end popover-variables
 
 // fusv-disable
-// Deprecated in Bootstrap 5.2.0 for CSS variables
 $popover-arrow-color: $popover-bg;
 $popover-arrow-outer-color: var(--#{$prefix}border-color-translucent);
 // fusv-enable

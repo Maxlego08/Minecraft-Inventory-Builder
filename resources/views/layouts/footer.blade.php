@@ -1,6 +1,6 @@
 <footer class="footer position-relative bg-blue-900 py-5">
     <div class="container-fluid">
-        <div class="position-absolute top-0 start-50 translate-middle bg-blue-900 p-2" style="width: max-content">
+        <div class="position-absolute top-0 start-50 translate-middle bg-blue-900 p-2 text-center message">
             <span>DÉCOUVREZ LE MARKETPLACE GROUPEZ</span>
         </div>
         <div class="row justify-content-evenly gy-4 px-4 px-xl-0">
@@ -34,7 +34,7 @@
                     convallis. Cras eget placerat felis. Maecenas egestas nibh at ante luctus convallis. Cras eget
                     placerat felis.</p>
             </div>
-            <div class="col-6 col-xl-2">
+            <div class="col-xs-6 col-xl-2">
                 <h2 class="text-primary fw-bold fs-4">LIENS UTILES</h2>
                 <ul class="list-unstyled">
                     <li><a class="link-light text-decoration-none" href="#">Créer une ressource</a></li>
@@ -45,7 +45,7 @@
                     <li><a class="link-light text-decoration-none" href="#">Nous contacter</a></li>
                 </ul>
             </div>
-            <div class="col-6 col-xl-2">
+            <div class="col-xs-6 col-xl-2">
                 <h2 class="text-primary fw-bold fs-4">DÉVELOPPEURS</h2>
                 <ul class="list-unstyled">
                     <li><a class="link-light text-decoration-none" href="#">GroupeZ</a></li>

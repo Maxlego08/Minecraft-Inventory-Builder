@@ -9,7 +9,7 @@
                 <div class="card my-4">
                     <div class="card-body">
                         <div class="row align-items-center justify-content-between">
-                            <div class="col-lg-7 col-xl-6 d-flex align-items-center">
+                            <div class="col-lg-7 col-xl-6 d-flex align-items-center flex-wrap flex-sm-nowrap">
                                 <div class="block_resources_start">
                                     <a class="img_1" href="https://groupez.dev/resources/zkoth.9"
                                        title="Show zKoth description">
@@ -17,7 +17,7 @@
                                              alt="zKoth logo">
                                     </a>
                                 </div>
-                                <div class="ms-4">
+                                <div class="ms-sm-4">
                                     <h1 class="fw-bold fs-5 mb-0">zKoth - Minecraft KOTH Plugin (1.7.10 - 1.19.1)</h1>
                                     <p>A King of The Hill plugin that has all the flexibility that you need</p>
                                 </div>
@@ -31,7 +31,8 @@
                 </div>
                 <div class="row mt-5">
                     <div class="col-lg-9">
-                        <ul class="nav nav-tabs justify-content-between flex-nowrap" id="myTabResources" role="tablist">
+                        <ul class="nav nav-tabs justify-content-lg-between flex-wrap flex-lg-nowrap" id="myTabResources"
+                            role="tablist">
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link active" id="overview-tab" data-bs-toggle="tab"
                                         data-bs-target="#overview-tab-pane" type="button" role="tab"
@@ -70,7 +71,8 @@
                             </li>
                         </ul>
                         <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade bg-blue-800 p-4 show active" id="overview-tab-pane" role="tabpanel"
+                            <div class="tab-pane fade bg-blue-800 p-4 show active" id="overview-tab-pane"
+                                 role="tabpanel"
                                  aria-labelledby="overview-tab" tabindex="0">
                                 @include('resources.pages.overview')
                             </div>
@@ -96,7 +98,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-3 mt-3 mt-lg-0">
                         <div class="card mb-3">
                             <div class="card-body">
                                 <h2 class="text-center fs-6 fw-bold mb-3">Informations générales</h2>
@@ -119,13 +121,7 @@
                                     <li class="d-flex justify-content-between align-items-cente mt-4">
                                         Avis général
                                         <span>
-                                            <span class="text-warning">
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-half"></i>
-                                                <i class="bi bi-star"></i>
-                                            </span>
+                                            @include('elements.stars')
                                             <br>
                                             <span class="text-muted fst-italic">(17 reviews)</span>
                                         </span>
@@ -149,13 +145,7 @@
                                     <li class="d-flex justify-content-between align-items-cente mt-4">
                                         Avis sur la version
                                         <span>
-                                            <span class="text-warning">
-                                                <i class="bi bi-star"></i>
-                                                <i class="bi bi-star"></i>
-                                                <i class="bi bi-star"></i>
-                                                <i class="bi bi-star"></i>
-                                                <i class="bi bi-star"></i>
-                                            </span>
+                                            @include('elements.stars')
                                             <br>
                                             <span class="text-muted fst-italic">(0 reviews)</span>
                                         </span>
@@ -166,9 +156,11 @@
                         <div class="card mb-3">
                             <div class="card-body">
                                 <h2 class="text-center fs-6 fw-bold mb-3">Gérer votre ressource</h2>
-                                <a href="{{route('resources.edit', 1)}}" class="text-decoration-none d-block">Modifier ma ressource</a>
+                                <a href="{{route('resources.edit', 1)}}" class="text-decoration-none d-block">Modifier
+                                    ma ressource</a>
                                 <a href="#" class="text-decoration-none d-block">Modifier l’image de ma ressource</a>
-                                <a href="{{route('resources.update-ressource',1)}}" class="text-decoration-none d-block">Poster une mise à jour</a>
+                                <a href="{{route('resources.update-ressource',1)}}"
+                                   class="text-decoration-none d-block">Poster une mise à jour</a>
                             </div>
                         </div>
                     </div>

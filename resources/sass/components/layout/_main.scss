@@ -1,3 +1,26 @@
+/* width */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: $white;
+    border-radius: 5px;
+    transition: background 0.123s linear;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: $white;
+}
+
+
 .block_title {
     max-width: 860px;
     margin: 0 auto 95px;
@@ -29,7 +52,7 @@
     }
 
     &_center {
-        flex: 1 1 70%;
+        flex: 1 1 60%;
 
         p {
             margin-left: -60px;

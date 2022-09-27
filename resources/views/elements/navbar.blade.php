@@ -1,5 +1,5 @@
 <nav class="navbar py-0 navbar-expand-lg navbar-dark bg-blue-800 flex-column ">
-    <div class="container flex-lg-wrap justify-content-center px-4 px-lg-3 py-4">
+    <div class="container flex-lg-wrap justify-content-center px-2 px-sm-4 px-lg-3 py-4">
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarheader"
                 aria-controls="navbarheader" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,8 +16,22 @@
                     class="bi bi-search"></i></button>
         </form>
         <ul class="navbar list-unstyled ms-auto me-0 mb-0 ms-lg-4 flex-nowrap align-items-center">
-            <li class="nav-item d-none d-lg-block">
-                <a class="bell text-white px-2" href="#"><i class="bi bi-bell-fill"></i></a>
+            <li class="nav-item dropdown d-none d-lg-block">
+                <a class="nav-link dropdown-toggle bell text-white px-2" href="#"
+                   role="button"
+                   data-bs-toggle="dropdown"
+                   aria-expanded="false" data-bs-display="static">
+                    <i class="bi bi-bell-fill"></i>
+                    <span class="badge rounded-pill bg-danger">1 <span class="visually-hidden">unread messages</span></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-dark dropdown-menu-end py-0" data-bs-popper="none">
+                    <span class="px-3 border-bottom w-100 d-block text-muted py-2">Alerte</span>
+                    <div class="px-3 w-100 py-2">
+                        <ul class="list-group py-2 list-d">
+                            <li class="list-group-item list-group-item-dark fs-7">Vous n'avez pas de notification</li>
+                        </ul>
+                    </div>
+                </div>
             </li>
             <li class="nav-item d-none d-lg-block">
                 <a class="position-relative text-white px-2 envelope" href="#">

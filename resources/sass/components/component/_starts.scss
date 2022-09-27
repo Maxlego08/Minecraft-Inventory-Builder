@@ -1,0 +1,105 @@
+.stars {
+    display: inline-block;
+    width: auto;
+    position: relative;
+    font-size: 20px;
+    overflow: hidden;
+}
+
+.stars:before {
+    content: "★★★★★";
+    position: absolute;
+    overflow: hidden;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    color: $yellow;
+    font-size: 20px;
+}
+
+.stars:after {
+    content: "★★★★★";
+    position: relative;
+    color: $white;
+    font-size: 20px;
+}
+
+.stars.rate:AFTER {
+    position: absolute;
+    left: 0px;
+}
+
+.stars.rate > A {
+    color: transparent;
+    text-decoration: none;
+    position: relative;
+    z-index: 2;
+}
+
+.stars.rate:HOVER:BEFORE,
+.stars.rate:HOVER:AFTER {
+    display: none;
+}
+
+.stars.rate:HOVER > A {
+    color: $yellow;
+    transition: none;
+}
+
+.stars.rate:HOVER > A:HOVER {
+    color: $yellow;
+}
+
+.stars.rate > A:HOVER ~ A {
+    color: $white;
+    text-shadow: none;
+}
+
+.stars:NOT([data-percent]):BEFORE,
+.stars[data-percent="0"]:BEFORE {
+    display: none;
+}
+
+/* 1/2 a star */
+.stars[data-percent="10"]:BEFORE {
+    width: 10%;
+}
+
+/* 1 star */
+.stars[data-percent="20"]:BEFORE {
+    width: 20%;
+}
+
+/* 1 & 1/2 stars */
+.stars[data-percent="30"]:BEFORE {
+    width: 30%;
+}
+
+/* etc. */
+.stars[data-percent="40"]:BEFORE {
+    width: 40%;
+}
+
+.stars[data-percent="50"]:BEFORE {
+    width: 50%;
+}
+
+.stars[data-percent="60"]:BEFORE {
+    width: 60%;
+}
+
+.stars[data-percent="70"]:BEFORE {
+    width: 70%;
+}
+
+.stars[data-percent="80"]:BEFORE {
+    width: 80%;
+}
+
+.stars[data-percent="90"]:BEFORE {
+    width: 90%;
+}
+
+.stars[data-percent="100"]:BEFORE {
+    width: 100%;
+}

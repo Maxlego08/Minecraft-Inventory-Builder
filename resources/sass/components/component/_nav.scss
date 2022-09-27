@@ -6,22 +6,25 @@
         &::-webkit-scrollbar {
             height: 5px;
         }
+
         &::-webkit-scrollbar-thumb {
             border-radius: 0;
         }
 
         .nav-item {
-            width: 100%;
+            @include media-breakpoint-up(lg) {
+                width: 100%;
+
+                &:last-child {
+                    button {
+                        border-top-right-radius: $border-radius-xl;
+                    }
+                }
+            }
 
             &:first-child {
                 button {
                     border-top-left-radius: $border-radius-xl;
-                }
-            }
-
-            &:last-child {
-                button {
-                    border-top-right-radius: $border-radius-xl;
                 }
             }
 

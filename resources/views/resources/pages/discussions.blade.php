@@ -1,7 +1,7 @@
 @for ($i = 0; $i < 3; $i++)
-    <div class="card mb-4">
+    <div class="card mb-4 {{ $i !=0 ? 'mt-5':''}}">
         <div class="card-body">
-            <div class="d-flex">
+            <div class="d-flex flex-wrap flex-sm-nowrap">
                 <a href="https://groupez.dev/resources/authors/maxlego08.1"
                    title="Maxlego08 profile">
                     <img class=" rounded-circle"
@@ -26,23 +26,27 @@
                         elementum eros, quis viverra felis. Maecenas dignissim ligula quis orci tincidunt tincidunt.
                     </p>
                     <span class="text-muted fs-7 fw-light fst-italic">le 17 jui. 2022</span>
-                    @for ($d = 0; $d < 3; $d++)
-                        <div class="block_resources_description my-3 d-flex">
-                            <a href="https://groupez.dev/resources/authors/maxlego08.1"
-                               title="Maxlego08 profile">
-                                <img class=" rounded-circle"
-                                     src="https://groupez.dev/storage/images/users/0/0/0/1.png"
-                                     alt="Maxlego08 Avatar">
-                            </a>
-                            <div class="ms-3">
-                                <a href="#" class="fw-bold text-decoration-none text-warning" title="anonymuser0023">Maxlego08 <div class="badge bg-warning ms-2"> Auteur</div></a>
-                                <p class="mt-1 mb-1">Thanks for your review!</p>
-                                <span class="text-muted fs-7 fw-light fst-italic">le 17 jui. 2022</span>
-                            </div>
-                        </div>
-                    @endfor
                 </div>
             </div>
         </div>
     </div>
+
+    @for ($d = 0; $d < 3; $d++)
+        <div class="block_resources_description my-2 d-flex card card-body flex-row flex-wrap flex-sm-nowrap">
+            <a href="https://groupez.dev/resources/authors/maxlego08.1"
+               title="Maxlego08 profile">
+                <img class=" rounded-circle"
+                     src="https://groupez.dev/storage/images/users/0/0/0/1.png"
+                     alt="Maxlego08 Avatar">
+            </a>
+            <div class="ms-3">
+                <a href="#" class="fw-bold text-decoration-none text-warning" title="anonymuser0023">Maxlego08 <div class="badge bg-warning ms-2"> Auteur</div></a>
+                <p class="mt-1 mb-1">Thanks for your review!</p>
+                <span class="text-muted fs-7 fw-light fst-italic">le 17 jui. 2022</span>
+            </div>
+        </div>
+    @endfor
 @endfor
+
+
+@include('elements.pagination')

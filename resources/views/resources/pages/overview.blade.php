@@ -51,4 +51,3 @@
     pellentesque, maximus risus faucibus, fermentum ex. Pellentesque pretium laoreet
     nisi et dignissim. Praesent vel faucibus ligula. Curabitur ut tincidunt ante. Cras
     finibus hendrerit libero, non commodo nisi.</p>
-<!--<img src="https://img.groupez.dev/zauctionhouse/v3/tableau.png" alt="test">-->

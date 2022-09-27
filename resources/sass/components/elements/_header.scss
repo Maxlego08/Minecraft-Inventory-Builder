@@ -21,6 +21,25 @@
         i {
             width: 15px;
         }
+
+        span {
+            position: absolute;
+            top: 70%;
+            right: calc(100% - 16px);
+            font-size: 11px;
+        }
+
+        &:after {
+            display: none;
+        }
+
+        ~ .dropdown-menu {
+            max-width: 260px;
+            margin: 0 map-get($spacers, 3);
+            @include media-breakpoint-up(md) {
+                min-width: 400px;
+            }
+        }
     }
 
     .envelope {
@@ -58,6 +77,17 @@
                 border-radius: 15px;
                 z-index: $zindex-dropdown;
                 padding: 0 1rem;
+            }
+        }
+    }
+
+    @include media-breakpoint-down(xs) {
+        .navbar-toggler {
+            padding-right: 0;
+        }
+        .navbar-brand {
+            img {
+                width: 160px;
             }
         }
     }

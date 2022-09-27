@@ -10,7 +10,7 @@
 
             <div class="row row-cols-lg-3">
                 @for ($i = 0; $i < 24; $i++)
-                    <div class="d-flex my-2">
+                    <div class="d-flex justify-content-center my-2">
                         <a href="https://groupez.dev/resources/authors/maxlego08.1"
                            title="Maxlego08 profile">
                             <img class=" rounded-circle"
@@ -27,3 +27,4 @@
         </form>
     </div>
 </div>
+@include('elements.pagination')

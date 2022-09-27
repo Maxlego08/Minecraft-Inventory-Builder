@@ -27,9 +27,13 @@
                 <div>
                     <input class="form-check-input" type="radio" name="link_lien" id="link_lien">
                     <label class="form-check-label" for="link_lien">J’utilise un lien</label>
-                    <div class="d-flex mt-2">
-                        <input type="text" class="form-control">
-                        <button class="btn btn-secondary rounded-4 ms-4 text-nowrap">ENVOYER UN FICHIER</button>
+                    <div class="row mt-2">
+                        <div class="col-md-8">
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <button class="btn btn-secondary rounded-4  text-nowrap">ENVOYER UN FICHIER</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -43,7 +47,7 @@
                 <label for="contributeurs" class="form-label ms-3">Contributeurs</label>
                 <input type="text" class="form-control" id="contributeurs">
             </div>
-            @php($version = ['1.7.x', '1.8.x', '1.9.x', '1.10.x', '1.11.x', '1.12.x', '1.12.x', '1.13.x', '1.14.x', '1.15.x', '1.16.x', '1.17.x', '1.18.x', '1.19.x'])
+            @php($version = ['1.7.x', '1.8.x', '1.9.x', '1.10.x', '1.11.x', '1.12.x',  '1.13.x', '1.14.x', '1.15.x', '1.16.x', '1.17.x', '1.18.x', '1.19.x'])
             <div class="mb-3">
                 <label for="contributeurs" class="form-label ms-3">Version de Minecraft compatible (& testée)</label>
                 <div class="row row-cols-3 row-cols-lg-5 px-3">
@@ -91,14 +95,15 @@
                 <input type="text" class="form-control" id="link_support">
             </div>
             <div class="mb-4 mt-5">
-                <input class="form-check-input" type="checkbox" name="uplode_file" id="uplode_file">
-                <label class="form-check-label" for="uplode_file">Je souhaite ajouter une icône à ma ressource</label>
+                <input class="form-check-input" type="checkbox" name="upload_file" id="upload_file">
+                <label class="form-check-label" for="upload_file">Je souhaite ajouter une icône à ma ressource</label>
                 <input type="file" class="form-control mt-2">
             </div>
             <div>
                 <div class="row">
                     <div class="col-lg-7">
-                        <button type="submit" class="btn btn-primary rounded-4 d-block w-100 mt-5">Enregistrer et créer la
+                        <button type="submit" class="btn btn-primary rounded-4 d-block w-100 mt-5">Enregistrer et créer
+                            la
                             ressource
                         </button>
                     </div>

@@ -145,6 +145,7 @@
                                 </div>
                             </div>
                         @endfor
+                        @include('elements.pagination')
                     </div>
                 </div>
             </div>

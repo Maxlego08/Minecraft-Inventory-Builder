@@ -66,11 +66,11 @@
                                     @csrf
                                     <div class="mb-3">
                                         <label for="email" class="form-label ms-3">Nouvelle adresse e-mail</label>
-                                        <input type="text" class="form-control" id="email">
+                                        <input type="email" class="form-control" id="email">
                                     </div>
                                     <div class="mb-3">
                                         <label for="password" class="form-label ms-3">Votre mot de passe</label>
-                                        <input type="text" class="form-control" id="password">
+                                        <input type="password" class="form-control" id="password">
                                     </div>
                                     <button type="submit" class="btn btn-primary btn-sm rounded-4 d-block w-100 mt-2">
                                         Changer
