@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,9 +18,17 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
-Route::get('/profil', function () {
+Route::get('/profile', function () {
     return view('auth.profil');
 })->name('profil')->middleware('auth');
+
+Route::prefix('/profile')->name('profile.')->group(function () {
+    Route::get('', [ProfileController::class, 'index'])->name('index');
+    Route::prefix('/picture')->name('picture.')->group(function () {
+        Route::post('destroy', [ProfileController::class, 'destroyProfile'])->name('destroy');
+        Route::post('update', [ProfileController::class, 'uploadProfile'])->name('update');
+    });
+});
 
 Route::prefix('resources')->name('resources.')->group(function () {
 
