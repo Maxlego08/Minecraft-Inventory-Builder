@@ -31,7 +31,7 @@ class ProfileController extends Controller
      */
     public function index(): View|Factory|Application
     {
-        return view('auth.profile');
+        return view('members.index');
     }
 
 
