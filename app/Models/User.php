@@ -23,6 +23,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string $profile_photo_path
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property DiscordUser $discord
  * @method static User find(int $id)
  */
 class User extends Authenticate
@@ -58,4 +59,16 @@ class User extends Authenticate
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Permet de retourner le lien d'authentification discord de l'utilisateur
+     *
+     * @return string
+     */
+    public function getDiscordAuthLink(): string
+    {
+        $api = route('api.v1.discord');
+        $client_id = env('DISCORD_CLIENT_ID');
+        return 'https://discord.com/api/oauth2/authorize?client_id=' . $client_id . '&redirect_uri=' . urlencode($api) . '&response_type=code&scope=identify&state=' . $this->id;
+    }
 }

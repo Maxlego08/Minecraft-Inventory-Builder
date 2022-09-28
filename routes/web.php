@@ -18,18 +18,15 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
-Route::get('/profile', function () {
-    return view('auth.profil');
-})->name('profil')->middleware('auth');
-
-Route::prefix('/profile')->name('profile.')->group(function () {
-    Route::get('', [ProfileController::class, 'index'])->name('index');
+Route::prefix('/profile')->name('profile.')->middleware('auth')->group(function () {
+    Route::get('/', [ProfileController::class, 'index'])->name('index');
     Route::prefix('/picture')->name('picture.')->group(function () {
-        Route::post('destroy', [ProfileController::class, 'destroyProfile'])->name('destroy');
-        Route::post('update', [ProfileController::class, 'uploadProfile'])->name('update');
+        Route::post('/destroy', [ProfileController::class, 'destroyProfile'])->name('destroy');
+        Route::post('/update', [ProfileController::class, 'uploadProfile'])->name('update');
     });
-    Route::post('email', [ProfileController::class, 'changeEmail'])->name('email');
-    Route::post('password', [ProfileController::class, 'changePassword'])->name('password');
+    Route::post('/email', [ProfileController::class, 'changeEmail'])->name('email');
+    Route::post('/password', [ProfileController::class, 'changePassword'])->name('password');
+    Route::post('/discord', [ProfileController::class, 'changePassword'])->name('discord');
 });
 
 Route::prefix('resources')->name('resources.')->group(function () {
