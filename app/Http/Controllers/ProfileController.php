@@ -40,7 +40,6 @@ class ProfileController extends Controller
         return view('members.index');
     }
 
-
     /**
      * Permet d'upload une image de profile
      *

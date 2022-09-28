@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="content_resources_show py-5 mb-5 members">
-        <div class="px-3 px-lg-0">
+        <div class="px-lg-0">
             <div class="container">
                 <div class="main-row-2">
                     <div class="main-col-1">
