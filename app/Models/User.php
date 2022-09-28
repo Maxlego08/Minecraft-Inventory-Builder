@@ -9,6 +9,7 @@ use App\Models\Webhook\Webhook;
 use App\Traits\HasProfilePhoto;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticate;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -59,6 +60,16 @@ class User extends Authenticate
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Permet de retourner le lien du compte discord de l'utilisateur
+     *
+     * @return HasOne
+     */
+    public function discord(): HasOne
+    {
+        return $this->hasOne(DiscordUser::class);
+    }
 
     /**
      * Permet de retourner le lien d'authentification discord de l'utilisateur

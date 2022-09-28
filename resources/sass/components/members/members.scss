@@ -152,6 +152,10 @@
         display: flex;
         margin: 15px 0;
 
+        @media screen and (max-width: 400px) {
+            flex-direction: column;
+        }
+
         &-avatar {
             img {
                 width: 100px;

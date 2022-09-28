@@ -12,7 +12,7 @@
 
                                 <img src="{{ user()->getProfilePhotoUrlAttribute() }}" height="50" width="50"
                                      alt="{{ user()->name }}" class="rounded-2">
-                                <span class="d-none d-lg-block ms-2">{{ user()->name }}</span>
+                                <span class="d-lg-block ms-2">{{ user()->name }}</span>
 
                             </div>
                             <div class="card-body px-4">
