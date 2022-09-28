@@ -28,6 +28,8 @@ Route::prefix('/profile')->name('profile.')->group(function () {
         Route::post('destroy', [ProfileController::class, 'destroyProfile'])->name('destroy');
         Route::post('update', [ProfileController::class, 'uploadProfile'])->name('update');
     });
+    Route::post('email', [ProfileController::class, 'changeEmail'])->name('email');
+    Route::post('password', [ProfileController::class, 'changePassword'])->name('password');
 });
 
 Route::prefix('resources')->name('resources.')->group(function () {
