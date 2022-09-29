@@ -21,7 +21,7 @@
         <div class="row justify-content-center">
             <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
                 <div class="d-flex justify-content-center my-3">
-                    <img src="{{ asset('images/bootstrap-5-logo.svg') }}" alt="Powered by Bootstrap 5" class="w-25 mx-auto px-3">
+                    <img src="{{ asset('images/bootstrap-5-lffogo.svg') }}" alt="Powered by Bootstrap 5" class="w-25 mx-auto px-3">
                 </div>
 
                 <div class="card">

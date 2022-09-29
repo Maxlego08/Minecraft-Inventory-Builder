@@ -34,6 +34,8 @@ return [
         'new' => 'New password',
         'confirm' => 'Confirm new password',
         'updated' => 'You have just changed your password',
+        'confirmed' => 'Confirm password',
+        'forgot' => 'Forgot your password ?'
     ],
 
     'discord' => [
@@ -50,6 +52,17 @@ return [
             'oauth' => 'An error occurred while linking your discord account (OAuth2)',
             'already' => 'You have already linked your discord account',
         ],
+    ],
+
+    'two_factor' => [
+        'title' => 'Two factor',
+        'enable' => 'Enable Two-Factor',
+        'disable' => 'Disable Two-Factor',
+        'confirm' => 'Confirm Two-Factor',
+        'info' => 'Two factor authentication is now enabled. Scan the following QR code using your phone\'s authenticator application.',
+        'info2' => 'Store these recovery codes in a secure password manager. They can be used to recover access to your account if your two factor authentication device is lost.',
+        'regen' => 'Regenerate Recovery Codes',
+        'label' => 'Confirm code (6 digits)',
     ],
 
 ];

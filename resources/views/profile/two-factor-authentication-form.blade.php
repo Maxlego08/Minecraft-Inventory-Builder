@@ -1,61 +1,67 @@
-@if(!auth()->user()->two_factor_secret)
-    {{-- Enable 2FA --}}
-    <form method="POST" action="{{ url('user/two-factor-authentication') }}">
-        @csrf
+<div class="card rounded-0">
+    <div class="card-body">
+        <div class="d-flex justify-content-md-between">
+            <h2>{{ __('profiles.two_factor.title') }}</h2>
+            @if(auth()->user()->two_factor_secret)
+                <form method="POST" action="{{ url('user/two-factor-authentication') }}">
 
-        <button type="submit">
-            {{ __('Enable Two-Factor') }}
-        </button>
-    </form>
-@else
-    {{-- Disable 2FA --}}
-    <form method="POST" action="{{ url('user/two-factor-authentication') }}">
-        @csrf
-        @method('DELETE')
+                    @csrf
+                    @method('DELETE')
 
-        <button type="submit">
-            {{ __('Disable Two-Factor') }}
-        </button>
-    </form>
+                    <button type="submit" class="btn btn-danger btn-sm rounded-0 d-block w-100 mt-2">
+                        {{ __('profiles.two_factor.disable') }}
+                    </button>
+                </form>
+            @endif
+        </div>
 
-    @if(session('status') == 'two-factor-authentication-enabled')
-        <div class="mb-4 font-medium text-sm">
-            {!! auth()->user()->twoFactorQrCodeSvg() !!}
-            {!! auth()->user()->twoFactorQrCodeUrl() !!}
-            <form method="POST" action="{{ url('user/confirmed-two-factor-authentication') }}">
+        @if(!auth()->user()->two_factor_secret)
+            {{-- Enable 2FA --}}
+            <form method="POST" action="{{ url('user/two-factor-authentication') }}">
                 @csrf
-                <input type="text" id="code" name="code">
-                <button type="submit">Confirmer</button>
+
+                <button type="submit" class="btn btn-primary btn-sm rounded-0 d-block w-100 mt-2">
+                    {{ __('profiles.two_factor.enable') }}
+                </button>
             </form>
-        </div>
-    @elseif (session('status') == 'two-factor-authentication-confirmed')
-        {{-- Show SVG QR Code, After Enabling 2FA --}}
-        <div>
-            {{ __('Two factor authentication is now enabled. Scan the following QR code using your phone\'s authenticator application.') }}
-        </div>
+        @else
+            @if(session('status') == 'two-factor-authentication-enabled')
+                <div class="mb-4 font-medium text-sm">
+                    <form method="POST" action="{{ url('user/confirmed-two-factor-authentication') }}">
+                        @csrf
 
-        <div style="margin: 100px">
-        </div>
+                        <div class="d-flex justify-content-center mt-4 mb-4">
+                            <div class="p-3 bg-white rounded-2">
+                                {!! auth()->user()->twoFactorQrCodeSvg() !!}
+                            </div>
+                        </div>
 
-        {{-- Show 2FA Recovery Codes --}}
-        <div>
-            {{ __('Store these recovery codes in a secure password manager. They can be used to recover access to your account if your two factor authentication device is lost.') }}
-        </div>
+                        <label for="code" class="form-label">{{ __('profiles.two_factor.label') }}</label>
+                        <input type="text" id="code" name="code" class="form-control rounded-0 mb-2">
+                        <button type="submit"
+                                class="btn btn-primary btn-sm rounded-0 d-block w-100 mt-2">{{ __('profiles.two_factor.confirm') }}</button>
+                    </form>
+                </div>
+            @elseif (session('status') == 'two-factor-authentication-confirmed')
+                {{-- Show SVG QR Code, After Enabling 2FA --}}
+                <span class="mb-2">{{ __('profiles.two_factor.info') }}</span>
 
-        <div>
-            @foreach (json_decode(decrypt(auth()->user()->two_factor_recovery_codes), true) as $code)
-                <div>{{ $code }}</div>
-            @endforeach
-        </div>
-    @else
-        {{-- Regenerate 2FA Recovery Codes --}}
-        <form method="POST" action="{{ url('user/two-factor-recovery-codes') }}">
-            @csrf
+                {{-- Show 2FA Recovery Codes --}}
+                <span class="mb-2">{{ __('profiles.two_factor.info2') }}</span>
 
-            <button type="submit">
-                {{ __('Regenerate Recovery Codes') }}
-            </button>
-        </form>
-    @endif
-@endif
-<hr>
+                <div>
+                    @foreach (json_decode(decrypt(auth()->user()->two_factor_recovery_codes), true) as $code)
+                        <div>{{ $code }}</div>
+                    @endforeach
+                </div>
+            @elseif(auth()->user()->two_factor_confirm_at)
+                {{-- Regenerate 2FA Recovery Codes --}}
+                <form method="POST" action="{{ url('user/two-factor-recovery-codes') }}">
+                    @csrf
+                    <button type="submit"
+                            class="btn btn-primary btn-sm rounded-0 d-block w-100 mt-2">{{ __('profiles.two_factor.regen') }}</button>
+                </form>
+            @endif
+        @endif
+    </div>
+</div>
