@@ -100,11 +100,10 @@ class ProfileController extends Controller
     /**
      * Permet de retirer l'accès a discord
      *
-     * @param Request $request
      * @return RedirectResponse
      * @throws Exception
      */
-    public function discord(Request $request): RedirectResponse
+    public function discord(): RedirectResponse
     {
         $user = user();
         if ($user->discord === null) {
