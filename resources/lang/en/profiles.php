@@ -63,6 +63,13 @@ return [
         'info2' => 'Store these recovery codes in a secure password manager. They can be used to recover access to your account if your two factor authentication device is lost.',
         'regen' => 'Regenerate Recovery Codes',
         'label' => 'Confirm code (6 digits)',
+        'key' => [
+            'title' => 'Can\'t scan the code?',
+            'info' => 'To add the entry manually, provide the following details to the application on your phone.',
+            'key' => 'Key: ',
+            'time' => 'Time based:',
+            'account' => 'Account:'
+        ],
     ],
 
 ];

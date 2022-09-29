@@ -22,7 +22,10 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string $email
  * @property string $name
  * @property string $profile_photo_path
+ * @property string $two_factor_secret
+ * @property string $two_factor_recovery_codes
  * @property Carbon $created_at
+ * @property Carbon $two_factor_confirmed_at
  * @property Carbon $updated_at
  * @property DiscordUser $discord
  * @method static User find(int $id)
