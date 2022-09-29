@@ -27,6 +27,7 @@ Route::prefix('/profile')->name('profile.')->middleware('auth')->group(function 
     Route::post('/email', [ProfileController::class, 'changeEmail'])->name('email');
     Route::post('/password', [ProfileController::class, 'changePassword'])->name('password');
     Route::post('/discord', [ProfileController::class, 'discord'])->name('discord');
+    Route::post('/2fa/code', [ProfileController::class, 'downloadRecoveryCode'])->name('2fa');
 });
 
 Route::prefix('resources')->name('resources.')->group(function () {

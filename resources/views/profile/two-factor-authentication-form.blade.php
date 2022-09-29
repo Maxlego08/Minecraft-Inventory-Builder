@@ -49,7 +49,7 @@
                                 class="btn btn-primary btn-sm rounded-0 d-block w-100 mt-2">{{ __('profiles.two_factor.confirm') }}</button>
                     </form>
                 </div>
-            @elseif (session('status') == 'two-factor-authentication-confirmed')
+            @elseif (session('status') == 'two-factor-authentication-confirmed' || session('status') == 'recovery-codes-generated')
                 {{-- Show SVG QR Code, After Enabling 2FA --}}
                 <span class="mb-2">{{ __('profiles.two_factor.info') }}</span>
 
@@ -61,6 +61,13 @@
                         <li>{{ $code }}</li>
                     @endforeach
                 </ul>
+
+                <form method="POST" action="{{ route('profile.2fa') }}">
+                    @csrf
+                    <button type="submit"
+                            class="btn btn-success btn-sm rounded-0 d-block mt-2">{{ __('profiles.two_factor.download') }}</button>
+                </form>
+
             @elseif(user()->two_factor_confirmed_at)
                 {{-- Regenerate 2FA Recovery Codes --}}
                 <form method="POST" action="{{ url('user/two-factor-recovery-codes') }}">

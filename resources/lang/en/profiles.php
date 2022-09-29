@@ -70,6 +70,7 @@ return [
             'time' => 'Time based:',
             'account' => 'Account:'
         ],
+        'download' => 'Download recovery codes'
     ],
 
 ];

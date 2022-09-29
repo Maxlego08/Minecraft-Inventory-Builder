@@ -3,15 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Fortify\PasswordValidationRules;
-use App\Models\Log;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
 
 class ProfileController extends Controller
@@ -125,6 +124,29 @@ class ProfileController extends Controller
 
         return Redirect::route('profile.index')
             ->with('toast', createToast('success', __('profiles.discord.discord'), __('profiles.discord.removed')));
+    }
+
+    public function downloadRecoveryCode(){
+
+        $content = "";
+        foreach (json_decode(decrypt(user()->two_factor_recovery_codes), true) as $code) {
+            $content .= $code;
+            $content .= "\n";
+        }
+
+        // file name that will be used in the download
+        $fileName = "MIB-recovery-codes.txt";
+
+        // use headers in order to generate the download
+        $headers = [
+            'Content-type' => 'text/plain',
+            'Content-Disposition' => sprintf('attachment; filename="%s"', $fileName),
+            'Content-Length' => strlen($content)
+        ];
+
+        // make a response, with the content, a 200 response code and the headers
+        return Response::make($content, 200, $headers);
+
     }
 
 }
