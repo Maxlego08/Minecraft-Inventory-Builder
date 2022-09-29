@@ -18,20 +18,17 @@
         </button>
     </form>
 
-    {{ var_dump(session('status')) }}
-
     @if(session('status') == 'two-factor-authentication-enabled')
         <div class="mb-4 font-medium text-sm">
             {!! auth()->user()->twoFactorQrCodeSvg() !!}
+            {!! auth()->user()->twoFactorQrCodeUrl() !!}
             <form method="POST" action="{{ url('user/confirmed-two-factor-authentication') }}">
                 @csrf
                 <input type="text" id="code" name="code">
                 <button type="submit">Confirmer</button>
             </form>
         </div>
-    @endif
-
-    @if (session('status') == 'two-factor-authentication-confirmed')
+    @elseif (session('status') == 'two-factor-authentication-confirmed')
         {{-- Show SVG QR Code, After Enabling 2FA --}}
         <div>
             {{ __('Two factor authentication is now enabled. Scan the following QR code using your phone\'s authenticator application.') }}
@@ -39,26 +36,26 @@
 
         <div style="margin: 100px">
         </div>
+
+        {{-- Show 2FA Recovery Codes --}}
+        <div>
+            {{ __('Store these recovery codes in a secure password manager. They can be used to recover access to your account if your two factor authentication device is lost.') }}
+        </div>
+
+        <div>
+            @foreach (json_decode(decrypt(auth()->user()->two_factor_recovery_codes), true) as $code)
+                <div>{{ $code }}</div>
+            @endforeach
+        </div>
+    @else
+        {{-- Regenerate 2FA Recovery Codes --}}
+        <form method="POST" action="{{ url('user/two-factor-recovery-codes') }}">
+            @csrf
+
+            <button type="submit">
+                {{ __('Regenerate Recovery Codes') }}
+            </button>
+        </form>
     @endif
-
-    {{-- Show 2FA Recovery Codes --}}
-    <div>
-        {{ __('Store these recovery codes in a secure password manager. They can be used to recover access to your account if your two factor authentication device is lost.') }}
-    </div>
-
-    <div>
-        @foreach (json_decode(decrypt(auth()->user()->two_factor_recovery_codes), true) as $code)
-            <div>{{ $code }}</div>
-        @endforeach
-    </div>
-
-    {{-- Regenerate 2FA Recovery Codes --}}
-    <form method="POST" action="{{ url('user/two-factor-recovery-codes') }}">
-        @csrf
-
-        <button type="submit">
-            {{ __('Regenerate Recovery Codes') }}
-        </button>
-    </form>
 @endif
 <hr>

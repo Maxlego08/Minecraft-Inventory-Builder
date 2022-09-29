@@ -69,5 +69,6 @@
     @include('members.elements.email')
     @include('members.elements.password')
     @include('members.elements.discord')
+    @include('profile.two-factor-authentication-form')
 
 @endsection
