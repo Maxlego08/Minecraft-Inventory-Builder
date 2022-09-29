@@ -28,14 +28,16 @@ class DiscordAuthController extends Controller
     public function authentication(Request $request): RedirectResponse
     {
         if ($request->missing('code') && $request->missing('state')) {
-            return Redirect::route('profile.index');
+            return Redirect::route('profile.index')
+                ->with('toast', createToast('error', __('messages.error'), __('profiles.discord.error.url')));
         }
 
         $userId = $request->get('state');
         $user = User::find($userId);
 
         if (!isset($user)){
-            return Redirect::route('profile.index');
+            return Redirect::route('profile.index')
+                ->with('toast', createToast('error', __('messages.error'), __('profiles.discord.error.user')));
         }
 
         $tokenData = [
@@ -53,19 +55,22 @@ class DiscordAuthController extends Controller
             $accessTokenData = $client->post(DiscordUser::TOKEN_URL, ["form_params" => $tokenData]);
             $accessTokenData = json_decode($accessTokenData->getBody());
         } catch (Exception | GuzzleException $error) {
-            return Redirect::route('profile.index');
+            return Redirect::route('profile.index')
+                ->with('toast', createToast('error', __('messages.error'), __('profiles.discord.error.oauth')));
         }
 
         $userData = Http::withToken($accessTokenData->access_token)->get(DiscordUser::API_URL);
         if ($userData->clientError() || $userData->serverError()) {
-            return Redirect::route('profile.index');
+            return Redirect::route('profile.index')
+                ->with('toast', createToast('error', __('messages.error'), __('profiles.discord.error.api')));
         }
 
         $userData = json_decode($userData);
 
         $discordUser = DiscordUser::where('discord_id', $userData->id)->first();
         if (isset($discordUser)) {
-            return Redirect::route('profile.index');
+            return Redirect::route('profile.index')
+                ->with('toast', createToast('error', __('messages.error'), __('profiles.discord.error.already')));
         }
 
         $expired_at = Carbon::now();
@@ -84,7 +89,8 @@ class DiscordAuthController extends Controller
             'is_valid' => true,
         ]);
 
-        return Redirect::route('profile.index');
+        return Redirect::route('profile.index')
+            ->with('toast', createToast('success', __('profiles.discord.discord'), __('profiles.discord.linked')));
     }
 
 }

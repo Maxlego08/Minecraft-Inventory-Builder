@@ -109,17 +109,20 @@ class ProfileController extends Controller
     {
         $user = user();
         if ($user->discord === null) {
-            return Redirect::route('profile.index');
+            return Redirect::route('profile.index')
+                ->with('toast', createToast('success', __('profiles.discord.discord'), __('profiles.discord.removed')));
         }
 
         $discord = $user->discord;
         if ($discord->revokeAccess()) {
 
             $discord->delete();
-            return Redirect::route('profile.index');
+            return Redirect::route('profile.index')
+                ->with('toast', createToast('success', __('profiles.discord.discord'), __('profiles.discord.removed')));
         }
 
-        return Redirect::route('profile.index');
+        return Redirect::route('profile.index')
+            ->with('toast', createToast('success', __('profiles.discord.discord'), __('profiles.discord.removed')));
     }
 
 }
