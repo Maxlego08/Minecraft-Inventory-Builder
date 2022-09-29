@@ -11,6 +11,8 @@
                                 <form method="POST" action="{{ route('password.confirm') }}">
                                     @csrf
 
+                                    <div class="text-center h6">{{ __('profiles.password.info') }}</div>
+
                                     <div class="mt-3">
                                         <label for="password">{{ __('messages.password') }}</label>
                                         <input type="password" name="password" id="password"
@@ -23,7 +25,7 @@
                                     </div>
 
                                     <div class="mt-3 d-flex justify-content-center">
-                                        <button type="submit" class="btn btn-success btn-lg rounded-0">
+                                        <button type="submit" class="btn btn-success btn-sm rounded-0 d-block w-100 mt-2">
                                             {{ __('profiles.password.confirmed') }}
                                         </button>
                                     </div>

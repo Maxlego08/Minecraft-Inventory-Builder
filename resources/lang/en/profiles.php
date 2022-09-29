@@ -35,7 +35,8 @@ return [
         'confirm' => 'Confirm new password',
         'updated' => 'You have just changed your password',
         'confirmed' => 'Confirm password',
-        'forgot' => 'Forgot your password ?'
+        'forgot' => 'Forgot your password ?',
+        'info' => 'Please confirm your password to perform more actions.',
     ],
 
     'discord' => [
