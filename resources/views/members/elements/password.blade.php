@@ -6,7 +6,7 @@
             <div class="mb-3">
                 <label for="old_password" class="form-label">{{ __('profiles.password.exist') }}</label>
                 <input type="password" class="form-control rounded-0 @error('old_password') is-invalid @enderror"
-                       id="password" name="old_password">
+                       id="password" name="old_password" required>
                 @error('old_password')
                 <div id="password-error" class="invalid-feedback">{{ $message }}</div>
                 @enderror
@@ -14,7 +14,7 @@
             <div class="mb-3">
                 <label for="password" class="form-label">{{ __('profiles.password.new') }}</label>
                 <input type="password" class="form-control rounded-0 @error('password') is-invalid @enderror"
-                       id="password" name="password">
+                       id="password" name="password" required>
                 @error('password')
                 <div id="password-error" class="invalid-feedback">{{ $message }}</div>
                 @enderror
@@ -23,7 +23,7 @@
                 <label for="password_confirmation" class="form-label">{{ __('profiles.password.confirm') }}</label>
                 <input type="password"
                        class="form-control rounded-0 @error('password_confirmation') is-invalid @enderror"
-                       id="password_confirmation" name="password_confirmation">
+                       id="password_confirmation" name="password_confirmation" required>
                 @error('password_confirmation')
                 <div id="password-error" class="invalid-feedback">{{ $message }}</div>
                 @enderror

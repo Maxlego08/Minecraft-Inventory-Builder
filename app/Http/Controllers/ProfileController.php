@@ -71,7 +71,8 @@ class ProfileController extends Controller
         $this->validate($request, ['email' => ['required', 'string', 'email', 'max:100', 'unique:users,email,' . $request->user()->id],]);
 
         $request->user()->update($request->only('email'));
-        return Redirect::route('profile.index');
+        return Redirect::route('profile.index')
+            ->with('toast', createToast('success', __('messages.password'), __('profiles.email.updated')));
     }
 
     /**
@@ -96,7 +97,8 @@ class ProfileController extends Controller
         $password = Hash::make($request->input('password'));
         $request->user()->update(['password' => $password]);
 
-        return Redirect::route('profile.index');
+        return Redirect::route('profile.index')
+            ->with('toast', createToast('success', __('messages.password'), __('profiles.password.updated')));
     }
 
     /**

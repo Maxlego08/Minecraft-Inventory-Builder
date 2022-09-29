@@ -24,7 +24,8 @@ return [
 
     'email' => [
         'change' => 'Change your email',
-        'new' => 'New email'
+        'new' => 'New email',
+        'updated' => 'You have just changed your email',
     ],
 
     'password' => [
@@ -32,6 +33,7 @@ return [
         'exist' => 'Your existing password',
         'new' => 'New password',
         'confirm' => 'Confirm new password',
+        'updated' => 'You have just changed your password',
     ],
 
     'discord' => [

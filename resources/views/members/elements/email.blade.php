@@ -6,7 +6,7 @@
             <div class="mb-3">
                 <label for="email" class="form-label">{{ __('profiles.email.new') }}</label>
                 <input type="email" class="form-control rounded-0 @error('email') is-invalid @enderror" id="email"
-                       name="email" value="{{ user()->email }}">
+                       name="email" value="{{ user()->email }}" required>
                 @error('email')
                 <div id="password-error" class="invalid-feedback">{{ $message }}</div>
                 @enderror
