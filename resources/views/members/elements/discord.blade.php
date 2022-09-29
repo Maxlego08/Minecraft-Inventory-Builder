@@ -1,29 +1,24 @@
 <div class="card rounded-0 mb-3">
     <div class="card-body">
         <div class="members-picture">
-            <h2>Discord</h2>
+            <h2>{{ __('profiles.discord.discord') }}</h2>
             @if(isset(user()->discord))
                 <div class="discord-unlink">
                     <form action="{{ route('profile.discord') }}" method="POST">
                         @csrf
                         <button type="submit">
-                            Retirer l'autorisation
+                            {{ __('profiles.discord.remove') }}
                         </button>
                     </form>
                 </div>
             @endif
         </div>
         @if(!isset(user()->discord))
-            <span class="discord-invalid">
-                <i class="bi bi-exclamation-diamond"></i> Relier votre compte discord va permettre à notre équipe
-                de
-                mieux vous aider dans les tickets Discord. Nous vous conseillons fortement de relier votre compte
-                Discord dès maintenant.
-            </span>
+            <span class="discord-invalid">{!! __('profiles.discord.info') !!}</span>
 
             <div class="discord">
                 <a href="{{ user()->getDiscordAuthLink() }}" class="discord-link">
-                    Relier mon compte
+                    {{ __('profiles.discord.link') }}
                 </a>
             </div>
         @elseif(!user()->discord->is_valid)

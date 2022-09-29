@@ -28,7 +28,8 @@ class ProfileController extends Controller
     {
         user()->deleteProfilePhoto();
 
-        return Redirect::route('profile.index')->with('toast', createToast('success', 'Image de profile', 'Vous venez de supprimer votre image de profile'));
+        return Redirect::route('profile.index')
+            ->with('toast', createToast('success', __('profiles.avatar.name'), __('profiles.avatar.deleted')));
     }
 
     /**
@@ -54,7 +55,8 @@ class ProfileController extends Controller
 
         user()->updateProfilePhoto($request->file('image'));
 
-        return Redirect::route('profile.index');
+        return Redirect::route('profile.index')
+            ->with('toast', createToast('success', __('profiles.avatar.name'), __('profiles.avatar.added')));
     }
 
     /**

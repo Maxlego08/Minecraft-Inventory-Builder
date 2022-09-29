@@ -1,10 +1,10 @@
 <div class="card rounded-0 mb-3">
     <div class="card-body">
-        <h2>Changer d’adresse e-mail</h2>
+        <h2>{{ __('messages.email') }}</h2>
         <form action="{{ route('profile.email') }}" method="POST">
             @csrf
             <div class="mb-3">
-                <label for="email" class="form-label">Nouvelle adresse e-mail</label>
+                <label for="email" class="form-label">{{ __('profiles.email.new') }}</label>
                 <input type="email" class="form-control rounded-0 @error('email') is-invalid @enderror" id="email"
                        name="email" value="{{ user()->email }}">
                 @error('email')
@@ -12,7 +12,7 @@
                 @enderror
             </div>
             <button type="submit" class="btn btn-primary btn-sm rounded-0 d-block w-100 mt-2">
-                Changer d’adresse e-mail
+                {{ __('profiles.email.change') }}
             </button>
         </form>
     </div>

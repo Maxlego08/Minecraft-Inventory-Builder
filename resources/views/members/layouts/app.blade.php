@@ -19,19 +19,19 @@
                                 <nav>
                                     <ul class="ps-0">
                                         <li class="list-group-item mb-2">
-                                            <a href="#">{{ __('Your account') }}</a>
+                                            <a href="#">{{ __('profiles.nav.account') }}</a>
                                         </li>
                                         <li class="list-group-item mb-2">
-                                            <a href="#">{{ __('Your Alerts') }}</a>
+                                            <a href="#">{{ __('profiles.nav.alerts') }}</a>
                                         </li>
                                         <li class="list-group-item mb-2">
-                                            <a href="#">{{ __('View conversations') }}</a>
+                                            <a href="#">{{ __('profiles.nav.conversations') }}</a>
                                         </li>
                                         <li class="list-group-item mb-2">
-                                            <a href="#">{{ __('Your Resources') }}</a>
+                                            <a href="#">{{ __('profiles.nav.resources.your') }}</a>
                                         </li>
                                         <li class="list-group-item mb-2">
-                                            <a href="#">{{ __('Add resource') }}</a>
+                                            <a href="#">{{ __('profiles.nav.resources.add') }}</a>
                                         </li>
                                     </ul>
                                 </nav>
@@ -45,10 +45,9 @@
                         <div class="members-banner">
                             <div class="members-banner-wrapper">
                                 <div class="general-info">
-                                    <h2 class="general-info-name">Espace membre</h2>
+                                    <h2 class="general-info-name">{{ __('profiles.dashboard') }}</h2>
                                 </div>
-                                <p class="description">Bienvenue dans l'espace pour la gestion de votre compte et de vos
-                                    ressources.</p>
+                                <p class="description">{{ __('profiles.description') }}</p>
                             </div>
                         </div>
 

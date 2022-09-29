@@ -48,7 +48,7 @@
 
     <div class="card rounded-0 mt-3 mb-3">
         <div class="card-body">
-            <h2>Image de profile</h2>
+            <h2>{{ __('profiles.avatar.name') }}</h2>
             <div class="members-picture">
                 <form method="POST" action="{{ route('profile.picture.update') }}"
                       enctype="multipart/form-data">
@@ -59,7 +59,7 @@
                 <form method="POST" action="{{ route('profile.picture.destroy') }}">
                     @csrf
                     <button type="submit" class="btn btn-danger btn-sm d-block px-4 w-100 my-2 rounded-0">
-                        Supprimer la photo
+                        {{ __('profiles.avatar.delete') }}
                     </button>
                 </form>
             </div>
