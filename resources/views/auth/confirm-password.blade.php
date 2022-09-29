@@ -1,22 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    @if ($errors->any())
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <p>{{ __('Whoops! Something went wrong.') }}</p>
-
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-        </div>
-    @endif
-
     <div class="content_resources_show py-4 mb-5 mt-5 members">
         <div class="px-lg-0 mb-5 mt-5">
             <div class="container">
@@ -29,8 +13,13 @@
 
                                     <div class="mt-3">
                                         <label for="password">{{ __('messages.password') }}</label>
-                                        <input type="password" name="password" class="form-control rounded-0" required
+                                        <input type="password" name="password" id="password"
+                                               class="form-control rounded-0 @error('password') is-invalid @enderror"
+                                               required
                                                autocomplete="current-password"/>
+                                        @error('password')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
 
                                     <div class="mt-3 d-flex justify-content-center">

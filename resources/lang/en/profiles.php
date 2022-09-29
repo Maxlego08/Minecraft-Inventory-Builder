@@ -70,7 +70,11 @@ return [
             'time' => 'Time based:',
             'account' => 'Account:'
         ],
-        'download' => 'Download recovery codes'
+        'download' => 'Download recovery codes',
+        'login' => [
+            'info' => 'Please confirm access to your account by entering the authentication code provided by your authenticator application.',
+            'info2' => 'Or confirm access to your account by entering one of your emergency recovery codes.',
+        ],
     ],
 
 ];
