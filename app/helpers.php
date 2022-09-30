@@ -33,3 +33,17 @@ if (!function_exists('createToast')) {
         return ['type' => $type, 'title' => $title, 'description' => $description, 'duration' => $duration,];
     }
 }
+
+if (!function_exists('format')) {
+    function format(Carbon $carbon): string
+    {
+        #https://carbon.nesbot.com/docs/#api-comparison
+        $now = Carbon::now();
+        if ($carbon->greaterThan($now->addHours(-4))) return $carbon->diffForHumans(); else if ($carbon->dayOfYear === $now->dayOfYear) {
+            return __('today_at') . ' ' . $carbon->format('H:m');
+        } else if ($carbon->dayOfYear == Carbon::yesterday()->dayOfYear) {
+            return __('yesterday_at') . ' ' . $carbon->format('H:m');
+        }
+        return $carbon->format('d M. Y');
+    }
+}

@@ -6,7 +6,7 @@
 >
     <i class="bi bi-bell-fill"></i>
     @if($alertCount > 0)
-        <span class="badge rounded-pill bg-danger">{{ $alertCount }} <span
+        <span class="badge rounded-pill bg-danger" id="alert-count">{{ $alertCount }} <span
                 class="visually-hidden">{{ __('alerts.unread') }}</span></span>
     @endif
 </span>
@@ -35,7 +35,9 @@
                     </div>
                 </li>
                 --}}
-                <div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>
+                </div>
             @else
                 <li class="list-group-item list-group-item-success fs-7"><i
                         class="bi bi-check2-circle"></i> {{ __('alerts.none') }}</li>

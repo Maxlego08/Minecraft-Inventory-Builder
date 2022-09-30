@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AlertController extends Controller
@@ -9,7 +10,7 @@ class AlertController extends Controller
     public function latestAlerts()
     {
 
-        $alerts = user()->alerts()->whereNull('opened_at')->get();
+        $alerts = user()->alerts()->whereNull('opened_at')->orderBy('created_at', 'desc')->limit(20)->get();
 
         $content = '';
 
@@ -28,11 +29,18 @@ class AlertController extends Controller
                     $divAlert .= $alert->icon;
                 }
                 $divAlert .= "<div class='ms-1'>";
+                $divAlert .= "<div>";
                 if ($alert->translation_key) {
-                    $divAlert .= __('alerts.alerts.resources.update', ['user' => '<a href="#">Maxlego08</a>', 'content' => "<a href='#'>{$alert->content}</a>"]);
+                    $link = $alert->link ?? "#";
+                    $targetName = $target->name ?? '';
+                    $targetUrl = $target->name ?? '';
+                    $divAlert .= __('alerts.alerts.resources.update', ['user' => "<a href='/profile/'{$targetUrl}>{$targetName}</a>", 'content' => "<a href='{$link}'>{$alert->content}</a>"]);
                 } else {
                     $divAlert .= $alert->content;
                 }
+                $divAlert .= "</div>";
+                $date = format($alert->created_at);
+                $divAlert .= "<small>{$date}</small>";
                 $divAlert .= "</div>";
                 $divAlert .= "</div>";
 
@@ -42,6 +50,8 @@ class AlertController extends Controller
 
             $divAlert .= "</li>";
             $content .= $divAlert;
+
+            $alert->update(['opened_at' => now()]);
         }
 
         return $content;

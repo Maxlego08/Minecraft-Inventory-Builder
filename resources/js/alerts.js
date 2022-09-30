@@ -11,8 +11,9 @@ window.addEventListener('load', function () {
             return
         }
 
-        openedAt = new Date().getTime() + (1000 * 10)
+        openedAt = new Date().getTime() + (1000 * 60 * 5)
         let element = document.getElementById('alerts')
+        let alertCount = document.getElementById('alert-count')
 
         element.innerHTML = '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>'
         axios({
@@ -23,6 +24,7 @@ window.addEventListener('load', function () {
             }
         }).then(response => {
             element.innerHTML = response.data
+            alertCount.innerHTML = '';
         })
     })
 
