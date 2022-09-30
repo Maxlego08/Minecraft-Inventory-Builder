@@ -36,6 +36,10 @@
         padding: 50px;
         border-radius: 1px;
 
+        @media screen and (max-width: 650px) {
+            padding: 25px;
+        }
+
         &:before {
             position: absolute;
             z-index: 0;
