@@ -12,13 +12,18 @@ window.addEventListener('load', function () {
         }
 
         openedAt = new Date().getTime() + (1000 * 10)
+        let element = document.getElementById('alerts')
 
-        console.log("show 2")
-
-        /*axios.get('/test').then(function (result) {
-
-        })*/
-
+        element.innerHTML = '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>'
+        axios({
+            method: 'post',
+            url: '/profile/alerts',
+            data: {
+                _token: document.getElementsByName('_token').value,
+            }
+        }).then(response => {
+            element.innerHTML = response.data
+        })
     })
 
 });

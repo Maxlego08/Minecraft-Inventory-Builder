@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -17,7 +16,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->text('content');
-            $table->string('level');
+            $table->string('icon')->nullable();
+            $table->string('translation_key')->nullable();
+            $table->string('level')->default('light');
+            $table->foreignId('target_id')->nullable()->constrained('users');
             $table->string('link')->nullable();
             $table->timestamp('opened_at')->nullable();
             $table->timestamps();

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AlertController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +29,7 @@ Route::prefix('/profile')->name('profile.')->middleware('auth')->group(function 
     Route::post('/password', [ProfileController::class, 'changePassword'])->name('password');
     Route::post('/discord', [ProfileController::class, 'discord'])->name('discord');
     Route::post('/2fa/code', [ProfileController::class, 'downloadRecoveryCode'])->name('2fa');
+    Route::post('/alerts', [AlertController::class, 'latestAlerts'])->name('alert');
 });
 
 Route::prefix('resources')->name('resources.')->group(function () {
