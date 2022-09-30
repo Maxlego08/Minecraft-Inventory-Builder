@@ -44,7 +44,7 @@
 
                                     <div class="mt-3 d-flex justify-content-center">
                                         <button type="submit" class="btn btn-primary btn-sm rounded-0 d-block w-100 mt-2">
-                                            {{ __('auth.login') }}
+                                            {{ __('auth.login.title') }}
                                         </button>
                                     </div>
                                 </form>

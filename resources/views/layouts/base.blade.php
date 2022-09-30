@@ -18,7 +18,7 @@
 <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title') | Accueil </title>
+    <title>@yield('title') | Minecraft Inventory Builder </title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="">

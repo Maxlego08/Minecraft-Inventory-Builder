@@ -16,6 +16,18 @@ return [
     'failed' => 'These credentials do not match our records.',
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-    'login' => 'Login'
+    'login' => [
+        'title' => 'Login',
+    ],
+    'forgot' => [
+        'info' => 'Forgot your password ? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.',
+        'link' => 'Password reset link',
+        'send' => 'If the user exists a reset link has been sent',
+    ],
+    'register' => [
+        'title' => 'Register',
+        'info' => 'Create your account on Minecraft Inventory Builder to be able to access the site features.',
+        'term' => 'I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a> of Minecraft Inventory Builder.',
+    ],
 
 ];
