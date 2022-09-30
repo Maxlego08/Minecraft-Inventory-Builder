@@ -39,8 +39,6 @@
                     <div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>
                 </div>
             @else
-                <li class="list-group-item list-group-item-success fs-7"><i
-                        class="bi bi-check2-circle"></i> {{ __('alerts.none') }}</li>
             @endif
         </ul>
     </div>

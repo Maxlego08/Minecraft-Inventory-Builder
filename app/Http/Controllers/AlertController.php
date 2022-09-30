@@ -54,6 +54,10 @@ class AlertController extends Controller
             $alert->update(['opened_at' => now()]);
         }
 
+        if (strlen($content) == 0) {
+            $content = '<li class="list-group-item list-group-item-success fs-7" id="alert-empty"><i class="bi bi-check2-circle"></i> ' . __('alerts.none') . '</li>';
+        }
+
         return $content;
     }
 }
