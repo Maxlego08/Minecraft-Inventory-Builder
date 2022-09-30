@@ -4,11 +4,13 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Affiliates\Affiliate;
+use App\Models\Alert\AlertUser;
 use App\Models\Payment\Payment;
 use App\Models\Webhook\Webhook;
 use App\Traits\HasProfilePhoto;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticate;
 use Illuminate\Notifications\Notifiable;
@@ -28,6 +30,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property Carbon $two_factor_confirmed_at
  * @property Carbon $updated_at
  * @property DiscordUser $discord
+ * @property AlertUser[] $alerts
  * @method static User find(int $id)
  */
 class User extends Authenticate
@@ -39,30 +42,21 @@ class User extends Authenticate
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $fillable = ['name', 'email', 'password',];
 
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    protected $hidden = ['password', 'remember_token',];
 
     /**
      * The attributes that should be cast.
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    protected $casts = ['email_verified_at' => 'datetime',];
 
     /**
      * Permet de retourner le lien du compte discord de l'utilisateur
@@ -72,6 +66,16 @@ class User extends Authenticate
     public function discord(): HasOne
     {
         return $this->hasOne(DiscordUser::class);
+    }
+
+    /**
+     * Retourne les alerts
+     *
+     * @return HasMany
+     */
+    public function alerts(): HasMany
+    {
+        return $this->hasMany(AlertUser::class);
     }
 
     /**

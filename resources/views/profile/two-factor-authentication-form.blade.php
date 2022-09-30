@@ -1,6 +1,6 @@
 <div class="card rounded-0">
     <div class="card-body">
-        <div class="d-flex justify-content-md-between">
+        <div class="d-flex flex-md-row flex-column justify-content-md-between">
             <h2>{{ __('profiles.two_factor.title') }}</h2>
             @if(user()->two_factor_secret)
                 <form method="POST" action="{{ url('user/two-factor-authentication') }}">
