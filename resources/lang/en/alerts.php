@@ -6,6 +6,7 @@ return [
     'unread' => 'unread messages',
     'none' => 'You have no notification',
     'title' => 'Your alerts',
+    'show' => 'Show All...',
 
     'alerts' => [
         'resources' => [

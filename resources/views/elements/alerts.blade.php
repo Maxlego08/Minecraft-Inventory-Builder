@@ -11,7 +11,10 @@
     @endif
 </span>
 <div class="dropdown-menu dropdown-menu-dark dropdown-menu-end py-0" data-bs-popper="none">
-    <span class="px-3 border-bottom w-100 d-block text-muted py-2">{{ __('alerts.alert') }}</span>
+    <span class="px-3 border-bottom w-100 d-block text-muted py-2 d-flex justify-content-between">
+        {{ __('alerts.alert') }}
+        <a href="{{ route('profile.alerts') }}">{{ __('alerts.show') }}</a>
+    </span>
     <div class="px-3 w-100 py-2">
         <ul class="list-group py-2 list-d rounded-0" id="alerts">
             @if($alertCount > 0)
