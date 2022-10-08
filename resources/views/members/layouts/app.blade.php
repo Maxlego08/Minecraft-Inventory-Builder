@@ -22,7 +22,7 @@
                                             <a href="#">{{ __('profiles.nav.account') }}</a>
                                         </li>
                                         <li class="list-group-item mb-2">
-                                            <a href="#">{{ __('profiles.nav.alerts') }}</a>
+                                            <a href="{{ route('profile.alerts') }}">{{ __('profiles.nav.alerts') }}</a>
                                         </li>
                                         <li class="list-group-item mb-2">
                                             <a href="#">{{ __('profiles.nav.conversations') }}</a>

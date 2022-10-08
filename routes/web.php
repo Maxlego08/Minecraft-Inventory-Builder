@@ -29,6 +29,7 @@ Route::prefix('/profile')->name('profile.')->middleware('auth')->group(function 
     Route::post('/password', [ProfileController::class, 'changePassword'])->name('password');
     Route::post('/discord', [ProfileController::class, 'discord'])->name('discord');
     Route::post('/2fa/code', [ProfileController::class, 'downloadRecoveryCode'])->name('2fa');
+    Route::get('/alerts', [AlertController::class, 'show'])->name('alerts');
     Route::post('/alerts', [AlertController::class, 'latestAlerts'])->name('alert');
 });
 
