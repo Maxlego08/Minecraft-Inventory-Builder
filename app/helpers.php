@@ -11,7 +11,7 @@ if (!function_exists('user')) {
 }
 
 if (!function_exists('format_date')) {
-    function format_date(Carbon $date, bool $fullTime = false, string $locale = 'fr_FR')
+    function format_date(Carbon $date, bool $fullTime = false, string $locale = 'en_US')
     {
         $date->locale($locale);
         return $date->translatedFormat(($fullTime ? 'j F Y \à G:i' : 'j F Y'));
