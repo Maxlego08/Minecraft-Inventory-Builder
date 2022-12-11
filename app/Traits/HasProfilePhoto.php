@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 trait HasProfilePhoto
 {
@@ -14,14 +15,19 @@ trait HasProfilePhoto
      * @param UploadedFile $photo
      * @return void
      */
-    public function updateProfilePhoto(UploadedFile $photo)
+    public function updateProfilePhoto(UploadedFile $photo): void
     {
         tap($this->profile_photo_path, function ($previous) use ($photo) {
-            $this->forceFill([
-                'profile_photo_path' => $photo->storePublicly(
-                    'profile-photos', ['disk' => $this->profilePhotoDisk()]
-                ),
-            ])->save();
+
+            $disk = Storage::disk($this->profilePhotoDisk());
+            $fileName = $photo->hashName();
+            $image = Image::make($photo);
+            $image->resize(50, 50);
+
+            $path = "profile-photos/" . $fileName;
+            $disk->put($path, $image->encode(null, 75));
+
+            $this->forceFill(['profile_photo_path' => $path,])->save();
 
             if ($previous) {
                 Storage::disk($this->profilePhotoDisk())->delete($previous);

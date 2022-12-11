@@ -19,7 +19,7 @@
                                 <nav>
                                     <ul class="ps-0">
                                         <li class="list-group-item mb-2">
-                                            <a href="#">{{ __('profiles.nav.account') }}</a>
+                                            <a href="{{ route('profile.index') }}">{{ __('profiles.nav.account') }}</a>
                                         </li>
                                         <li class="list-group-item mb-2">
                                             <a href="{{ route('profile.alerts') }}">{{ __('profiles.nav.alerts') }}</a>
