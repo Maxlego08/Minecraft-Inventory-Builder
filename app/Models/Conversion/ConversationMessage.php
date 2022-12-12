@@ -11,6 +11,7 @@ use Stevebauman\Purify\Facades\Purify;
 
 /**
  * @property String $content
+ * @method static ConversationMessage create(array $values)
  */
 class ConversationMessage extends Model
 {
@@ -40,5 +41,6 @@ class ConversationMessage extends Model
     {
         $renderer = new BBCode();
         return Purify::clean($renderer->render($this->content));
+        // return $renderer->render($this->content);
     }
 }

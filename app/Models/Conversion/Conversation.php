@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
+ * @property int $id
  * @property String $content
  * @property ConversationMessage[] $messages
  * @property ConversationParticipant[] $participants
@@ -49,5 +50,17 @@ class Conversation extends Model
     public function participants(): HasMany
     {
         return $this->hasMany(ConversationParticipant::class);
+    }
+
+    public function createMessage(User $user, string $content)
+    {
+        ConversationMessage::create([
+            'conversation_id' => $this->id,
+            'user_id' => $user->id,
+            'content' => $content,
+        ]);
+
+        $this->update(['last_message_at' => now()]);
+
     }
 }

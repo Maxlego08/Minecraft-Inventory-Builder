@@ -14,4 +14,12 @@ return [
         'title' => 'Error',
         'description' => 'You do not have access to this conversation.'
     ],
+    'textarea' => [
+        'label' => '',
+        'submit' => 'Post reply',
+    ],
+    'send_success' => [
+        'title' => 'New reply',
+        'description' => 'You have just sent a reply'
+    ],
 ];

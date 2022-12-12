@@ -8,7 +8,9 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\ValidationException;
 
 class ConversationController extends Controller
 {
@@ -24,7 +26,7 @@ class ConversationController extends Controller
             ->with('messages')
             ->orderBy('last_message_at', 'DESC')->paginate(15);
 
-        return view('members.conversations.conversation', [
+        return view('members.conversations.conversations', [
             'conversations' => $conversations,
         ]);
     }
@@ -43,9 +45,36 @@ class ConversationController extends Controller
                 ->with('toast', createToast('error', __('conversations.error_access.title'), __('conversations.error_access.description')));
         }
 
+        $conversation->load(['messages', 'messages.user']);
+
         return view('members.conversations.show', [
             'conversation' => $conversation,
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param Conversation $conversation
+     * @return RedirectResponse
+     * @throws ValidationException
+     */
+    public function post(Request $request, Conversation $conversation): RedirectResponse
+    {
+
+        $user = user();
+        if (!$this->hasAccessTo($conversation, $user)) {
+            return Redirect::route('profile.conversations.index')
+                ->with('toast', createToast('error', __('conversations.error_access.title'), __('conversations.error_access.description')));
+        }
+
+        $this->validate($request, [
+            'description' => 'required|max:10000',
+        ]);
+
+        $conversation->createMessage($user, $request['description']);
+
+        return Redirect::route('profile.conversations.show', $conversation)
+            ->with('toast', createToast('success', __('conversations.send_success.title'), __('conversations.send_success.description')));
     }
 
     /**
