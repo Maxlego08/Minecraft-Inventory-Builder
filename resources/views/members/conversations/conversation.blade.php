@@ -19,17 +19,23 @@
                             </a>
                             <div class='ms-2'>
                                 <div>
-                                    <a href="{{ route('profile.conversations.show', $conversation) }}" class="text-decoration-none"
+                                    <a href="{{ route('profile.conversations.show', $conversation) }}"
+                                       class="text-decoration-none"
                                        title="{{ __('conversations.list.title') }}">
                                         {{ $conversation->subject }}
                                     </a>
                                 </div>
-                                <small>{!! __('conversations.list.start', ['date' => format($conversation->created_at), 'name' => "<a href='".route('resources.author', $conversation->user)."' class='text-decoration-none'>".$conversation->user->name."</a>"]) !!}</small>
+                                <div class="d-flex flex-column">
+                                    <small class="text-secondary">{!! __('conversations.list.last', ['date' => format($conversation->created_at), 'name' => "<a href='".route('resources.author', $conversation->user)."' class='text-decoration-none'>".$conversation->user->name."</a>"]) !!}</small>
+                                    <small class="text-secondary">{!! __('conversations.list.start', ['date' => format($conversation->created_at), 'name' => "<a href='".route('resources.author', $conversation->user)."' class='text-decoration-none'>".$conversation->user->name."</a>"]) !!}</small>
+                                </div>
                             </div>
                         </div>
+                        <hr>
                     </li>
                 @endforeach
             </ul>
+            {{ $conversations->links() }}
         </div>
     </div>
 @endsection

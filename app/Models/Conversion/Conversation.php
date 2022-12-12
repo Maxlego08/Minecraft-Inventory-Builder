@@ -8,6 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property String $content
+ * @property ConversationMessage[] $messages
+ * @property ConversationParticipant[] $participants
+ * @property User $user
+ *
+ */
 class Conversation extends Model
 {
     use HasFactory;
