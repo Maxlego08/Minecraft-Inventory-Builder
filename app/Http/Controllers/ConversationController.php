@@ -45,10 +45,21 @@ class ConversationController extends Controller
                 ->with('toast', createToast('error', __('conversations.error_access.title'), __('conversations.error_access.description')));
         }
 
-        $conversation->load(['messages', 'messages.user']);
+        // $conversation->load(['messages', 'messages.user']);
+        $messages = $conversation->messages()->with('user');
+
+        if ($messages->count() == 0) {
+            return Redirect::route('profile.conversations.index')
+                ->with('toast', createToast('error', __('conversations.error_content.title'), __('conversations.error_content.description')));
+        }
+
+        $lastMessage = $messages->clone()->orderBy('created_at', 'desc')->first();
+        $pagination = $messages->paginate();
 
         return view('members.conversations.show', [
             'conversation' => $conversation,
+            'messages' => $pagination,
+            'lastMessage' => $lastMessage,
         ]);
     }
 
@@ -72,9 +83,11 @@ class ConversationController extends Controller
         ]);
 
         $conversation->createMessage($user, $request['description']);
+        $page = (int)($conversation->messages->count() / 15) + 1;
 
-        return Redirect::route('profile.conversations.show', $conversation)
-            ->with('toast', createToast('success', __('conversations.send_success.title'), __('conversations.send_success.description')));
+        return Redirect::route('profile.conversations.show', ['conversation' => $conversation, 'page' => $page])
+            ->with('toast', createToast('success', __('conversations.send_success.title'), __('conversations.send_success.description')))
+            ->withFragment("last");
     }
 
     /**

@@ -63,4 +63,10 @@ class Conversation extends Model
         $this->update(['last_message_at' => now()]);
 
     }
+
+    public function getLastMessageURL()
+    {
+        $page = (int)($this->messages->count() / 15) + 1;
+        return route('profile.conversations.show', ['conversation' => $this, 'page' => $page]);
+    }
 }

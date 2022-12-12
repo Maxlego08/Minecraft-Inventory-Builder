@@ -8,11 +8,13 @@
             <h2>{{ $conversation->subject }}</h2>
         </div>
     </div>
+    {{ $messages->links('elements.pagination') }}
     <div class="conversations">
-        @foreach($conversation->messages as $message)
+        @foreach($messages as $message)
             @include('members.conversations.conversation', ['message' => $message])
         @endforeach
     </div>
+    {{ $messages->links('elements.pagination') }}
     <div class="card rounded-0 mt-3 mb-3">
         <div class="p-2">
             <form method="POST" action="{{ route('profile.conversations.post', $conversation) }}">

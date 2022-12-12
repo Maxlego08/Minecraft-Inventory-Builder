@@ -1,3 +1,13 @@
+.conversation-link {
+    color: gray;
+    text-decoration: none;
+
+    &:hover {
+        color: gray;
+        text-decoration: underline;
+    }
+}
+
 .conversations {
 
     .conversation {

@@ -1,4 +1,4 @@
-<div class="conversation card rounded-0 mt-2 mb-2">
+<div class="conversation card rounded-0 mt-2 mb-2" @if($message->id===$lastMessage->id)id="last"@endif>
     <div class="conversation-user">
         <a href="{{ route('resources.author', $message->user) }}" class="conversation-user-avatar"
            title="{{ $message->user->name }} profile">
