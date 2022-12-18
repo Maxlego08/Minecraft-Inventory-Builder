@@ -90,10 +90,10 @@ class Conversation extends Model
     {
         foreach ($this->participants as $participant) {
             if ($participant->user_id != $user->id) {
-                ConversationNotification::firstOrCreate([
+                ConversationNotification::firstOrCreate(
                     ['user_id' => $participant->user_id],
-                    ['conversation_id' => $this->id],
-                ]);
+                    ['conversation_id' => $this->id]
+                );
             }
         }
     }

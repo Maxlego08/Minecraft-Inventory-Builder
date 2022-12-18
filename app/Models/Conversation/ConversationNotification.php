@@ -19,6 +19,8 @@ class ConversationNotification extends Model
 
     protected $fillable = ['user_id', 'conversation_id'];
 
+    public $timestamps = false;
+
 
     /**
      * @return BelongsTo
