@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Conversion;
+namespace App\Models\Conversation;
 
 use App\Code\BBCode;
 use App\Models\User;

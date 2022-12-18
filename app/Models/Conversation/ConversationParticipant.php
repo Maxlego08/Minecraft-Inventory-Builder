@@ -1,12 +1,18 @@
 <?php
 
-namespace App\Models\Conversion;
+namespace App\Models\Conversation;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Intervention\Image\Image;
 
+/**
+ * @property int $id
+ * @property int $user_id
+ * @property int $conversation_id
+ */
 class ConversationParticipant extends Model
 {
     use HasFactory;

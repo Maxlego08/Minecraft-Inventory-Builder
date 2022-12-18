@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Conversion\Conversation;
+use App\Models\Conversation\Conversation;
 use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -24,6 +24,7 @@ class ConversationController extends Controller
         $conversations = Conversation::select('conversation_conversations.*')->join('conversation_participants', 'conversation_participants.conversation_id', '=', 'conversation_conversations.id')
             ->with('user')
             ->with('messages')
+            ->where('conversation_participants.user_id', user()->id)
             ->orderBy('last_message_at', 'DESC')->paginate(15);
 
         return view('members.conversations.conversations', [
@@ -40,21 +41,23 @@ class ConversationController extends Controller
     public function show(Conversation $conversation): View|Factory|RedirectResponse|Application
     {
 
-        if (!$this->hasAccessTo($conversation, user())) {
+        $user = \user();
+        if (!$this->hasAccessTo($conversation, $user)) {
             return Redirect::route('profile.conversations.index')
                 ->with('toast', createToast('error', __('conversations.error_access.title'), __('conversations.error_access.description')));
         }
 
         // $conversation->load(['messages', 'messages.user']);
-        $messages = $conversation->messages()->with('user');
+        $messages = $conversation->messages();
+        $lastMessage = $messages->clone()->orderBy('created_at', 'desc')->first();
+        $pagination = $messages->with('user')->paginate();
 
-        if ($messages->count() == 0) {
+        if ($pagination->total() == 0) {
             return Redirect::route('profile.conversations.index')
                 ->with('toast', createToast('error', __('conversations.error_content.title'), __('conversations.error_content.description')));
         }
 
-        $lastMessage = $messages->clone()->orderBy('created_at', 'desc')->first();
-        $pagination = $messages->paginate();
+        $conversation->deleteNotification($user);
 
         return view('members.conversations.show', [
             'conversation' => $conversation,
@@ -83,7 +86,8 @@ class ConversationController extends Controller
         ]);
 
         $conversation->createMessage($user, $request['description']);
-        $page = (int)($conversation->messages->count() / 15) + 1;
+        $count = $conversation->messages->count();
+        $page = (int)($count % 15 == 0 ? $count / 15 : ($count / 15) + 1);
 
         return Redirect::route('profile.conversations.show', ['conversation' => $conversation, 'page' => $page])
             ->with('toast', createToast('success', __('conversations.send_success.title'), __('conversations.send_success.description')))

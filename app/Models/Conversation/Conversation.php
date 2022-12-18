@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Conversion;
+namespace App\Models\Conversation;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -61,12 +61,40 @@ class Conversation extends Model
         ]);
 
         $this->update(['last_message_at' => now()]);
-
+        $this->createNotification($user);
     }
 
     public function getLastMessageURL()
     {
-        $page = (int)($this->messages->count() / 15) + 1;
+        $count = $this->messages->count();
+        $page = (int)($count % 15 == 0 ? $count / 15 : ($count / 15) + 1);
         return route('profile.conversations.show', ['conversation' => $this, 'page' => $page]);
+    }
+
+    /**
+     * Retourne le dernier message
+     *
+     * @return ConversationMessage
+     */
+    public function getLastMessage(): ConversationMessage
+    {
+        return $this->messages->sortByDesc('created_at')->first();
+    }
+
+    public function deleteNotification(User $user)
+    {
+        ConversationNotification::where('user_id', $user->id)->where('conversation_id', $this->id)->delete();
+    }
+
+    public function createNotification(User $user)
+    {
+        foreach ($this->participants as $participant) {
+            if ($participant->user_id != $user->id) {
+                ConversationNotification::firstOrCreate([
+                    ['user_id' => $participant->user_id],
+                    ['conversation_id' => $this->id],
+                ]);
+            }
+        }
     }
 }

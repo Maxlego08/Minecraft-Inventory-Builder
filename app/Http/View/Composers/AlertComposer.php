@@ -17,12 +17,10 @@ class AlertComposer
      */
     public function compose(View $view)
     {
-
         if (!Auth::guest() && !$view->offsetExists('alertCount')) {
-            $alerts = AlertUser::where('user_id', Auth::user()->id)->whereNull('opened_at')->count();
+            $alerts = AlertUser::where('user_id', user()->id)->whereNull('opened_at')->count();
             $view->with('alertCount', $alerts);
         }
-
     }
 
 }
