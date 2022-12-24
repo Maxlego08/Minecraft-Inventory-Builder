@@ -1745,9 +1745,10 @@
                 const editor = this;
                 let bbcode = editor.val();
                 let element = document.getElementById('bbcodePreview');
+                let assetUrl = import.meta.env.VITE_URL_ASSET;
                 axios({
                     method: 'post',
-                    url: '/api/v1/bbcode',
+                    url: `${assetUrl}api/v1/preview`,
                     data: {
                         bbcode: bbcode,
                     },

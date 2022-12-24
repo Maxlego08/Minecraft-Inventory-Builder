@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property ConversationMessage[] $messages
  * @property ConversationParticipant[] $participants
  * @property User $user
- *
+ * @method static Conversation create(array $values)
  */
 class Conversation extends Model
 {
@@ -64,7 +64,7 @@ class Conversation extends Model
         $this->createNotification($user);
     }
 
-    public function getLastMessageURL()
+    public function getLastMessageURL(): string
     {
         $count = $this->messages->count();
         $page = (int)($count % 15 == 0 ? $count / 15 : ($count / 15) + 1);
@@ -95,6 +95,47 @@ class Conversation extends Model
                     ['conversation_id' => $this->id]
                 );
             }
+        }
+    }
+
+    /**
+     * Permet de créer une nouvelle conversation
+     *
+     * @param User $user
+     * @param string $subject
+     * @param string $message
+     * @return Conversation
+     */
+    public static function createNewConversation(User $user, string $subject, string $message): Conversation
+    {
+        $conversation = Conversation::create([
+            'subject' => $subject,
+            'user_id' => $user->id,
+        ]);
+        $conversation->addParticipant($user, false);
+        $conversation->createMessage($user, $message);
+        return $conversation;
+    }
+
+    /**
+     * Permet d'ajouter un utilisateur à une conversation
+     *
+     * @param User $user
+     * @param bool $notification
+     * @return void
+     */
+    public function addParticipant(User $user, bool $notification = true): void
+    {
+        $exists = $this->participants()->where('user_id', $user->id)->exists();
+        if (!$exists) {
+            ConversationParticipant::create([
+                'conversation_id' => $this->id,
+                'user_id' => $user->id,
+            ]);
+            ConversationNotification::create([
+                'user_id' => $user->id,
+                'conversation_id' => $this->id
+            ]);
         }
     }
 }

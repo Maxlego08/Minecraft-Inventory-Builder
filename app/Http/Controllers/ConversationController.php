@@ -9,11 +9,15 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\ValidationException;
 
 class ConversationController extends Controller
 {
+
+    private const CACHE_MESSAGE = "messages:";
+
     /**
      * Afficher la liste des conversions d'un utilisateur
      *
@@ -30,6 +34,51 @@ class ConversationController extends Controller
         return view('members.conversations.conversations', [
             'conversations' => $conversations,
         ]);
+    }
+
+    /**
+     * Permet de créer une conversation
+     *
+     * @param User $user
+     * @return Application|Factory|View|RedirectResponse
+     */
+    public function create(User $user): View|Factory|RedirectResponse|Application
+    {
+        if ($user->id == user()->id) {
+            return Redirect::route('profile.conversations.index')
+                ->with('toast', createToast('error', __('conversations.error_create_self.title'), __('conversations.error_create_self.description')));
+        }
+
+        return view('members.conversations.create', [
+            'target' => $user,
+        ]);
+    }
+
+    /**
+     * @throws ValidationException
+     */
+    public function store(Request $request, User $user): RedirectResponse
+    {
+
+        $this->validate($request, [
+            'subject' => 'required|max:255',
+            'description' => 'required|max:10000',
+        ]);
+
+        $key = self::CACHE_MESSAGE . user()->id;
+        if (RateLimiter::tooManyAttempts($key, 1)) {
+            $seconds = RateLimiter::availableIn($key);
+            return Redirect::back()->withInput()
+                ->with('toast', createToast('error', __('conversations.cooldown.title'), __('conversations.cooldown.description', ['seconds' => $seconds])));
+        }
+
+        RateLimiter::hit($key, 30);
+
+        $conversation = Conversation::createNewConversation(user(), $request['subject'], $request['description']);
+        $conversation->addParticipant($user);
+
+        return Redirect::route('profile.conversations.show', ['conversation' => $conversation->id])
+            ->with('toast', createToast('success', __('conversations.create_success.title'), __('conversations.create_success.description')));
     }
 
     /**

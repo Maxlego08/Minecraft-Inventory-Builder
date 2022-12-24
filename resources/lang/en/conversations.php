@@ -10,6 +10,12 @@ return [
     'show' => [
         'title' => ':title',
     ],
+    'create' => [
+        'start' => 'Start a New Conversation with :user',
+        'title' => 'New conversation - :user',
+        'button' => 'Start a conversation',
+        'subject' => 'Conversation title'
+    ],
     'error_access' => [
         'title' => 'Error',
         'description' => 'You do not have access to this conversation.'
@@ -17,6 +23,18 @@ return [
     'error_content' => [
         'title' => 'Error',
         'description' => 'Impossible to read this conversation.'
+    ],
+    'error_create_self' => [
+        'title' => 'Error',
+        'description' => 'You can\'t do this action.'
+    ],
+    'cooldown' => [
+        'title' => 'Error',
+        'description' => 'You must wait :seconds seconds between each message.'
+    ],
+    'create_success' => [
+        'title' => 'New conversation',
+        'description' => 'You have just created a new conversation.'
     ],
     'textarea' => [
         'label' => '',

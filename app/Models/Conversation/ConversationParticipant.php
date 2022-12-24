@@ -6,12 +6,12 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Intervention\Image\Image;
 
 /**
  * @property int $id
  * @property int $user_id
  * @property int $conversation_id
+ * @method static ConversationParticipant create(array $values)
  */
 class ConversationParticipant extends Model
 {

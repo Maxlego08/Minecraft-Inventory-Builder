@@ -21,7 +21,7 @@
                 @csrf
                 <div class="mb-3">
                     <textarea id="description" name="description"
-                              required rows="12" style="resize: vertical;" maxlength="5000"
+                              required rows="13" style="opacity: 0;" maxlength="5000"
                               class="form-input mb-2 @error('description') invalid @enderror">{{ old('description') }}</textarea>
                 </div>
                 <button type="submit" class="btn btn-primary rounded-0 d-block"><i
