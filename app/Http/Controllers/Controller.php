@@ -21,7 +21,6 @@ class Controller extends BaseController
      */
     protected function bbcode(string $bbcode): string
     {
-        $renderer = new BBCode();
-        return Purify::clean($renderer->render($bbcode));
+        return BBCode::renderAndPurify($bbcode);
     }
 }

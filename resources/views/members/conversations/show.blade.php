@@ -16,7 +16,11 @@
     </div>
     {{ $messages->links('elements.pagination') }}
     <div class="card rounded-0 mt-3 mb-3">
+
         <div class="p-2">
+
+            <div id="bbcodePreview"></div>
+
             <form method="POST" action="{{ route('profile.conversations.post', $conversation) }}">
                 @csrf
                 <div class="mb-3">

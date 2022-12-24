@@ -7,7 +7,6 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Stevebauman\Purify\Facades\Purify;
 
 /**
  * @property String $content
@@ -38,10 +37,13 @@ class ConversationMessage extends Model
         return $this->belongsTo(Conversation::class);
     }
 
-    public function toHTML()
+    /**
+     * Permet de rendre le contenu
+     *
+     * @return string
+     */
+    public function toHTML(): string
     {
-        $renderer = new BBCode();
-        return Purify::clean($renderer->render($this->content));
-        // return $renderer->render($this->content);
+        return BBCode::renderAndPurify($this->content);
     }
 }
