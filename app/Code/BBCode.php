@@ -3,7 +3,6 @@
 namespace App\Code;
 
 use Closure;
-use Stevebauman\Purify\Facades\Purify;
 
 /*
  * Code to HTML converter
@@ -24,7 +23,8 @@ class BBCode
     static function renderAndPurify(string $bbcode): string
     {
         $renderer = new BBCode();
-        return Purify::clean($renderer->render($bbcode));
+        // return Purify::clean($renderer->render($bbcode));
+        return $renderer->render($bbcode);
     }
 
     /**
@@ -91,6 +91,8 @@ class BBCode
      * @var int
      */
     protected $youTubeHeight = 385;
+
+    protected $currentElement = '';
 
     /**
      * Code constructor.
@@ -208,6 +210,7 @@ class BBCode
                                 $code = null;
 
                                 if ($tag->opening) {
+                                    $this->currentElement = '';
                                     $code = $this->generateTag($tag, $html, null, $openTags);
                                 } else {
                                     $openingTag = $this->popTag($openTags, $tag);
@@ -263,6 +266,7 @@ class BBCode
                         $tag = new Tag();
                         $tag->position = mb_strlen($html);
                     } else {
+                        $this->currentElement .= $char;
                         $html .= $char;
                     }
                 }
@@ -451,12 +455,22 @@ class BBCode
                     $code = '</blockquote>';
                 }
                 break;
-            case self::TAG_NAME_YOUTUBE:
+            /*case self::TAG_NAME_YOUTUBE:
                 if ($tag->opening) {
                     $code = '<iframe class="youtube-player" type="text/html" width="' . $this->youTubeWidth . '"\
                         height="' . $this->youTubeHeight . '" src="https://www.youtube.com/embed/';
                 } else {
                     $code = '" frameborder="0"></iframe>';
+                }
+                break;*/
+            case self::TAG_NAME_YOUTUBE:
+                if ($tag->opening) {
+                    $code = '<iframe video=';
+                } else {
+                    $current = $this->currentElement;
+                    $height = $this->youTubeHeight;
+                    $width = $this->youTubeWidth;
+                    $code = ' width="'.$width.'" height="'.$height.'" src="https://www.youtube.com/embed/' . $current . '&amp;autoplay=1" srcdoc="<style>*{padding:0;margin:0;overflow:hidden}html,body{max-height:'.$height.'}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=https://www.youtube.com/embed/' . $current . '?autoplay=1><img src=https://img.youtube.com/vi/' . $current . '/hqdefault.jpg alt=\'Trailer\'><span>▶</span></a>" frameborder="0" title="Trailer du serveur Hiveria" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>';
                 }
                 break;
             case self::TAG_NAME_FONT:
