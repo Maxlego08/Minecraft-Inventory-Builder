@@ -32,6 +32,7 @@ Route::prefix('/profile')->name('profile.')->middleware('auth')->group(function 
     Route::post('/2fa/code', [ProfileController::class, 'downloadRecoveryCode'])->name('2fa');
     Route::get('/alerts', [AlertController::class, 'show'])->name('alerts');
     Route::post('/alerts', [AlertController::class, 'latestAlerts'])->name('alert');
+    Route::post('/messages', [AlertController::class, 'latestMessages'])->name('messages');
 
     Route::prefix('/conversations')->name('conversations.')->group(function () {
         Route::get('/', [ConversationController::class, 'index'])->name('index');

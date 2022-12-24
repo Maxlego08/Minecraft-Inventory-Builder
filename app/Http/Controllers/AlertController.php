@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Alert\AlertUser;
+use App\Models\Conversation\Conversation;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 class AlertController extends Controller
 {
@@ -49,6 +49,52 @@ class AlertController extends Controller
         return $content;
     }
 
+    public function latestMessages(): string
+    {
+        $user = user();
+        $messages = $user->conversationNotifications;
+        $content = '';
+
+        foreach ($messages as $message) {
+            $conversation = $message->conversation;
+            $div = $this->toHtmlConversation($conversation);
+            $content .= $div;
+            $conversation->deleteNotification($user);
+        }
+
+        if (strlen($content) == 0) {
+            $content = '<li class="list-group-item list-group-item-success fs-7" id="alert-empty"><i class="bi bi-check2-circle"></i> ' . __('alerts.none') . '</li>';
+        }
+
+        return $content;
+    }
+
+    private function toHtmlConversation(Conversation $conversation): string
+    {
+
+        $lastMessage = $conversation->getLastMessage();
+        $user = $lastMessage->user;
+        $lastMessageURL = $conversation->getLastMessageURL();
+        $url = $user->getProfileUrl();
+        $userName = $user->name;
+
+        $div = '<li class="list-group-item list-group-item-info fs-7 rounded-0 mt-1 p-1">';
+
+        $div .= "<div class='d-flex'>";
+
+        $div .= "<img src='{$user->getProfilePhotoUrlAttribute()}'
+                             height='50' width='50' alt='{$user->name} avatar' class='rounded-2'>";
+
+        $div .= "<div class='ms-1'>";
+        $div .= __('alerts.alerts.messages', ['user' => "<a href='$url'>$userName</a>", 'conversation' => "<a href='$lastMessageURL'>$conversation->subject</a>"]);
+        $div .= "</div>";
+
+        $div .= "</div>";
+        $div .= '</li>';
+
+        return $div;
+    }
+
     private function toHtml(AlertUser $alert): string
     {
 
@@ -69,8 +115,8 @@ class AlertController extends Controller
             if ($alert->translation_key) {
                 $link = $alert->link ?? "#";
                 $targetName = $target->name ?? '';
-                $targetUrl = $target->name ?? '';
-                $divAlert .= __($alert->translation_key, ['user' => "<a href='/profile/'{$targetUrl}>{$targetName}</a>", 'content' => "<a href='{$link}'>{$alert->content}</a>"]);
+                $targetUrl = $target->getProfileUrl() ?? '';
+                $divAlert .= __($alert->translation_key, ['user' => "<a href='$targetUrl'>{$targetName}</a>", 'content' => "<a href='{$link}'>{$alert->content}</a>"]);
             } else {
                 $divAlert .= $alert->content;
             }

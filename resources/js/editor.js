@@ -15,7 +15,6 @@ window.addImage = function (id) {
 window.addEventListener('load', function (){
     window.textarea = document.getElementById('description');
     let assetUrl = import.meta.env.VITE_URL_ASSET;
-    console.log(`${assetUrl}css/theme.css`)
     sceditor.create(textarea, {
         format: 'bbcode',
         width: '100%',

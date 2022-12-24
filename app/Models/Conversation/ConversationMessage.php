@@ -11,6 +11,7 @@ use Stevebauman\Purify\Facades\Purify;
 
 /**
  * @property String $content
+ * @property User $user
  * @method static ConversationMessage create(array $values)
  */
 class ConversationMessage extends Model

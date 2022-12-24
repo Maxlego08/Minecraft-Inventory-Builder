@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
- * @property String $content
+ * @property String $subject
  * @property ConversationMessage[] $messages
  * @property ConversationParticipant[] $participants
  * @property User $user
