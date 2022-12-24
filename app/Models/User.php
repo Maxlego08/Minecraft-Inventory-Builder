@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Affiliates\Affiliate;
 use App\Models\Alert\AlertUser;
+use App\Models\Conversation\ConversationNotification;
 use App\Models\Payment\Payment;
 use App\Models\Webhook\Webhook;
 use App\Traits\HasProfilePhoto;
@@ -32,6 +33,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property Carbon $updated_at
  * @property DiscordUser $discord
  * @property AlertUser[] $alerts
+ * @property ConversationNotification $conversationNotifications
  * @method static User find(int $id)
  */
 class User extends Authenticate
@@ -70,13 +72,21 @@ class User extends Authenticate
     }
 
     /**
-     * Retourne les alerts
+     * Retourne-les alerts
      *
      * @return HasMany
      */
     public function alerts(): HasMany
     {
         return $this->hasMany(AlertUser::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function conversationNotifications(): HasMany
+    {
+        return $this->hasMany(ConversationNotification::class);
     }
 
     /**
@@ -89,5 +99,10 @@ class User extends Authenticate
         $api = route('api.v1.discord');
         $client_id = env('DISCORD_CLIENT_ID');
         return 'https://discord.com/api/oauth2/authorize?client_id=' . $client_id . '&redirect_uri=' . urlencode($api) . '&response_type=code&scope=identify&state=' . $this->id;
+    }
+
+    public function getProfileUrl(): string
+    {
+        return route('resources.author', $this);
     }
 }

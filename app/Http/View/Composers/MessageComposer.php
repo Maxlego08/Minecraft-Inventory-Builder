@@ -6,7 +6,7 @@ use App\Models\Alert\AlertUser;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
-class AlertComposer
+class MessageComposer
 {
 
     /**
@@ -17,9 +17,9 @@ class AlertComposer
      */
     public function compose(View $view)
     {
-        if (!Auth::guest() && !$view->offsetExists('alertCount')) {
-            $alerts = AlertUser::where('user_id', user()->id)->whereNull('opened_at')->count();
-            $view->with('alertCount', $alerts);
+        if (!Auth::guest() && !$view->offsetExists('messageCount')) {
+            $messages = user()->conversationNotifications()->count();
+            $view->with('messageCount', $messages);
         }
     }
 

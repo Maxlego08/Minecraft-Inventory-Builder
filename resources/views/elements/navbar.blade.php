@@ -30,12 +30,7 @@
                     @include('elements.alerts')
                 </li>
                 <li class="nav-item d-none d-lg-block">
-                    <a class="position-relative text-white px-2 envelope" href="#">
-                        <i class="bi bi-envelope-fill"></i>
-                        <span
-                            class="position-absolute bottom-0 start-100 rounded-circle bg-danger"><span
-                                class="visually-hidden">unread messages</span></span>
-                    </a>
+                    @include('elements.messages')
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle d-flex align-items-center ms-1 avatar_dropdown" href="#"

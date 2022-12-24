@@ -18,11 +18,11 @@
                             <div class='d-flex'>
                                 @if ($alert->target_id)
                                     <img src="{{ $alert->target->getProfilePhotoUrlAttribute() }}"
-                                         height='50' width='50' alt='{$target->name} avatar' class='rounded-2'>
+                                         height='50' width='50' alt='{{ $alert->target->name }} avatar' class='rounded-2'>
                                 @else
                                     {!! $alert->icon !!}
                                 @endif
-                                <div class='ms-1'>
+                                <div class='ms-2'>
                                     <div>
                                         @if ($alert->translation_key)
                                             {!! __($alert->translation_key, ['user' => "<a href='/profile/'{$alert->target->name}>{$alert->target->name}</a>", 'content' => "<a href='{$alert->link}'>{$alert->content}</a>"]) !!}
