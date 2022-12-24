@@ -3,6 +3,7 @@
 namespace App\Code;
 
 use Closure;
+use Stevebauman\Purify\Facades\Purify;
 
 /*
  * Code to HTML converter
@@ -23,8 +24,8 @@ class BBCode
     static function renderAndPurify(string $bbcode): string
     {
         $renderer = new BBCode();
-        // return Purify::clean($renderer->render($bbcode));
-        return $renderer->render($bbcode);
+        return Purify::clean($renderer->render($bbcode));
+        // return $renderer->render($bbcode);
     }
 
     /**

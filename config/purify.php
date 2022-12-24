@@ -1,6 +1,6 @@
 <?php
 
-use Stevebauman\Purify\Definitions\Html5Definition;
+use App\Code\Html6Definition;
 
 return [
 
@@ -41,8 +41,10 @@ return [
 
         'default' => [
             'Core.Encoding' => 'utf-8',
+            'HTML.SafeIframe' => true,
+            'URI.SafeIframeRegexp' => '%^(http://|https://|//)(www.youtube.com/embed/)%',
             'HTML.Doctype' => 'HTML 4.01 Transitional',
-            'HTML.Allowed' => 'h1,h2,h3,h4,h5,h6,b,strong,i,em,a[href|title],ul,ol,li,p[style],br,span[style],img[width|height|alt|src],div[style],font[size]',
+            'HTML.Allowed' => 'h1,h2,h3,h4,h5,h6,b,strong,i,em,a[href|title],ul,ol,li,p[style],br,span[style],img[width|height|alt|src],div[style],font[size],iframe[width|height|src|srcdoc]',
             'HTML.ForbiddenElements' => '',
             'CSS.AllowedProperties' => 'font,font-size,font-weight,font-style,font-family,text-decoration,padding-left,color,background-color,text-align',
             'AutoFormat.AutoParagraph' => false,
@@ -68,7 +70,7 @@ return [
     |
     */
 
-    'definitions' => Html5Definition::class,
+    'definitions' => Html6Definition::class,
 
     /*
     |--------------------------------------------------------------------------
