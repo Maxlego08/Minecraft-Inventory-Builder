@@ -22,6 +22,12 @@ Route::prefix('/v1')->name('v1.')->group(function () {
         return $request->user();
     });
 
+    Route::middleware('auth:sanctum')->post('auth/test', function () {
+        return json_encode([
+            'status' => true
+        ]);
+    });
+
     // Permet de créer un token
     Route::post('/auth/login', [AuthController::class, "login"]);
     Route::get('/discord/authentication', [DiscordAuthController::class, 'authentication'])->name('discord');
