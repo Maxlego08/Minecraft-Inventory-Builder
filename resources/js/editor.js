@@ -13,7 +13,11 @@ window.addImage = function (id) {
 }
 
 window.addEventListener('load', function (){
-    window.textarea = document.getElementById('description');
+    let element = document.getElementById('description');
+
+    if (element == null) return
+
+    window.textarea = element;
     let assetUrl = import.meta.env.VITE_URL_ASSET;
     sceditor.create(textarea, {
         format: 'bbcode',

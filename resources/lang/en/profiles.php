@@ -78,4 +78,10 @@ return [
         ],
     ],
 
+    'command' => [
+        'title' => 'Link your account',
+        'description' => 'Allows you to link your account to the zMenu plugin on your server.',
+        'info' => 'Click to display the command you will have to do in game. Attention, if you click you will have to reconnect the plugin.'
+    ],
+
 ];

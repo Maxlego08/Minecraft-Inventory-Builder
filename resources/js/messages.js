@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 let openedAt = 0
 window.addEventListener('load', function () {
 
@@ -23,7 +22,6 @@ window.addEventListener('load', function () {
                 _token: document.getElementsByName('_token').value,
             }
         }).then(response => {
-            console.log(response.data)
             element.innerHTML = response.data
             alertCount.innerHTML = '';
         })

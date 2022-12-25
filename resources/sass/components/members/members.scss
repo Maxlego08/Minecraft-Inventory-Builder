@@ -240,4 +240,14 @@
         justify-content: space-between;
     }
 
+    .blurred {
+        filter: blur(5px);
+        cursor: pointer;
+    }
+
+    .unblurred {
+        filter: none;
+        cursor: pointer;
+    }
+
 }

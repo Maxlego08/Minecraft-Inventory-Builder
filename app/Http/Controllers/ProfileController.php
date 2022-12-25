@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Fortify\PasswordValidationRules;
+use App\Models\User;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -127,7 +128,8 @@ class ProfileController extends Controller
             ->with('toast', createToast('success', __('profiles.discord.discord'), __('profiles.discord.removed')));
     }
 
-    public function downloadRecoveryCode(){
+    public function downloadRecoveryCode(): \Illuminate\Http\Response
+    {
 
         $content = "";
         foreach (json_decode(decrypt(user()->two_factor_recovery_codes), true) as $code) {
@@ -148,6 +150,23 @@ class ProfileController extends Controller
         // make a response, with the content, a 200 response code and the headers
         return Response::make($content, 200, $headers);
 
+    }
+
+    /**
+     * Permet de générer le code pour la commande
+     *
+     * @return string
+     */
+    public function createCommand(): string
+    {
+
+        $user = user();
+        $tokens = $user->tokens()->where('name', env('TOKEN_NAME'))->get();
+        foreach ($tokens as $token) {
+            $token->delete();
+        }
+
+        return $user->createToken(env('TOKEN_NAME'), [env('ABILITY_RESOURCE')])->plainTextToken;
     }
 
 }
