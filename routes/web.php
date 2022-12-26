@@ -3,6 +3,8 @@
 use App\Http\Controllers\AlertController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Resource\ResourceCreateController;
+use App\Http\Controllers\Resource\ResourceIndexController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,8 +48,16 @@ Route::prefix('/profile')->name('profile.')->middleware('auth')->group(function 
 
 Route::prefix('resources')->name('resources.')->group(function () {
 
-    Route::get('/')->name('index');
-    Route::get('/create')->name('create');
+    Route::get('/', [ResourceIndexController::class, 'index'])->name('index');
     Route::get('/authors/{user}')->name('author');
+
+    Route::middleware('auth')->group(function () {
+
+        Route::prefix('create')->name('create.')->group(function () {
+            Route::get('/', [ResourceCreateController::class, 'index'])->name('index');
+            Route::post('/store', [ResourceCreateController::class, 'store'])->name('store');
+        });
+
+    });
 
 });

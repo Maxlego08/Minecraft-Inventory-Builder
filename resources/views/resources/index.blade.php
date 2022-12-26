@@ -5,8 +5,8 @@
 @section('app')
     <div class="content_resources_add py-5 mb-5">
         <div class="container">
-            <div class="px-3 px-lg-0">
-                <div class="block_resources_add card my-4">
+            <div class="px-0 px-lg-0">
+                <div class="block_resources_add card my-4 rounded-0">
                     <div class="card-body px-4">
                         <div class="row align-items-center">
                             <div class="col-lg-7">
@@ -17,8 +17,8 @@
                                     convallis.</p>
                             </div>
                             <div class="col-lg-4 offset-lg-1">
-                                <a href="{{route('resources.create')}}"
-                                   class="btn btn-primary btn-sm rounded-4 d-flex align-items-center justify-content-center"><i
+                                <a href="{{route('resources.create.index')}}"
+                                   class="btn btn-primary btn-sm rounded-0 d-flex align-items-center justify-content-center"><i
                                         class="bi bi-plus-lg me-2 fs-6"></i>AJOUTER UNE RESSOURCE</a>
                             </div>
                         </div>
@@ -28,7 +28,7 @@
                     <div class="col-lg-3">
                         <div class="row">
                             <div class="col-md-6 col-lg-12">
-                                <div class="card mb-3">
+                                <div class="card mb-3 rounded-0">
                                     <div class="card-body">
                                         <h2 class="text-center fs-5 fw-bold">Catégories</h2>
                                         <ul class="list-group">
@@ -60,7 +60,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-12">
-                                <div class="card mb-3">
+                                <div class="card mb-3 rounded-0">
                                     <div class="card-body">
                                         <h2 class="text-center fs-5 fw-bold">Le plus de ressources</h2>
                                         <ul class="list-group">
@@ -96,26 +96,25 @@
                     </div>
                     <div class="col-lg-9">
                         <h2 class="visually-hidden-focusable">Les ressources</h2>
-                        @for ($i = 0; $i < 8; $i++)
-                            <div class="block_resources px-4 bg-blue-800 rounded-4 mb-3">
+                        @for ($i = 0; $i < 15; $i++)
+                            <div class="block_resources px-2 bg-blue-800 rounded-0 mb-2">
                                 <div class="d-flex flex-wrap flex-lg-nowrap">
                                     <div class="block_resources_start me-0 me-lg-3">
                                         <a class="img_1" href="https://groupez.dev/resources/zkoth.9"
                                            title="Show zKoth description">
                                             <img class="" src="https://groupez.dev/storage/images/9.png"
-                                                 alt="zKoth logo">
+                                                 alt="zKoth logo" width="50" height="50">
                                         </a>
                                         <a class="img_2 position-absolute start-100"
                                            href="https://groupez.dev/resources/authors/maxlego08.1"
                                            title="Maxlego08 profile">
-                                            <img class=" rounded-circle"
-                                                 src="https://groupez.dev/storage/images/users/0/0/0/1.png"
-                                                 alt="Maxlego08 Avatar">
+                                            <img src="https://groupez.dev/storage/images/users/0/0/0/1.png"
+                                                 alt="Maxlego08 Avatar" width="25" height="25">
                                         </a>
                                     </div>
-                                    <div class="block_resources_center ms-4 ms-lg-5">
+                                    <div class="block_resources_center ms-2 ms-lg-2">
                                         <h3 class="fw-bold fs-5 mb-0"><a class="link-light text-decoration-none"
-                                                                         href="{{route('resources.show',1)}}">zKoth -
+                                                                         href="#">zKoth -
                                                 Minecraft KOTH Plugin (1.7.10 - 1.19.1)</a>
                                             <span
                                                 class="text-muted fw-normal fs-6 ms-2">v2.0.4.2</span></h3>
@@ -126,7 +125,7 @@
                                     </div>
                                     <div
                                         class="block_resources_end d-flex align-items-center justify-content-end flex-grow-1 fs-7">
-                                        <span class="btn btn-success rounded-4 fw-normal py-0 me-2 me-lg-3">8€</span>
+                                        <span class="btn btn-success rounded-1 fw-normal py-0 me-2 me-lg-3">8€</span>
                                         <ul class="navbar-nav">
                                             <li class="py-1">
                                                 <span class="text-warning">
@@ -145,7 +144,7 @@
                                 </div>
                             </div>
                         @endfor
-                        @include('elements.pagination')
+                        {!! $resources->links() !!}
                     </div>
                 </div>
             </div>

@@ -15,4 +15,6 @@ class MinecraftVersion extends Model
     protected $table = "versions";
 
     protected $fillable = ['version', 'minecraft_version', 'released_at'];
+
+    protected $dates = ['released_at'];
 }
