@@ -32,29 +32,15 @@
                                     <div class="card-body">
                                         <h2 class="text-center fs-5 fw-bold">Catégories</h2>
                                         <ul class="list-group">
-                                            <li class="d-flex justify-content-between align-items-cente">
-                                                Lorem<span>14</span>
-                                            </li>
-                                            <li class="d-flex justify-content-between align-items-cente">
-                                                Ipsum<span>22</span>
-                                            </li>
-                                            <li class="d-flex justify-content-between align-items-cente">
-                                                Dolor<span>0</span>
-                                            </li>
-                                            <li class="d-flex justify-content-between align-items-cente">
-                                                Sit<span>139</span>
-                                            </li>
-                                            <li class="d-flex justify-content-between align-items-cente">
-                                                Amet<span>6</span></li>
-                                            <li class="d-flex justify-content-between align-items-cente">
-                                                Consectetur<span>0</span>
-                                            </li>
-                                            <li class="d-flex justify-content-between align-items-cente">
-                                                Adipscing<span>663</span>
-                                            </li>
-                                            <li class="d-flex justify-content-between align-items-cente">
-                                                Elit<span>19</span>
-                                            </li>
+                                            @foreach($categories as $category => $value)
+                                                <li class="d-flex justify-content-between align-items-cente">
+                                                    @if($value['sub'])
+                                                        <a class="text-white text-decoration-none" href="#" title="#">{{ $category }}</a><span>{{ $value['count'] }}</span>
+                                                    @else
+                                                        <a class="text-white text-decoration-none ms-2" href="#" title="#">{{ $category }}</a><span>{{ $value['count'] }}</span>
+                                                    @endif
+                                                </li>
+                                            @endforeach
                                         </ul>
                                     </div>
                                 </div>

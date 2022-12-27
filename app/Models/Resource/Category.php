@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
  * @property string $name
  * @property int $category_id
  * @property Category[] $subCategories
+ * @property Resource[] $resources
  * @method static Category create(array $values)
  */
 class Category extends Model
@@ -26,6 +27,16 @@ class Category extends Model
         'name',
         'category_id',
     ];
+
+    /**
+     * Retourne-les resources de cette catégorie
+     *
+     * @return HasMany
+     */
+    public function resources(): HasMany
+    {
+        return $this->hasMany(Resource::class);
+    }
 
     /**
      * @return HasMany
@@ -41,6 +52,25 @@ class Category extends Model
     public function getSlug(): string
     {
         return Str::slug($this->name);
+    }
+
+    /**
+     * Compte le nombre de resource dans une catégorie
+     *
+     * @return int
+     */
+    public function countResources(): int
+    {
+        // Si c'est une sous-catégorie
+        if ($this->category_id != null) {
+            return Resource::where('category_id', $this->id)->count();
+        } else {
+            // Sinon, on va compter le nombre de resource dans la catégorie mère
+            $categories = $this->subCategories->map(function ($category){
+               return $category->id;
+            });
+            return Resource::whereIn('category_id', $categories)->count();
+        }
     }
 
 }

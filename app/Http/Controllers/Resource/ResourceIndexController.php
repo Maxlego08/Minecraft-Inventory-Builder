@@ -12,7 +12,8 @@ class ResourceIndexController extends Controller
 
         $pagination = Resource::paginate();
         return view('resources.index', [
-            'resources' => $pagination
+            'resources' => $pagination,
+            'categories' => $this->categories(),
         ]);
     }
 }

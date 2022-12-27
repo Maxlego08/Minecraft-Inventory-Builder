@@ -25,7 +25,7 @@
             </div>
             <div class="mb-3">
                 <label for="tags" class="form-label">{{ __('resources.create.tags.name') }}</label>
-                <input type="text" class="form-control rounded-0 @error('tags') is-invalid @enderror" id="tags">
+                <input type="text" class="form-control rounded-0 @error('tags') is-invalid @enderror" id="tags" minlength="3" maxlength="150">
                 <small>{{ __('resources.create.tags.description') }}</small>
                 @error('tags')
                 <div id="tags_error" class="invalid-feedback">{{ $message }}</div>
