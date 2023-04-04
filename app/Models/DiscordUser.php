@@ -38,7 +38,8 @@ class DiscordUser extends Model
 
     protected $fillable = ['user_id', 'discord_id', 'access_token', 'refresh_token', 'expired_at', 'email', 'username', 'discriminator', 'avatar', 'is_valid',];
 
-    protected $dates = ['created_at', 'expired_at', 'updated_at',];
+    protected $casts = ['created_at' => 'datetime', 'expired_at' => 'datetime', 'updated_at' => 'datetime'];
+
 
     /**
      * Retourne l'utilisateur

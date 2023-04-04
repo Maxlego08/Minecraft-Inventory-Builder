@@ -16,5 +16,5 @@ class MinecraftVersion extends Model
 
     protected $fillable = ['version', 'minecraft_version', 'released_at'];
 
-    protected $dates = ['released_at'];
+    protected $casts = ['released_at' => 'datetime'];
 }

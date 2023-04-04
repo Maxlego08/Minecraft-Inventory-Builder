@@ -59,7 +59,7 @@ class User extends Authenticate
      *
      * @var array<string, string>
      */
-    protected $casts = ['email_verified_at' => 'datetime',];
+    protected $casts = ['email_verified_at' => 'datetime'];
 
     /**
      * Permet de retourner le lien du compte discord de l'utilisateur

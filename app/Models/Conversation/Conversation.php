@@ -26,7 +26,9 @@ class Conversation extends Model
         'user_id', 'subject', 'last_message_at'
     ];
 
-    protected $dates = ['last_message_at'];
+    protected $casts = [
+        'last_message_at' => 'datetime'
+    ];
 
     /**
      * @return BelongsTo
