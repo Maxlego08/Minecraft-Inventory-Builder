@@ -7,7 +7,7 @@
         <article class="home_background">
             <img class="img-fluid" src="{{asset('images/newfondavril.png')}}" alt="">
             <div class="home_background_text">
-                <h1 class="display-5 fw-semibold">GroupeZ MarketPlace</h1>
+                <h1 class="display-5 fw-semibold">Minecraft Inventory Builder</h1>
                 <p class="fs-4">Description du projet GroupeZ MarketPlace ainsi que ses objectifs
                     et les envies de l’administration.</p>
             </div>
@@ -265,7 +265,7 @@
                                     ante luctus convallis. Cras eget placerat felis. Maecenas egestas nibh at ante
                                     luctus convallis. Cras eget placerat felis. Maecenas egestas nibh at ante luctus
                                     convallis. Cras eget placerat felis.</p>
-                                <a href="{{route('resources.create')}}"
+                                <a href="{{route('resources.create.index')}}"
                                    class="home_ressources_add btn btn-primary rounded-4 d-flex align-items-center justify-content-center"><i
                                         class="bi bi-plus-lg me-2 fs-4"></i>AJOUTER UNE RESSOURCE</a>
                             </div>

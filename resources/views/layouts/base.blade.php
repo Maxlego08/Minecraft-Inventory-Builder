@@ -13,12 +13,12 @@
     <meta property="og:image" content="">
     <meta property="og:description" content="@yield('description', 'description'))">
     <meta property="og:site_name" content="GroupeZ">
-    @stack('meta')
+@stack('meta')
 
-    <!-- CSRF Token -->
+<!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title') | Accueil </title>
+    <title>@yield('title') | Minecraft Inventory Builder </title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="">
@@ -49,6 +49,21 @@
 
 <script type="module" src="{{asset('build/assets/bootstrap.bundle.4ad8486b.js')}}" defer></script>
 @stack('footer-scripts')
+
+@if(isset($toast))
+    <script>
+        window.addEventListener('load', function () {
+            window.toast('{{ $toast['type'] }}', '{{ $toast['title'] }}', '{{ $toast['description'] }}', {{ $toast['duration'] }})
+        })
+    </script>
+@endif
+@if(Session::has('toast'))
+    <script>
+        window.addEventListener('load', function () {
+            window.toast('{{ Session::get('toast')['type'] }}', '{{ Session::get('toast')['title'] }}', '{{ Session::get('toast')['description'] }}', {{ Session::get('toast')['duration'] }})
+        })
+    </script>
+@endif
 
 </body>
 </html>

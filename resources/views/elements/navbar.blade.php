@@ -16,46 +16,44 @@
                     class="bi bi-search"></i></button>
         </form>
         <ul class="navbar list-unstyled ms-auto me-0 mb-0 ms-lg-4 flex-nowrap align-items-center">
-            <li class="nav-item dropdown d-none d-lg-block">
-                <a class="nav-link dropdown-toggle bell text-white px-2" href="#"
-                   role="button"
-                   data-bs-toggle="dropdown"
-                   aria-expanded="false" data-bs-display="static">
-                    <i class="bi bi-bell-fill"></i>
-                    <span class="badge rounded-pill bg-danger">1 <span class="visually-hidden">unread messages</span></span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-dark dropdown-menu-end py-0" data-bs-popper="none">
-                    <span class="px-3 border-bottom w-100 d-block text-muted py-2">Alerte</span>
-                    <div class="px-3 w-100 py-2">
-                        <ul class="list-group py-2 list-d">
-                            <li class="list-group-item list-group-item-dark fs-7">Vous n'avez pas de notification</li>
-                        </ul>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-item d-none d-lg-block">
-                <a class="position-relative text-white px-2 envelope" href="#">
-                    <i class="bi bi-envelope-fill"></i>
-                    <span
-                        class="position-absolute bottom-0 start-100 rounded-circle bg-danger"><span
-                            class="visually-hidden">unread messages</span></span>
-                </a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle d-flex align-items-center ms-1 avatar_dropdown" href="#"
-                   role="button"
-                   data-bs-toggle="dropdown"
-                   aria-expanded="false" data-bs-display="static">
-                    <img src="{{asset('images/ut.png')}}" height="30" width="30" alt="Utilisateur">
-                    <span class=" d-none d-lg-block ms-2">Utilisateur</span>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" data-bs-popper="none">
-                    <li><a class="dropdown-item" href="{{route('login')}}">Connexion</a></li>
-                    <li><a class="dropdown-item" href="{{route('register')}}">Inscription</a></li>
-                    <li><a class="dropdown-item" href="{{route('profil')}}">Profile</a></li>
-                    <li><a class="dropdown-item" href="#">Déconexion</a></li>
-                </ul>
-            </li>
+            @guest()
+                <li class="nav-item">
+                    <a class="nav-link py-2 me-2" href="{{route('register')}}"><i class="bi bi-person-plus"></i>
+                        Inscription</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link py-2 me-2" href="{{route('login')}}"><i class="bi bi-person"></i> Connexion</a>
+                </li>
+            @endguest
+            @auth()
+                <li class="nav-item dropdown d-none d-lg-block">
+                    @include('elements.alerts')
+                </li>
+                <li class="nav-item d-none d-lg-block">
+                    @include('elements.messages')
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center ms-1 avatar_dropdown" href="#"
+                       role="button"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false" data-bs-display="static">
+                        <img src="{{ user()->getProfilePhotoUrlAttribute() }}" height="30" width="30" alt="{{ user()->name }}" class="rounded-circle">
+                        <span class=" d-none d-lg-block ms-2">{{ user()->name }}</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" data-bs-popper="none">
+                        <li><a class="dropdown-item" href="{{ route('profile.index') }}">Profile</a></li>
+                        <li>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit"
+                                        class="dropdown-item">
+                                    {{ __('Logout') }}
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+            @endauth
         </ul>
     </div>
     <div class="w-100 bg-blue-900">
@@ -73,13 +71,13 @@
                        {{Route::currentRouteNamed(('resources.*')) ?"aria-current='page''" : ""}} href="{{route('resources.index')}}">Ressources</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link  py-2 me-2" href="#">Documentation</a>
+                    <a class="nav-link py-2 me-2" href="#">Documentation</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link  py-2 me-2" href="#">Abonnement</a>
+                    <a class="nav-link py-2 me-2" href="#">Abonnement</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link  py-2 me-2" href="#">Discord</a>
+                    <a class="nav-link py-2 me-2" href="#">Discord</a>
                 </li>
             </ul>
         </div>
