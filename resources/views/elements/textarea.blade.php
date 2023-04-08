@@ -1,3 +1,4 @@
+<div id="bbcodePreview"></div>
 <div class="mb-3">
     @if (isset($description))
         <label for="description" class="form-label">{{ $description }}</label>

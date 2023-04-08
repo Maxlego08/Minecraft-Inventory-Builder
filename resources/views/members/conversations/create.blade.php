@@ -23,8 +23,6 @@
                     @enderror
                 </div>
 
-                <div id="bbcodePreview"></div>
-
                 @include('elements.textarea')
                 <button type="submit" class="btn btn-primary rounded-0 d-block"><i
                         class="bi bi-send"></i> {{ __('conversations.create.button') }}</button>
