@@ -3,13 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Code\BBCode;
+use App\Exceptions\FileExtensionException;
+use App\Exceptions\ServerIconException;
+use App\Exceptions\UserFileFullException;
+use App\Exceptions\UserMediaFullException;
+use App\Models\File;
+use App\Models\Media;
 use App\Models\MinecraftVersion;
 use App\Models\Resource\Category;
+use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Image;
 
 class Controller extends BaseController
 {
@@ -71,6 +83,123 @@ class Controller extends BaseController
     protected function destroyCacheCategories(): void
     {
         Cache::forget('categories');
+    }
+
+    /**
+     * @param User $user
+     * @param UploadedFile $uploadedFile
+     * @param Image $image
+     * @param bool $isDeletable
+     * @param bool $returnMedia
+     * @param null|int $width
+     * @param mixed|null $height
+     * @return File|RedirectResponse
+     * @throws FileExtensionException
+     * @throws UserFileFullException
+     */
+    protected function storeImage(User $user, UploadedFile $uploadedFile, Image $image, bool $isDeletable = true, bool $returnMedia = false, null|int $width = FileController::IMAGE_WIDTH, mixed $height = null): File|RedirectResponse
+    {
+
+        $extension = $this->getImageExtension($image);
+
+        if ($image->width() >= $width && $extension !== 'gif')
+            $this->resize($image, $width, $height);
+
+        $this->userHasEnoughPlace($image);
+
+        $file = $this->finalStorage($user, $uploadedFile, $isDeletable, $image, $extension);
+
+        if (!$returnMedia) {
+            return Redirect::route('members.medias.index')->with('toast',
+                createToast('success', 'New image', "You just create a new image", 2000));
+        }
+
+        return $file;
+    }
+
+    /**
+     * Get the image extension
+     *
+     * @param Image $image
+     * @return string
+     * @throws FileExtensionException
+     */
+    protected function getImageExtension(Image $image): string
+    {
+        $mime = $image->mime();
+        if ($mime == 'image/jpeg') {
+            return 'jpg';
+        } elseif ($mime == 'image/png') {
+            return 'png';
+        } elseif ($mime == 'image/gif') {
+            return 'gif';
+        } else {
+            throw new FileExtensionException();
+        }
+    }
+
+    /**
+     * Resize image
+     *
+     * @param Image $image
+     * @param null|int $width
+     * @param null|int $height
+     */
+    protected function resize(Image $image, null|int $width = 220, null|int $height = 110)
+    {
+        $image->resize($width, $height, function ($constraint) use ($height) {
+            if ($height === null) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            }
+        });
+    }
+
+    /**
+     * Check if the user has enough space in their storage
+     *
+     * @param Image $image
+     * @throws UserFileFullException
+     */
+    protected function userHasEnoughPlace(Image $image)
+    {
+        $user = user();
+        $totalSize = $user->getDiskSize() + $image->filesize();
+        if ($totalSize > user()->role->total_size)
+            throw new UserFileFullException();
+    }
+
+    /**
+     * @param User $user
+     * @param UploadedFile $uploadedFile
+     * @param bool $isDeletable
+     * @param Image $image
+     * @param string $extension
+     * @return File
+     */
+    protected function finalStorage(User $user, UploadedFile $uploadedFile, bool $isDeletable, Image $image, string $extension): File
+    {
+        $fileName = $uploadedFile->hashName();
+        $path = $user->getImagesPath();
+        $file = $path . $fileName;
+
+        $disk = Storage::disk('public');
+        $disk->makeDirectory($path);
+        if ($extension === 'gif') {
+            $uploadedFile->storeAs($path, $fileName, 'public');
+        } else {
+            $disk->put($file, $image->encode(null, 75));
+        }
+
+        $size = $disk->size($file);
+
+        return File::create([
+            'user_id' => $user->id,
+            'file_extension' => $extension,
+            'file_size' => $size,
+            'file_name' => $fileName,
+            'is_deletable' => $isDeletable,
+        ]);
     }
 
 }

@@ -1618,13 +1618,19 @@
             '<div><input type="button" class="button" value="{insert}"' +
             ' /></div>',
 
-        image:
+        /*image:
             '<div><label for="link">{url}</label> ' +
             '<input type="text" id="image" dir="ltr" placeholder="https://" /></div>' +
             '<div><label for="width">{width}</label> ' +
             '<input type="text" id="width" size="2" dir="ltr" /></div>' +
             '<div><label for="height">{height}</label> ' +
             '<input type="text" id="height" size="2" dir="ltr" /></div>' +
+            '<div><input type="button" class="button" value="{insert}" />' +
+            '</div>',*/
+
+        image:
+            '<div><label for="link">{url}</label> ' +
+            '<input type="file" id="image" name="image" accept=".jpg,.jpeg,.png" dir="ltr" /></div>' +
             '<div><input type="button" class="button" value="{insert}" />' +
             '</div>',
 
@@ -2154,7 +2160,7 @@
         // START_COMMAND: Image
         image: {
             _dropDown: function (editor, caller, selected, cb) {
-                var content = createElement('div');
+                const content = createElement('div');
 
                 appendChild(content, _tmpl('image', {
                     url: editor._('URL:'),
@@ -2164,17 +2170,16 @@
                 }, true));
 
 
-                var urlInput = find(content, '#image')[0];
+                const urlInput = find(content, '#image')[0];
 
                 urlInput.value = selected;
 
                 on(content, 'click', '.button', function (e) {
-                    if (urlInput.value) {
-                        cb(
-                            urlInput.value,
-                            find(content, '#width')[0].value,
-                            find(content, '#height')[0].value
-                        );
+
+                    let image = urlInput.files[0]
+
+                    if (image) {
+                        cb(image);
                     }
 
                     editor.closeDropDown(true);
@@ -2184,28 +2189,26 @@
                 editor.createDropDown(caller, 'insertimage', content);
             },
             exec: function (caller) {
-                var editor = this;
+                const editor = this;
 
                 defaultCmds.image._dropDown(
                     editor,
                     caller,
                     '',
-                    function (url, width, height) {
-                        var attrs = '';
+                    function (image) {
 
-                        if (width) {
-                            attrs += ' width="' + parseInt(width) + '"';
-                        }
+                        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-                        if (height) {
-                            attrs += ' height="' + parseInt(height) + '"';
-                        }
+                        let formData = new FormData();
+                        formData.append("image", image);
+                        formData.append("_token", token);
 
-                        attrs += ' src="' + entities(url) + '"';
+                        // TODO
+                        console.log("TODO")
 
-                        editor.wysiwygEditorInsertHtml(
+                        /*editor.wysiwygEditorInsertHtml(
                             '<img' + attrs + ' />'
-                        );
+                        );*/
                     }
                 );
             },

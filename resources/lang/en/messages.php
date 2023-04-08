@@ -9,4 +9,6 @@ return [
     'no' => 'No',
     'today_at' => 'Today at',
     'yesterday_at' => 'Yesterday at',
+    'created_at' => 'Created at',
+    'close' => 'Close',
 ];

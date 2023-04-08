@@ -11,7 +11,7 @@ if (!function_exists('user')) {
 }
 
 if (!function_exists('format_date')) {
-    function format_date(Carbon $date, bool $fullTime = false, string $locale = 'en_US')
+    function format_date(Carbon $date, bool $fullTime = false, string $locale = 'en_US'): string
     {
         $date->locale($locale);
         return $date->translatedFormat(($fullTime ? 'j F Y \à G:i' : 'j F Y'));
@@ -46,4 +46,35 @@ if (!function_exists('format')) {
         }
         return $carbon->format('d M. Y');
     }
+}
+
+/**
+ * Retourne le chemin vers l'image
+ *
+ * @return string
+ */
+if (!function_exists('imagesPath')) {
+    function imagesPath(int $id): string
+    {
+        // return 'images/' . ((int)($id / 10000)) . "/" . ((int)($id / 1000)) . "/" . ((int)($id / 100)) . '/' . $id . '/';
+        return 'images/';
+    }
+}
+
+/**
+ * Retourne le chemin vers l'image
+ *
+ * @return string
+ */
+if (!function_exists('human_filesize')) {
+    function human_filesize($size): string
+    {
+        if (!$size) {
+            return '0B';
+        }
+        $units = array('B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
+        $i = floor(log($size, 1024));
+        return round($size / pow(1024, $i), 2) . $units[$i];
+    }
+
 }

@@ -10,7 +10,9 @@ use App\Models\Payment\Payment;
 use App\Models\Webhook\Webhook;
 use App\Traits\HasProfilePhoto;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticate;
@@ -34,6 +36,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property DiscordUser $discord
  * @property AlertUser[] $alerts
  * @property ConversationNotification $conversationNotifications
+ * @property UserRole $role
  * @method static User find(int $id)
  */
 class User extends Authenticate
@@ -45,7 +48,7 @@ class User extends Authenticate
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'email', 'password',];
+    protected $fillable = ['name', 'email', 'password', 'user_role_id'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -72,6 +75,59 @@ class User extends Authenticate
     }
 
     /**
+     * Calculate the size of user's image
+     *
+     * @return mixed
+     */
+    public function getDiskSize(): mixed
+    {
+        return $this->images()->sum('file_size');
+    }
+
+    /**
+     * Retourne la couleur en fonction de l'espace disque utilisé
+     *
+     * @param bool $isAdmin
+     * @return string
+     */
+    public function getDiskColor(bool $isAdmin = false): string
+    {
+        $userSize = $this->role->total_size;
+        $size = $this->getDiskSize();
+
+        $percent20 = (20 / 100) * $userSize;
+        $percent10 = (10 / 100) * $userSize;
+
+        if ($size >= $userSize - $percent10) {
+            return "#e7321e";
+        } else if ($size >= $userSize - $percent20) {
+            return "#e57f18";
+        } else {
+            return $isAdmin ? "#858796" : "white";
+        }
+    }
+
+    /**
+     * User files
+     *
+     * @return Collection
+     */
+    public function images(): Collection
+    {
+        return $this->files->whereIn('file_extension', File::IMAGE);
+    }
+
+    /**
+     * User files
+     *
+     * @return HasMany
+     */
+    public function files(): HasMany
+    {
+        return $this->hasMany(File::class);
+    }
+
+    /**
      * Retourne-les alerts
      *
      * @return HasMany
@@ -90,6 +146,16 @@ class User extends Authenticate
     }
 
     /**
+     * User role
+     *
+     * @return BelongsTo
+     */
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(UserRole::class, 'user_role_id');
+    }
+
+    /**
      * Permet de retourner le lien d'authentification discord de l'utilisateur
      *
      * @return string
@@ -104,5 +170,15 @@ class User extends Authenticate
     public function getProfileUrl(): string
     {
         return route('resources.author', $this);
+    }
+
+    /**
+     * Return the path to the image
+     *
+     * @return string
+     */
+    public function getImagesPath(): string
+    {
+        return imagesPath($this->id);
     }
 }

@@ -107,12 +107,7 @@
 
             <div id="bbcodePreview"></div>
 
-            <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea id="description" name="description"
-                          required rows="30" style="opacity: 0;" maxlength="10000"
-                          class="form-input mb-2 @error('description') invalid @enderror">{{ old('description') }}</textarea>
-            </div>
+            @include('elements.textarea', ['description' => 'Description', 'row' => 30])
 
             <div class="mb-3">
                 <label for="link_information" class="form-label">{{ __('resources.create.informations.name') }}</label>

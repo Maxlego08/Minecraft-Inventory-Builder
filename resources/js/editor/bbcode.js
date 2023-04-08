@@ -568,7 +568,7 @@
                 }
 
                 let url = attr(element, 'src');
-                return '[img' + attribs + ']' + url.replace(process.env.MIX_URL_API_IMAGE, '') + '[/img]';
+                return '[img' + attribs + ']' + url.replace(import.meta.env.VITE_URL_API_IMAGE, '') + '[/img]';
             },
             html: function (token, attrs, content) {
                 let undef, width, height, match,
@@ -595,7 +595,7 @@
                 }
 
                 return '<img' + attribs +
-                    ' src="' + process.env.MIX_URL_API_IMAGE + escapeUriScheme(content) + '" />';
+                    ' src="' + import.meta.env.VITE_URL_API_IMAGE + escapeUriScheme(content) + '" />';
             }
         },
         // END_COMMAND
