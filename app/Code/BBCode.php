@@ -377,7 +377,7 @@ class BBCode
                 break;
             case self::TAG_NAME_IMG:
                 if ($tag->opening) {
-                    $code = '<img src="' . url('api/v1/medias') . '/';
+                    $code = '<img src="' . url('storage/images/') . '/';
                 } else {
                     $code = '"/>';
                 }

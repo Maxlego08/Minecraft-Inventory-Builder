@@ -91,7 +91,7 @@ class FileController extends Controller
             return Redirect::back()->with('toast', createToast('error', __('images.delete.errors.file.title'), __('images.delete.errors.file.content'), 5000));
         }
 
-        Storage::disk('public')->delete("images/$file->file_name");
+        Storage::disk('public')->delete("images/$file->file_name.$file->file_extension");
         $file->delete();
 
         return Redirect::back()->with('toast', createToast('success', __('images.delete.success.title'), __('images.delete.success.content'), 5000));

@@ -53,7 +53,7 @@ class File extends Model
      */
     public function getPath(): string
     {
-        return url("storage/images/$this->file_name");
+        return url("storage/images/$this->file_name.$this->file_extension");
     }
 
 }

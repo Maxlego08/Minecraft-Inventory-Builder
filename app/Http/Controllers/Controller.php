@@ -21,6 +21,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Intervention\Image\Image;
 
 class Controller extends BaseController
@@ -64,10 +65,7 @@ class Controller extends BaseController
             $arrayCategories = []; // Tableau qui va contenir les categories
 
             foreach ($categories as $category) {
-                $arrayCategories[$category->name] = [
-                    'count' => $category->countResources(),
-                    'sub' => $category->category_id == null,
-                ];
+                $arrayCategories[$category->name] = ['count' => $category->countResources(), 'sub' => $category->category_id == null,];
             }
 
             return $arrayCategories;
@@ -102,16 +100,14 @@ class Controller extends BaseController
 
         $extension = $this->getImageExtension($image);
 
-        if ($image->width() >= $width && $extension !== 'gif')
-            $this->resize($image, $width, $height);
+        if ($image->width() >= $width && $extension !== 'gif') $this->resize($image, $width, $height);
 
         $this->userHasEnoughPlace($image);
 
         $file = $this->finalStorage($user, $uploadedFile, $isDeletable, $image, $extension);
 
         if (!$returnMedia) {
-            return Redirect::route('members.medias.index')->with('toast',
-                createToast('success', 'New image', "You just create a new image", 2000));
+            return Redirect::route('members.medias.index')->with('toast', createToast('success', 'New image', "You just create a new image", 2000));
         }
 
         return $file;
@@ -165,8 +161,7 @@ class Controller extends BaseController
     {
         $user = user();
         $totalSize = $user->getDiskSize() + $image->filesize();
-        if ($totalSize > user()->role->total_size)
-            throw new UserFileFullException();
+        if ($totalSize > user()->role->total_size) throw new UserFileFullException();
     }
 
     /**
@@ -179,27 +174,21 @@ class Controller extends BaseController
      */
     protected function finalStorage(User $user, UploadedFile $uploadedFile, bool $isDeletable, Image $image, string $extension): File
     {
-        $fileName = $uploadedFile->hashName();
+        $fileName = Str::random(40);
         $path = $user->getImagesPath();
-        $file = $path . $fileName;
+        $file = $path . $fileName . '.' . $extension;
 
         $disk = Storage::disk('public');
         $disk->makeDirectory($path);
         if ($extension === 'gif') {
-            $uploadedFile->storeAs($path, $fileName, 'public');
+            $uploadedFile->storeAs($path, $fileName . '.' . $extension, 'public');
         } else {
             $disk->put($file, $image->encode(null, 75));
         }
 
         $size = $disk->size($file);
 
-        return File::create([
-            'user_id' => $user->id,
-            'file_extension' => $extension,
-            'file_size' => $size,
-            'file_name' => $fileName,
-            'is_deletable' => $isDeletable,
-        ]);
+        return File::create(['user_id' => $user->id, 'file_extension' => $extension, 'file_size' => $size, 'file_name' => $fileName, 'is_deletable' => $isDeletable,]);
     }
 
 }

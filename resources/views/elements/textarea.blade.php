@@ -7,6 +7,13 @@
               class="form-input mb-2 @error('description') invalid @enderror">{{ old('description') }}</textarea>
     <div class="mt-3 textarea-images pe-3 ps-3 pb-3">
 
+        <div style="overflow-x: scroll;" class="d-flex">
+            @foreach(user()->images() as $image)
+                <div class="p-1">
+                    <img src="{{ $image->getPath() }}" height="50" style="max-height: 50px;">
+                </div>
+            @endforeach
+        </div>
         <div class="image-upload-input">
             <span>{{ __('images.textarea.title') }}</span>
             <input type="file" id="image-upload" name="image-upload" class="form-control rounded-0 mt-2"
