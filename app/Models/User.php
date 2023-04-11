@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticate;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -75,16 +76,6 @@ class User extends Authenticate
     }
 
     /**
-     * Calculate the size of user's image
-     *
-     * @return mixed
-     */
-    public function getDiskSize(): mixed
-    {
-        return $this->images()->sum('file_size');
-    }
-
-    /**
      * Retourne la couleur en fonction de l'espace disque utilisé
      *
      * @param bool $isAdmin
@@ -105,6 +96,16 @@ class User extends Authenticate
         } else {
             return $isAdmin ? "#858796" : "white";
         }
+    }
+
+    /**
+     * Calculate the size of user's image
+     *
+     * @return mixed
+     */
+    public function getDiskSize(): mixed
+    {
+        return $this->images()->sum('file_size');
     }
 
     /**
@@ -180,5 +181,25 @@ class User extends Authenticate
     public function getImagesPath(): string
     {
         return imagesPath($this->id);
+    }
+
+    /**
+     * Return author page
+     *
+     * @return string
+     */
+    public function authorPage(): string
+    {
+        return route('resources.author', ['slug' => $this->slug(), 'user' => $this->id]);
+    }
+
+    /**
+     * username as slug
+     *
+     * @return string
+     */
+    public function slug(): string
+    {
+        return Str::slug($this->name);
     }
 }

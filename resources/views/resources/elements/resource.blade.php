@@ -1,24 +1,24 @@
 <div class="block_resources px-2 bg-blue-800 rounded-0 mb-2">
     <div class="d-flex flex-wrap flex-lg-nowrap">
         <div class="block_resources_start me-0 me-lg-3">
-            <a class="img_1" href="https://groupez.dev/resources/zkoth.9"
-               title="Show zKoth description">
+            <a class="img_1" href="{{ $resource->link('description') }}"
+               title="Show {{ $resource->name }} description">
                 <img class="" src="{{ $resource->icon->getPath() }}"
-                     alt="zKoth logo" width="50" height="50">
+                     alt="{{ $resource->name }} logo" width="50" height="50">
             </a>
             <a class="img_2 position-absolute start-100"
-               href="https://groupez.dev/resources/authors/maxlego08.1"
+               href="{{ $resource->user->authorPage() }}"
                title="Maxlego08 profile">
                 <img src="{{ $resource->user->getProfilePhotoUrlAttribute() }}"
                      alt="{{ $resource->user->name }} Avatar" width="25" height="25">
             </a>
         </div>
         <div class="block_resources_center ms-2 ms-lg-2">
-            <h3 class="fw-bold fs-5 mb-0"><a class="link-light text-decoration-none"
+            <h3 class="fw-bold fs-5 mb-0"><a class="link-light text-decoration-none text-break"
                                              href="#">{{ $resource->name }}</a>
                 <span
                     class="text-muted fw-normal fs-6 ms-2">{{ $resource->version->version }}</span></h3>
-            <span class="text-muted fw-light fs-7"><span class="text-danger">Maxlego08</span>, {{ format_date($resource->created_at) }}, <span>{{ $resource->category->name }}</span></span>
+            <span class="text-muted fw-light fs-7"><a class="text-danger"href="{{ $resource->user->authorPage() }}">{{ $resource->user->name }}</a>, {{ format_date($resource->created_at) }}, <span>{{ $resource->category->name }}</span></span>
             <p class="mt-1 mb-0">{{ $resource->tag }}</p>
         </div>
         <div class="block_resources_end d-flex align-items-center justify-content-end flex-grow-1 fs-7">

@@ -2,6 +2,7 @@
 
 namespace App\Models\Resource;
 
+use App\Code\BBCode;
 use App\Models\File;
 use App\Models\User;
 use Carbon\Carbon;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 /**
  * Class Plugin
@@ -184,6 +186,30 @@ class Resource extends Model
     public function clear(string $key)
     {
         Cache::forget("$key::$this->id");
+    }
+
+    /**
+     * Resource link
+     *
+     * @param string $key
+     * @return string
+     */
+    public function link(string $key): string
+    {
+        switch ($key){
+            case "description": return route('resources.view', ['slug' => Str::slug($this->name), 'resource' => $this->id]);
+        }
+        return "";
+    }
+
+    /**
+     * BBCode to html
+     *
+     * @return string
+     */
+    public function toHTML(): string
+    {
+        return BBCode::renderAndPurify($this->description);
     }
 
 }

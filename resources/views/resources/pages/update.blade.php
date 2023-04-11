@@ -17,5 +17,3 @@
         </div>
     </div>
 @endfor
-
-@include('elements.pagination')

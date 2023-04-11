@@ -53,5 +53,3 @@
         </div>
     @endfor
 @endfor
-
-@include('elements.pagination')
