@@ -8,7 +8,7 @@
             </a>
             <a class="img_2 position-absolute start-100"
                href="{{ $resource->user->authorPage() }}"
-               title="Maxlego08 profile">
+               title="{{ $user->name }} profile">
                 <img src="{{ $resource->user->getProfilePhotoUrlAttribute() }}"
                      alt="{{ $resource->user->name }} Avatar" width="25" height="25">
             </a>

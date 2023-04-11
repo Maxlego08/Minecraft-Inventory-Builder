@@ -5,6 +5,7 @@ namespace App\Models\Resource;
 use App\Code\BBCode;
 use App\Models\File;
 use App\Models\User;
+use App\Traits\ReviewStarts;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -41,34 +42,11 @@ use Illuminate\Support\Str;
  */
 class Resource extends Model
 {
-    use HasFactory;
+    use HasFactory, ReviewStarts;
 
     protected $table = "resource_resources";
 
-    protected $fillable = [
-        'category_id',
-        'user_id',
-        'image_id',
-        'version_id',
-        'name',
-        'price',
-        'description',
-        'tag',
-        'is_display',
-        'is_pending',
-        'source_code_link',
-        'donation_link',
-        'discord_server_id',
-        'bstats_id',
-        'contributors',
-        'required_dependencies',
-        'optional_dependencies',
-        'supported_languages',
-        'link_information',
-        'link_support',
-        'versions',
-        'version_base_mc',
-        'lang_support'];
+    protected $fillable = ['category_id', 'user_id', 'image_id', 'version_id', 'name', 'price', 'description', 'tag', 'is_display', 'is_pending', 'source_code_link', 'donation_link', 'discord_server_id', 'bstats_id', 'contributors', 'required_dependencies', 'optional_dependencies', 'supported_languages', 'link_information', 'link_support', 'versions', 'version_base_mc', 'lang_support'];
 
     /**
      * The icon
@@ -110,24 +88,19 @@ class Resource extends Model
         return $this->hasMany(Version::class);
     }
 
+    public function countReviews()
+    {
+        return Cache::remember("count.review::$this->id", 3600, function () {
+            return $this->reviews()->count();
+        });
+    }
+
     /**
      * @return HasMany
      */
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
-    }
-
-    public function countReviews(){
-        return Cache::remember("count.review::$this->id", 3600, function () {
-            return $this->reviews()->count();
-        });
-    }
-
-    public function scoreReviews(){
-        return Cache::remember("count.score::$this->id", 1, function () {
-            return $this->reviews()->avg('score');
-        });
     }
 
     /**
@@ -137,19 +110,14 @@ class Resource extends Model
      */
     public function reviewScore(): string
     {
-        $score = $this->scoreReviews();
-        $stars = '';
-        for ($i = 1; $i <= 5; $i++) {
-            if ($score >= $i) {
-                $stars .= '<i class="bi bi-star-fill"></i>';
-            } else if ($score >= ($i - 0.5)) {
-                $stars .= '<i class="bi bi-star-half"></i>';
-            } else {
-                $stars .= '<i class="bi bi-star"></i>';
-            }
-        }
-        return $stars;
+        return $this->reviewScores($this->scoreReviews());
+    }
 
+    public function scoreReviews()
+    {
+        return Cache::remember("count.score::$this->id", 1, function () {
+            return $this->reviews()->avg('score');
+        });
     }
 
     /**
@@ -180,6 +148,8 @@ class Resource extends Model
      * count.download
      * count.score
      * count.review
+     * count.score.version
+     * count.review.version
      *
      * @return void
      */
@@ -196,8 +166,9 @@ class Resource extends Model
      */
     public function link(string $key): string
     {
-        switch ($key){
-            case "description": return route('resources.view', ['slug' => Str::slug($this->name), 'resource' => $this->id]);
+        switch ($key) {
+            case "description":
+                return route('resources.view', ['slug' => Str::slug($this->name), 'resource' => $this->id]);
         }
         return "";
     }
@@ -210,6 +181,12 @@ class Resource extends Model
     public function toHTML(): string
     {
         return BBCode::renderAndPurify($this->description);
+    }
+
+    public function isModerator()
+    {
+        $user = user();
+        return $user->id == $this->user_id || $user->isModerator();
     }
 
 }

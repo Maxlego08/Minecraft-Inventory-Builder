@@ -13,5 +13,11 @@ return [
     'close' => 'Close',
     'free' => 'Free',
     'downloads' => 'Downloads',
-    'updated' => 'Updated'
+    'updated' => 'Updated',
+    'reviews' => 'reviews',
+    'author' => 'Author',
+    'first-release' => 'First Release',
+    'last-update' => 'Last update',
+    'category' => 'Category',
+    'version' => 'Version',
 ];

@@ -23,7 +23,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-3 col-xl-2 offset-lg-1">
-                                <a href="{{  url('resources.buy') }}" class="btn btn-primary w-100 rounded-4">TÉLÉCHARGER<span
+                                <a href="{{  url('resources.buy') }}" class="btn btn-primary w-100 rounded-0">TÉLÉCHARGER<span
                                         class="fs-7 fw-light d-block">809.6 KB .jar</span></a>
                             </div>
                         </div>
@@ -35,40 +35,43 @@
                             role="tablist">
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link active" id="overview-tab" data-bs-toggle="tab"
-                                        data-bs-target="#overview-tab-pane" type="button" role="tab"
-                                        aria-controls="home-tab-pane" aria-selected="true">Aperçu
+                                   data-bs-target="#overview-tab-pane" type="button" role="tab"
+                                   aria-controls="home-tab-pane" aria-selected="true">Aperçu
                                 </a>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link" id="update-tab" data-bs-toggle="tab"
-                                        data-bs-target="#update-tab-pane" type="button" role="tab"
-                                        aria-controls="update-tab-pane" aria-selected="false">Mise à jour (43)
+                                   data-bs-target="#update-tab-pane" type="button" role="tab"
+                                   aria-controls="update-tab-pane" aria-selected="false">Mise à jour (43)
                                 </a>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link" id="notice-tab" data-bs-toggle="tab"
-                                        data-bs-target="#notice-tab-pane" type="button" role="tab"
-                                        aria-controls="notice-tab-pane" aria-selected="false">Avis (17)
+                                   data-bs-target="#notice-tab-pane" type="button" role="tab"
+                                   aria-controls="notice-tab-pane" aria-selected="false">Avis (17)
                                 </a>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link" id="history-tab" data-bs-toggle="tab"
-                                        data-bs-target="#history-tab-pane" type="button" role="tab"
-                                        aria-controls="history-tab-pane" aria-selected="false">Historique
+                                   data-bs-target="#history-tab-pane" type="button" role="tab"
+                                   aria-controls="history-tab-pane" aria-selected="false">Historique
                                 </a>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link" id="discussions-tab" data-bs-toggle="tab"
-                                        data-bs-target="#discussions-tab-pane" type="button" role="tab"
-                                        aria-controls="discussions-tab-pane" aria-selected="false">Discussions
+                                   data-bs-target="#discussions-tab-pane" type="button" role="tab"
+                                   aria-controls="discussions-tab-pane" aria-selected="false">Discussions
                                 </a>
                             </li>
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link" id="buyers-tab" data-bs-toggle="tab"
-                                        data-bs-target="#buyers-tab-pane" type="button" role="tab"
-                                        aria-controls="buyers-tab-pane" aria-selected="false">Acheteurs
-                                </a>
-                            </li>
+                            @if ($resource->isModerator())
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="buyers-tab" data-bs-toggle="tab"
+                                       data-bs-target="#buyers-tab-pane" type="button" role="tab"
+                                       aria-controls="buyers-tab-pane"
+                                       aria-selected="false">{{ __('resources.buyers') }}
+                                    </a>
+                                </li>
+                            @endif
                         </ul>
                         <div class="tab-content" id="myTabContent">
                             <div class="bg-blue-800 p-4 show active">
@@ -77,68 +80,89 @@
                         </div>
                     </div>
                     <div class="col-lg-3 mt-3 mt-lg-0">
-                        <div class="card mb-3">
+
+                        @if($resource->discord_server_id != null)
+                            <div class="card mb-3 rounded-0">
+                                <div class="card-body">
+                                    <a href="#" id="discord_server_id" target="_blank" data-url="{{ route('api.v1.discord.information', ['server_id' => $resource->discord_server_id]) }}">
+                                        <img src="{{ asset('images/discord.svg') }}" alt="Discord logo">
+                                    </a>
+                                </div>
+                            </div>
+                        @endif
+
+                        <div class="card mb-3 rounded-0">
                             <div class="card-body">
-                                <h2 class="text-center fs-6 fw-bold mb-3">Informations générales</h2>
+                                <h2 class="text-center fs-6 fw-bold mb-3">{{ __('resources.informations') }}</h2>
                                 <ul class="list-group">
                                     <li class="d-flex justify-content-between align-items-cente">
-                                        Auteur <span class="text-danger">Maxlego08</span>
+                                        {{ __('messages.author') }} <span class="text-danger"><a
+                                                href="{{ $resource->user->authorPage() }}">{{ $resource->user->name  }}</a></span>
                                     </li>
                                     <li class="d-flex justify-content-between align-items-cente">
-                                        Téléchargements<span>615</span>
+                                        {{ __('messages.downloads') }}<span>{{ $resource->countDownload() }}</span>
                                     </li>
                                     <li class="d-flex justify-content-between align-items-cente">
-                                        Date de sortie <span>23 déc. 2020</span>
+                                        {{ __('messages.first-release') }}
+                                        <span>{{ format($resource->created_at) }}</span>
                                     <li class="d-flex justify-content-between align-items-cente">
-                                        Dernière MàJ <span>17 jui. 2022</span>
+                                        {{ __('messages.last-update') }}
+                                        <span>{{ format($resource->version->created_at) }}</span>
                                     </li>
                                     <li class="d-flex justify-content-between align-items-cente">
-                                        Catégorie<span>Faction</span>
+                                        {{ __('messages.category') }}<span>{{ $resource->category->name }}</span>
                                     </li>
 
                                     <li class="d-flex justify-content-between align-items-cente mt-4">
-                                        Avis général
+                                        {{ __('resources.review-all-time') }}
                                         <span>
-                                            @include('elements.stars')
+                                            <span class="text-warning">
+                                                {!! $resource->reviewScore() !!}
+                                            </span>
                                             <br>
-                                            <span class="text-muted fst-italic">(17 reviews)</span>
+                                            <span
+                                                class="text-muted fst-italic">({{ $resource->countReviews() }} {{ __('messages.reviews') }})</span>
                                         </span>
                                     </li>
                                 </ul>
                             </div>
                         </div>
-                        <div class="card mb-3">
+                        <div class="card mb-3 rounded-0">
                             <div class="card-body">
-                                <h2 class="text-center fs-6 fw-bold mb-3">Version actuelle</h2>
+                                <h2 class="text-center fs-6 fw-bold mb-3">{{ __('messages.version') }} {{ $resource->version->version }}</h2>
                                 <ul class="list-group">
                                     <li class="d-flex justify-content-between align-items-cente">
-                                        Version<span>15.356.2</span>
+                                        {{ __('messages.version') }}<span>{{ $resource->version->version }}</span>
                                     </li>
                                     <li class="d-flex justify-content-between align-items-cente">
-                                        Téléchargements<span>19</span>
+                                        {{ __('messages.downloads') }}<span>{{ $resource->version->download }}</span>
                                     </li>
                                     <li class="d-flex justify-content-between align-items-cente">
-                                        Date de sortie <span>17 jui. 2022</span>
+                                        {{ __('messages.updated') }}
+                                        <span>{{ format($resource->version->created_at) }}</span>
                                     </li>
                                     <li class="d-flex justify-content-between align-items-cente mt-4">
-                                        Avis sur la version
+                                        {{ __('resources.review-current') }}
                                         <span>
-                                            @include('elements.stars')
-                                            <br>
-                                            <span class="text-muted fst-italic">(0 reviews)</span>
+                                            <span class="text-warning">
+                                                {!! $resource->reviewScore() !!}
+                                            </span>
+                                        <br>
+                                        <span
+                                            class="text-muted fst-italic">({{ $resource->countReviews() }} {{ __('messages.reviews') }})</span>
                                         </span>
                                     </li>
                                 </ul>
                             </div>
                         </div>
-                        <div class="card mb-3">
+                        <div class="card mb-3 rounded-0">
                             <div class="card-body">
-                                <h2 class="text-center fs-6 fw-bold mb-3">Gérer votre ressource</h2>
-                                <a href="{{ url('resources.edit', 1) }}" class="text-decoration-none d-block">Modifier
-                                    ma ressource</a>
-                                <a href="#" class="text-decoration-none d-block">Modifier l’image de ma ressource</a>
+                                <h2 class="text-center fs-6 fw-bold mb-3">{{ __('resources.tools') }}</h2>
+                                <a href="{{ url('resources.edit', 1) }}"
+                                   class="text-decoration-none d-block">{{ __('resources.edit.content') }}</a>
+                                <a href="#" class="text-decoration-none d-block">{{ __('resources.edit.icon') }}</a>
                                 <a href="{{ url('resources.update-ressource', 1) }}"
-                                   class="text-decoration-none d-block">Poster une mise à jour</a>
+                                   class="text-decoration-none d-block">{{ __('resources.edit.update') }}</a>
                             </div>
                         </div>
                     </div>

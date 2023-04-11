@@ -13,7 +13,7 @@ class Review extends Model
 
     protected $table = "resource_reviews";
 
-    protected $fillable = ['user_id', 'resource_id', 'score', 'review', 'response'];
+    protected $fillable = ['user_id', 'resource_id', 'version_id', 'score', 'review', 'response'];
 
     /**
      * @return BelongsTo
@@ -23,8 +23,13 @@ class Review extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function resource()
+    public function resource(): BelongsTo
     {
         return $this->belongsTo(Resource::class, 'resource_id');
+    }
+
+    public function version(): BelongsTo
+    {
+        return $this->belongsTo(Version::class, 'version_id');
     }
 }

@@ -5,6 +5,16 @@ return [
     'description' => 'Sell or upload your resources around zMenu',
     'add' => 'Add resource',
     'review' => 'ratings',
+    'buyers' => 'Buyers',
+    'informations' => 'Informations',
+    'review-all-time' => 'All-Time Rating',
+    'review-current' => 'Version Rating',
+    'tools' => 'Resource Tools',
+    'edit' => [
+        'icon' => 'Edit Resource Icon',
+        'content' => 'Edit Resource',
+        'update' => 'Post Resource Update',
+    ],
     'create' => [
         'success' => [
             'title' => 'You just create a new resource !',

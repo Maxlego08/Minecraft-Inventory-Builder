@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('resource_id')->constrained('resource_resources');
+            $table->foreignId('version_id')->constrained('resource_versions');
             $table->double('score');
             $table->longText('review');
             $table->longText('response')->nullable();
