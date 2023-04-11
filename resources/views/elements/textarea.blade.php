@@ -8,10 +8,12 @@
               class="form-input mb-2 @error('description') invalid @enderror">{{ old('description') }}</textarea>
     <div class="mt-3 textarea-images pe-3 ps-3 pb-3">
 
-        <div style="overflow-x: scroll;" class="d-flex">
+        <div style="overflow-x: scroll;" class="d-flex" id="images">
             @foreach(user()->images() as $image)
                 <div class="p-1">
-                    <img src="{{ $image->getPath() }}" height="50" style="max-height: 50px;">
+                    <img src="{{ $image->getPath() }}"
+                         onclick="addImage('{{ "$image->file_name.$image->file_extension" }}')" height="50"
+                         style="max-height: 50px; cursor: pointer" alt="Image {{ $image->file_name }}">
                 </div>
             @endforeach
         </div>

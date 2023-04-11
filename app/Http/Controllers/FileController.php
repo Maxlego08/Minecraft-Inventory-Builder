@@ -48,10 +48,10 @@ class FileController extends Controller
         $image = Image::make($file);
         try {
             $media = $this->storeImage($user, $file, $image, true, true);
+            return json_encode(['toast' => createToast('success', 'New image', "You just create a new image", 2000), 'status' => 'success', 'element' => ['url' => $media->getPath(), 'name' => "$media->file_name.$media->file_extension"]]);
         } catch (UserFileFullException) {
             return json_encode(['toast' => createToast('error', 'Impossible to create an image', 'You dont have enough space for upload a new image.', 5000), 'status' => 'error']);
         }
-        return json_encode(['toast' => createToast('success', 'New image', "You just create a new image", 2000), 'status' => 'success']);
     }
 
     /**

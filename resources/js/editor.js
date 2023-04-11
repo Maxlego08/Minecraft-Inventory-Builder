@@ -34,7 +34,7 @@ window.addEventListener('load', function (){
 
     const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     let uploadElement = document.getElementById('image-upload');
-    let contentElement = document.getElementById('image-content');
+    let contentElement = document.getElementById('images');
     let barElement = document.getElementById('bar');
     let progressElement = document.getElementById('progress');
 
@@ -56,20 +56,12 @@ window.addEventListener('load', function (){
                 }
             }
         }).then(function (response) {
-            console.log("SUCCESS")
-            console.log(response)
-            console.log(response.data.toast)
             resetAndSendToast(response.data.toast);
             if (response.data.status === 'success') {
                 let elementUrl = response.data.element.url;
                 let elementName = response.data.element.name;
-                let input = '<div class="image-media">';
-                input += `<a href="${elementUrl}" target="_blank">`;
-                input += `<img src="${elementUrl}" alt="Media ${elementName}" title="Media ${elementName}">`;
-                input += '</a>';
-                input += '<div class="image-media-description">';
-                input += `<span title="Ajouter l'image" onclick="addImage('${elementName}')">Ajouter</span>`;
-                input += '</div>';
+                let input = '<div class="p-1">';
+                input += `<img src='${elementUrl}' onclick="addImage('${elementName}')" height="50" style="max-height: 50px; cursor: pointer" alt="Image ${elementName}">`
                 input += '</div>';
 
                 const newElement = document.createElement('div');

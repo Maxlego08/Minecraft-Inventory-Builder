@@ -45,7 +45,7 @@
                                         <label for="password" class="form-label">{{ __('Password') }}</label>
                                         <input type="password"
                                                class="form-control rounded-0 @error('password') is-invalid @enderror"
-                                               id="password" name="password" required autocomplete="new-password">
+                                               id="password" name="password" required autocomplete="password">
                                         @error('password')
                                         <div id="password-error" class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -56,7 +56,7 @@
                                         <input type="password"
                                                class="form-control rounded-0 @error('password_confirmation') is-invalid @enderror"
                                                id="password_confirmation" name="password_confirmation" required
-                                               autocomplete="new-password">
+                                               autocomplete="password">
                                         @error('password_confirmation')
                                         <div id="password-error" class="invalid-feedback">{{ $message }}</div>
                                         @enderror

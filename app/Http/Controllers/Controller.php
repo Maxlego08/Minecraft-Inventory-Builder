@@ -11,6 +11,7 @@ use App\Models\File;
 use App\Models\Media;
 use App\Models\MinecraftVersion;
 use App\Models\Resource\Category;
+use App\Models\Resource\Resource;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -102,7 +103,9 @@ class Controller extends BaseController
 
         if ($image->width() >= $width && $extension !== 'gif') $this->resize($image, $width, $height);
 
-        $this->userHasEnoughPlace($image);
+        if (!$isDeletable) {
+            $this->userHasEnoughPlace($image);
+        }
 
         $file = $this->finalStorage($user, $uploadedFile, $isDeletable, $image, $extension);
 
@@ -189,6 +192,30 @@ class Controller extends BaseController
         $size = $disk->size($file);
 
         return File::create(['user_id' => $user->id, 'file_extension' => $extension, 'file_size' => $size, 'file_name' => $fileName, 'is_deletable' => $isDeletable,]);
+    }
+
+    /**
+     * Store a resource file
+     *
+     * @param User $user
+     * @param Resource $resource
+     * @param UploadedFile $file
+     * @return File
+     */
+    protected function storeFile(User $user, Resource $resource, UploadedFile $file) : File
+    {
+        $fileName = Str::random(40);
+        $extension = $file->guessExtension();
+        $path = $resource->id;
+
+        $filePath = "$path/$fileName.$extension";
+
+        $disk = Storage::disk('plugins');
+        $file->storeAs($path, "$fileName.$extension", "plugins");
+
+        $size = $disk->size($filePath);
+
+        return File::create(['user_id' => $user->id, 'file_extension' => $extension, 'file_size' => $size, 'file_name' => $fileName, 'is_deletable' => false]);
     }
 
 }

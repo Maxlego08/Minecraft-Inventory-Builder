@@ -3,6 +3,7 @@
 namespace App\Models\Resource;
 
 use App\Models\File;
+use App\Models\MinecraftVersion;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,7 +24,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Resource $resource
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * @method static \App\Models\MinecraftVersion find(int $id)
+ * @method static Version find(int $id)
  * @method static Version create(array $values)
  */
 class Version extends Model

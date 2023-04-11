@@ -23,9 +23,16 @@ return new class extends Migration {
             $table->string('tag', 150);
             $table->boolean('is_display')->default(true);
             $table->boolean('is_pending')->default(true);
+            $table->longText('versions')->nullable();
+            $table->longText('version_base_mc')->nullable();
             $table->longText('source_code_link')->nullable();
+            $table->longText('contributors')->nullable();
+            $table->longText('link_information')->nullable();
+            $table->longText('link_support')->nullable();
+            $table->longText('lang_support')->nullable();
             $table->longText('donation_link')->nullable();
             $table->string('discord_server_id')->nullable();
+            $table->string('bstats_id')->nullable();
             $table->longText('required_dependencies')->nullable();
             $table->longText('optional_dependencies')->nullable();
             $table->longText('supported_languages')->nullable();

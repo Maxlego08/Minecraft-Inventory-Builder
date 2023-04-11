@@ -35,7 +35,9 @@ class FileExtensionException extends Exception
         $toastDescription = "Impossible to find what is your image";
         $toastDuration = 5000;
 
-        return Redirect::back()->withInput()->with('toast',
+        return Redirect::back()->withInput(
+            $request->input()
+        )->with('toast',
             createToast($toastType, $toastTitle, $toastDescription, $toastDuration));
     }
 
