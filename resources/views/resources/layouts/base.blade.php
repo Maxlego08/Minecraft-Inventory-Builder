@@ -84,9 +84,37 @@
                         @if($resource->discord_server_id != null)
                             <div class="card mb-3 rounded-0">
                                 <div class="card-body">
-                                    <a href="#" id="discord_server_id" target="_blank" data-url="{{ route('api.v1.discord.information', ['server_id' => $resource->discord_server_id]) }}">
+                                    <a href="#" id="discord_server_id" target="_blank"
+                                       data-url="{{ route('api.v1.discord.information', ['server_id' => $resource->discord_server_id]) }}">
                                         <img src="{{ asset('images/discord.svg') }}" alt="Discord logo">
                                     </a>
+                                </div>
+                            </div>
+                        @endif
+
+                        @if($resource->bstats_id != null)
+                            <div class="card mb-3 rounded-0">
+                                <div class="card-body">
+                                    <h2 class="text-center fs-6 fw-bold mb-3">{{ __('messages.statistics') }}</h2>
+                                    <ul class="list-group">
+                                        <li class="d-flex justify-content-between align-items-center">
+                                            {{ __('messages.bstats.players') }}
+                                            <div id="bstats-players"
+                                                 data-url="{{ route('api.v1.bstats.stats', ['id' => $resource->bstats_id, 'chart' => 'servers']) }}">
+                                                <div class="spinner-border spinner-border-sm" role="status"><span class="visually-hidden">Loading...</span></div>
+                                            </div>
+                                        </li>
+                                        <li class="d-flex justify-content-between align-items-center">
+                                            {{ __('messages.bstats.servers') }} <div id="bstats-servers"
+                                                                                      data-url="{{ route('api.v1.bstats.stats', ['id' => $resource->bstats_id, 'chart' => 'players']) }}">
+                                                <div class="spinner-border spinner-border-sm" role="status"><span class="visually-hidden">Loading...</span></div>
+                                            </div>
+                                        </li>
+                                        <li class="d-flex justify-content-end align-items-center">
+                                            <span
+                                                class="fs-7 text-secondary">{!! __('messages.bstats.more', ['url' => route('api.v1.bstats.url', ['id' => $resource->bstats_id])]) !!}</span>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         @endif
@@ -95,25 +123,25 @@
                             <div class="card-body">
                                 <h2 class="text-center fs-6 fw-bold mb-3">{{ __('resources.informations') }}</h2>
                                 <ul class="list-group">
-                                    <li class="d-flex justify-content-between align-items-cente">
+                                    <li class="d-flex justify-content-between align-items-center">
                                         {{ __('messages.author') }} <span class="text-danger"><a
                                                 href="{{ $resource->user->authorPage() }}">{{ $resource->user->name  }}</a></span>
                                     </li>
-                                    <li class="d-flex justify-content-between align-items-cente">
+                                    <li class="d-flex justify-content-between align-items-center">
                                         {{ __('messages.downloads') }}<span>{{ $resource->countDownload() }}</span>
                                     </li>
-                                    <li class="d-flex justify-content-between align-items-cente">
+                                    <li class="d-flex justify-content-between align-items-center">
                                         {{ __('messages.first-release') }}
                                         <span>{{ format($resource->created_at) }}</span>
-                                    <li class="d-flex justify-content-between align-items-cente">
+                                    <li class="d-flex justify-content-between align-items-center">
                                         {{ __('messages.last-update') }}
                                         <span>{{ format($resource->version->created_at) }}</span>
                                     </li>
-                                    <li class="d-flex justify-content-between align-items-cente">
+                                    <li class="d-flex justify-content-between align-items-center">
                                         {{ __('messages.category') }}<span>{{ $resource->category->name }}</span>
                                     </li>
 
-                                    <li class="d-flex justify-content-between align-items-cente mt-4">
+                                    <li class="d-flex justify-content-between align-items-center mt-4">
                                         {{ __('resources.review-all-time') }}
                                         <span>
                                             <span class="text-warning">
@@ -131,17 +159,17 @@
                             <div class="card-body">
                                 <h2 class="text-center fs-6 fw-bold mb-3">{{ __('messages.version') }} {{ $resource->version->version }}</h2>
                                 <ul class="list-group">
-                                    <li class="d-flex justify-content-between align-items-cente">
+                                    <li class="d-flex justify-content-between align-items-center">
                                         {{ __('messages.version') }}<span>{{ $resource->version->version }}</span>
                                     </li>
-                                    <li class="d-flex justify-content-between align-items-cente">
+                                    <li class="d-flex justify-content-between align-items-center">
                                         {{ __('messages.downloads') }}<span>{{ $resource->version->download }}</span>
                                     </li>
-                                    <li class="d-flex justify-content-between align-items-cente">
+                                    <li class="d-flex justify-content-between align-items-center">
                                         {{ __('messages.updated') }}
                                         <span>{{ format($resource->version->created_at) }}</span>
                                     </li>
-                                    <li class="d-flex justify-content-between align-items-cente mt-4">
+                                    <li class="d-flex justify-content-between align-items-center mt-4">
                                         {{ __('resources.review-current') }}
                                         <span>
                                             <span class="text-warning">

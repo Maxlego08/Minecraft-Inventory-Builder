@@ -20,4 +20,10 @@ return [
     'last-update' => 'Last update',
     'category' => 'Category',
     'version' => 'Version',
+    'statistics' => 'Statistics',
+    'bstats' => [
+        'players' => 'Current servers',
+        'servers' => 'Current players',
+        'more' => 'Show more on <a href="" target="_blank" id="bstats-url" data-url=":url">bStats</a>'
+    ],
 ];
