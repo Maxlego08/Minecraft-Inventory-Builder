@@ -16,6 +16,9 @@ class ResourcePagination
         $search = request()->input('search');
 
         return Resource::select("resource_resources.*")
+            ->with('version')
+            ->with('category')
+            ->with('icon')
             ->leftJoin('resource_versions', 'resource_resources.version_id', '=', 'resource_versions.id')
             ->leftJoin('users', 'users.id', '=', 'resource_resources.user_id')
             ->when($search, function ($query) use ($search) {

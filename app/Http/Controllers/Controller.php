@@ -60,7 +60,7 @@ class Controller extends BaseController
      */
     protected function categories(): mixed
     {
-        return Cache::remember('categories', 1, function () {
+        return Cache::remember('categories', 60, function () {
 
             $categories = Category::all(); // On va récupérer toutes les catégories
             $arrayCategories = []; // Tableau qui va contenir les categories
