@@ -10,16 +10,13 @@
                     <div class="card-body px-4">
                         <div class="row align-items-center">
                             <div class="col-lg-7">
-                                <h1 class="fw-bold fs-3">Ressources</h1>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas egestas nibh at
-                                    ante
-                                    luctus
-                                    convallis.</p>
+                                <h1 class="fw-bold fs-3">{{ __('resources.title') }}</h1>
+                                <p>{{ __('resources.description') }}</p>
                             </div>
                             <div class="col-lg-4 offset-lg-1">
                                 <a href="{{route('resources.create.index')}}"
                                    class="btn btn-primary btn-sm rounded-0 d-flex align-items-center justify-content-center"><i
-                                        class="bi bi-plus-lg me-2 fs-6"></i>AJOUTER UNE RESSOURCE</a>
+                                        class="bi bi-plus-lg me-2 fs-6"></i>{{ __('resources.add') }}</a>
                             </div>
                         </div>
                     </div>

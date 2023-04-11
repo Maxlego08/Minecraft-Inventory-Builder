@@ -11,5 +11,7 @@ return [
     'yesterday_at' => 'Yesterday at',
     'created_at' => 'Created at',
     'close' => 'Close',
-    'free' => 'Free'
+    'free' => 'Free',
+    'downloads' => 'Downloads',
+    'updated' => 'Updated'
 ];

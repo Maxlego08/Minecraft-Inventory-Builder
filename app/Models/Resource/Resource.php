@@ -8,6 +8,8 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Class Plugin
@@ -97,6 +99,70 @@ class Resource extends Model
     }
 
     /**
+     * Versions
+     *
+     * @return HasMany
+     */
+    public function versions(): HasMany
+    {
+        return $this->hasMany(Version::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    public function countReviews(){
+        return Cache::remember("count.review::$this->id", 3600, function () {
+            return $this->reviews()->count();
+        });
+    }
+
+    public function scoreReviews(){
+        return Cache::remember("count.score::$this->id", 1, function () {
+            return $this->reviews()->avg('score');
+        });
+    }
+
+    /**
+     * Display the rating stars
+     *
+     * @return string
+     */
+    public function reviewScore(): string
+    {
+        $score = $this->scoreReviews();
+        $stars = '';
+        for ($i = 1; $i <= 5; $i++) {
+            if ($score >= $i) {
+                $stars .= '<i class="bi bi-star-fill"></i>';
+            } else if ($score >= ($i - 0.5)) {
+                $stars .= '<i class="bi bi-star-half"></i>';
+            } else {
+                $stars .= '<i class="bi bi-star"></i>';
+            }
+        }
+        return $stars;
+
+    }
+
+    /**
+     * Count total download
+     *
+     * @return mixed
+     */
+    public function countDownload(): mixed
+    {
+        return Cache::remember("count.download::$this->id", 3600, function () {
+            return $this->version()->sum('download');
+        });
+    }
+
+    /**
      * The version
      *
      * @return BelongsTo
@@ -104,6 +170,20 @@ class Resource extends Model
     public function version(): BelongsTo
     {
         return $this->belongsTo(Version::class);
+    }
+
+    /**
+     * Clear cache
+     *
+     * count.download
+     * count.score
+     * count.review
+     *
+     * @return void
+     */
+    public function clear(string $key)
+    {
+        Cache::forget("$key::$this->id");
     }
 
 }

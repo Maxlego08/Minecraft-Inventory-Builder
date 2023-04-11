@@ -78,3 +78,19 @@ if (!function_exists('human_filesize')) {
     }
 
 }
+
+if (!function_exists('format')) {
+    function format(Carbon $carbon)
+    {
+        #https://carbon.nesbot.com/docs/#api-comparison
+        $now = Carbon::now();
+        if ($carbon->greaterThan($now->addHours(-4)))
+            return $carbon->diffForHumans();
+        else if ($carbon->dayOfYear === $now->dayOfYear) {
+            return __('Today at') . ' ' . $carbon->format('H:m');
+        } else if ($carbon->dayOfYear == Carbon::yesterday()->dayOfYear) {
+            return __('Yesterday at') . ' ' . $carbon->format('H:m');
+        }
+        return $carbon->format('d M. Y');
+    }
+}

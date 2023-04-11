@@ -1,7 +1,10 @@
 <?php
 
 return [
-
+    'title' => 'Resources',
+    'description' => 'Sell or upload your resources around zMenu',
+    'add' => 'Add resource',
+    'review' => 'ratings',
     'create' => [
         'success' => [
             'title' => 'You just create a new resource !',
