@@ -22,11 +22,11 @@
                             <div class="row justify-content-center">
                                 <div class="col-lg-8">
                                     <div class="mb-3">
-                                        <label for="name" class="form-label">{{ __('Name') }}</label>
+                                        <label for="name" class="form-label">{{ __('Username') }}</label>
                                         <input type="text"
                                                class="form-control rounded-0 @error('name') is-invalid @enderror"
                                                id="name" name="name" value="{{ old('name') }}" required
-                                               autocomplete="name" autofocus>
+                                               autocomplete="username" autofocus>
                                         @error('name')
                                         <div id="password-error" class="invalid-feedback">{{ $message }}</div>
                                         @enderror

@@ -112,7 +112,8 @@ class ResourceCreateController extends Controller
             'link_information' => $request['link_information'],
             'link_support' => $request['lang_support'],
             'lang_support' => $request['lang_support'],
-            'versions' => implode(",", $request['versions'] ?? [])
+            'versions' => implode(",", $request['versions'] ?? []),
+            'version_id' => null,
         ]);
 
         $storedFile = $this->storeFile($user, $resource, $file);
@@ -125,6 +126,8 @@ class ResourceCreateController extends Controller
             'download' => 0,
             'file_id' => $storedFile->id,
         ]);
+
+        $resource->update(['version_id' => $version->id]);
 
 
         return Redirect::route('resources.index')->with('toast', createToast('success', __('resources.create.success.title'), __('resources.create.success.content'), 5000));

@@ -29,6 +29,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Carbon $updated_at;
  * @property boolean $is_unique;
  * @property File $icon;
+ * @property Version $version;
+ * @property Category $category;
  * @method static Resource find(int $id)
  * @method static Resource findOrFail(int $id)
  * @method static Resource create(array $values)
@@ -43,6 +45,7 @@ class Resource extends Model
         'category_id',
         'user_id',
         'image_id',
+        'version_id',
         'name',
         'price',
         'description',
@@ -71,6 +74,36 @@ class Resource extends Model
     public function icon(): BelongsTo
     {
         return $this->belongsTo(File::class, 'image_id');
+    }
+
+    /**
+     * The author
+     *
+     * @return BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * The category
+     *
+     * @return BelongsTo
+     */
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    /**
+     * The version
+     *
+     * @return BelongsTo
+     */
+    public function version(): BelongsTo
+    {
+        return $this->belongsTo(Version::class);
     }
 
 }

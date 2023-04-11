@@ -202,10 +202,10 @@ class Controller extends BaseController
      * @param UploadedFile $file
      * @return File
      */
-    protected function storeFile(User $user, Resource $resource, UploadedFile $file) : File
+    protected function storeFile(User $user, Resource $resource, UploadedFile $file): File
     {
         $fileName = Str::random(40);
-        $extension = $file->guessExtension();
+        $extension = $this->getFileExtension($file);
         $path = $resource->id;
 
         $filePath = "$path/$fileName.$extension";
@@ -216,6 +216,27 @@ class Controller extends BaseController
         $size = $disk->size($filePath);
 
         return File::create(['user_id' => $user->id, 'file_extension' => $extension, 'file_size' => $size, 'file_name' => $fileName, 'is_deletable' => false]);
+    }
+
+    /**
+     * Find file extension
+     *
+     * @param UploadedFile $file
+     * @return string
+     */
+    protected function getFileExtension(UploadedFile $file): string
+    {
+        $mineType = $file->getClientMimeType();
+        $extensionFile = "jar";
+        switch ($mineType) {
+            case 'application/octet-stream':
+                $extensionFile = "jar";
+                break;
+            case 'application/x-zip-compressed':
+                $extensionFile = "zip";
+                break;
+        }
+        return $extensionFile;
     }
 
 }

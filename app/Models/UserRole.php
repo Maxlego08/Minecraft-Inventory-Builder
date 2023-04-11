@@ -12,13 +12,22 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property int $total_size
  * @property int $size
+ * @property int $power
  * @property int $max_resources
+ * @property boolean $is_banned
  * @property boolean $premium_resources
  * @property string $allow_files
  */
 class UserRole extends Model
 {
     use HasFactory;
+
+    const BANNED = 0;
+    const FREE = 1;
+    const PREMIUM = 2;
+    const PRO = 3;
+    const MODERATOR = 50;
+    const ADMIN = 100;
 
     protected $fillable = [
         'name',
@@ -27,6 +36,8 @@ class UserRole extends Model
         'allow_files',
         'max_resources',
         'premium_resources',
+        'power',
+        'is_banned'
     ];
 
 
@@ -38,5 +49,15 @@ class UserRole extends Model
     public function getImageValidator(): string
     {
         return 'required|image|mimes:' . $this->allow_files . ',|max:' . ($this->size / 1000);
+    }
+
+    public function isModerator(): bool
+    {
+        return $this->power == self::ADMIN || $this->power == self::MODERATOR;
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->power == self::ADMIN;
     }
 }

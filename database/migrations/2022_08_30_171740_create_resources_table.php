@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('category_id')->constrained('resource_categories');
             $table->foreignId('user_id')->constrained();
+            $table->foreignId('version_id')->nullable()->constrained();
             $table->foreignId('image_id')->constrained('files');
             $table->string('name', 100);
             $table->double('price')->default(0);

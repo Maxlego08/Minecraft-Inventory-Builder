@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\UserRole;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,7 +12,8 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('user_role_id')->default(1)->after('id')->constrained();
+            $role = UserRole::where('power', UserRole::FREE)->first();
+            $table->foreignId('user_role_id')->default($role->id)->after('id')->constrained();
         });
     }
 
