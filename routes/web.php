@@ -6,7 +6,9 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Resource\ResourceAuthorController;
 use App\Http\Controllers\Resource\ResourceCreateController;
+use App\Http\Controllers\Resource\ResourceDownloadController;
 use App\Http\Controllers\Resource\ResourceIndexController;
+use App\Http\Controllers\Resource\ResourceReviewController;
 use App\Http\Controllers\Resource\ResourceViewController;
 use Illuminate\Support\Facades\Route;
 
@@ -74,6 +76,8 @@ Route::prefix('resources')->name('resources.')->group(function () {
             Route::post('/store', [ResourceCreateController::class, 'store'])->name('store');
         });
 
+        Route::get('download/{resource}/{version}', [ResourceDownloadController::class, 'download'])->name('download');
+        Route::post('review/{resource}', [ResourceReviewController::class, 'store'])->name('review.store');
     });
 
     Route::get('/{slug}.{resource}', [ResourceViewController::class, 'index'])->name('view');

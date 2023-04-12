@@ -21,6 +21,7 @@ return [
     'category' => 'Category',
     'version' => 'Version',
     'statistics' => 'Statistics',
+    'message' => 'Message',
     'bstats' => [
         'players' => 'Current servers',
         'servers' => 'Current players',

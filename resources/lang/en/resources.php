@@ -10,6 +10,8 @@ return [
     'review-all-time' => 'All-Time Rating',
     'review-current' => 'Version Rating',
     'tools' => 'Resource Tools',
+    'review-send' => 'Submit Rating',
+    'rate' => 'Rate This Resource',
     'edit' => [
         'icon' => 'Edit Resource Icon',
         'content' => 'Edit Resource',
@@ -97,6 +99,55 @@ return [
             'name' => 'Bstats ID',
             'description' => 'Allows you to display the statistics of your plugin.',
         ],
-    ]
-
+    ],
+    'download' => [
+        'button' => 'Download',
+        'errors' => [
+            'same' => [
+                'title' => 'You can\'t download this resource',
+                'content' => 'An error occurred while downloading.',
+            ],
+            'ban' => [
+                'title' => 'You are banned',
+                'content' => 'You are banned, you can\'t download this resource.',
+            ],
+            'purchase' => [
+                'title' => 'Error !',
+                'content' => 'You don\'t have permission to download the plugin.',
+            ],
+            'cache' => [
+                'title' => 'Wait few seconds',
+                'content' => 'You have to wait a few seconds before you can download the plugin.',
+            ],
+            'other' => [
+                'title' => 'Error !',
+                'content' => 'Unable to find the file to download, please contact an administrator.',
+            ],
+        ]
+    ],
+    'reviews' => [
+        'info' => 'Your review must be at least 30 characters.',
+        'errors' => [
+            'download' => [
+                'title' => 'You can\'t review !',
+                'content' => 'You must download the resource before you can rate it.',
+            ],
+            'already' => [
+                'title' => 'You can\'t review !',
+                'content' => 'You have already given a review for this version.',
+            ],
+            'self' => [
+                'title' => 'You can\'t review !',
+                'content' => 'You can\'t give yourself a rate.',
+            ],
+            'rate' => [
+                'title' => 'You can\'t review !',
+                'content' => 'Unable to find your note.',
+            ],
+        ],
+        'success' => [
+            'title' => 'You just leave a review',
+            'content' => 'Thank you for taking the time to put a note to this resource.',
+        ],
+    ],
 ];

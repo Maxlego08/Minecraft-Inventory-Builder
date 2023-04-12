@@ -151,9 +151,10 @@ class Resource extends Model
      * count.score.version
      * count.review.version
      *
+     * @param string $key
      * @return void
      */
-    public function clear(string $key)
+    public function clear(string $key): void
     {
         Cache::forget("$key::$this->id");
     }
@@ -166,11 +167,11 @@ class Resource extends Model
      */
     public function link(string $key): string
     {
-        switch ($key) {
-            case "description":
-                return route('resources.view', ['slug' => Str::slug($this->name), 'resource' => $this->id]);
-        }
-        return "";
+        return match ($key) {
+            "description" => route('resources.view', ['slug' => Str::slug($this->name), 'resource' => $this->id]),
+            "download" => route('resources.download', ['resource' => $this->id, 'version' => $this->version_id]),
+            default => "",
+        };
     }
 
     /**
@@ -183,10 +184,16 @@ class Resource extends Model
         return BBCode::renderAndPurify($this->description);
     }
 
-    public function isModerator()
+    public function isModerator(): bool
     {
         $user = user();
-        return $user->id == $this->user_id || $user->isModerator();
+        return $user->id == $this->user_id || $user->role->isModerator();
+    }
+
+    public function startPercentage(): float|int
+    {
+        $value = $this->scoreReviews();
+        return ($value * 100) / 5;
     }
 
 }

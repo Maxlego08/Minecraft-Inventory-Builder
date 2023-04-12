@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Cache;
  * @property string $description
  * @property string $extension
  * @property string $version
+ * @property string $file_name
  * @property File $file
  * @property Resource $resource
  * @property Carbon $created_at
@@ -36,7 +37,7 @@ class Version extends Model
 
     protected $table = "resource_versions";
 
-    protected $fillable = ['version', 'resource_id', 'file_id', 'download', 'title', 'description', 'updated_at',];
+    protected $fillable = ['version', 'resource_id', 'file_id', 'download', 'title', 'description', 'updated_at', 'file_name'];
 
     /**
      * Retourne la ressource
@@ -88,6 +89,12 @@ class Version extends Model
         return Cache::remember("count.review.version::$this->id", 3600, function () {
             return $this->reviews()->count();
         });
+    }
+
+    public function startPercentage(): float|int
+    {
+        $value = $this->scoreReviews();
+        return ($value * 100) / 5;
     }
 
 }

@@ -117,6 +117,7 @@ class ResourceCreateController extends Controller
         ]);
 
         $storedFile = $this->storeFile($user, $resource, $file);
+        $fileName = str_replace('.' . $this->getFileExtension($file), '', $file->getClientOriginalName());
 
         $version = Version::create([
             'version' => $request['version'],
@@ -125,6 +126,7 @@ class ResourceCreateController extends Controller
             'description' => 'No description.',
             'download' => 0,
             'file_id' => $storedFile->id,
+            'file_name' => $fileName,
         ]);
 
         $resource->update(['version_id' => $version->id]);

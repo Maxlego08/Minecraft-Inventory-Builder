@@ -6,7 +6,8 @@ namespace App\Models;
 use App\Models\Affiliates\Affiliate;
 use App\Models\Alert\AlertUser;
 use App\Models\Conversation\ConversationNotification;
-use App\Models\Payment\Payment;
+use App\Models\Resource\Access;
+use App\Models\Resource\Resource;
 use App\Models\Webhook\Webhook;
 use App\Traits\HasProfilePhoto;
 use Carbon\Carbon;
@@ -201,5 +202,19 @@ class User extends Authenticate
     public function slug(): string
     {
         return Str::slug($this->name);
+    }
+
+    /**
+     * Check if player has access to this resource
+     *
+     * @param Resource $resource
+     * @return bool
+     */
+    public function hasAccess(Resource $resource): bool
+    {
+        if ($this->role->isModerator() || $this->id === $resource->user_id || $resource->price == 0) {
+            return true;
+        }
+        return Access::where('user_id', $this->id)->where('resource_id', $resource->id)->count() > 0;
     }
 }

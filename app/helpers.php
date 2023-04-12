@@ -34,20 +34,6 @@ if (!function_exists('createToast')) {
     }
 }
 
-if (!function_exists('format')) {
-    function format(Carbon $carbon): string
-    {
-        #https://carbon.nesbot.com/docs/#api-comparison
-        $now = Carbon::now();
-        if ($carbon->greaterThan($now->addHours(-4))) return $carbon->diffForHumans(); else if ($carbon->dayOfYear === $now->dayOfYear) {
-            return __('messages.today_at') . ' ' . $carbon->format('H:m');
-        } else if ($carbon->dayOfYear == Carbon::yesterday()->dayOfYear) {
-            return __('messages.yesterday_at') . ' ' . $carbon->format('H:m');
-        }
-        return $carbon->format('d M. Y');
-    }
-}
-
 /**
  * Retourne le chemin vers l'image
  *
@@ -58,6 +44,28 @@ if (!function_exists('imagesPath')) {
     {
         // return 'images/' . ((int)($id / 10000)) . "/" . ((int)($id / 1000)) . "/" . ((int)($id / 100)) . '/' . $id . '/';
         return 'images/';
+    }
+}
+
+/**
+ * Retourne le chemin vers l'image
+ *
+ * @return string
+ */
+if (!function_exists('reviewScores')) {
+    function reviewScores($score): string
+    {
+        $stars = '';
+        for ($i = 1; $i <= 5; $i++) {
+            if ($score >= $i) {
+                $stars .= '<i class="bi bi-star-fill"></i>';
+            } else if ($score >= ($i - 0.5)) {
+                $stars .= '<i class="bi bi-star-half"></i>';
+            } else {
+                $stars .= '<i class="bi bi-star"></i>';
+            }
+        }
+        return $stars;
     }
 }
 
@@ -80,16 +88,12 @@ if (!function_exists('human_filesize')) {
 }
 
 if (!function_exists('format')) {
-    function format(Carbon $carbon)
+    function format(Carbon $carbon): string
     {
         #https://carbon.nesbot.com/docs/#api-comparison
         $now = Carbon::now();
-        if ($carbon->greaterThan($now->addHours(-4)))
-            return $carbon->diffForHumans();
-        else if ($carbon->dayOfYear === $now->dayOfYear) {
+        if ($carbon->greaterThan($now->addHours(-4))) return $carbon->diffForHumans(); else if ($carbon->dayOfYear === $now->dayOfYear) {
             return __('Today at') . ' ' . $carbon->format('H:m');
-        } else if ($carbon->dayOfYear == Carbon::yesterday()->dayOfYear) {
-            return __('Yesterday at') . ' ' . $carbon->format('H:m');
         }
         return $carbon->format('d M. Y');
     }

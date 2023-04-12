@@ -19,13 +19,34 @@
                                 </div>
                                 <div class="ms-sm-4">
                                     <h1 class="fw-bold fs-5 mb-0">{{ $resource->name }}</h1>
-                                    <p>{{ $resource->tag }}</p>
+                                    <p class="fs-7">{{ $resource->tag }}</p>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-xl-2 offset-lg-1">
-                                <a href="{{  url('resources.buy') }}" class="btn btn-primary w-100 rounded-0">TÉLÉCHARGER<span
-                                        class="fs-7 fw-light d-block">809.6 KB .jar</span></a>
-                            </div>
+                            @auth()
+                                @if (user()->hasAccess($resource))
+                                    <div class="col-lg-3 col-xl-2 offset-lg-1">
+                                        <a href="{{  $resource->link('download') }}"
+                                           class="btn btn-primary w-100 rounded-0">{{ __('resources.download.button') }}
+                                            <span class="fs-9 fw-light d-block">{{ human_filesize($resource->version->file->file_size) }} .{{ $resource->version->file->file_extension }}</span>
+                                        </a>
+                                    </div>
+                                @else
+                                    <div class="col-lg-3 col-xl-2 offset-lg-1">
+                                        <div
+                                            class="btn btn-primary w-100 rounded-0">{{ __('resources.download.button') }}
+                                            <span class="fs-9 fw-light d-block">{{ human_filesize($resource->version->file->file_size) }} .{{ $resource->version->file->file_extension }}</span>
+                                        </div>
+                                    </div>
+                                @endif
+                            @endauth
+                            @guest
+                                <div class="col-lg-3 col-xl-2 offset-lg-1">
+                                    <div
+                                        class="btn btn-primary w-100 rounded-0 disabled cursor-disabled">{{ __('resources.download.button') }}
+                                        <span class="fs-9 fw-light d-block">{{ human_filesize($resource->version->file->file_size) }} .{{ $resource->version->file->file_extension }}</span>
+                                    </div>
+                                </div>
+                            @endguest
                         </div>
                     </div>
                 </div>
@@ -63,15 +84,17 @@
                                    aria-controls="discussions-tab-pane" aria-selected="false">Discussions
                                 </a>
                             </li>
-                            @if ($resource->isModerator())
-                                <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="buyers-tab" data-bs-toggle="tab"
-                                       data-bs-target="#buyers-tab-pane" type="button" role="tab"
-                                       aria-controls="buyers-tab-pane"
-                                       aria-selected="false">{{ __('resources.buyers') }}
-                                    </a>
-                                </li>
-                            @endif
+                            @auth()
+                                @if ($resource->isModerator())
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link" id="buyers-tab" data-bs-toggle="tab"
+                                           data-bs-target="#buyers-tab-pane" type="button" role="tab"
+                                           aria-controls="buyers-tab-pane"
+                                           aria-selected="false">{{ __('resources.buyers') }}
+                                        </a>
+                                    </li>
+                                @endif
+                            @endauth
                         </ul>
                         <div class="tab-content" id="myTabContent">
                             <div class="bg-blue-800 p-4 show active">
@@ -101,13 +124,16 @@
                                             {{ __('messages.bstats.players') }}
                                             <div id="bstats-players"
                                                  data-url="{{ route('api.v1.bstats.stats', ['id' => $resource->bstats_id, 'chart' => 'servers']) }}">
-                                                <div class="spinner-border spinner-border-sm" role="status"><span class="visually-hidden">Loading...</span></div>
+                                                <div class="spinner-border spinner-border-sm" role="status"><span
+                                                        class="visually-hidden">Loading...</span></div>
                                             </div>
                                         </li>
                                         <li class="d-flex justify-content-between align-items-center">
-                                            {{ __('messages.bstats.servers') }} <div id="bstats-servers"
-                                                                                      data-url="{{ route('api.v1.bstats.stats', ['id' => $resource->bstats_id, 'chart' => 'players']) }}">
-                                                <div class="spinner-border spinner-border-sm" role="status"><span class="visually-hidden">Loading...</span></div>
+                                            {{ __('messages.bstats.servers') }}
+                                            <div id="bstats-servers"
+                                                 data-url="{{ route('api.v1.bstats.stats', ['id' => $resource->bstats_id, 'chart' => 'players']) }}">
+                                                <div class="spinner-border spinner-border-sm" role="status"><span
+                                                        class="visually-hidden">Loading...</span></div>
                                             </div>
                                         </li>
                                         <li class="d-flex justify-content-end align-items-center">
@@ -144,9 +170,12 @@
                                     <li class="d-flex justify-content-between align-items-center mt-4">
                                         {{ __('resources.review-all-time') }}
                                         <span>
-                                            <span class="text-warning">
-                                                {!! $resource->reviewScore() !!}
-                                            </span>
+                                            @auth
+                                                @include('elements.stars', ['percentage' => $resource->startPercentage()])
+                                            @endauth
+                                            @guest
+                                                @include('elements.stars-static', ['percentage' => $resource->startPercentage()])
+                                            @endguest
                                             <br>
                                             <span
                                                 class="text-muted fst-italic">({{ $resource->countReviews() }} {{ __('messages.reviews') }})</span>
@@ -172,9 +201,12 @@
                                     <li class="d-flex justify-content-between align-items-center mt-4">
                                         {{ __('resources.review-current') }}
                                         <span>
-                                            <span class="text-warning">
-                                                {!! $resource->reviewScore() !!}
-                                            </span>
+                                            @auth
+                                                @include('elements.stars', ['percentage' => $resource->version->startPercentage()])
+                                            @endauth
+                                            @guest
+                                                @include('elements.stars-static', ['percentage' => $resource->version->startPercentage()])
+                                            @endguest
                                         <br>
                                         <span
                                             class="text-muted fst-italic">({{ $resource->countReviews() }} {{ __('messages.reviews') }})</span>
@@ -183,19 +215,25 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="card mb-3 rounded-0">
-                            <div class="card-body">
-                                <h2 class="text-center fs-6 fw-bold mb-3">{{ __('resources.tools') }}</h2>
-                                <a href="{{ url('resources.edit', 1) }}"
-                                   class="text-decoration-none d-block">{{ __('resources.edit.content') }}</a>
-                                <a href="#" class="text-decoration-none d-block">{{ __('resources.edit.icon') }}</a>
-                                <a href="{{ url('resources.update-ressource', 1) }}"
-                                   class="text-decoration-none d-block">{{ __('resources.edit.update') }}</a>
-                            </div>
-                        </div>
+                        @auth()
+                            @if ($resource->isModerator())
+                                <div class="card mb-3 rounded-0">
+                                    <div class="card-body">
+                                        <h2 class="text-center fs-6 fw-bold mb-3">{{ __('resources.tools') }}</h2>
+                                        <a href="{{ url('resources.edit', 1) }}"
+                                           class="text-decoration-none d-block">{{ __('resources.edit.content') }}</a>
+                                        <a href="#"
+                                           class="text-decoration-none d-block">{{ __('resources.edit.icon') }}</a>
+                                        <a href="{{ url('resources.update-ressource', 1) }}"
+                                           class="text-decoration-none d-block">{{ __('resources.edit.update') }}</a>
+                                    </div>
+                                </div>
+                            @endif
+                        @endauth
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    @include('elements.review')
 @endsection
