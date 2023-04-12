@@ -55,42 +55,31 @@
                         <ul class="nav nav-tabs justify-content-lg-between flex-wrap flex-lg-nowrap" id="myTabResources"
                             role="tablist">
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link active" id="overview-tab" data-bs-toggle="tab"
-                                   data-bs-target="#overview-tab-pane" type="button" role="tab"
-                                   aria-controls="home-tab-pane" aria-selected="true">Aperçu
+                                <a class="nav-link @if(isRoute('resources.view')) active @endif" id="overview-tab" href="{{ $resource->link('description') }}">{{ __('resources.overview') }}
                                 </a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link" id="update-tab" data-bs-toggle="tab"
-                                   data-bs-target="#update-tab-pane" type="button" role="tab"
-                                   aria-controls="update-tab-pane" aria-selected="false">Mise à jour (43)
+                                <a class="nav-link @if(isRoute('resources.updates')) active @endif" id="update-tab" href="{{ $resource->link('updates') }}">{{ __('resources.update.title') }} ({{ $resource->countUpdates() }})
                                 </a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link" id="notice-tab" data-bs-toggle="tab"
-                                   data-bs-target="#notice-tab-pane" type="button" role="tab"
-                                   aria-controls="notice-tab-pane" aria-selected="false">Avis (17)
+                                <a class="nav-link @if(isRoute('resources.reviews')) active @endif" id="notice-tab" href="{{ $resource->link('reviews') }}">{{ __('resources.reviews.title') }} ({{ $resource->countReviews() }})
                                 </a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link" id="history-tab" data-bs-toggle="tab"
-                                   data-bs-target="#history-tab-pane" type="button" role="tab"
-                                   aria-controls="history-tab-pane" aria-selected="false">Historique
+                                <a class="nav-link @if(isRoute('resources.versions')) active @endif" id="history-tab" href="{{ $resource->link('versions') }}">{{ __('resources.versions.title') }}
                                 </a>
                             </li>
-                            <li class="nav-item" role="presentation">
+                            <!--<li class="nav-item" role="presentation">
                                 <a class="nav-link" id="discussions-tab" data-bs-toggle="tab"
                                    data-bs-target="#discussions-tab-pane" type="button" role="tab"
                                    aria-controls="discussions-tab-pane" aria-selected="false">Discussions
                                 </a>
-                            </li>
+                            </li>-->
                             @auth()
                                 @if ($resource->isModerator())
                                     <li class="nav-item" role="presentation">
-                                        <a class="nav-link" id="buyers-tab" data-bs-toggle="tab"
-                                           data-bs-target="#buyers-tab-pane" type="button" role="tab"
-                                           aria-controls="buyers-tab-pane"
-                                           aria-selected="false">{{ __('resources.buyers') }}
+                                        <a class="nav-link @if(isRoute('resources.buyers')) active @endif" id="buyers-tab" href="{{ $resource->link('buyers') }}">{{ __('resources.buyers.title') }}
                                         </a>
                                     </li>
                                 @endif

@@ -78,16 +78,6 @@ class Resource extends Model
         return $this->belongsTo(Category::class);
     }
 
-    /**
-     * Versions
-     *
-     * @return HasMany
-     */
-    public function versions(): HasMany
-    {
-        return $this->hasMany(Version::class);
-    }
-
     public function countReviews()
     {
         return Cache::remember("count.review::$this->id", 3600, function () {
@@ -143,6 +133,28 @@ class Resource extends Model
     }
 
     /**
+     * The number of versions
+     *
+     * @return mixed
+     */
+    public function countUpdates(): mixed
+    {
+        return Cache::remember("count.versions::$this->id", 86400, function () {
+            return $this->versions()->count();
+        });
+    }
+
+    /**
+     * Versions
+     *
+     * @return HasMany
+     */
+    public function versions(): HasMany
+    {
+        return $this->hasMany(Version::class);
+    }
+
+    /**
      * Clear cache
      *
      * count.download
@@ -150,6 +162,7 @@ class Resource extends Model
      * count.review
      * count.score.version
      * count.review.version
+     * count.versions
      *
      * @param string $key
      * @return void
@@ -170,8 +183,22 @@ class Resource extends Model
         return match ($key) {
             "description" => route('resources.view', ['slug' => Str::slug($this->name), 'resource' => $this->id]),
             "download" => route('resources.download', ['resource' => $this->id, 'version' => $this->version_id]),
+            "updates" => route('resources.updates', ['slug' => Str::slug($this->name), 'resource' => $this->id]),
+            "reviews" => route('resources.reviews', ['slug' => Str::slug($this->name), 'resource' => $this->id]),
+            "buyers" => route('resources.buyers', ['slug' => Str::slug($this->name), 'resource' => $this->id]),
+            "versions" => route('resources.versions', ['slug' => Str::slug($this->name), 'resource' => $this->id]),
             default => "",
         };
+    }
+
+    /**
+     * resource name as slug
+     *
+     * @return string
+     */
+    public function slug(): string
+    {
+        return Str::slug($this->name);
     }
 
     /**

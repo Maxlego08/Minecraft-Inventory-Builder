@@ -98,3 +98,10 @@ if (!function_exists('format')) {
         return $carbon->format('d M. Y');
     }
 }
+
+if (!function_exists('isRoute')) {
+    function isRoute(string ...$patterns)
+    {
+        return Route::currentRouteNamed(...$patterns) ? '-active' : '';
+    }
+}

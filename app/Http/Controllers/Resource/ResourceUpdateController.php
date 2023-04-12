@@ -8,9 +8,10 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
-class ResourceViewController extends Controller
+class ResourceUpdateController extends Controller
 {
     /**
      * Show a resource
@@ -21,8 +22,8 @@ class ResourceViewController extends Controller
      */
     public function index(string $slug, Resource $resource): \Illuminate\Contracts\Foundation\Application|Factory|View|Application|RedirectResponse
     {
-        if ($slug != $resource->slug()) return Redirect::route('resources.view', ['resource' => $resource->id, 'slug' => $resource->slug()]);
-        return view('resources.show', ['resource' => $resource,]);
+        if ($slug != $resource->slug()) return Redirect::route('resources.updates', ['resource' => $resource->id, 'slug' => $resource->slug()]);
+        return view('resources.pages.update', ['resource' => $resource,]);
     }
 
     /**
@@ -31,6 +32,6 @@ class ResourceViewController extends Controller
      */
     public function indexById(Resource $resource): RedirectResponse
     {
-        return Redirect::route('resources.view', ['resource' => $resource->id, 'slug' => $resource->slug()]);
+        return Redirect::route('resources.updates', ['resource' => $resource->id, 'slug' => $resource->slug()]);
     }
 }

@@ -5,10 +5,13 @@ use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Resource\ResourceAuthorController;
+use App\Http\Controllers\Resource\ResourceBuyerController;
 use App\Http\Controllers\Resource\ResourceCreateController;
 use App\Http\Controllers\Resource\ResourceDownloadController;
 use App\Http\Controllers\Resource\ResourceIndexController;
 use App\Http\Controllers\Resource\ResourceReviewController;
+use App\Http\Controllers\Resource\ResourceUpdateController;
+use App\Http\Controllers\Resource\ResourceVersionController;
 use App\Http\Controllers\Resource\ResourceViewController;
 use Illuminate\Support\Facades\Route;
 
@@ -78,7 +81,20 @@ Route::prefix('resources')->name('resources.')->group(function () {
 
         Route::get('download/{resource}/{version}', [ResourceDownloadController::class, 'download'])->name('download');
         Route::post('review/{resource}', [ResourceReviewController::class, 'store'])->name('review.store');
+        Route::post('review/{review}/delete', [ResourceReviewController::class, 'deleteReview'])->name('review.delete');
     });
+
+    Route::get('/{slug}.{resource}/updates', [ResourceUpdateController::class, 'index'])->name('updates');
+    Route::get('/{resource}/updates', [ResourceUpdateController::class, 'indexById'])->name('updates.id');
+
+    Route::get('/{slug}.{resource}/reviews', [ResourceReviewController::class, 'index'])->name('reviews');
+    Route::get('/{resource}/reviews', [ResourceReviewController::class, 'indexById'])->name('reviews.id');
+
+    Route::get('/{slug}.{resource}/versions', [ResourceVersionController::class, 'index'])->name('versions');
+    Route::get('/{resource}/versions', [ResourceVersionController::class, 'indexById'])->name('versions.id');
+
+    Route::get('/{slug}.{resource}/buyers', [ResourceBuyerController::class, 'index'])->name('buyers');
+    Route::get('/{resource}/buyers', [ResourceBuyerController::class, 'indexById'])->name('buyers.id');
 
     Route::get('/{slug}.{resource}', [ResourceViewController::class, 'index'])->name('view');
     Route::get('/{resource}', [ResourceViewController::class, 'indexById'])->name('view.id');

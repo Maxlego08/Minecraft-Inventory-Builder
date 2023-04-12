@@ -16,11 +16,11 @@ class ResourceAuthorController extends Controller
     /**
      * Show index page
      *
-     * @param string $tag
+     * @param string $slug
      * @param User $user
      * @return View|\Illuminate\Foundation\Application|Factory|Application
      */
-    public function index(string $tag, User $user): View|\Illuminate\Foundation\Application|Factory|Application
+    public function index(string $slug, User $user): View|\Illuminate\Foundation\Application|Factory|Application
     {
         return view('resources.pages.author', [
             'user' => $user,

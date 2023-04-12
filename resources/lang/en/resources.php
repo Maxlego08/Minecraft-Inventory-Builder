@@ -5,13 +5,13 @@ return [
     'description' => 'Sell or upload your resources around zMenu',
     'add' => 'Add resource',
     'review' => 'ratings',
-    'buyers' => 'Buyers',
     'informations' => 'Informations',
     'review-all-time' => 'All-Time Rating',
     'review-current' => 'Version Rating',
     'tools' => 'Resource Tools',
     'review-send' => 'Submit Rating',
     'rate' => 'Rate This Resource',
+    'overview' => 'Overview',
     'edit' => [
         'icon' => 'Edit Resource Icon',
         'content' => 'Edit Resource',
@@ -127,6 +127,8 @@ return [
     ],
     'reviews' => [
         'info' => 'Your review must be at least 30 characters.',
+        'title' => 'Reviews',
+        'author' => 'Author',
         'errors' => [
             'download' => [
                 'title' => 'You can\'t review !',
@@ -149,5 +151,15 @@ return [
             'title' => 'You just leave a review',
             'content' => 'Thank you for taking the time to put a note to this resource.',
         ],
+    ],
+    'update' => [
+        'title' => 'Updates',
+    ],
+    'versions' => [
+        'title' => 'Version History',
+        'version' => 'Version',
+    ],
+    'buyers' => [
+        'title' => 'Buyers',
     ],
 ];

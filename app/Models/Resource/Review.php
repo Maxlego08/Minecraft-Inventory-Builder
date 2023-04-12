@@ -3,13 +3,21 @@
 namespace App\Models\Resource;
 
 use App\Models\User;
+use App\Traits\ReviewStarts;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $id
+ * @property int $score
+ * @property Resource $resource
+ * @property Version $version
+ * @property User $user
+ */
 class Review extends Model
 {
-    use HasFactory;
+    use HasFactory, ReviewStarts;
 
     protected $table = "resource_reviews";
 
@@ -31,5 +39,15 @@ class Review extends Model
     public function version(): BelongsTo
     {
         return $this->belongsTo(Version::class, 'version_id');
+    }
+
+    /**
+     * Display the rating stars
+     *
+     * @return string
+     */
+    public function reviewScore(): string
+    {
+        return $this->reviewScores($this->score);
     }
 }

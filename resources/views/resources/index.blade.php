@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('title', 'Resources')
+@section('title', "$resource->name | Overview")
 
 @section('app')
     <div class="content_resources_add py-5 mb-5">
