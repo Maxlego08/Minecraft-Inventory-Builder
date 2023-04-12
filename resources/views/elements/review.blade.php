@@ -21,10 +21,10 @@
                     <small>{{ __('resources.reviews.info') }}</small>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary rounded-0 d-block"
+                    <button type="button" class="btn btn-secondary rounded-0 d-block btn-sm"
                             data-bs-dismiss="modal">{{ __('messages.close') }}</button>
                     <button type="submit" id="rate-submit"
-                            class="btn btn-primary rounded-0 d-block disabled">{{ __('resources.review-send') }}</button>
+                            class="btn btn-primary rounded-0 d-block disabled btn-sm">{{ __('resources.review-send') }}</button>
                 </div>
             </form>
         </div>

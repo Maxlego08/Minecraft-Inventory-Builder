@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $id
+ * @property int $user_id
  * @property int $score
  * @property Resource $resource
  * @property Version $version
@@ -49,5 +50,11 @@ class Review extends Model
     public function reviewScore(): string
     {
         return $this->reviewScores($this->score);
+    }
+
+    public function isModerator(): bool
+    {
+        $user = user();
+        return $user->role->isModerator() || $user->id === $this->user_id;
     }
 }

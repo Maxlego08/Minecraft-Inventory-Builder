@@ -129,6 +129,11 @@ return [
         'info' => 'Your review must be at least 30 characters.',
         'title' => 'Reviews',
         'author' => 'Author',
+        'reply' => [
+            'message' => 'Reply',
+            'title' => 'Reply to Review',
+            'content' => 'You just answered this review',
+        ],
         'errors' => [
             'download' => [
                 'title' => 'You can\'t review !',
@@ -150,6 +155,10 @@ return [
         'success' => [
             'title' => 'You just leave a review',
             'content' => 'Thank you for taking the time to put a note to this resource.',
+        ],
+        'response' => [
+            'title' => 'Success',
+            'content' => 'You just delete your response.',
         ],
     ],
     'update' => [

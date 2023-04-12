@@ -82,6 +82,8 @@ Route::prefix('resources')->name('resources.')->group(function () {
         Route::get('download/{resource}/{version}', [ResourceDownloadController::class, 'download'])->name('download');
         Route::post('review/{resource}', [ResourceReviewController::class, 'store'])->name('review.store');
         Route::post('review/{review}/delete', [ResourceReviewController::class, 'deleteReview'])->name('review.delete');
+        Route::post('review/{review}/reply', [ResourceReviewController::class, 'reply'])->name('review.reply');
+        Route::post('review/{review}/reply/delete', [ResourceReviewController::class, 'deleteResponse'])->name('review.response');
     });
 
     Route::get('/{slug}.{resource}/updates', [ResourceUpdateController::class, 'index'])->name('updates');

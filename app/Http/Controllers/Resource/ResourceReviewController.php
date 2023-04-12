@@ -93,7 +93,7 @@ class ResourceReviewController extends Controller
 
         $user = user();
         if (!$user->role->isModerator()) {
-            return Redirect::back()->with('toast', createToast('success', __('resources.reviews.success.title'), __('resources.reviews.success.content'), 5000));
+            return Redirect::back()->with('toast', createToast('error', 'Erreur !', 'Vous ne pouvez pas faire ça !', 5000));
         }
 
         $resource = $review->resource;
@@ -106,4 +106,37 @@ class ResourceReviewController extends Controller
 
         return Redirect::back()->with('toast', createToast('success', 'Action effectuée', 'Vous venez de supprimer cette review.', 5000));
     }
+
+    /**
+     * Delete a response
+     *
+     * @param Review $review
+     * @return RedirectResponse
+     */
+    public function deleteResponse(Review $review): RedirectResponse
+    {
+        $user = user();
+        if (!$user->role->isModerator() && !$review->resource->user_id != $user->id) {
+            return Redirect::back()->with('toast', createToast('error', 'Erreur !', 'Vous ne pouvez pas effectuer cette action.', 5000));
+        }
+
+        $review->update(['response' => null]);
+
+        return Redirect::back()->with('toast', createToast('success', __('resources.reviews.response.title'), __('resources.reviews.response.content'), 5000));
+    }
+
+    /**
+     * Reply
+     *
+     * @throws ValidationException
+     */
+    public function reply(Request $request, Review $review): RedirectResponse
+    {
+
+        $this->validate($request, ['message' => 'required|min:3|max:5000']);
+        $review->update(['response' => $request['message']]);
+
+        return Redirect::back()->with('toast', createToast('success', __('resources.reviews.reply.title'), __('resources.reviews.reply.content'), 5000));
+    }
+
 }

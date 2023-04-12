@@ -22,6 +22,7 @@ return [
     'version' => 'Version',
     'statistics' => 'Statistics',
     'message' => 'Message',
+    'delete' => 'Delete',
     'bstats' => [
         'players' => 'Current servers',
         'servers' => 'Current players',
