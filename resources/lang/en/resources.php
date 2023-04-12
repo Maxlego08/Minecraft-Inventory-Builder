@@ -12,6 +12,7 @@ return [
     'review-send' => 'Submit Rating',
     'rate' => 'Rate This Resource',
     'overview' => 'Overview',
+    'search' => 'Search...',
     'edit' => [
         'icon' => 'Edit Resource Icon',
         'content' => 'Edit Resource',
@@ -179,5 +180,5 @@ return [
     ],
     'category' => [
         'title' => 'Categories',
-    ]
+    ],
 ];

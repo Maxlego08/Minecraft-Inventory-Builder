@@ -1,9 +1,7 @@
 @extends('layouts.base')
 
-@section('title', 'GroupeZ')
-
 @section('app')
-    <div class="content_resources_show py-5 mb-5">
+    <div class="content_resources_show mb-5">
         <div class="container">
             <div class="px-3 px-lg-0">
                 <div class="card my-4 rounded-0">

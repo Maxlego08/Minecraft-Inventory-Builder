@@ -3,7 +3,7 @@
 @section('title', "Resources")
 
 @section('app')
-    <div class="content_resources_add py-5 mb-5">
+    <div class="content_resources_add mb-5">
         <div class="container">
             <div class="px-0 px-lg-0">
                 <div class="block_resources_add card my-4 rounded-0">

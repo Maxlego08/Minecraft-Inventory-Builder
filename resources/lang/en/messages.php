@@ -24,6 +24,10 @@ return [
     'message' => 'Message',
     'delete' => 'Delete',
     'resources' => 'Resources',
+    'documentation' => 'Documentations',
+    'premium' => 'Premium',
+    'inventory-builder' => 'Inventory Builder',
+    'home' => 'Home',
     'bstats' => [
         'players' => 'Current servers',
         'servers' => 'Current players',
