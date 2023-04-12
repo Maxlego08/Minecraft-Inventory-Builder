@@ -13,6 +13,9 @@ return [
     'rate' => 'Rate This Resource',
     'overview' => 'Overview',
     'search' => 'Search...',
+    'contributors' => 'Contributors',
+    'code' => 'Source code',
+    'support' => 'Support',
     'edit' => [
         'icon' => 'Edit Resource Icon',
         'content' => 'Edit Resource',

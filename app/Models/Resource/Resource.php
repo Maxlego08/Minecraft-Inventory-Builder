@@ -46,7 +46,14 @@ class Resource extends Model
 
     protected $table = "resource_resources";
 
-    protected $fillable = ['category_id', 'user_id', 'image_id', 'version_id', 'name', 'price', 'description', 'tag', 'is_display', 'is_pending', 'source_code_link', 'donation_link', 'discord_server_id', 'bstats_id', 'contributors', 'required_dependencies', 'optional_dependencies', 'supported_languages', 'link_information', 'link_support', 'versions', 'version_base_mc', 'lang_support'];
+    protected $fillable = ['category_id', 'user_id', 'image_id', 'version_id',
+        'name', 'price', 'description', 'tag', 'is_display',
+        'is_pending', 'source_code_link',
+        'donation_link', 'discord_server_id',
+        'bstats_id', 'contributors', 'required_dependencies',
+        'optional_dependencies', 'supported_languages',
+        'link_information', 'link_support', 'versions',
+        'version_base_mc', 'lang_support'];
 
     /**
      * The icon
