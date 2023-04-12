@@ -22,7 +22,8 @@ class ResourceViewController extends Controller
     public function index(string $slug, Resource $resource): \Illuminate\Contracts\Foundation\Application|Factory|View|Application|RedirectResponse
     {
         if ($slug != $resource->slug()) return Redirect::route('resources.view', ['resource' => $resource->id, 'slug' => $resource->slug()]);
-        return view('resources.show', ['resource' => $resource,]);
+        $reviews = $resource->reviews()->orderBy('created_at', 'desc')->limit(5)->get();
+        return view('resources.show', ['resource' => $resource, 'reviews' => $reviews]);
     }
 
     /**

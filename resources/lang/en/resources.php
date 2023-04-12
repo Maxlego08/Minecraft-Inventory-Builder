@@ -129,6 +129,9 @@ return [
         'info' => 'Your review must be at least 30 characters.',
         'title' => 'Reviews',
         'author' => 'Author',
+        'recent' => 'Recent Reviews',
+        'read-all' => 'Read all reviews',
+        'no' => 'No review for the moment.',
         'reply' => [
             'message' => 'Reply',
             'title' => 'Reply to Review',

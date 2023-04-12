@@ -55,19 +55,25 @@
                         <ul class="nav nav-tabs justify-content-lg-between flex-wrap flex-lg-nowrap" id="myTabResources"
                             role="tablist">
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link @if(isRoute('resources.view')) active @endif" id="overview-tab" href="{{ $resource->link('description') }}">{{ __('resources.overview') }}
+                                <a class="nav-link @if(isRoute('resources.view')) active @endif" id="overview-tab"
+                                   href="{{ $resource->link('description') }}">{{ __('resources.overview') }}
                                 </a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link @if(isRoute('resources.updates')) active @endif" id="update-tab" href="{{ $resource->link('updates') }}">{{ __('resources.update.title') }} ({{ $resource->countUpdates() }})
+                                <a class="nav-link @if(isRoute('resources.updates')) active @endif" id="update-tab"
+                                   href="{{ $resource->link('updates') }}">{{ __('resources.update.title') }}
+                                    ({{ $resource->countUpdates() }})
                                 </a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link @if(isRoute('resources.reviews')) active @endif" id="notice-tab" href="{{ $resource->link('reviews') }}">{{ __('resources.reviews.title') }} ({{ $resource->countReviews() }})
+                                <a class="nav-link @if(isRoute('resources.reviews')) active @endif" id="notice-tab"
+                                   href="{{ $resource->link('reviews') }}">{{ __('resources.reviews.title') }}
+                                    ({{ $resource->countReviews() }})
                                 </a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link @if(isRoute('resources.versions')) active @endif" id="history-tab" href="{{ $resource->link('versions') }}">{{ __('resources.versions.title') }}
+                                <a class="nav-link @if(isRoute('resources.versions')) active @endif" id="history-tab"
+                                   href="{{ $resource->link('versions') }}">{{ __('resources.versions.title') }}
                                 </a>
                             </li>
                             <!--<li class="nav-item" role="presentation">
@@ -79,16 +85,16 @@
                             @auth()
                                 @if ($resource->isModerator())
                                     <li class="nav-item" role="presentation">
-                                        <a class="nav-link @if(isRoute('resources.buyers')) active @endif" id="buyers-tab" href="{{ $resource->link('buyers') }}">{{ __('resources.buyers.title') }}
+                                        <a class="nav-link @if(isRoute('resources.buyers')) active @endif"
+                                           id="buyers-tab"
+                                           href="{{ $resource->link('buyers') }}">{{ __('resources.buyers.title') }}
                                         </a>
                                     </li>
                                 @endif
                             @endauth
                         </ul>
                         <div class="tab-content" id="myTabContent">
-                            <div class="bg-blue-800 p-4 show active">
-                                @yield('resource')
-                            </div>
+                            @yield('resource')
                         </div>
                     </div>
                     <div class="col-lg-3 mt-3 mt-lg-0">
