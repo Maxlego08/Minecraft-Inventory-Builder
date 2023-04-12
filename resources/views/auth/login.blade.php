@@ -6,13 +6,13 @@
     <div class="content_resources_show py-5 mb-5">
         <div class="px-3 px-lg-0">
             <div class="container">
-                <div class="card mb-3 rounded-0">
+                <div class="card mb-3 rounded-1">
                     <div class="card-body">
                         <h1 class="fw-bold fs-5 mb-0">{{ __('auth.login.title') }}</h1>
                     </div>
                 </div>
 
-                <div class="card rounded-0">
+                <div class="card rounded-1">
                     <div class="card-body">
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
@@ -20,7 +20,7 @@
                                 <div class="col-lg-8">
                                     <div class="mb-3">
                                         <label for="email" class="form-label">{{ __('messages.email') }}</label>
-                                        <input type="email" class="form-control rounded-0 @error('email') is-invalid @enderror" id="email" name="email">
+                                        <input type="email" class="form-control rounded-1 @error('email') is-invalid @enderror" id="email" name="email">
                                         @error('email')
                                         <div id="password-error"
                                              class="invalid-feedback">{{ $message }}</div>
@@ -29,7 +29,7 @@
                                     <div class="mb-3">
                                         <label for="password" class="form-label">{{ __('messages.password') }}</label>
                                         <input type="password"
-                                               class="form-control rounded-0 @error('password') is-invalid @enderror" id="password"
+                                               class="form-control rounded-1 @error('password') is-invalid @enderror" id="password"
                                                name="password">
                                         @error('password')
                                         <div id="password-error"
@@ -44,7 +44,7 @@
                                         </label>
                                     </div>
                                     <button type="submit"
-                                            class="btn btn-primary rounded-0 d-block w-100">{{ __('Login') }}</button>
+                                            class="btn btn-primary rounded-1 d-block w-100">{{ __('Login') }}</button>
                                 </div>
                             </div>
                         </form>

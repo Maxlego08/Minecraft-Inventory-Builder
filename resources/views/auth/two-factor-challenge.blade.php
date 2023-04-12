@@ -6,7 +6,7 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
-                        <div class="card rounded-0">
+                        <div class="card rounded-1">
                             <div class="card-body">
                                 <h2>{{ __('profiles.two_factor.title') }}</h2>
                                 <form method="POST" action="{{ url('/two-factor-challenge') }}">
@@ -22,7 +22,7 @@
 
                                     <div class="mt-3 mb-4">
                                         <label for="code">{{ __('Code') }}</label>
-                                        <input type="text" name="code" class="form-control rounded-0 @error('code') is-invalid @enderror" autofocus
+                                        <input type="text" name="code" class="form-control rounded-1 @error('code') is-invalid @enderror" autofocus
                                                autocomplete="one-time-code" id="code"/>
                                         @error('code')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -35,7 +35,7 @@
 
                                     <div class="mt-3">
                                         <label for="recovery_code">{{ __('Recovery Code') }}</label>
-                                        <input type="text" name="recovery_code" class="form-control rounded-0 @error('recovery_code') is-invalid @enderror"
+                                        <input type="text" name="recovery_code" class="form-control rounded-1 @error('recovery_code') is-invalid @enderror"
                                                autocomplete="one-time-code" id="recovery_code"/>
                                         @error('recovery_code')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -43,7 +43,7 @@
                                     </div>
 
                                     <div class="mt-3 d-flex justify-content-center">
-                                        <button type="submit" class="btn btn-primary btn-sm rounded-0 d-block w-100 mt-2">
+                                        <button type="submit" class="btn btn-primary btn-sm rounded-1 d-block w-100 mt-2">
                                             {{ __('auth.login.title') }}
                                         </button>
                                     </div>

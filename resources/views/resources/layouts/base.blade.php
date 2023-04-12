@@ -4,7 +4,7 @@
     <div class="content_resources_show mb-5">
         <div class="container">
             <div class="px-3 px-lg-0">
-                <div class="card my-4 rounded-0">
+                <div class="card my-4 rounded-1">
                     <div class="card-body">
                         <div class="row align-items-center justify-content-between">
                             <div class="col-lg-7 col-xl-9 d-flex align-items-center flex-wrap flex-sm-nowrap">
@@ -24,14 +24,14 @@
                                 @if (user()->hasAccess($resource))
                                     <div class="col-lg-3 col-xl-2 offset-lg-1">
                                         <a href="{{  $resource->link('download') }}"
-                                           class="btn btn-primary w-100 rounded-0">{{ __('resources.download.button') }}
+                                           class="btn btn-primary w-100 rounded-1">{{ __('resources.download.button') }}
                                             <span class="fs-9 fw-light d-block">{{ human_filesize($resource->version->file->file_size) }} .{{ $resource->version->file->file_extension }}</span>
                                         </a>
                                     </div>
                                 @else
                                     <div class="col-lg-3 col-xl-2 offset-lg-1">
                                         <div
-                                            class="btn btn-primary w-100 rounded-0">{{ __('resources.download.button') }}
+                                            class="btn btn-primary w-100 rounded-1">{{ __('resources.download.button') }}
                                             <span class="fs-9 fw-light d-block">{{ human_filesize($resource->version->file->file_size) }} .{{ $resource->version->file->file_extension }}</span>
                                         </div>
                                     </div>
@@ -40,7 +40,7 @@
                             @guest
                                 <div class="col-lg-3 col-xl-2 offset-lg-1">
                                     <div
-                                        class="btn btn-primary w-100 rounded-0 disabled cursor-disabled">{{ __('resources.download.button') }}
+                                        class="btn btn-primary w-100 rounded-1 disabled cursor-disabled">{{ __('resources.download.button') }}
                                         <span class="fs-9 fw-light d-block">{{ human_filesize($resource->version->file->file_size) }} .{{ $resource->version->file->file_extension }}</span>
                                     </div>
                                 </div>
@@ -98,7 +98,7 @@
                     <div class="col-lg-3 mt-3 mt-lg-0">
 
                         @if($resource->discord_server_id != null)
-                            <div class="card mb-3 rounded-0">
+                            <div class="card mb-3 rounded-1">
                                 <div class="card-body">
                                     <a href="#" id="discord_server_id" target="_blank"
                                        data-url="{{ route('api.v1.discord.information', ['server_id' => $resource->discord_server_id]) }}">
@@ -109,7 +109,7 @@
                         @endif
 
                         @if($resource->bstats_id != null)
-                            <div class="card mb-3 rounded-0">
+                            <div class="card mb-3 rounded-1">
                                 <div class="card-body">
                                     <h2 class="text-center fs-6 fw-bold mb-3">{{ __('messages.statistics') }}</h2>
                                     <ul class="list-group">
@@ -138,7 +138,7 @@
                             </div>
                         @endif
 
-                        <div class="card mb-3 rounded-0">
+                        <div class="card mb-3 rounded-1">
                             <div class="card-body">
                                 <h2 class="text-center fs-6 fw-bold mb-3">{{ __('resources.informations') }}</h2>
                                 <ul class="list-group">
@@ -177,7 +177,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="card mb-3 rounded-0">
+                        <div class="card mb-3 rounded-1">
                             <div class="card-body">
                                 <h2 class="text-center fs-6 fw-bold mb-3">{{ __('messages.version') }} {{ $resource->version->version }}</h2>
                                 <ul class="list-group">
@@ -210,7 +210,7 @@
                         </div>
                         @auth()
                             @if ($resource->isModerator())
-                                <div class="card mb-3 rounded-0">
+                                <div class="card mb-3 rounded-1">
                                     <div class="card-body">
                                         <h2 class="text-center fs-6 fw-bold mb-3">{{ __('resources.tools') }}</h2>
                                         <a href="{{ url('resources.edit', 1) }}"

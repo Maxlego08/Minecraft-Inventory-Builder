@@ -45,7 +45,7 @@
             <span class="fs-5">{{ __('resources.reviews.recent') }}</span>
         </div>
         @if (sizeof($reviews) == 0)
-            <div class="alert alert-danger rounded-0" role="alert">{{ __('resources.reviews.no') }}</div>
+            <div class="alert alert-danger rounded-1" role="alert">{{ __('resources.reviews.no') }}</div>
         @else
             @foreach ($reviews as $review)
                 @include('resources.elements.review', ['review' => $review])

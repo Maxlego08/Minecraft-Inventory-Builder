@@ -6,7 +6,7 @@
     <div class="content_resources_add mb-5">
         <div class="container">
             <div class="px-0 px-lg-0">
-                <div class="block_resources_add card my-4 rounded-0">
+                <div class="block_resources_add card my-4 rounded-1">
                     <div class="card-body px-4">
                         <div class="row align-items-center">
                             <div class="col-lg-7">
@@ -15,7 +15,7 @@
                             </div>
                             <div class="col-lg-4 offset-lg-1">
                                 <a href="{{route('resources.create.index')}}"
-                                   class="btn btn-primary btn-sm rounded-0 d-flex align-items-center justify-content-center"><i
+                                   class="btn btn-primary btn-sm rounded-1 d-flex align-items-center justify-content-center"><i
                                         class="bi bi-plus-lg me-2 fs-6"></i>{{ __('resources.add') }}</a>
                             </div>
                         </div>

@@ -1,5 +1,5 @@
 <div class="mb-2">
-    <div class="card rounded-0 bg-blue-700">
+    <div class="card rounded-1 bg-blue-700">
         <div class="card-body p-2">
             <div class="d-flex flex-wrap flex-sm-nowrap">
                 <a href="{{ $review->user->authorPage() }}" title="{{ $review->user->name }} profile"
@@ -88,7 +88,7 @@
                                                 <label for="message"
                                                        class="col-form-label">{{ __('messages.message') }}
                                                     :</label>
-                                                <textarea class="form-control rounded-0" style="resize: none;"
+                                                <textarea class="form-control rounded-1" style="resize: none;"
                                                           rows="5" minlength="3"
                                                           id="message" name="message"></textarea>
                                                 @error('message')
@@ -98,12 +98,12 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary rounded-0 btn-sm"
+                                            <button type="button" class="btn btn-secondary rounded-1 btn-sm"
                                                     data-bs-dismiss="modal">
                                                 {{ __('messages.close') }}
                                             </button>
                                             <button type="submit"
-                                                    class="btn btn-primary rounded-0 btn-sm">{{ __('resources.reviews.reply.title') }}</button>
+                                                    class="btn btn-primary rounded-1 btn-sm">{{ __('resources.reviews.reply.title') }}</button>
                                         </div>
                                     </form>
                                 </div>

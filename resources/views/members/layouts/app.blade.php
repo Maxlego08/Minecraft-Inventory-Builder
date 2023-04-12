@@ -7,7 +7,7 @@
             <div class="container">
                 <div class="main-row-2">
                     <div class="main-col-1">
-                        <div class="rounded-0 card">
+                        <div class="rounded-1 card">
                             <div class="card-header d-flex justify-content-center align-items-center">
 
                                 <img src="{{ user()->getProfilePhotoUrlAttribute() }}" height="50" width="50"

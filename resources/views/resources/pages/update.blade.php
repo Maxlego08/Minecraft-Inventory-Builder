@@ -5,7 +5,7 @@
 @section('resource')
     <div class="bg-blue-800 p-4 show active">
         @for ($i = 0; $i < 3; $i++)
-            <div class="card mb-4 rounded-0 bg-blue-700">
+            <div class="card mb-4 rounded-1 bg-blue-700">
                 <div class="card-body">
                     <a href="#" class="fs-5 mb-3 d-block" title="Mise à jour #3">Mise à jour #3 - Bug fixes
                         v15.356.2</a>

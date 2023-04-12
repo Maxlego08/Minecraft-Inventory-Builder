@@ -16,10 +16,10 @@
         <a href="{{ route('profile.conversations.index') }}">{{ __('alerts.show') }}</a>
     </span>
     <div class="px-3 w-100 py-2">
-        <ul class="list-group py-2 list-d rounded-0" id="messages">
+        <ul class="list-group py-2 list-d rounded-1" id="messages">
             @if($messageCount > 0)
                 {{--
-                <li class="list-group-item list-group-item-light fs-7 rounded-0 mt-1 p-1">
+                <li class="list-group-item list-group-item-light fs-7 rounded-1 mt-1 p-1">
                     <div class="d-flex">
                         <a href="" title="User link">
                             <img src="http://mib.test/storage/profile-photos/8N9YUmZ5u5R3g1Ys9A5Mw8cENsQHejzquSlu59Ty.png"

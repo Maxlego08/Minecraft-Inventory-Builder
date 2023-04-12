@@ -7,7 +7,7 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
-                        <div class="card rounded-0">
+                        <div class="card rounded-1">
                             <div class="card-body">
 
                                 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -18,7 +18,7 @@
                                 </svg>
 
                                 @error('email')
-                                <div class="alert alert-success d-flex align-items-center rounded-0" role="alert">
+                                <div class="alert alert-success d-flex align-items-center rounded-1" role="alert">
                                     <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
                                          aria-label="Success:">
                                         <use xlink:href="#check-circle-fill"/>
@@ -29,7 +29,7 @@
                                 </div>
                                 @enderror
                                 @if (session('status'))
-                                    <div class="alert alert-success d-flex align-items-center rounded-0" role="alert">
+                                    <div class="alert alert-success d-flex align-items-center rounded-1" role="alert">
                                         <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
                                              aria-label="Success:">
                                             <use xlink:href="#check-circle-fill"/>
@@ -48,13 +48,13 @@
                                     <div class="mt-3">
                                         <label for="email">{{ __('Email') }}</label>
                                         <input type="email" id="email" name="email" value="{{ old('email') }}"
-                                               class="form-control rounded-0"
+                                               class="form-control rounded-1"
                                                required autofocus/>
                                     </div>
 
                                     <div class="mt-3 d-flex justify-content-center">
                                         <button type="submit"
-                                                class="btn btn-success btn-sm rounded-0 d-block w-100 mt-2">
+                                                class="btn btn-success btn-sm rounded-1 d-block w-100 mt-2">
                                             {{ __('auth.forgot.link') }}
                                         </button>
                                     </div>
