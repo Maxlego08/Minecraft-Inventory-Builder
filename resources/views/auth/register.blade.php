@@ -22,11 +22,11 @@
                             <div class="row justify-content-center">
                                 <div class="col-lg-8">
                                     <div class="mb-3">
-                                        <label for="name" class="form-label">{{ __('Name') }}</label>
+                                        <label for="name" class="form-label">{{ __('Username') }}</label>
                                         <input type="text"
                                                class="form-control rounded-0 @error('name') is-invalid @enderror"
                                                id="name" name="name" value="{{ old('name') }}" required
-                                               autocomplete="name" autofocus>
+                                               autocomplete="username" autofocus>
                                         @error('name')
                                         <div id="password-error" class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -45,7 +45,7 @@
                                         <label for="password" class="form-label">{{ __('Password') }}</label>
                                         <input type="password"
                                                class="form-control rounded-0 @error('password') is-invalid @enderror"
-                                               id="password" name="password" required autocomplete="new-password">
+                                               id="password" name="password" required autocomplete="password">
                                         @error('password')
                                         <div id="password-error" class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -56,7 +56,7 @@
                                         <input type="password"
                                                class="form-control rounded-0 @error('password_confirmation') is-invalid @enderror"
                                                id="password_confirmation" name="password_confirmation" required
-                                               autocomplete="new-password">
+                                               autocomplete="password">
                                         @error('password_confirmation')
                                         <div id="password-error" class="invalid-feedback">{{ $message }}</div>
                                         @enderror

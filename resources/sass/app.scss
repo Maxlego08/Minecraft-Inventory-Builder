@@ -13,3 +13,25 @@ $font-path: './fonts/';
 @import "components/content-components";
 @import "vars";
 @import "editor/editor";
+
+.nav-tabs .nav-item a {
+    background-color: #13132a;
+    width: 100%;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.fs-8 {
+    font-size: 0.750rem !important;
+}
+
+.fs-9 {
+    font-size: 0.600rem !important;
+}
+
+.cursor-disabled {
+    cursor: not-allowed !important;
+    pointer-events: unset !important;
+}
+
+

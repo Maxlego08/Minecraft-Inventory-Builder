@@ -48,5 +48,3 @@
     @endfor
 @endfor
 
-
-@include('elements.pagination')

@@ -26,10 +26,61 @@ window.addEventListener('load', function (){
         emoticonsEnabled: false,
         resizeEnabled: false,
         style: `${assetUrl}css/theme.css`,
+        // toolbar: 'bold,italic,underline|size,font,color|left,center,right|link,unlink,youtube|source,preview|image,code',
         toolbar: 'bold,italic,underline|size,font,color|left,center,right|link,unlink,youtube|source,preview',
-        locale: 'fr-FR',
+        // locale: 'fr-FR',
         plugins: 'undo',
     });
+
+    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    let uploadElement = document.getElementById('image-upload');
+    let contentElement = document.getElementById('images');
+    let barElement = document.getElementById('bar');
+    let progressElement = document.getElementById('progress');
+
+    uploadElement.addEventListener('change', function (event) {
+        progressElement.style.display = "block";
+
+        let formData = new FormData();
+        let image = event.target.files[0];
+        formData.append("image", image);
+        formData.append("_token", token);
+        axios.post(import.meta.env.VITE_URL_UPLOAD_IMAGE, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            onUploadProgress: function (progressEvent) {
+                if (progressEvent.lengthComputable) {
+                    let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                    barElement.style.width = percentCompleted + '%';
+                }
+            }
+        }).then(function (response) {
+            resetAndSendToast(response.data.toast);
+            if (response.data.status === 'success') {
+                let elementUrl = response.data.element.url;
+                let elementName = response.data.element.name;
+                let input = '<div class="p-1">';
+                input += `<img src='${elementUrl}' onclick="addImage('${elementName}')" height="50" style="max-height: 50px; cursor: pointer" alt="Image ${elementName}">`
+                input += '</div>';
+
+                const newElement = document.createElement('div');
+                newElement.innerHTML = input;
+
+                contentElement.appendChild(newElement);
+            }
+        });
+    });
+
+    /**
+     * Reset and send toast to user
+     * @param toast
+     */
+    function resetAndSendToast(toast) {
+        progressElement.style.display = "none";
+        barElement.style.width = '0%';
+        window.toast(toast.type, toast.title, toast.description, toast.duration);
+    }
 });
 
 window.textEditor = function (token, upload = true) {

@@ -6,15 +6,19 @@ namespace App\Models;
 use App\Models\Affiliates\Affiliate;
 use App\Models\Alert\AlertUser;
 use App\Models\Conversation\ConversationNotification;
-use App\Models\Payment\Payment;
+use App\Models\Resource\Access;
+use App\Models\Resource\Resource;
 use App\Models\Webhook\Webhook;
 use App\Traits\HasProfilePhoto;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticate;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -34,6 +38,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property DiscordUser $discord
  * @property AlertUser[] $alerts
  * @property ConversationNotification $conversationNotifications
+ * @property UserRole $role
  * @method static User find(int $id)
  */
 class User extends Authenticate
@@ -45,7 +50,7 @@ class User extends Authenticate
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'email', 'password',];
+    protected $fillable = ['name', 'email', 'password', 'user_role_id'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -72,6 +77,59 @@ class User extends Authenticate
     }
 
     /**
+     * Retourne la couleur en fonction de l'espace disque utilisé
+     *
+     * @param bool $isAdmin
+     * @return string
+     */
+    public function getDiskColor(bool $isAdmin = false): string
+    {
+        $userSize = $this->role->total_size;
+        $size = $this->getDiskSize();
+
+        $percent20 = (20 / 100) * $userSize;
+        $percent10 = (10 / 100) * $userSize;
+
+        if ($size >= $userSize - $percent10) {
+            return "#e7321e";
+        } else if ($size >= $userSize - $percent20) {
+            return "#e57f18";
+        } else {
+            return $isAdmin ? "#858796" : "white";
+        }
+    }
+
+    /**
+     * Calculate the size of user's image
+     *
+     * @return mixed
+     */
+    public function getDiskSize(): mixed
+    {
+        return $this->images()->sum('file_size');
+    }
+
+    /**
+     * User files
+     *
+     * @return Collection
+     */
+    public function images(): Collection
+    {
+        return $this->files->whereIn('file_extension', File::IMAGE);
+    }
+
+    /**
+     * User files
+     *
+     * @return HasMany
+     */
+    public function files(): HasMany
+    {
+        return $this->hasMany(File::class);
+    }
+
+    /**
      * Retourne-les alerts
      *
      * @return HasMany
@@ -90,6 +148,16 @@ class User extends Authenticate
     }
 
     /**
+     * User role
+     *
+     * @return BelongsTo
+     */
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(UserRole::class, 'user_role_id');
+    }
+
+    /**
      * Permet de retourner le lien d'authentification discord de l'utilisateur
      *
      * @return string
@@ -104,5 +172,49 @@ class User extends Authenticate
     public function getProfileUrl(): string
     {
         return route('resources.author', $this);
+    }
+
+    /**
+     * Return the path to the image
+     *
+     * @return string
+     */
+    public function getImagesPath(): string
+    {
+        return imagesPath($this->id);
+    }
+
+    /**
+     * Return author page
+     *
+     * @return string
+     */
+    public function authorPage(): string
+    {
+        return route('resources.author', ['slug' => $this->slug(), 'user' => $this->id]);
+    }
+
+    /**
+     * username as slug
+     *
+     * @return string
+     */
+    public function slug(): string
+    {
+        return Str::slug($this->name);
+    }
+
+    /**
+     * Check if player has access to this resource
+     *
+     * @param Resource $resource
+     * @return bool
+     */
+    public function hasAccess(Resource $resource): bool
+    {
+        if ($this->role->isModerator() || $this->id === $resource->user_id || $resource->price == 0) {
+            return true;
+        }
+        return Access::where('user_id', $this->id)->where('resource_id', $resource->id)->count() > 0;
     }
 }

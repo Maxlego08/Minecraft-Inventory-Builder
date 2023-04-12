@@ -28,6 +28,9 @@
                                             <a href="{{ route('profile.conversations.index') }}">{{ __('profiles.nav.conversations') }}</a>
                                         </li>
                                         <li class="list-group-item mb-2">
+                                            <a href="{{ route('profile.images.index') }}">{{ __('profiles.nav.images') }}</a>
+                                        </li>
+                                        <li class="list-group-item mb-2">
                                             <a href="#">{{ __('profiles.nav.resources.your') }}</a>
                                         </li>
                                         <li class="list-group-item mb-2">

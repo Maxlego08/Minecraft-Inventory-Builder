@@ -1,11 +1,15 @@
-<div class="card mb-4">
-    <div class="card-body">
+@extends('resources.layouts.base')
+
+@section('title', "$resource->name | Updates")
+
+@section('resource')
+    <div class="bg-blue-800 p-4 show active">
         <form action="#" method="get" class="mb-4">
             @method('GET')
             @csrf
             <div class="mb-3">
-                <label for="search" class="form-label ms-3">Rechercher un acheteur</label>
-                <input type="text" class="form-control" id="search">
+                <label for="search" class="form-label ms-3 rounded-0">Rechercher un acheteur</label>
+                <input type="text" class="form-control rounded-0" id="search">
             </div>
 
             <div class="row row-cols-lg-3">
@@ -26,5 +30,4 @@
             </div>
         </form>
     </div>
-</div>
-@include('elements.pagination')
+@endsection

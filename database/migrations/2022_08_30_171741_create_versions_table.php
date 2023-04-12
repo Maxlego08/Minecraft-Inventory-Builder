@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('resource_id')->constrained('resource_resources');
             $table->foreignId('file_id')->constrained();
+            $table->string('file_name');
             $table->string('version');
             $table->string('title');
             $table->longText('description');

@@ -44,6 +44,12 @@ return [
             'throw' => false,
         ],
 
+        'plugins' => [
+            'driver' => 'local',
+            'root' => storage_path('app/plugins'),
+            'url' => env('APP_URL').'/plugins',
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

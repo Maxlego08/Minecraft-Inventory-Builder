@@ -69,6 +69,7 @@ class Category extends Model
             $categories = $this->subCategories->map(function ($category){
                return $category->id;
             });
+            $categories->add($this->id);
             return Resource::whereIn('category_id', $categories)->count();
         }
     }

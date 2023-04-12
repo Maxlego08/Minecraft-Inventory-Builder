@@ -1,0 +1,20 @@
+.image-table {
+
+    font-size: 0.9em;
+
+    img {
+        max-width: 150px;
+        max-height: 50px;
+    }
+
+    th, td {
+        padding: 2px 0;
+        text-align: left;
+        height: 50px;
+    }
+
+    tr {
+        border-bottom: solid gray 0.1px;
+    }
+
+}

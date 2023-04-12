@@ -15,9 +15,19 @@
                     </div>
                 </div>
 
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <div class="card rounded-0">
                     <div class="card-body">
-                        <form action="{{ route('resources.create.store') }}" method="POST">
+                        <form action="{{ route('resources.create.store') }}" method="POST" enctype="multipart/form-data">
                             @method('POST')
                             @csrf
                             @include('resources._form')

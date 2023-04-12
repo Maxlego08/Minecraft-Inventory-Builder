@@ -23,11 +23,7 @@
 
             <form method="POST" action="{{ route('profile.conversations.post', $conversation) }}">
                 @csrf
-                <div class="mb-3">
-                    <textarea id="description" name="description"
-                              required rows="13" style="opacity: 0;" maxlength="5000"
-                              class="form-input mb-2 @error('description') invalid @enderror">{{ old('description') }}</textarea>
-                </div>
+                @include('elements.textarea')
                 <button type="submit" class="btn btn-primary rounded-0 d-block"><i
                         class="bi bi-send"></i> {{ __('conversations.textarea.submit') }}</button>
             </form>
