@@ -4,14 +4,33 @@ namespace App\Http\Controllers\Resource;
 
 use App\Models\Resource\Category;
 use App\Models\Resource\Resource;
+use App\Models\User;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ResourcePagination
 {
 
-    public static function paginate(Request $request, Category $category = null)
+    public static function mostResources(){
+        return User::select('users.*')
+            ->addSelect(DB::raw("COUNT(`resource_resources`.`id`) AS `resource`"))
+            ->join('resource_resources', 'resource_resources.user_id', '=', 'users.id')
+            ->where('resource_resources.is_display', true)
+            ->where('resource_resources.is_pending', false)
+            ->groupBy('resource_resources.user_id')
+            ->orderBy('resource', 'DESC')
+            ->limit(5)->get();
+    }
+
+    /**
+     * Paginate resources
+     *
+     * @param Category|null $category
+     * @return mixed
+     */
+    public static function paginate(Category $category = null): mixed
     {
         $search = request()->input('search');
 

@@ -1,7 +1,7 @@
 <div class="col-md-6 col-lg-12">
     <div class="card mb-3 rounded-0">
         <div class="card-body">
-            <h2 class="text-center fs-5 fw-bold">Catégories</h2>
+            <h2 class="text-center fs-5 fw-bold">{{ __('resources.category.title') }}</h2>
             <ul class="list-group">
                 @foreach($categories as $category => $value)
                     <li class="d-flex justify-content-between align-items-cente">

@@ -23,6 +23,7 @@ return [
     'statistics' => 'Statistics',
     'message' => 'Message',
     'delete' => 'Delete',
+    'resources' => 'Resources',
     'bstats' => [
         'players' => 'Current servers',
         'servers' => 'Current players',

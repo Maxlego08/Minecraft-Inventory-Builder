@@ -174,4 +174,10 @@ return [
     'buyers' => [
         'title' => 'Buyers',
     ],
+    'most' => [
+        'title' => 'Most Resources',
+    ],
+    'category' => [
+        'title' => 'Categories',
+    ]
 ];
