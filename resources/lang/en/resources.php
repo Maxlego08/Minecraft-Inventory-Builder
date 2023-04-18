@@ -184,4 +184,20 @@ return [
     'category' => [
         'title' => 'Categories',
     ],
+    'view' => [
+        'errors' => [
+            'pending' => [
+                'title' => 'Error !',
+                'content' => 'You don\'t have permission to see this resource',
+            ],
+            'deleted' => [
+                'title' => 'Error !',
+                'content' => 'You don\'t have permission to see this resource',
+            ],
+            'owner' => [
+                'title' => 'Error !',
+                'content' => 'You don\'t have permission to see this resource',
+            ]
+        ],
+    ],
 ];

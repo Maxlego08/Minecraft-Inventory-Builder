@@ -27,8 +27,8 @@ use Illuminate\Support\Str;
  * @property int $user_id
  * @property int $version_id
  * @property int $category_id
- * @property bool $deleted
  * @property bool $is_pending
+ * @property bool $is_deleted
  * @property User $user
  * @property Carbon $created_at;
  * @property Carbon $updated_at;
@@ -48,7 +48,7 @@ class Resource extends Model
 
     protected $fillable = ['category_id', 'user_id', 'image_id', 'version_id',
         'name', 'price', 'description', 'tag', 'is_display',
-        'is_pending', 'source_code_link',
+        'is_pending', 'source_code_link', 'is_deleted',
         'donation_link', 'discord_server_id',
         'bstats_id', 'contributors', 'required_dependencies',
         'optional_dependencies', 'supported_languages',

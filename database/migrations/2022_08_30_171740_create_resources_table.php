@@ -23,6 +23,7 @@ return new class extends Migration {
             $table->string('tag', 150);
             $table->boolean('is_display')->default(true);
             $table->boolean('is_pending')->default(true);
+            $table->boolean('is_deleted')->default(false);
             $table->longText('versions')->nullable();
             $table->longText('version_base_mc')->nullable();
             $table->longText('source_code_link')->nullable();

@@ -80,10 +80,14 @@ Route::prefix('resources')->name('resources.')->group(function () {
         });
 
         Route::get('download/{resource}/{version}', [ResourceDownloadController::class, 'download'])->name('download');
+
         Route::post('review/{resource}', [ResourceReviewController::class, 'store'])->name('review.store');
         Route::post('review/{review}/delete', [ResourceReviewController::class, 'deleteReview'])->name('review.delete');
         Route::post('review/{review}/reply', [ResourceReviewController::class, 'reply'])->name('review.reply');
         Route::post('review/{review}/reply/delete', [ResourceReviewController::class, 'deleteResponse'])->name('review.response');
+
+        Route::get('/{slug}.{resource}/buyers', [ResourceBuyerController::class, 'index'])->name('buyers');
+        Route::get('/{resource}/buyers', [ResourceBuyerController::class, 'indexById'])->name('buyers.id');
     });
 
     Route::get('/{slug}.{resource}/updates', [ResourceUpdateController::class, 'index'])->name('updates');
@@ -94,9 +98,6 @@ Route::prefix('resources')->name('resources.')->group(function () {
 
     Route::get('/{slug}.{resource}/versions', [ResourceVersionController::class, 'index'])->name('versions');
     Route::get('/{resource}/versions', [ResourceVersionController::class, 'indexById'])->name('versions.id');
-
-    Route::get('/{slug}.{resource}/buyers', [ResourceBuyerController::class, 'index'])->name('buyers');
-    Route::get('/{resource}/buyers', [ResourceBuyerController::class, 'indexById'])->name('buyers.id');
 
     Route::get('/{slug}.{resource}', [ResourceViewController::class, 'index'])->name('view');
     Route::get('/{resource}', [ResourceViewController::class, 'indexById'])->name('view.id');
