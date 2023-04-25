@@ -51,7 +51,7 @@ class ResourceEditController extends Controller
             'tags' => ['required', 'string', 'min:3', 'max:150'],
 
             'description' => 'required',
-            'price' => ['nullable', 'integer', 'min:0', 'max:100'],
+            'price' => ['nullable', 'integer', 'min:0.0', 'max:100'],
             'version_base_mc' => ['required'],
 
             'contributors' => ['nullable', 'string', 'min:0', 'max:300'],
