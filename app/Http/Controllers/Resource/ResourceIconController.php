@@ -59,6 +59,6 @@ class ResourceIconController extends Controller
 
         $resource->clear('icon.path');
 
-        return Redirect::route('resources.view', ['resource' => $resource, 'slug' => $resource->slug()])->with('toast', createToast('success', __('resources.edit.icon_model.success.title'), __('resources.edit.icon_model.success.content'), 5000));
+        return Redirect::route('resources.view', ['resource' => $resource, 'slug' => $resource->slug()])->with('toast', createToast('success', __('resources.edit.icon_modal.success.title'), __('resources.edit.icon_modal.success.content'), 5000));
     }
 }
