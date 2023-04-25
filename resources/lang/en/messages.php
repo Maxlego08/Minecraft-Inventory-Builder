@@ -29,6 +29,7 @@ return [
     'inventory-builder' => 'Inventory Builder',
     'home' => 'Home',
     'save_changes' => 'Save changes',
+    'save_update' => 'Save update',
     'bstats' => [
         'players' => 'Current servers',
         'servers' => 'Current players',

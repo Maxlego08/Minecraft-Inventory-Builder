@@ -31,8 +31,4 @@
     </div>
 @endsection
 
-@push('footer-scripts')
-    @vite(['resources/js/editor/editor.js'])
-@endpush
-
 

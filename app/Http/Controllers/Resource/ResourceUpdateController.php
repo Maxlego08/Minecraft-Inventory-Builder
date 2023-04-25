@@ -8,7 +8,6 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
@@ -43,5 +42,21 @@ class ResourceUpdateController extends Controller
     public function indexById(Resource $resource): RedirectResponse
     {
         return Redirect::route('resources.updates', ['resource' => $resource->id, 'slug' => $resource->slug()]);
+    }
+
+    /**
+     * Display the update page
+     *
+     * @param Resource $resource
+     * @return View|Application|Factory|RedirectResponse|\Illuminate\Contracts\Foundation\Application
+     */
+    public function update(Resource $resource): View|Application|Factory|RedirectResponse|\Illuminate\Contracts\Foundation\Application
+    {
+
+        if (!$resource->isModerator()) {
+            return Redirect::route('resources.index')->with('toast', createToast('error', __('resources.view.errors.permission.title'), __('resources.view.errors.permission.content'), 5000));
+        }
+
+        return view('resources.update', ['resource' => $resource]);
     }
 }

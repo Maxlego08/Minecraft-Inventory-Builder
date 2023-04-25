@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('title', 'GroupeZ')
+@section('title', 'Edit Resource')
 
 @section('app')
     <div class="content_resources_show py-5 mb-5">

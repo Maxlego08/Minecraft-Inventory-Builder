@@ -174,8 +174,6 @@
                 @enderror
             </div>
 
-            <div id="bbcodePreview"></div>
-
             @include('elements.textarea', ['description' => 'Description', 'row' => 30, 'content' => old('description')])
 
             <hr>
@@ -238,7 +236,3 @@
         </div>
     </div>
 </div>
-
-@push('footer-scripts')
-    @vite(['resources/js/editor/editor.js'])
-@endpush

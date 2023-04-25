@@ -106,7 +106,7 @@
                                            class="text-decoration-none d-block">{{ __('resources.edit.content') }}</a>
                                         <a href="#" data-bs-toggle="modal" data-bs-target="#iconModal"
                                            class="text-decoration-none d-block">{{ __('resources.edit.icon') }}</a>
-                                        <a href="{{ url('resources.update-ressource', 1) }}"
+                                        <a href="{{ route('resources.update.index', ['resource' => $resource]) }}"
                                            class="text-decoration-none d-block">{{ __('resources.edit.update') }}</a>
                                     </div>
                                 </div>

@@ -28,3 +28,7 @@
         </div>
     </div>
 </div>
+
+@push('footer-scripts')
+    @vite(['resources/js/editor/editor.js'])
+@endpush

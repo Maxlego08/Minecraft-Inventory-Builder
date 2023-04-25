@@ -103,6 +103,12 @@ Route::prefix('resources')->name('resources.')->group(function () {
         Route::get('/{slug}.{resource}/buyers', [ResourceBuyerController::class, 'index'])->name('buyers');
         Route::get('/{resource}/buyers', [ResourceBuyerController::class, 'indexById'])->name('buyers.id');
 
+        // Update
+        Route::prefix('/{resource}/update')->name('update.')->group(function () {
+            Route::get('/', [ResourceUpdateController::class, 'update'])->name('index');
+        });
+
+        // icon
         Route::post('/{resource}/icon', [ResourceIconController::class, 'store'])->name('icon');
     });
 

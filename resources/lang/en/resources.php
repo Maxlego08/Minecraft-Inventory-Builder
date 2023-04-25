@@ -107,7 +107,7 @@ return [
         ],
         'file' => [
             'name' => 'File',
-            'description' => 'Icon of your resource, you can change it later',
+            'description' => 'File of your resource.',
         ],
         'category' => [
             'name' => 'Category',
@@ -196,6 +196,10 @@ return [
     ],
     'update' => [
         'title' => 'Updates',
+        'version' => [
+            'name' => 'Version title',
+            'version' => 'Version string',
+        ]
     ],
     'versions' => [
         'title' => 'Version History',
