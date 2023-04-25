@@ -128,6 +128,8 @@ if (!function_exists('replaceDependency')) {
             "placeholderapi", "placeholder" => "<a href='https://www.spigotmc.org/resources/6245/' target='_blank'>$string</a>",
             "vault" => "<a href='https://www.spigotmc.org/resources/34315/' target='_blank'>$string</a>",
             "protocollib", "protocolib" => "<a href='https://www.spigotmc.org/resources/1997/' target='_blank'>$string</a>",
+            "advancedheads", "advancedhead" => "<a href='https://www.spigotmc.org/resources/101876/' target='_blank'>$string</a>",
+            "luckperm", "luckperms", => "<a href='https://www.spigotmc.org/resources/28140/' target='_blank'>$string</a>",
             default => $string
         };
     }
