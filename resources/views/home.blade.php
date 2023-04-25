@@ -8,8 +8,9 @@
             <img class="img-fluid" src="{{asset('images/newfondavril.png')}}" alt="">
             <div class="home_background_text">
                 <h1 class="display-5 fw-semibold">Minecraft Inventory Builder</h1>
-                <p class="fs-4">Description du projet GroupeZ MarketPlace ainsi que ses objectifs
+                <p class="fs-7">Description du projet GroupeZ MarketPlace ainsi que ses objectifs
                     et les envies de l’administration.</p>
+                <p class="fs-1 text-danger"><i class="bi bi-exclamation"></i> IN DEVELOPMENT <i class="bi bi-exclamation"></i></p>
             </div>
             <a href="#home_marketplace" class="home_arrow_scroll text-white"><i class="bi bi-arrow-down fs-2"></i></a>
         </article>
@@ -47,7 +48,7 @@
                             Morbi
                             id elementum eros, quis viverra felis. Maecenas dignissim ligula quis orci tincidunt
                             tincidunt.</p>
-                        <div class="row row-cols-lg-3 flex-column flex-sm-row bg-blue-800 text-center rounded-4 justify-content-evenly
+                        <div class="row row-cols-lg-3 flex-column flex-sm-row bg-blue-800 text-center rounded-1 justify-content-evenly
                         align-items-center py-2 mt-4 home_marketplace_block">
                             <div class="mb-3 mb-lg-0">
                                 <i class="bi bi-percent fs-2"></i>
@@ -86,7 +87,7 @@
                 <div class="px-3 px-lg-0">
                     <div class="row g-5 row-cols-lg-3">
                         <div>
-                            <div class="p-4 rounded-4 bg-blue-700">
+                            <div class="p-4 rounded-1 bg-blue-700">
                                 <h3 class="fw-normal fs-5 mb-0">Compte gratuie</h3>
                                 <span class="home_abonnement_price fw-bold fs-2">0.00€</span>
                                 <p class="home_abonnement_description mt-4">Plan gratuit pour tous les utilisateurs:</p>
@@ -96,7 +97,7 @@
                                         marketplace
                                     </li>
                                     <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Créer
-                                        jusqu’à 5 ressources à la vente
+                                        jusqu’à 10 ressources à la vente
                                     </li>
                                     <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Aucune
                                         taxe, commission et aucun pourcentage sur vos ventes
@@ -130,12 +131,12 @@
                                         l’étiquette “Ressource premium” sur vos ressources en vente.
                                     </li>
                                 </ul>
-                                <a href="#" class="btn btn-secondary w-100 rounded-4 mt-4">Vous possédez déjà ce
+                                <a href="#" class="btn btn-secondary w-100 rounded-1 mt-4">Vous possédez déjà ce
                                     plan</a>
                             </div>
                         </div>
                         <div>
-                            <div class="p-4 rounded-4 bg-blue-700">
+                            <div class="p-4 rounded-1 bg-blue-700">
                                 <h3 class="fw-normal fs-5 mb-0">Compte pro</h3>
                                 <span class="home_abonnement_price fw-bold fs-2">4.99€</span>
                                 <p class="home_abonnement_description mt-4">Plan gratuit pour tous les utilisateurs:</p>
@@ -178,11 +179,11 @@
                                         l’étiquette “Ressource premium” sur vos ressources en vente.
                                     </li>
                                 </ul>
-                                <a href="#" class="btn btn-success w-100 rounded-4 mt-4">S'abonner</a>
+                                <a href="#" class="btn btn-success w-100 rounded-1 mt-4">S'abonner</a>
                             </div>
                         </div>
                         <div>
-                            <div class="p-4 rounded-4 bg-blue-700">
+                            <div class="p-4 rounded-1 bg-blue-700">
                                 <h3 class="fw-normal fs-5 mb-0">Compte premium</h3>
                                 <span class="home_abonnement_price fw-bold fs-2">7.99€</span>
                                 <p class="home_abonnement_description mt-4">Plan gratuit pour tous les utilisateurs:</p>
@@ -226,7 +227,7 @@
                                         l’étiquette “Ressource premium” sur vos ressources en vente.
                                     </li>
                                 </ul>
-                                <a href="#" class="btn btn-success w-100 rounded-4 mt-4">S'abonner</a>
+                                <a href="#" class="btn btn-success w-100 rounded-1 mt-4">S'abonner</a>
                             </div>
                         </div>
                     </div>
@@ -249,7 +250,7 @@
                     </div>
                     <div class="row align-items-center">
                         <div class="col-lg-5">
-                            <div class="bg-blue-800 rounded-4 p-4 me-lg-5 mb-4 text-center">
+                            <div class="bg-blue-800 rounded-1 p-4 me-lg-5 mb-4 text-center">
                                 <h3 class="fs-5">Notre système de ressource</h3>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas egestas nibh at
                                     ante
@@ -266,14 +267,14 @@
                                     luctus convallis. Cras eget placerat felis. Maecenas egestas nibh at ante luctus
                                     convallis. Cras eget placerat felis.</p>
                                 <a href="{{route('resources.create.index')}}"
-                                   class="home_ressources_add btn btn-primary rounded-4 d-flex align-items-center justify-content-center"><i
+                                   class="home_ressources_add btn btn-primary rounded-1 d-flex align-items-center justify-content-center"><i
                                         class="bi bi-plus-lg me-2 fs-4"></i>AJOUTER UNE RESSOURCE</a>
                             </div>
                         </div>
                     </div>
                     <div class="row flex-column g-4 mt-4">
                         <div class="col">
-                            <div class="block_resources bg-blue-800 rounded-4">
+                            <div class="block_resources bg-blue-800 rounded-1">
                                 <div class="d-flex flex-wrap flex-lg-nowrap">
                                     <div class="block_resources_start me-0 me-lg-4">
                                         <a class="img_1" href="https://groupez.dev/resources/zkoth.9"
