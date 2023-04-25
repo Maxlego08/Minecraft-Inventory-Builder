@@ -36,7 +36,6 @@ return new class extends Migration {
             $table->string('bstats_id')->nullable();
             $table->longText('required_dependencies')->nullable();
             $table->longText('optional_dependencies')->nullable();
-            $table->longText('supported_languages')->nullable();
             $table->timestamps();
         });
     }

@@ -4,6 +4,7 @@ namespace App\Models\Resource;
 
 use App\Code\BBCode;
 use App\Models\File;
+use App\Models\MinecraftVersion;
 use App\Models\User;
 use App\Traits\ReviewStarts;
 use Carbon\Carbon;
@@ -36,6 +37,7 @@ use Illuminate\Support\Str;
  * @property File $icon;
  * @property Version $version;
  * @property Category $category;
+ * @property String $versions;
  * @method static Resource find(int $id)
  * @method static Resource findOrFail(int $id)
  * @method static Resource create(array $values)
@@ -151,6 +153,15 @@ class Resource extends Model
         });
     }
 
+    public function getSupportedVersions() : mixed
+    {
+        return Cache::remember("supported.version::$this->id", 86400, function () {
+            return MinecraftVersion::whereIn('id', explode(',', $this->versions))->get()->map(function (MinecraftVersion $version){
+                return $version->version;
+            })->implode(', ');
+        });
+    }
+
     /**
      * Versions
      *
@@ -170,6 +181,7 @@ class Resource extends Model
      * count.score.version
      * count.review.version
      * count.versions
+     * supported.version
      *
      * @param string $key
      * @return void
@@ -228,6 +240,11 @@ class Resource extends Model
     {
         $value = $this->scoreReviews();
         return ($value * 100) / 5;
+    }
+
+    public function containsVersion($version): bool
+    {
+        return str_contains($this->versions, $version);
     }
 
 }

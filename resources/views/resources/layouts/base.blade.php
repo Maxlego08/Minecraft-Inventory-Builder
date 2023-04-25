@@ -31,7 +31,7 @@
                                 @else
                                     <div class="col-lg-3 col-xl-2 offset-lg-1">
                                         <div
-                                            class="btn btn-primary w-100 rounded-1">{{ __('resources.download.button') }}
+                                            class="btn btn-primary w-100 rounded-1" title="{{ __('resources.download.access') }}">{{ __('resources.download.button') }}
                                             <span class="fs-9 fw-light d-block">{{ human_filesize($resource->version->file->file_size) }} .{{ $resource->version->file->file_extension }}</span>
                                         </div>
                                     </div>
@@ -39,8 +39,7 @@
                             @endauth
                             @guest
                                 <div class="col-lg-3 col-xl-2 offset-lg-1">
-                                    <div
-                                        class="btn btn-primary w-100 rounded-1 disabled cursor-disabled">{{ __('resources.download.button') }}
+                                    <div class="btn btn-primary w-100 rounded-1 disabled cursor-disabled" title="{{ __('resources.download.login') }}">{{ __('resources.download.button') }}
                                         <span class="fs-9 fw-light d-block">{{ human_filesize($resource->version->file->file_size) }} .{{ $resource->version->file->file_extension }}</span>
                                     </div>
                                 </div>
@@ -213,7 +212,7 @@
                                 <div class="card mb-3 rounded-1">
                                     <div class="card-body">
                                         <h2 class="text-center fs-6 fw-bold mb-3">{{ __('resources.tools') }}</h2>
-                                        <a href="{{ url('resources.edit', 1) }}"
+                                        <a href="{{ route('resources.edit.index', ['resource' => $resource]) }}"
                                            class="text-decoration-none d-block">{{ __('resources.edit.content') }}</a>
                                         <a href="#"
                                            class="text-decoration-none d-block">{{ __('resources.edit.icon') }}</a>

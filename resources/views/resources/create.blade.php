@@ -27,10 +27,11 @@
 
                 <div class="card rounded-1">
                     <div class="card-body">
-                        <form action="{{ route('resources.create.store') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('resources.create.store') }}" method="POST"
+                              enctype="multipart/form-data">
                             @method('POST')
                             @csrf
-                            @include('resources._form')
+                            @include('resources.elements._form')
                         </form>
                     </div>
                 </div>

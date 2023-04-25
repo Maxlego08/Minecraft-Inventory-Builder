@@ -45,12 +45,29 @@ class ResourceCreateController extends Controller
     {
         $role = user()->role;
 
-        $this->validate($request, ['name_resource' => ['required', 'string', 'min:3', 'max:100'], 'version' => ['required', 'string', 'min:3', 'max:25'], 'tags' => ['required', 'string', 'min:3', 'max:150'], 'description' => 'required', 'price' => ['nullable', 'integer', 'min:0', 'max:100'], 'category' => ['required'], 'version_base_mc' => ['required'],
+        $this->validate($request, [
+
+            'name_resource' => ['required', 'string', 'min:3', 'max:100'],
+            'version' => ['required', 'string', 'min:3', 'max:25'],
+            'tags' => ['required', 'string', 'min:3', 'max:150'],
+
+            'description' => 'required',
+            'price' => ['nullable', 'integer', 'min:0', 'max:100'],
+            'category' => ['required'],
+            'version_base_mc' => ['required'],
 
             'upload_file' => 'required|mimes:jar,zip|max:4096', // jar = application/octet-stream - zip = application/x-zip-compressed;
             'icon' => $role->getImageValidator(),
 
-            'contributors' => ['nullable', 'string', 'min:0', 'max:300'], 'link_source' => ['nullable', 'string', 'min:0', 'max:300'], 'link_donation' => ['nullable', 'string', 'min:0', 'max:300'], 'link_information' => ['nullable', 'string', 'min:0', 'max:300'], 'link_support' => ['nullable', 'string', 'min:0', 'max:300'], 'lang_support' => ['nullable', 'string', 'min:0', 'max:300'], 'bstats_id' => ['nullable', 'string', 'min:0', 'max:300'], 'discord' => ['nullable', 'string', 'min:18', 'max:18'],]);
+            'contributors' => ['nullable', 'string', 'min:0', 'max:300'],
+            'link_source' => ['nullable', 'string', 'min:0', 'max:300'],
+            'link_donation' => ['nullable', 'string', 'min:0', 'max:300'],
+            'link_information' => ['nullable', 'string', 'min:0', 'max:300'],
+            'link_support' => ['nullable', 'string', 'min:0', 'max:300'],
+            'lang_support' => ['nullable', 'string', 'min:0', 'max:300'],
+            'bstats_id' => ['nullable', 'string', 'min:0', 'max:300'],
+            'discord' => ['nullable', 'string', 'min:18', 'max:18'],
+        ]);
 
         $category = Category::find($request['category']);
 
@@ -72,7 +89,7 @@ class ResourceCreateController extends Controller
 
         $price = $request['price'];
 
-        $resource = Resource::create(['category_id' => $category->id, 'user_id' => $user->id, 'image_id' => $media->id, 'name' => $request['name_resource'], 'price' => min(100, max(0, $price)), 'description' => $request['description'], 'tag' => $request['tags'], 'is_display' => true, 'is_pending' => true, 'contributors' => $request['contributors'], 'source_code_link' => $request['link_source'], 'donation_link' => $request['link_donation'], 'discord_server_id' => $request['discord'], 'bstats_id' => $request['bstats_id'], 'required_dependencies' => null, 'optional_dependencies' => null, 'supported_languages' => null, 'link_information' => $request['link_information'], 'link_support' => $request['lang_support'], 'lang_support' => $request['lang_support'], 'versions' => implode(",", $request['versions'] ?? []), 'version_id' => null,]);
+        $resource = Resource::create(['category_id' => $category->id, 'user_id' => $user->id, 'image_id' => $media->id, 'name' => $request['name_resource'], 'price' => min(100, max(0, $price)), 'description' => $request['description'], 'tag' => $request['tags'], 'is_display' => true, 'is_pending' => true, 'contributors' => $request['contributors'], 'source_code_link' => $request['link_source'], 'donation_link' => $request['link_donation'], 'discord_server_id' => $request['discord'], 'bstats_id' => $request['bstats_id'], 'required_dependencies' => null, 'optional_dependencies' => null, 'link_information' => $request['link_information'], 'link_support' => $request['lang_support'], 'lang_support' => $request['lang_support'], 'versions' => implode(",", $request['versions'] ?? []), 'version_id' => null,]);
 
         $storedFile = $this->storeFile($user, $resource, $file);
         $fileName = str_replace('.' . $this->getFileExtension($file), '', $file->getClientOriginalName());

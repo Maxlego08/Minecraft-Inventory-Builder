@@ -8,6 +8,7 @@ use App\Http\Controllers\Resource\ResourceAuthorController;
 use App\Http\Controllers\Resource\ResourceBuyerController;
 use App\Http\Controllers\Resource\ResourceCreateController;
 use App\Http\Controllers\Resource\ResourceDownloadController;
+use App\Http\Controllers\Resource\ResourceEditController;
 use App\Http\Controllers\Resource\ResourceIndexController;
 use App\Http\Controllers\Resource\ResourceReviewController;
 use App\Http\Controllers\Resource\ResourceUpdateController;
@@ -74,18 +75,30 @@ Route::prefix('resources')->name('resources.')->group(function () {
 
     Route::middleware('auth')->group(function () {
 
+        // Create
         Route::prefix('create')->name('create.')->group(function () {
             Route::get('/', [ResourceCreateController::class, 'index'])->name('index');
             Route::post('/store', [ResourceCreateController::class, 'store'])->name('store');
         });
 
+        // Edit
+        Route::prefix('edit/{resource}')->name('edit.')->group(function () {
+            Route::get('/', [ResourceEditController::class, 'index'])->name('index');
+            Route::post('/store', [ResourceEditController::class, 'store'])->name('store');
+        });
+
+        // Download
         Route::get('download/{resource}/{version}', [ResourceDownloadController::class, 'download'])->name('download');
 
-        Route::post('review/{resource}', [ResourceReviewController::class, 'store'])->name('review.store');
-        Route::post('review/{review}/delete', [ResourceReviewController::class, 'deleteReview'])->name('review.delete');
-        Route::post('review/{review}/reply', [ResourceReviewController::class, 'reply'])->name('review.reply');
-        Route::post('review/{review}/reply/delete', [ResourceReviewController::class, 'deleteResponse'])->name('review.response');
+        // Review
+        Route::prefix('review/')->name('review.')->group(function () {
+            Route::post('{resource}', [ResourceReviewController::class, 'store'])->name('store');
+            Route::post('{review}/delete', [ResourceReviewController::class, 'deleteReview'])->name('delete');
+            Route::post('{review}/reply', [ResourceReviewController::class, 'reply'])->name('reply');
+            Route::post('{review}/reply/delete', [ResourceReviewController::class, 'deleteResponse'])->name('response');
+        });
 
+        // Buyers
         Route::get('/{slug}.{resource}/buyers', [ResourceBuyerController::class, 'index'])->name('buyers');
         Route::get('/{resource}/buyers', [ResourceBuyerController::class, 'indexById'])->name('buyers.id');
     });

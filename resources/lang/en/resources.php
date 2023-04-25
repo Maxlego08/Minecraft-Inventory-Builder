@@ -16,10 +16,17 @@ return [
     'contributors' => 'Contributors',
     'code' => 'Source code',
     'support' => 'Support',
+    'tested_versions' => 'Tested Minecraft Versions',
     'edit' => [
+        'title' => 'Edit your resource',
+        'description' => 'Edit your resource information',
         'icon' => 'Edit Resource Icon',
         'content' => 'Edit Resource',
         'update' => 'Post Resource Update',
+        'success' => [
+            'title' => 'Resource updated !',
+            'content' => 'You have just updated your resource'
+        ]
     ],
     'create' => [
         'success' => [
@@ -105,6 +112,8 @@ return [
         ],
     ],
     'download' => [
+        'login' => 'You must be connected to download this file.',
+        'access' => 'You need to purchase this resource.',
         'button' => 'Download',
         'errors' => [
             'same' => [
@@ -195,6 +204,10 @@ return [
                 'content' => 'You don\'t have permission to see this resource',
             ],
             'owner' => [
+                'title' => 'Error !',
+                'content' => 'You don\'t have permission to see this resource',
+            ],
+            'permission' => [
                 'title' => 'Error !',
                 'content' => 'You don\'t have permission to see this resource',
             ]

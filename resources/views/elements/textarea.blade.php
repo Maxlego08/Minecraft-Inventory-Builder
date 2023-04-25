@@ -5,7 +5,7 @@
     @endif
     <textarea id="description" name="description"
               required rows="{{ $row ?? 15 }}" style="opacity: 0;" maxlength="10000"
-              class="form-input mb-2 @error('description') invalid @enderror">{{ old('description') }}</textarea>
+              class="form-input mb-2 @error('description') invalid @enderror">{{ old('description', $content ?? '') }}</textarea>
     <div class="mt-3 textarea-images pe-3 ps-3 pb-3">
 
         <div style="overflow-x: scroll;" class="d-flex" id="images">
