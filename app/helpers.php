@@ -105,3 +105,10 @@ if (!function_exists('isRoute')) {
         return Route::currentRouteNamed(...$patterns) ? '-active' : '';
     }
 }
+
+if (!function_exists('dependencies')) {
+    function dependencies(string $string): string
+    {
+        return $string;
+    }
+}

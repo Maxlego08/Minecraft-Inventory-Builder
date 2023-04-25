@@ -62,6 +62,9 @@ class ResourceEditController extends Controller
             'lang_support' => ['nullable', 'string', 'min:0', 'max:300'],
             'bstats_id' => ['nullable', 'string', 'min:0', 'max:300'],
             'discord' => ['nullable', 'string', 'min:18', 'max:18'],
+
+            'required_dependencies' => ['nullable', 'string', 'min:3', 'max:300'],
+            'optional_dependencies' => ['nullable', 'string', 'min:3', 'max:300'],
         ]);
 
         $resource->update([
@@ -73,8 +76,8 @@ class ResourceEditController extends Controller
             'donation_link' => $request['link_donation'],
             'discord_server_id' => $request['discord'],
             'bstats_id' => $request['bstats_id'],
-            'required_dependencies' => null,
-            'optional_dependencies' => null,
+            'required_dependencies' => $request['required_dependencies'],
+            'optional_dependencies' => $request['optional_dependencies'],
             'link_information' => $request['link_information'],
             'link_support' => $request['link_support'],
             'lang_support' => $request['lang_support'],

@@ -95,7 +95,21 @@
                         </div>
                     </div>
                     <div class="col-lg-3 mt-3 mt-lg-0">
-
+                        @auth()
+                            @if ($resource->isModerator())
+                                <div class="card mb-3 rounded-1">
+                                    <div class="card-body">
+                                        <h2 class="text-center fs-6 fw-bold mb-3">{{ __('resources.tools') }}</h2>
+                                        <a href="{{ route('resources.edit.index', ['resource' => $resource]) }}"
+                                           class="text-decoration-none d-block">{{ __('resources.edit.content') }}</a>
+                                        <a href="#"
+                                           class="text-decoration-none d-block">{{ __('resources.edit.icon') }}</a>
+                                        <a href="{{ url('resources.update-ressource', 1) }}"
+                                           class="text-decoration-none d-block">{{ __('resources.edit.update') }}</a>
+                                    </div>
+                                </div>
+                            @endif
+                        @endauth
                         @if($resource->discord_server_id != null)
                             <div class="card mb-3 rounded-1">
                                 <div class="card-body">
@@ -207,21 +221,6 @@
                                 </ul>
                             </div>
                         </div>
-                        @auth()
-                            @if ($resource->isModerator())
-                                <div class="card mb-3 rounded-1">
-                                    <div class="card-body">
-                                        <h2 class="text-center fs-6 fw-bold mb-3">{{ __('resources.tools') }}</h2>
-                                        <a href="{{ route('resources.edit.index', ['resource' => $resource]) }}"
-                                           class="text-decoration-none d-block">{{ __('resources.edit.content') }}</a>
-                                        <a href="#"
-                                           class="text-decoration-none d-block">{{ __('resources.edit.icon') }}</a>
-                                        <a href="{{ url('resources.update-ressource', 1) }}"
-                                           class="text-decoration-none d-block">{{ __('resources.edit.update') }}</a>
-                                    </div>
-                                </div>
-                            @endif
-                        @endauth
                     </div>
                 </div>
             </div>

@@ -17,6 +17,8 @@ return [
     'code' => 'Source code',
     'support' => 'Support',
     'tested_versions' => 'Tested Minecraft Versions',
+    'required_dependencies' => 'Required dependencies',
+    'optional_dependencies' => 'Optional dependencies',
     'edit' => [
         'title' => 'Edit your resource',
         'description' => 'Edit your resource information',
@@ -47,6 +49,14 @@ return [
         'version' => [
             'name' => 'Version (Required)',
             'description' => 'Version of your resource',
+        ],
+        'required_dependencies' => [
+            'name' => 'Required dependencies (Optional)',
+            'description' => 'List of dependencies required for the resource',
+        ],
+        'optional_dependencies' => [
+            'name' => 'Optional dependencies (Optional)',
+            'description' => 'List of dependencies optional for the resource',
         ],
         'tags' => [
             'name' => 'Tags (Required)',

@@ -13,32 +13,44 @@
             @endif
             @if($resource->lang_support)
                 <li>
-                    <span>{{ __('resources.lang_support') }}</span>
+                    <span>{{ __('resources.lang_support') }}:</span>
                     <span>{{ $resource->lang_support }}</span>
                 </li>
             @endif
             @if($resource->contributors)
                 <li>
-                    <span>{{ __('resources.contributors') }}</span>
+                    <span>{{ __('resources.contributors') }}:</span>
                     <span>{{ $resource->contributors }}</span>
                 </li>
             @endif
             @if($resource->source_code_link)
                 <li>
-                    <span>{{ __('resources.code') }}</span>
+                    <span>{{ __('resources.code') }}:</span>
                     <a href="{{ $resource->source_code_link }}" target="_blank">{{ $resource->source_code_link }}</a>
                 </li>
             @endif
             @if($resource->link_information)
                 <li>
-                    <span>{{ __('resources.informations') }}</span>
+                    <span>{{ __('resources.informations') }}:</span>
                     <a href="{{ $resource->link_information }}" target="_blank">{{ $resource->link_information }}</a>
                 </li>
             @endif
             @if($resource->link_support)
                 <li>
-                    <span>{{ __('resources.link_support') }}</span>
+                    <span>{{ __('resources.link_support') }}:</span>
                     <a href="{{ $resource->link_support }}" target="_blank">{{ $resource->link_support }}</a>
+                </li>
+            @endif
+            @if($resource->required_dependencies)
+                <li>
+                    <span>{{ __('resources.required_dependencies') }}:</span>
+                    {!! dependencies($resource->required_dependencies) !!}
+                </li>
+            @endif
+            @if($resource->optional_dependencies)
+                <li>
+                    <span>{{ __('resources.optional_dependencies') }}:</span>
+                    {!! dependencies($resource->optional_dependencies) !!}
                 </li>
             @endif
         </ul>

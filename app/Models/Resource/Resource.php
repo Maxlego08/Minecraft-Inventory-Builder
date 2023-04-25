@@ -53,8 +53,7 @@ class Resource extends Model
         'is_pending', 'source_code_link', 'is_deleted',
         'donation_link', 'discord_server_id',
         'bstats_id', 'contributors', 'required_dependencies',
-        'optional_dependencies', 'supported_languages',
-        'link_information', 'link_support', 'versions',
+        'optional_dependencies', 'link_information', 'link_support', 'versions',
         'version_base_mc', 'lang_support'];
 
     /**
@@ -179,6 +178,11 @@ class Resource extends Model
         $this->clear('count.score.version');
         $this->clear('count.review.version');
         $this->clear('last.review');
+        $this->clear('start.percent.resource');
+
+        $this->version->clear('start.percent');
+        $this->version->clear('count.review.version');
+        $this->version->clear('count.score.version');
     }
 
     /**
@@ -194,6 +198,7 @@ class Resource extends Model
      * file.information
      * last.review
      * icon.path
+     * start.percent.resource
      *
      * resource.version
      * resource.category

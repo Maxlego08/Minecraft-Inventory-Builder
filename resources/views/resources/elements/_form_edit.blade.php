@@ -15,10 +15,32 @@
                 <label for="tags" class="form-label">{{ __('resources.create.tags.name') }}</label>
                 <input type="text" class="form-control rounded-1 @error('tags') is-invalid @enderror" id="tags"
                        name="tags" value="{{ old('tags', $resource->tag) }}"
-                       minlength="3" maxlength="150">
+                       minlength="3" maxlength="150" required>
                 <small>{{ __('resources.create.tags.description') }}</small>
                 @error('tags')
                 <div id="tags_error" class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="required_dependencies" class="form-label">{{ __('resources.create.required_dependencies.name') }}</label>
+                <input type="text" class="form-control rounded-1 @error('required_dependencies') is-invalid @enderror" id="required_dependencies"
+                       name="required_dependencies" value="{{ old('required_dependencies', $resource->required_dependencies) }}"
+                       minlength="3" maxlength="300">
+                <small>{{ __('resources.create.required_dependencies.description') }}</small>
+                @error('required_dependencies')
+                <div id="required_dependencies_error" class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="optional_dependencies" class="form-label">{{ __('resources.create.optional_dependencies.name') }}</label>
+                <input type="text" class="form-control rounded-1 @error('optional_dependencies') is-invalid @enderror" id="optional_dependencies"
+                       name="optional_dependencies" value="{{ old('optional_dependencies', $resource->optional_dependencies) }}"
+                       minlength="3" maxlength="300">
+                <small>{{ __('resources.create.optional_dependencies.description') }}</small>
+                @error('optional_dependencies')
+                <div id="optional_dependencies_error" class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
 
