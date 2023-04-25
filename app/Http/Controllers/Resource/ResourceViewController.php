@@ -32,7 +32,7 @@ class ResourceViewController extends Controller
         }
 
         if ($slug != $resource->slug()) return Redirect::route('resources.view', ['resource' => $resource->id, 'slug' => $resource->slug()]);
-        $reviews = $resource->reviews()->orderBy('created_at', 'desc')->limit(5)->get();
+        $reviews = $resource->lastReviews();
         return view('resources.show', ['resource' => $resource, 'reviews' => $reviews]);
     }
 

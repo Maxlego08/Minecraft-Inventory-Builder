@@ -11,7 +11,7 @@
                                 <div class="block_resources_start">
                                     <a class="img_1" href="{{ $resource->link('description') }}"
                                        title="Show {{ $resource->name }} description">
-                                        <img class="" src="{{ $resource->icon->getPath() }}"
+                                        <img class="" src="{{ $resource->getIconPath() }}"
                                              alt="{{ $resource->name }} logo" width="50" height="50">
                                     </a>
                                 </div>
@@ -25,14 +25,14 @@
                                     <div class="col-lg-3 col-xl-2 offset-lg-1">
                                         <a href="{{  $resource->link('download') }}"
                                            class="btn btn-primary w-100 rounded-1">{{ __('resources.download.button') }}
-                                            <span class="fs-9 fw-light d-block">{{ human_filesize($resource->version->file->file_size) }} .{{ $resource->version->file->file_extension }}</span>
+                                            <span class="fs-9 fw-light d-block">{{ $resource->fileInformations()['size'] }} .{{ $resource->fileInformations()['extension'] }}</span>
                                         </a>
                                     </div>
                                 @else
                                     <div class="col-lg-3 col-xl-2 offset-lg-1">
                                         <div
                                             class="btn btn-primary w-100 rounded-1" title="{{ __('resources.download.access') }}">{{ __('resources.download.button') }}
-                                            <span class="fs-9 fw-light d-block">{{ human_filesize($resource->version->file->file_size) }} .{{ $resource->version->file->file_extension }}</span>
+                                            <span class="fs-9 fw-light d-block">{{ $resource->fileInformations()['size'] }} .{{ $resource->fileInformations()['extension'] }}</span>
                                         </div>
                                     </div>
                                 @endif
@@ -40,7 +40,7 @@
                             @guest
                                 <div class="col-lg-3 col-xl-2 offset-lg-1">
                                     <div class="btn btn-primary w-100 rounded-1 disabled cursor-disabled" title="{{ __('resources.download.login') }}">{{ __('resources.download.button') }}
-                                        <span class="fs-9 fw-light d-block">{{ human_filesize($resource->version->file->file_size) }} .{{ $resource->version->file->file_extension }}</span>
+                                        <span class="fs-9 fw-light d-block">{{ $resource->fileInformations()['size'] }} .{{ $resource->fileInformations()['extension'] }}</span>
                                     </div>
                                 </div>
                             @endguest
@@ -143,7 +143,7 @@
                                 <ul class="list-group">
                                     <li class="d-flex justify-content-between align-items-center">
                                         {{ __('messages.author') }} <span class="text-danger"><a
-                                                href="{{ $resource->user->authorPage() }}">{{ $resource->user->name  }}</a></span>
+                                                href="{{ $resource->cache('user')->authorPage() }}">{{ $resource->cache('user')->name  }}</a></span>
                                     </li>
                                     <li class="d-flex justify-content-between align-items-center">
                                         {{ __('messages.downloads') }}<span>{{ $resource->countDownload() }}</span>
@@ -153,10 +153,10 @@
                                         <span>{{ format($resource->created_at) }}</span>
                                     <li class="d-flex justify-content-between align-items-center">
                                         {{ __('messages.last-update') }}
-                                        <span>{{ format($resource->version->created_at) }}</span>
+                                        <span>{{ format($resource->cache('version')->created_at) }}</span>
                                     </li>
                                     <li class="d-flex justify-content-between align-items-center">
-                                        {{ __('messages.category') }}<span>{{ $resource->category->name }}</span>
+                                        {{ __('messages.category') }}<span>{{ $resource->cache('category')->name }}</span>
                                     </li>
 
                                     <li class="d-flex justify-content-between align-items-center mt-4">
@@ -178,26 +178,26 @@
                         </div>
                         <div class="card mb-3 rounded-1">
                             <div class="card-body">
-                                <h2 class="text-center fs-6 fw-bold mb-3">{{ __('messages.version') }} {{ $resource->version->version }}</h2>
+                                <h2 class="text-center fs-6 fw-bold mb-3">{{ __('messages.version') }} {{ $resource->cache('version')->version }}</h2>
                                 <ul class="list-group">
                                     <li class="d-flex justify-content-between align-items-center">
-                                        {{ __('messages.version') }}<span>{{ $resource->version->version }}</span>
+                                        {{ __('messages.version') }}<span>{{ $resource->cache('version')->version }}</span>
                                     </li>
                                     <li class="d-flex justify-content-between align-items-center">
-                                        {{ __('messages.downloads') }}<span>{{ $resource->version->download }}</span>
+                                        {{ __('messages.downloads') }}<span>{{ $resource->cache('version')->download }}</span>
                                     </li>
                                     <li class="d-flex justify-content-between align-items-center">
                                         {{ __('messages.updated') }}
-                                        <span>{{ format($resource->version->created_at) }}</span>
+                                        <span>{{ format($resource->cache('version')->created_at) }}</span>
                                     </li>
                                     <li class="d-flex justify-content-between align-items-center mt-4">
                                         {{ __('resources.review-current') }}
                                         <span>
                                             @auth
-                                                @include('elements.stars', ['percentage' => $resource->version->startPercentage()])
+                                                @include('elements.stars', ['percentage' => $resource->cache('version')->startPercentage()])
                                             @endauth
                                             @guest
-                                                @include('elements.stars-static', ['percentage' => $resource->version->startPercentage()])
+                                                @include('elements.stars-static', ['percentage' => $resource->cache('version')->startPercentage()])
                                             @endguest
                                         <br>
                                         <span

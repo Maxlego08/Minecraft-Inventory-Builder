@@ -3,7 +3,6 @@
 namespace App\Models\Resource;
 
 use App\Models\File;
-use App\Models\MinecraftVersion;
 use App\Traits\ReviewStarts;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -71,7 +70,7 @@ class Version extends Model
 
     public function scoreReviews()
     {
-        return Cache::remember("count.score.version::$this->id", 1, function () {
+        return Cache::remember("count.score.version::$this->id", 86400, function () {
             return $this->reviews()->avg('score');
         });
     }
@@ -84,6 +83,17 @@ class Version extends Model
         return $this->hasMany(Review::class, 'version_id');
     }
 
+    /**
+     * count.score.version
+     *
+     * @param string $key
+     * @return void
+     */
+    public function clear(string $key)
+    {
+        Cache::forget("$key::$this->id");
+    }
+
     public function countReviews()
     {
         return Cache::remember("count.review.version::$this->id", 3600, function () {
@@ -93,8 +103,10 @@ class Version extends Model
 
     public function startPercentage(): float|int
     {
-        $value = $this->scoreReviews();
-        return ($value * 100) / 5;
+        return Cache::remember("start.percent::$this->id", 86400, function () {
+            $value = $this->scoreReviews();
+            return ($value * 100) / 5;
+        });
     }
 
 }

@@ -1,6 +1,6 @@
 @extends('resources.layouts.base')
 
-@section('title', 'GroupeZ')
+@section('title', $resource->name)
 
 @section('resource')
     <div class="bg-blue-800 p-4 show active">

@@ -76,7 +76,7 @@ class ResourceEditController extends Controller
             'required_dependencies' => null,
             'optional_dependencies' => null,
             'link_information' => $request['link_information'],
-            'link_support' => $request['lang_support'],
+            'link_support' => $request['link_support'],
             'lang_support' => $request['lang_support'],
             'versions' => implode(",", $request['versions'] ?? []),
         ]);

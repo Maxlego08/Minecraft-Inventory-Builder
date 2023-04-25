@@ -92,10 +92,7 @@ class ResourceReviewController extends Controller
 
         Review::create(['user_id' => $user->id, 'resource_id' => $resource->id, 'version_id' => $resource->version_id, 'score' => $rate, 'review' => $request['message']]);
 
-        $resource->clear('count.review');
-        $resource->clear('count.score');
-        $resource->clear('count.score.version');
-        $resource->clear('count.review.version');
+        $resource->clearReview();
 
         return Redirect::back()->with('toast', createToast('success', __('resources.reviews.success.title'), __('resources.reviews.success.content'), 5000));
     }
@@ -117,10 +114,7 @@ class ResourceReviewController extends Controller
         $resource = $review->resource;
         $review->delete();
 
-        $resource->clear('count.review');
-        $resource->clear('count.score');
-        $resource->clear('count.score.version');
-        $resource->clear('count.review.version');
+        $resource->clearReview();
 
         return Redirect::back()->with('toast', createToast('success', 'Action effectuée', 'Vous venez de supprimer cette review.', 5000));
     }
