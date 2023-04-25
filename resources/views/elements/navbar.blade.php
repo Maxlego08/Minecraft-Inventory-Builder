@@ -10,7 +10,7 @@
                 src="{{asset('images/logo.svg')}}" alt="Logo du site">
         </a>
         <form class="ms-auto me-0 flex-grow-1 d-none d-lg-flex header_search" id="header_search" role="search">
-            <input class="form-control me-2 border-0 rounded-0 bg-blue-700" type="text" placeholder="{{ __('resources.search') }}"
+            <input class="form-control me-2 border-0 rounded-1 bg-blue-700" type="text" placeholder="{{ __('resources.search') }}"
                    aria-label="{{ __('resources.search') }}">
             <button class="btn btn-link" type="submit" title="Valider la recherche du serveur"><i
                     class="bi bi-search"></i></button>

@@ -16,11 +16,11 @@
         <a href="{{ route('profile.alerts') }}">{{ __('alerts.show') }}</a>
     </span>
     <div class="px-3 w-100 py-2">
-        <ul class="list-group py-2 list-d rounded-0" id="alerts">
+        <ul class="list-group py-2 list-d rounded-1" id="alerts">
             @if($alertCount > 0)
                 {{--
-                <li class="list-group-item list-group-item-light fs-7 rounded-0">test</li>
-                <li class="list-group-item list-group-item-light fs-7 rounded-0 mt-1 p-1">
+                <li class="list-group-item list-group-item-light fs-7 rounded-1">test</li>
+                <li class="list-group-item list-group-item-light fs-7 rounded-1 mt-1 p-1">
                     <div class="d-flex">
                         <img src="http://mib.test/storage/profile-photos/GtH3EGKiziqqtQAmydYyKVxT0Ol7d9xvfcwdbXGf.png"
                              height="50" width="50" alt="Maxlego08" class="rounded-2">
@@ -29,7 +29,7 @@
                         </div>
                     </div>
                 </li>
-                <li class="list-group-item list-group-item-danger fs-7 rounded-0 mt-1 p-1">
+                <li class="list-group-item list-group-item-danger fs-7 rounded-1 mt-1 p-1">
                     <div class="d-flex">
                         <i class="bi bi-trash3 fs-2"></i>
                         <div class="ms-1">

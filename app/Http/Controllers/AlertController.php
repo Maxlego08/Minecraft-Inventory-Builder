@@ -78,7 +78,7 @@ class AlertController extends Controller
         $url = $user->getProfileUrl();
         $userName = $user->name;
 
-        $div = '<li class="list-group-item list-group-item-info fs-7 rounded-0 mt-1 p-1">';
+        $div = '<li class="list-group-item list-group-item-info fs-7 rounded-1 mt-1 p-1">';
 
         $div .= "<div class='d-flex'>";
 
@@ -98,7 +98,7 @@ class AlertController extends Controller
     private function toHtml(AlertUser $alert): string
     {
 
-        $divAlert = "<li class='list-group-item list-group-item-{$alert->level} fs-7 rounded-0 mt-1 p-1'>";
+        $divAlert = "<li class='list-group-item list-group-item-{$alert->level} fs-7 rounded-1 mt-1 p-1'>";
 
         if ($alert->target_id || $alert->translation_key || $alert->icon) {
 

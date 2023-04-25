@@ -4,6 +4,7 @@ namespace App\Models\Resource;
 
 use App\Code\BBCode;
 use App\Models\File;
+use App\Models\MinecraftVersion;
 use App\Models\User;
 use App\Traits\ReviewStarts;
 use Carbon\Carbon;
@@ -18,6 +19,7 @@ use Illuminate\Support\Str;
  * Class Plugin
  * @package App\Models
  * @property int $id
+ * @property int $image_id
  * @property string $name
  * @property string $description
  * @property string $image
@@ -27,8 +29,8 @@ use Illuminate\Support\Str;
  * @property int $user_id
  * @property int $version_id
  * @property int $category_id
- * @property bool $deleted
  * @property bool $is_pending
+ * @property bool $is_deleted
  * @property User $user
  * @property Carbon $created_at;
  * @property Carbon $updated_at;
@@ -36,6 +38,7 @@ use Illuminate\Support\Str;
  * @property File $icon;
  * @property Version $version;
  * @property Category $category;
+ * @property String $versions;
  * @method static Resource find(int $id)
  * @method static Resource findOrFail(int $id)
  * @method static Resource create(array $values)
@@ -46,7 +49,13 @@ class Resource extends Model
 
     protected $table = "resource_resources";
 
-    protected $fillable = ['category_id', 'user_id', 'image_id', 'version_id', 'name', 'price', 'description', 'tag', 'is_display', 'is_pending', 'source_code_link', 'donation_link', 'discord_server_id', 'bstats_id', 'contributors', 'required_dependencies', 'optional_dependencies', 'supported_languages', 'link_information', 'link_support', 'versions', 'version_base_mc', 'lang_support'];
+    protected $fillable = ['category_id', 'user_id', 'image_id', 'version_id',
+        'name', 'price', 'description', 'tag', 'is_display',
+        'is_pending', 'source_code_link', 'is_deleted',
+        'donation_link', 'discord_server_id',
+        'bstats_id', 'contributors', 'required_dependencies',
+        'optional_dependencies', 'link_information', 'link_support', 'versions',
+        'version_base_mc', 'lang_support'];
 
     /**
      * The icon
@@ -105,7 +114,7 @@ class Resource extends Model
 
     public function scoreReviews()
     {
-        return Cache::remember("count.score::$this->id", 1, function () {
+        return Cache::remember("count.score::$this->id", 86400, function () {
             return $this->reviews()->avg('score');
         });
     }
@@ -117,7 +126,7 @@ class Resource extends Model
      */
     public function countDownload(): mixed
     {
-        return Cache::remember("count.download::$this->id", 3600, function () {
+        return Cache::remember("count.download::$this->id", 86400, function () {
             return $this->version()->sum('download');
         });
     }
@@ -154,6 +163,29 @@ class Resource extends Model
         return $this->hasMany(Version::class);
     }
 
+    public function getSupportedVersions(): mixed
+    {
+        return Cache::remember("supported.version::$this->id", 86400, function () {
+            return MinecraftVersion::whereIn('id', explode(',', $this->versions))->get()->map(function (MinecraftVersion $version) {
+                return $version->version;
+            })->implode(', ');
+        });
+    }
+
+    public function clearReview()
+    {
+        $this->clear('count.review');
+        $this->clear('count.score');
+        $this->clear('count.score.version');
+        $this->clear('count.review.version');
+        $this->clear('last.review');
+        $this->clear('start.percent.resource');
+
+        $this->version->clear('start.percent');
+        $this->version->clear('count.review.version');
+        $this->version->clear('count.score.version');
+    }
+
     /**
      * Clear cache
      *
@@ -163,6 +195,15 @@ class Resource extends Model
      * count.score.version
      * count.review.version
      * count.versions
+     * supported.version
+     * file.information
+     * last.review
+     * icon.path
+     * start.percent.resource
+     *
+     * resource.version
+     * resource.category
+     * resource.user
      *
      * @param string $key
      * @return void
@@ -170,6 +211,30 @@ class Resource extends Model
     public function clear(string $key): void
     {
         Cache::forget("$key::$this->id");
+    }
+
+    public function getIconPath()
+    {
+        return Cache::remember("icon.path::$this->id", 86400, function () {
+            return $this->icon->getPath();
+        });
+    }
+
+    public function lastReviews()
+    {
+        return Cache::remember("last.review::$this->id", 86400, function () {
+            return $this->reviews()->orderBy('created_at', 'desc')->limit(5)->get();
+        });
+    }
+
+    public function fileInformations(): array
+    {
+        return Cache::remember("file.information::$this->id", 86400, function () {
+            return [
+                'size' => human_filesize($this->version->file->file_size),
+                'extension' => $this->version->file->file_extension,
+            ];
+        });
     }
 
     /**
@@ -219,8 +284,32 @@ class Resource extends Model
 
     public function startPercentage(): float|int
     {
-        $value = $this->scoreReviews();
-        return ($value * 100) / 5;
+        return Cache::remember("start.percent.resource::$this->id", 86400, function () {
+            $value = $this->scoreReviews();
+            return ($value * 100) / 5;
+        });
+    }
+
+    public function containsVersion($version): bool
+    {
+        return str_contains($this->versions, $version);
+    }
+
+    /**
+     * Cache system
+     *
+     * @param string $key
+     * @return mixed
+     */
+    public function cache(string $key) : mixed {
+        return Cache::remember("resource.$key::$this->id", 86400, function () use ($key){
+            return match ($key) {
+                "version" => $this->version,
+                "category" => $this->category,
+                "user" => $this->user,
+                default => ""
+            };
+        });
     }
 
 }

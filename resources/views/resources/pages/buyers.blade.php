@@ -8,8 +8,8 @@
             @method('GET')
             @csrf
             <div class="mb-3">
-                <label for="search" class="form-label ms-3 rounded-0">Rechercher un acheteur</label>
-                <input type="text" class="form-control rounded-0" id="search">
+                <label for="search" class="form-label ms-3 rounded-1">Rechercher un acheteur</label>
+                <input type="text" class="form-control rounded-1" id="search">
             </div>
 
             <div class="row row-cols-lg-3">

@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticate;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
@@ -212,9 +213,41 @@ class User extends Authenticate
      */
     public function hasAccess(Resource $resource): bool
     {
-        if ($this->role->isModerator() || $this->id === $resource->user_id || $resource->price == 0) {
+        if ($this->cache('role')->isModerator() || $this->id === $resource->user_id || $resource->price == 0) {
             return true;
         }
-        return Access::where('user_id', $this->id)->where('resource_id', $resource->id)->count() > 0;
+        return Cache::remember("user.access::$this->id", 86400, function (Resource $resource) {
+            return Access::where('user_id', $this->id)->where('resource_id', $resource->id)->count() > 0;
+        });
+    }
+
+    /**
+     * Cache system
+     *
+     * user.role
+     *
+     * @param string $key
+     * @return mixed
+     */
+    public function cache(string $key) : mixed {
+        return Cache::remember("user.$key::$this->id", 86400, function () use ($key){
+            return match ($key) {
+                "role" => $this->role,
+                default => ""
+            };
+        });
+    }
+
+    /**
+     * Delete cache value for user
+     *
+     * user.access
+     *
+     * @param string $key
+     * @return void
+     */
+    public function clear(string $key)
+    {
+        Cache::forget("$key::$this->id");
     }
 }

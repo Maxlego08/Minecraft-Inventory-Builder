@@ -4,14 +4,14 @@
     <div class="content_resources_show mb-5">
         <div class="container">
             <div class="px-3 px-lg-0">
-                <div class="card my-4 rounded-0">
+                <div class="card my-4 rounded-1">
                     <div class="card-body">
                         <div class="row align-items-center justify-content-between">
                             <div class="col-lg-7 col-xl-9 d-flex align-items-center flex-wrap flex-sm-nowrap">
                                 <div class="block_resources_start">
                                     <a class="img_1" href="{{ $resource->link('description') }}"
                                        title="Show {{ $resource->name }} description">
-                                        <img class="" src="{{ $resource->icon->getPath() }}"
+                                        <img class="" src="{{ $resource->getIconPath() }}"
                                              alt="{{ $resource->name }} logo" width="50" height="50">
                                     </a>
                                 </div>
@@ -24,31 +24,32 @@
                                 @if (user()->hasAccess($resource))
                                     <div class="col-lg-3 col-xl-2 offset-lg-1">
                                         <a href="{{  $resource->link('download') }}"
-                                           class="btn btn-primary w-100 rounded-0">{{ __('resources.download.button') }}
-                                            <span class="fs-9 fw-light d-block">{{ human_filesize($resource->version->file->file_size) }} .{{ $resource->version->file->file_extension }}</span>
+                                           class="btn btn-primary w-100 rounded-1">{{ __('resources.download.button') }}
+                                            <span class="fs-9 fw-light d-block">{{ $resource->fileInformations()['size'] }} .{{ $resource->fileInformations()['extension'] }}</span>
                                         </a>
                                     </div>
                                 @else
                                     <div class="col-lg-3 col-xl-2 offset-lg-1">
                                         <div
-                                            class="btn btn-primary w-100 rounded-0">{{ __('resources.download.button') }}
-                                            <span class="fs-9 fw-light d-block">{{ human_filesize($resource->version->file->file_size) }} .{{ $resource->version->file->file_extension }}</span>
+                                            class="btn btn-primary w-100 rounded-1"
+                                            title="{{ __('resources.download.access') }}">{{ __('resources.download.button') }}
+                                            <span class="fs-9 fw-light d-block">{{ $resource->fileInformations()['size'] }} .{{ $resource->fileInformations()['extension'] }}</span>
                                         </div>
                                     </div>
                                 @endif
                             @endauth
                             @guest
                                 <div class="col-lg-3 col-xl-2 offset-lg-1">
-                                    <div
-                                        class="btn btn-primary w-100 rounded-0 disabled cursor-disabled">{{ __('resources.download.button') }}
-                                        <span class="fs-9 fw-light d-block">{{ human_filesize($resource->version->file->file_size) }} .{{ $resource->version->file->file_extension }}</span>
+                                    <div class="btn btn-primary w-100 rounded-1 disabled cursor-disabled"
+                                         title="{{ __('resources.download.login') }}">{{ __('resources.download.button') }}
+                                        <span class="fs-9 fw-light d-block">{{ $resource->fileInformations()['size'] }} .{{ $resource->fileInformations()['extension'] }}</span>
                                     </div>
                                 </div>
                             @endguest
                         </div>
                     </div>
                 </div>
-                <div class="row mt-5">
+                <div class="row">
                     <div class="col-lg-9">
                         <ul class="nav nav-tabs justify-content-lg-between flex-wrap flex-lg-nowrap" id="myTabResources"
                             role="tablist">
@@ -96,9 +97,55 @@
                         </div>
                     </div>
                     <div class="col-lg-3 mt-3 mt-lg-0">
-
+                        @auth()
+                            @if ($resource->isModerator())
+                                <div class="card mb-3 rounded-1">
+                                    <div class="card-body">
+                                        <h2 class="text-center fs-6 fw-bold mb-3">{{ __('resources.tools') }}</h2>
+                                        <a href="{{ route('resources.edit.index', ['resource' => $resource]) }}"
+                                           class="text-decoration-none d-block">{{ __('resources.edit.content') }}</a>
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#iconModal"
+                                           class="text-decoration-none d-block">{{ __('resources.edit.icon') }}</a>
+                                        <a href="{{ route('resources.update.index', ['resource' => $resource]) }}"
+                                           class="text-decoration-none d-block">{{ __('resources.edit.update') }}</a>
+                                    </div>
+                                </div>
+                                <div class="modal fade" id="iconModal" tabindex="-1" aria-labelledby="iconModalLabel"
+                                     aria-hidden="true">
+                                    <form method="post" enctype="multipart/form-data"
+                                          action="{{ route('resources.icon', ['resource' => $resource]) }}">
+                                        @csrf
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title"
+                                                        id="exampleModalLabel">{{ __('resources.edit.icon_modal.title') }}</h5>
+                                                    <button type="button" class="btn-close btn-close-white"
+                                                            data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <label class="form-check-label" for="icon">{{ __('resources.create.image.name') }}</label>
+                                                    <input type="file" class="form-control rounded-1 mt-2 @error('icon') is-invalid @enderror" name="icon"
+                                                           id="icon" accept=".jpg,.jpeg,.png" required>
+                                                    <small>{{ __('resources.create.image.description') }}</small>
+                                                    @error('icon')
+                                                    <div id="icon_error" class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary rounded-1 btn-sm"
+                                                            data-bs-dismiss="modal">{{ __('messages.close') }}</button>
+                                                    <button type="submit"
+                                                            class="btn btn-primary rounded-1 btn-sm">{{ __('messages.save_changes') }}</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            @endif
+                        @endauth
                         @if($resource->discord_server_id != null)
-                            <div class="card mb-3 rounded-0">
+                            <div class="card mb-3 rounded-1">
                                 <div class="card-body">
                                     <a href="#" id="discord_server_id" target="_blank"
                                        data-url="{{ route('api.v1.discord.information', ['server_id' => $resource->discord_server_id]) }}">
@@ -109,7 +156,7 @@
                         @endif
 
                         @if($resource->bstats_id != null)
-                            <div class="card mb-3 rounded-0">
+                            <div class="card mb-3 rounded-1">
                                 <div class="card-body">
                                     <h2 class="text-center fs-6 fw-bold mb-3">{{ __('messages.statistics') }}</h2>
                                     <ul class="list-group">
@@ -138,13 +185,13 @@
                             </div>
                         @endif
 
-                        <div class="card mb-3 rounded-0">
+                        <div class="card mb-3 rounded-1">
                             <div class="card-body">
                                 <h2 class="text-center fs-6 fw-bold mb-3">{{ __('resources.informations') }}</h2>
                                 <ul class="list-group">
                                     <li class="d-flex justify-content-between align-items-center">
                                         {{ __('messages.author') }} <span class="text-danger"><a
-                                                href="{{ $resource->user->authorPage() }}">{{ $resource->user->name  }}</a></span>
+                                                href="{{ $resource->cache('user')->authorPage() }}">{{ $resource->cache('user')->name  }}</a></span>
                                     </li>
                                     <li class="d-flex justify-content-between align-items-center">
                                         {{ __('messages.downloads') }}<span>{{ $resource->countDownload() }}</span>
@@ -154,10 +201,11 @@
                                         <span>{{ format($resource->created_at) }}</span>
                                     <li class="d-flex justify-content-between align-items-center">
                                         {{ __('messages.last-update') }}
-                                        <span>{{ format($resource->version->created_at) }}</span>
+                                        <span>{{ format($resource->cache('version')->created_at) }}</span>
                                     </li>
                                     <li class="d-flex justify-content-between align-items-center">
-                                        {{ __('messages.category') }}<span>{{ $resource->category->name }}</span>
+                                        {{ __('messages.category') }}
+                                        <span>{{ $resource->cache('category')->name }}</span>
                                     </li>
 
                                     <li class="d-flex justify-content-between align-items-center mt-4">
@@ -177,28 +225,30 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="card mb-3 rounded-0">
+                        <div class="card mb-3 rounded-1">
                             <div class="card-body">
-                                <h2 class="text-center fs-6 fw-bold mb-3">{{ __('messages.version') }} {{ $resource->version->version }}</h2>
+                                <h2 class="text-center fs-6 fw-bold mb-3">{{ __('messages.version') }} {{ $resource->cache('version')->version }}</h2>
                                 <ul class="list-group">
                                     <li class="d-flex justify-content-between align-items-center">
-                                        {{ __('messages.version') }}<span>{{ $resource->version->version }}</span>
+                                        {{ __('messages.version') }}
+                                        <span>{{ $resource->cache('version')->version }}</span>
                                     </li>
                                     <li class="d-flex justify-content-between align-items-center">
-                                        {{ __('messages.downloads') }}<span>{{ $resource->version->download }}</span>
+                                        {{ __('messages.downloads') }}
+                                        <span>{{ $resource->cache('version')->download }}</span>
                                     </li>
                                     <li class="d-flex justify-content-between align-items-center">
                                         {{ __('messages.updated') }}
-                                        <span>{{ format($resource->version->created_at) }}</span>
+                                        <span>{{ format($resource->cache('version')->created_at) }}</span>
                                     </li>
                                     <li class="d-flex justify-content-between align-items-center mt-4">
                                         {{ __('resources.review-current') }}
                                         <span>
                                             @auth
-                                                @include('elements.stars', ['percentage' => $resource->version->startPercentage()])
+                                                @include('elements.stars', ['percentage' => $resource->cache('version')->startPercentage()])
                                             @endauth
                                             @guest
-                                                @include('elements.stars-static', ['percentage' => $resource->version->startPercentage()])
+                                                @include('elements.stars-static', ['percentage' => $resource->cache('version')->startPercentage()])
                                             @endguest
                                         <br>
                                         <span
@@ -208,21 +258,6 @@
                                 </ul>
                             </div>
                         </div>
-                        @auth()
-                            @if ($resource->isModerator())
-                                <div class="card mb-3 rounded-0">
-                                    <div class="card-body">
-                                        <h2 class="text-center fs-6 fw-bold mb-3">{{ __('resources.tools') }}</h2>
-                                        <a href="{{ url('resources.edit', 1) }}"
-                                           class="text-decoration-none d-block">{{ __('resources.edit.content') }}</a>
-                                        <a href="#"
-                                           class="text-decoration-none d-block">{{ __('resources.edit.icon') }}</a>
-                                        <a href="{{ url('resources.update-ressource', 1) }}"
-                                           class="text-decoration-none d-block">{{ __('resources.edit.update') }}</a>
-                                    </div>
-                                </div>
-                            @endif
-                        @endauth
                     </div>
                 </div>
             </div>

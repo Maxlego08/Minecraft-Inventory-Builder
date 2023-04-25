@@ -4,12 +4,12 @@
 
 @section('content-member')
 
-    <div class="card rounded-0 mt-3 mb-3">
+    <div class="card rounded-1 mt-3 mb-3">
         <div class="card-body">
             <h2>{{ __('conversations.title') }}</h2>
-            <ul class="ps-0 ms-0 py-2 rounded-0" id="conversations">
+            <ul class="ps-0 ms-0 py-2 rounded-1" id="conversations">
                 @foreach($conversations as $conversation)
-                    <li class="list-group-item rounded-0 mb-2">
+                    <li class="list-group-item rounded-1 mb-2">
                         <div class='d-flex'>
                             <a href="{{ route('profile.conversations.show', $conversation) }}"
                                title="{{ __('conversations.list.title') }}">

@@ -3,7 +3,7 @@
 @section('title', "$resource->name | Updates")
 
 @section('resource')
-    <div class="card mb-4 rounded-0">
+    <div class="card mb-4 rounded-1">
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table">

@@ -4,14 +4,14 @@
 
 @section('content-member')
 
-    <div class="card rounded-0 mt-3 mb-3">
+    <div class="card rounded-1 mt-3 mb-3">
         <div class="card-body">
             <h5>{{ __('images.upload.title') }}</h5>
             <form method="post" action="{{ route('profile.images.store.redirect')}}" enctype="multipart/form-data">
                 @csrf
 
                 <div class="mb-3">
-                    <input type="file" class="form-control rounded-0 mt-2 @error('image') is-invalid @enderror"
+                    <input type="file" class="form-control rounded-1 mt-2 @error('image') is-invalid @enderror"
                            name="image" id="image" accept=".jpg,.jpeg,.png,.gif" required>
                     @error('image')
                     <div id="image_error" class="invalid-feedback">{{ $message }}</div>
@@ -19,12 +19,12 @@
                 </div>
 
                 <button type="submit"
-                        class="btn btn-primary btn-sm rounded-0 d-flex align-items-center justify-content-center"> {{ __('images.upload.button') }}</button>
+                        class="btn btn-primary btn-sm rounded-1 d-flex align-items-center justify-content-center"> {{ __('images.upload.button') }}</button>
             </form>
         </div>
     </div>
 
-    <div class="card rounded-0 mt-3 mb-3">
+    <div class="card rounded-1 mt-3 mb-3">
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center">
                 <h4>{{ __('images.title') }}</h4>
@@ -59,7 +59,7 @@
                             <td>
                                 @if($image->is_deletable)
                                     <button type="button"
-                                            class="btn btn-danger btn-sm rounded-0 d-flex align-items-center justify-content-center"
+                                            class="btn btn-danger btn-sm rounded-1 d-flex align-items-center justify-content-center"
                                             data-bs-toggle="modal"
                                             data-bs-target="#exampleModal{{ $image->id }}">
                                         {{ __('images.table.delete') }}
@@ -68,7 +68,7 @@
                                     <div class="modal fade" id="exampleModal{{ $image->id }}" tabindex="-1"
                                          aria-labelledby="exampleModalLabel{{ $image->id }}" aria-hidden="true">
                                         <div class="modal-dialog">
-                                            <div class="modal-content rounded-0">
+                                            <div class="modal-content rounded-1">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title text-dark"
                                                         id="exampleModalLabel">{{ __('images.modal.title') }}</h5>
@@ -80,13 +80,13 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button"
-                                                            class="btn btn-secondary btn-sm rounded-0 d-flex align-items-center justify-content-center"
+                                                            class="btn btn-secondary btn-sm rounded-1 d-flex align-items-center justify-content-center"
                                                             data-bs-dismiss="modal"> {{ __('messages.close') }}</button>
                                                     <form method="post"
                                                           action="{{ route('profile.images.delete', ['file' => $image]) }}">
                                                         @csrf
                                                         <button type="submit"
-                                                                class="btn btn-danger btn-sm rounded-0 d-flex align-items-center justify-content-center"> {{ __('images.table.delete') }}</button>
+                                                                class="btn btn-danger btn-sm rounded-1 d-flex align-items-center justify-content-center"> {{ __('images.table.delete') }}</button>
                                                     </form>
                                                 </div>
                                             </div>

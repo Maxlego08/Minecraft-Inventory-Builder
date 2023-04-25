@@ -4,8 +4,9 @@
             <div class="col-lg-9">
                 <div class="mb-3">
                     <label for="name_resource" class="form-label">{{ __('resources.create.title.name') }}</label>
-                    <input type="text" class="form-control rounded-0 @error('name_resource') is-invalid @enderror"
-                           id="name_resource" name="name_resource" maxlength="100" minlength="3" required value="{{ old('name_resource') }}">
+                    <input type="text" class="form-control rounded-1 @error('name_resource') is-invalid @enderror"
+                           id="name_resource" name="name_resource" maxlength="100" minlength="3" required
+                           value="{{ old('name_resource') }}">
                     <small>{{ __('resources.create.title.description') }}</small>
                     @error('name_resource')
                     <div id="name_resource_error" class="invalid-feedback">{{ $message }}</div>
@@ -15,8 +16,9 @@
             <div class="col-lg-3">
                 <div class="mb-3">
                     <label for="version" class="form-label">{{ __('resources.create.version.name') }}</label>
-                    <input type="text" class="form-control rounded-0 @error('version') is-invalid @enderror"
-                           id="version" name="version" maxlength="10" minlength="1" required value="{{ old('version') }}">
+                    <input type="text" class="form-control rounded-1 @error('version') is-invalid @enderror"
+                           id="version" name="version" maxlength="10" minlength="1" required
+                           value="{{ old('version') }}">
                     <small>{{ __('resources.create.version.description') }}</small>
                     @error('version')
                     <div id="version_error" class="invalid-feedback">{{ $message }}</div>
@@ -25,7 +27,8 @@
             </div>
             <div class="mb-3">
                 <label for="tags" class="form-label">{{ __('resources.create.tags.name') }}</label>
-                <input type="text" class="form-control rounded-0 @error('tags') is-invalid @enderror" id="tags" name="tags" value="{{ old('tags') }}"
+                <input type="text" class="form-control rounded-1 @error('tags') is-invalid @enderror" id="tags"
+                       name="tags" value="{{ old('tags') }}"
                        minlength="3" maxlength="150">
                 <small>{{ __('resources.create.tags.description') }}</small>
                 @error('tags')
@@ -33,11 +36,33 @@
                 @enderror
             </div>
 
+            <div class="mb-3">
+                <label for="required_dependencies" class="form-label">{{ __('resources.create.required_dependencies.name') }}</label>
+                <input type="text" class="form-control rounded-1 @error('required_dependencies') is-invalid @enderror" id="required_dependencies"
+                       name="required_dependencies" value="{{ old('required_dependencies') }}"
+                       minlength="3" maxlength="300">
+                <small>{{ __('resources.create.required_dependencies.description') }}</small>
+                @error('required_dependencies')
+                <div id="required_dependencies_error" class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="optional_dependencies" class="form-label">{{ __('resources.create.optional_dependencies.name') }}</label>
+                <input type="text" class="form-control rounded-1 @error('optional_dependencies') is-invalid @enderror" id="optional_dependencies"
+                       name="optional_dependencies" value="{{ old('optional_dependencies') }}"
+                       minlength="3" maxlength="300">
+                <small>{{ __('resources.create.optional_dependencies.description') }}</small>
+                @error('optional_dependencies')
+                <div id="optional_dependencies_error" class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
             <hr>
 
             <div class="mb-3">
                 <label class="form-check-label" for="category">{{ __('resources.create.category.name') }}</label>
-                <select class="form-control rounded-0 mt-2 @error('category') is-invalid @enderror" aria-label=""
+                <select class="form-control rounded-1 mt-2 @error('category') is-invalid @enderror" aria-label=""
                         name="category" id="category">
                     @foreach($categories as $c)
                         <option value="{{ $c->id }}"
@@ -52,7 +77,7 @@
 
             <div class="mb-3">
                 <label class="form-check-label" for="upload_file">{{ __('resources.create.file.name') }}</label>
-                <input type="file" class="form-control rounded-0 mt-2 @error('upload_file') is-invalid @enderror"
+                <input type="file" class="form-control rounded-1 mt-2 @error('upload_file') is-invalid @enderror"
                        id="upload_file" name="upload_file" required accept=".jar,.zip,.rar">
                 <small>{{ __('resources.create.file.description') }}</small>
                 @error('upload_file')
@@ -63,7 +88,8 @@
             <div class="mb-3">
                 <label for="price" class="form-label">{{ __('resources.create.price.name') }}</label>
                 <input type="number" step=".01" min="0" max="100" placeholder="0.00€ ({{ __('messages.free') }})"
-                       class="form-control rounded-0 @error('price') is-invalid @enderror" id="price" name="price" value="{{ old('price') }}">
+                       class="form-control rounded-1 @error('price') is-invalid @enderror" id="price" name="price"
+                       value="{{ old('price') }}">
                 @if ($role->premium_resources)
                     <small>{!! __('resources.create.price.description') !!}</small>
                 @else
@@ -78,10 +104,11 @@
 
             <div class="mb-3">
                 <label for="version_base_mc" class="form-label">{{ __('resources.create.native_version.name') }}</label>
-                <select class="form-select rounded-0 @error('version_base_mc') is-invalid @enderror"
+                <select class="form-select rounded-1 @error('version_base_mc') is-invalid @enderror"
                         name="version_base_mc" id="version_base_mc" required>
                     @foreach($versions as $v)
-                        <option @if(old('version_base_mc') === $v->id) selected @endif value="{{ $v->id }}">{{ $v->version }}</option>
+                        <option @if(old('version_base_mc') === $v->id) selected
+                                @endif value="{{ $v->id }}">{{ $v->version }}</option>
                     @endforeach
                 </select>
                 <small>{{ __('resources.create.native_version.description') }}</small>
@@ -111,7 +138,7 @@
 
             <div class="mb-3">
                 <label for="contributors" class="form-label">{{ __('resources.create.contributor.name') }}</label>
-                <input type="text" class="form-control rounded-0 @error('contributors') is-invalid @enderror"
+                <input type="text" class="form-control rounded-1 @error('contributors') is-invalid @enderror"
                        id="contributors" name="contributors" value="{{ old('contributors') }}">
                 <small>{{ __('resources.create.contributor.description') }}</small>
                 @error('version_base_mc')
@@ -121,7 +148,7 @@
 
             <div class="mb-3">
                 <label for="link_source" class="form-label">{{ __('resources.create.code.name') }}</label>
-                <input type="url" class="form-control rounded-0 @error('link_source') is-invalid @enderror"
+                <input type="url" class="form-control rounded-1 @error('link_source') is-invalid @enderror"
                        id="link_source" name="link_source" value="{{ old('link_source') }}">
                 <small>{{ __('resources.create.code.description') }}</small>
                 @error('link_source')
@@ -130,7 +157,7 @@
             </div>
             <div class="mb-3">
                 <label for="link_donation" class="form-label">{{ __('resources.create.donation.name') }}</label>
-                <input type="url" class="form-control rounded-0 @error('link_donation') is-invalid @enderror"
+                <input type="url" class="form-control rounded-1 @error('link_donation') is-invalid @enderror"
                        id="link_donation" name="link_donation" value="{{ old('link_donation') }}">
                 <small>{{ __('resources.create.donation.description') }}</small>
                 @error('link_donation')
@@ -139,7 +166,7 @@
             </div>
             <div class="mb-3">
                 <label for="lang_support" class="form-label">{{ __('resources.create.lang.name') }}</label>
-                <input type="text" class="form-control rounded-0 @error('lang_support') is-invalid @enderror"
+                <input type="text" class="form-control rounded-1 @error('lang_support') is-invalid @enderror"
                        id="lang_support" name="lang_support" value="{{ old('lang_support') }}">
                 <small>{{ __('resources.create.lang.description') }}</small>
                 @error('lang_support')
@@ -147,15 +174,13 @@
                 @enderror
             </div>
 
-            <div id="bbcodePreview"></div>
-
-            @include('elements.textarea', ['description' => 'Description', 'row' => 30])
+            @include('elements.textarea', ['description' => 'Description', 'row' => 30, 'content' => old('description')])
 
             <hr>
 
             <div class="mb-3">
                 <label for="link_information" class="form-label">{{ __('resources.create.informations.name') }}</label>
-                <input type="url" class="form-control rounded-0 @error('link_information') is-invalid @enderror"
+                <input type="url" class="form-control rounded-1 @error('link_information') is-invalid @enderror"
                        id="link_information" name="link_information" value="{{ old('link_information') }}">
                 <small>{{ __('resources.create.informations.description') }}</small>
                 @error('link_information')
@@ -165,8 +190,8 @@
 
             <div class="mb-3">
                 <label for="link_support" class="form-label">{{ __('resources.create.support.name') }}</label>
-                <input type="url" class="form-control rounded-0 @error('link_support') is-invalid @enderror"
-                       id="link_support">
+                <input type="url" class="form-control rounded-1 @error('link_support') is-invalid @enderror"
+                       id="link_support" value="{{ old('link_support') }}">
                 <small>{!! __('resources.create.support.description') !!}</small>
                 @error('link_support')
                 <div id="link_support_error" class="invalid-feedback">{{ $message }}</div>
@@ -176,7 +201,7 @@
             <div class="mb-3 d-flex">
                 <div class="col-6 me-2">
                     <label for="discord" class="form-label">{{ __('resources.create.discord.name') }}</label>
-                    <input type="text" class="form-control rounded-0 @error('discord') is-invalid @enderror"
+                    <input type="text" class="form-control rounded-1 @error('discord') is-invalid @enderror"
                            name="discord" id="discord" minlength="18" maxlength="18"
                            placeholder="{{ __('resources.create.discord.place') }}" value="{{ old('discord') }}">
                     <small>{!! __('resources.create.discord.description') !!}</small>
@@ -186,8 +211,9 @@
                 </div>
                 <div class="col-6 ms-2">
                     <label for="bstats_id" class="form-label">{{ __('resources.create.bstats.name') }}</label>
-                    <input type="text" class="form-control rounded-0 @error('link_support') is-invalid @enderror"
-                           name="bstats_id" id="bstats_id" maxlength="18" minlength="0">
+                    <input type="text" class="form-control rounded-1 @error('bstats_id') is-invalid @enderror"
+                           name="bstats_id" id="bstats_id" maxlength="18" minlength="0" ,
+                           value="{{ old('bstats_id') }}">
                     <small>{!! __('resources.create.bstats.description') !!}</small>
                     @error('bstats_id')
                     <div id="bstats_id_error" class="invalid-feedback">{{ $message }}</div>
@@ -199,18 +225,14 @@
 
             <div class="mb-4">
                 <label class="form-check-label" for="icon">{{ __('resources.create.image.name') }}</label>
-                <input type="file" class="form-control rounded-0 mt-2 @error('icon') is-invalid @enderror" name="icon"
+                <input type="file" class="form-control rounded-1 mt-2 @error('icon') is-invalid @enderror" name="icon"
                        id="icon" accept=".jpg,.jpeg,.png" required>
                 <small>{{ __('resources.create.image.description') }}</small>
                 @error('icon')
                 <div id="icon_error" class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
-            <button type="submit" class="btn btn-primary rounded-0 d-block">{{ __('resources.create.button') }}</button>
+            <button type="submit" class="btn btn-primary rounded-1 d-block">{{ __('resources.create.button') }}</button>
         </div>
     </div>
 </div>
-
-@push('footer-scripts')
-    @vite(['resources/js/editor/editor.js'])
-@endpush

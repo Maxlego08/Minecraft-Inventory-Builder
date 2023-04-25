@@ -105,3 +105,32 @@ if (!function_exists('isRoute')) {
         return Route::currentRouteNamed(...$patterns) ? '-active' : '';
     }
 }
+
+if (!function_exists('dependencies')) {
+    function dependencies(string $string): string
+    {
+        $values = explode(' ', $string);
+        foreach ($values as $value) {
+            $string = str_replace($value, replaceDependency($value), $string);
+        }
+        return $string;
+    }
+}
+
+if (!function_exists('replaceDependency')) {
+    function replaceDependency(string $string): string
+    {
+        return match (str_replace(',', '', strtolower($string))) {
+            "itemadder" => "<a href='https://www.spigotmc.org/resources/73355/' target='_blank'>$string</a>",
+            "hdb", "headdatabase" => "<a href='https://www.spigotmc.org/resources/14280/' target='_blank'>$string</a>",
+            "oraxen" => "<a href='https://www.spigotmc.org/resources/72448/' target='_blank'>$string</a>",
+            "zauctionhouse" => "<a href='https://www.spigotmc.org/resources/63010/' target='_blank'>$string</a>",
+            "placeholderapi", "placeholder" => "<a href='https://www.spigotmc.org/resources/6245/' target='_blank'>$string</a>",
+            "vault" => "<a href='https://www.spigotmc.org/resources/34315/' target='_blank'>$string</a>",
+            "protocollib", "protocolib" => "<a href='https://www.spigotmc.org/resources/1997/' target='_blank'>$string</a>",
+            "advancedheads", "advancedhead" => "<a href='https://www.spigotmc.org/resources/101876/' target='_blank'>$string</a>",
+            "luckperm", "luckperms", => "<a href='https://www.spigotmc.org/resources/28140/' target='_blank'>$string</a>",
+            default => $string
+        };
+    }
+}

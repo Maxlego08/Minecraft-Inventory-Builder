@@ -11,6 +11,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\ValidationException;
 
@@ -26,6 +27,15 @@ class ResourceReviewController extends Controller
      */
     public function index(string $slug, Resource $resource): \Illuminate\Contracts\Foundation\Application|Factory|View|Application|RedirectResponse
     {
+
+        if ($resource->is_pending && (Auth::guest() || !$resource->isModerator())) {
+            return Redirect::route('resources.index')->with('toast', createToast('error', __('resources.view.errors.pending.title'), __('resources.view.errors.pending.content'), 5000));
+        }
+
+        if ($resource->is_deleted && (Auth::guest() || !user()->role->isModerator())) {
+            return Redirect::route('resources.index')->with('toast', createToast('error', __('resources.view.errors.deleted.title'), __('resources.view.errors.deleted.content'), 5000));
+        }
+
         if ($slug != $resource->slug()) return Redirect::route('resources.reviews', ['resource' => $resource->id, 'slug' => $resource->slug()]);
         $reviews = $resource->reviews()->with('version')->with('user')->orderBy('created_at', 'desc')->paginate();
         return view('resources.pages.reviews', ['resource' => $resource, 'reviews' => $reviews]);
@@ -51,6 +61,14 @@ class ResourceReviewController extends Controller
     public function store(Request $request, Resource $resource): RedirectResponse
     {
 
+        if ($resource->is_pending && (Auth::guest() || !$resource->isModerator())) {
+            return Redirect::route('resources.index')->with('toast', createToast('error', __('resources.view.errors.pending.title'), __('resources.view.errors.pending.content'), 5000));
+        }
+
+        if ($resource->is_deleted && (Auth::guest() || !user()->role->isModerator())) {
+            return Redirect::route('resources.index')->with('toast', createToast('error', __('resources.view.errors.deleted.title'), __('resources.view.errors.deleted.content'), 5000));
+        }
+
         $this->validate($request, ['rate' => 'required', 'message' => 'required|max:5000|min:30',]);
 
         $user = user();
@@ -74,10 +92,7 @@ class ResourceReviewController extends Controller
 
         Review::create(['user_id' => $user->id, 'resource_id' => $resource->id, 'version_id' => $resource->version_id, 'score' => $rate, 'review' => $request['message']]);
 
-        $resource->clear('count.review');
-        $resource->clear('count.score');
-        $resource->clear('count.score.version');
-        $resource->clear('count.review.version');
+        $resource->clearReview();
 
         return Redirect::back()->with('toast', createToast('success', __('resources.reviews.success.title'), __('resources.reviews.success.content'), 5000));
     }
@@ -99,10 +114,7 @@ class ResourceReviewController extends Controller
         $resource = $review->resource;
         $review->delete();
 
-        $resource->clear('count.review');
-        $resource->clear('count.score');
-        $resource->clear('count.score.version');
-        $resource->clear('count.review.version');
+        $resource->clearReview();
 
         return Redirect::back()->with('toast', createToast('success', 'Action effectuée', 'Vous venez de supprimer cette review.', 5000));
     }

@@ -1,4 +1,4 @@
-<div class="card rounded-0">
+<div class="card rounded-1">
     <div class="card-body">
         <div class="d-flex flex-md-row flex-column justify-content-md-between">
             <h2>{{ __('profiles.two_factor.title') }}</h2>
@@ -8,7 +8,7 @@
                     @csrf
                     @method('DELETE')
 
-                    <button type="submit" class="btn btn-danger btn-sm rounded-0 d-block w-100 mt-2">
+                    <button type="submit" class="btn btn-danger btn-sm rounded-1 d-block w-100 mt-2">
                         {{ __('profiles.two_factor.disable') }}
                     </button>
                 </form>
@@ -20,7 +20,7 @@
             <form method="POST" action="{{ url('user/two-factor-authentication') }}">
                 @csrf
 
-                <button type="submit" class="btn btn-primary btn-sm rounded-0 d-block w-100 mt-2">
+                <button type="submit" class="btn btn-primary btn-sm rounded-1 d-block w-100 mt-2">
                     {{ __('profiles.two_factor.enable') }}
                 </button>
             </form>
@@ -44,9 +44,9 @@
                         </div>
 
                         <label for="code" class="form-label">{{ __('profiles.two_factor.label') }}</label>
-                        <input type="text" id="code" name="code" class="form-control rounded-0 mb-2">
+                        <input type="text" id="code" name="code" class="form-control rounded-1 mb-2">
                         <button type="submit"
-                                class="btn btn-primary btn-sm rounded-0 d-block w-100 mt-2">{{ __('profiles.two_factor.confirm') }}</button>
+                                class="btn btn-primary btn-sm rounded-1 d-block w-100 mt-2">{{ __('profiles.two_factor.confirm') }}</button>
                     </form>
                 </div>
             @elseif (session('status') == 'two-factor-authentication-confirmed' || session('status') == 'recovery-codes-generated')
@@ -65,7 +65,7 @@
                 <form method="POST" action="{{ route('profile.2fa') }}">
                     @csrf
                     <button type="submit"
-                            class="btn btn-success btn-sm rounded-0 d-block mt-2">{{ __('profiles.two_factor.download') }}</button>
+                            class="btn btn-success btn-sm rounded-1 d-block mt-2">{{ __('profiles.two_factor.download') }}</button>
                 </form>
 
             @elseif(user()->two_factor_confirmed_at)
@@ -73,7 +73,7 @@
                 <form method="POST" action="{{ url('user/two-factor-recovery-codes') }}">
                     @csrf
                     <button type="submit"
-                            class="btn btn-primary btn-sm rounded-0 d-block w-100 mt-2">{{ __('profiles.two_factor.regen') }}</button>
+                            class="btn btn-primary btn-sm rounded-1 d-block w-100 mt-2">{{ __('profiles.two_factor.regen') }}</button>
                 </form>
             @endif
         @endif

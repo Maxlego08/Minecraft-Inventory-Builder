@@ -31,11 +31,7 @@ class ResourceCreateController extends Controller
         if ($counts >= $role->max_resources) {
             return Redirect::back()->with('toast', createToast('error', __('resources.create.errors.limit.title'), __('resources.create.errors.limit.content'), 5000));
         }
-        return view('resources.create', [
-            'versions' => $this->versions(),
-            'categories' => Category::all(),
-            'role' => $role,
-        ]);
+        return view('resources.create', ['versions' => $this->versions(), 'categories' => Category::all(), 'role' => $role,]);
     }
 
     /**
@@ -50,9 +46,11 @@ class ResourceCreateController extends Controller
         $role = user()->role;
 
         $this->validate($request, [
+
             'name_resource' => ['required', 'string', 'min:3', 'max:100'],
             'version' => ['required', 'string', 'min:3', 'max:25'],
             'tags' => ['required', 'string', 'min:3', 'max:150'],
+
             'description' => 'required',
             'price' => ['nullable', 'integer', 'min:0', 'max:100'],
             'category' => ['required'],
@@ -69,6 +67,9 @@ class ResourceCreateController extends Controller
             'lang_support' => ['nullable', 'string', 'min:0', 'max:300'],
             'bstats_id' => ['nullable', 'string', 'min:0', 'max:300'],
             'discord' => ['nullable', 'string', 'min:18', 'max:18'],
+
+            'required_dependencies' => ['nullable', 'string', 'min:3', 'max:300'],
+            'optional_dependencies' => ['nullable', 'string', 'min:3', 'max:300'],
         ]);
 
         $category = Category::find($request['category']);
@@ -91,43 +92,13 @@ class ResourceCreateController extends Controller
 
         $price = $request['price'];
 
-        $resource = Resource::create([
-            'category_id' => $category->id,
-            'user_id' => $user->id,
-            'image_id' => $media->id,
-            'name' => $request['name_resource'],
-            'price' => min(100, max(0, $price)),
-            'description' => $request['description'],
-            'tag' => $request['tags'],
-            'is_display' => true,
-            'is_pending' => true,
-            'contributors' => $request['contributors'],
-            'source_code_link' => $request['link_source'],
-            'donation_link' => $request['link_donation'],
-            'discord_server_id' => $request['discord'],
-            'bstats_id' => $request['bstats_id'],
-            'required_dependencies' => null,
-            'optional_dependencies' => null,
-            'supported_languages' => null,
-            'link_information' => $request['link_information'],
-            'link_support' => $request['lang_support'],
-            'lang_support' => $request['lang_support'],
-            'versions' => implode(",", $request['versions'] ?? []),
-            'version_id' => null,
-        ]);
+        $resource = Resource::create(['category_id' => $category->id, 'user_id' => $user->id, 'image_id' => $media->id, 'name' => $request['name_resource'], 'price' => min(100, max(0, $price)), 'description' => $request['description'], 'tag' => $request['tags'], 'is_display' => true, 'is_pending' => true, 'contributors' => $request['contributors'], 'source_code_link' => $request['link_source'], 'donation_link' => $request['link_donation'], 'discord_server_id' => $request['discord'], 'bstats_id' => $request['bstats_id'], 'required_dependencies' => $request['required_dependencies'],
+            'optional_dependencies' => $request['optional_dependencies'], 'link_information' => $request['link_information'], 'link_support' => $request['link_support'], 'lang_support' => $request['lang_support'], 'versions' => implode(",", $request['versions'] ?? []), 'version_id' => null,]);
 
         $storedFile = $this->storeFile($user, $resource, $file);
         $fileName = str_replace('.' . $this->getFileExtension($file), '', $file->getClientOriginalName());
 
-        $version = Version::create([
-            'version' => $request['version'],
-            'resource_id' => $resource->id,
-            'title' => 'First version of the plugin',
-            'description' => 'No description.',
-            'download' => 0,
-            'file_id' => $storedFile->id,
-            'file_name' => $fileName,
-        ]);
+        $version = Version::create(['version' => $request['version'], 'resource_id' => $resource->id, 'title' => 'First version of the plugin', 'description' => 'No description.', 'download' => 0, 'file_id' => $storedFile->id, 'file_name' => $fileName,]);
 
         $resource->update(['version_id' => $version->id]);
 

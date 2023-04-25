@@ -6,14 +6,14 @@
     <div class="content_resources_show py-5 mb-5">
         <div class="px-3 px-lg-0">
             <div class="container">
-                <div class="card mb-3 rounded-0">
+                <div class="card mb-3 rounded-1">
                     <div class="card-body">
                         <h1 class="fw-bold fs-5 mb-0">{{ __('auth.register.title') }}</h1>
                         <p class="mb-0">{{ __('auth.register.info') }}</p>
                     </div>
                 </div>
 
-                <div class="card rounded-0">
+                <div class="card rounded-1">
                     <div class="card-body">
                         <form method="POST" action="{{ route('register') }}">
 
@@ -24,7 +24,7 @@
                                     <div class="mb-3">
                                         <label for="name" class="form-label">{{ __('Username') }}</label>
                                         <input type="text"
-                                               class="form-control rounded-0 @error('name') is-invalid @enderror"
+                                               class="form-control rounded-1 @error('name') is-invalid @enderror"
                                                id="name" name="name" value="{{ old('name') }}" required
                                                autocomplete="username" autofocus>
                                         @error('name')
@@ -34,7 +34,7 @@
                                     <div class="mb-3">
                                         <label for="email" class="form-label">{{ __('Email') }}</label>
                                         <input type="email"
-                                               class="form-control rounded-0 @error('email') is-invalid @enderror"
+                                               class="form-control rounded-1 @error('email') is-invalid @enderror"
                                                id="email" name="email" value="{{ old('email') }}" required
                                                autocomplete="email">
                                         @error('email')
@@ -44,7 +44,7 @@
                                     <div class="mb-3">
                                         <label for="password" class="form-label">{{ __('Password') }}</label>
                                         <input type="password"
-                                               class="form-control rounded-0 @error('password') is-invalid @enderror"
+                                               class="form-control rounded-1 @error('password') is-invalid @enderror"
                                                id="password" name="password" required autocomplete="password">
                                         @error('password')
                                         <div id="password-error" class="invalid-feedback">{{ $message }}</div>
@@ -54,7 +54,7 @@
                                         <label for="password_confirmation"
                                                class="form-label">{{ __('Confirm Password') }}</label>
                                         <input type="password"
-                                               class="form-control rounded-0 @error('password_confirmation') is-invalid @enderror"
+                                               class="form-control rounded-1 @error('password_confirmation') is-invalid @enderror"
                                                id="password_confirmation" name="password_confirmation" required
                                                autocomplete="password">
                                         @error('password_confirmation')
@@ -71,7 +71,7 @@
                                         @enderror
                                     </div>
                                     <button type="submit"
-                                            class="btn btn-primary rounded-0 d-block w-100">{{ __('Register') }}
+                                            class="btn btn-primary rounded-1 d-block w-100">{{ __('Register') }}
                                     </button>
                                 </div>
                             </div>

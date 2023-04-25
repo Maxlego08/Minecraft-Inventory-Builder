@@ -13,10 +13,29 @@ return [
     'rate' => 'Rate This Resource',
     'overview' => 'Overview',
     'search' => 'Search...',
+    'contributors' => 'Contributors',
+    'code' => 'Source code',
+    'support' => 'Support',
+    'tested_versions' => 'Tested Minecraft Versions',
+    'required_dependencies' => 'Required dependencies',
+    'optional_dependencies' => 'Optional dependencies',
     'edit' => [
+        'title' => 'Edit your resource',
+        'description' => 'Edit your resource information',
         'icon' => 'Edit Resource Icon',
         'content' => 'Edit Resource',
         'update' => 'Post Resource Update',
+        'success' => [
+            'title' => 'Resource updated !',
+            'content' => 'You have just updated your resource'
+        ],
+        'icon_modal' => [
+            'title' => 'Edit Resource Icon',
+            'success' => [
+                'title' => 'Felicitation !',
+                'content' => 'You have just changed the icon of your resource'
+            ]
+        ]
     ],
     'create' => [
         'success' => [
@@ -37,6 +56,14 @@ return [
         'version' => [
             'name' => 'Version (Required)',
             'description' => 'Version of your resource',
+        ],
+        'required_dependencies' => [
+            'name' => 'Required dependencies (Optional)',
+            'description' => 'List of dependencies required for the resource',
+        ],
+        'optional_dependencies' => [
+            'name' => 'Optional dependencies (Optional)',
+            'description' => 'List of dependencies optional for the resource',
         ],
         'tags' => [
             'name' => 'Tags (Required)',
@@ -80,7 +107,7 @@ return [
         ],
         'file' => [
             'name' => 'File',
-            'description' => 'Icon of your resource, you can change it later',
+            'description' => 'File of your resource.',
         ],
         'category' => [
             'name' => 'Category',
@@ -102,6 +129,8 @@ return [
         ],
     ],
     'download' => [
+        'login' => 'You must be connected to download this file.',
+        'access' => 'You need to purchase this resource.',
         'button' => 'Download',
         'errors' => [
             'same' => [
@@ -167,6 +196,10 @@ return [
     ],
     'update' => [
         'title' => 'Updates',
+        'version' => [
+            'name' => 'Version title',
+            'version' => 'Version string',
+        ]
     ],
     'versions' => [
         'title' => 'Version History',
@@ -180,5 +213,25 @@ return [
     ],
     'category' => [
         'title' => 'Categories',
+    ],
+    'view' => [
+        'errors' => [
+            'pending' => [
+                'title' => 'Error !',
+                'content' => 'You don\'t have permission to see this resource',
+            ],
+            'deleted' => [
+                'title' => 'Error !',
+                'content' => 'You don\'t have permission to see this resource',
+            ],
+            'owner' => [
+                'title' => 'Error !',
+                'content' => 'You don\'t have permission to see this resource',
+            ],
+            'permission' => [
+                'title' => 'Error !',
+                'content' => 'You don\'t have permission to see this resource',
+            ]
+        ],
     ],
 ];

@@ -6,7 +6,7 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
-                        <div class="card rounded-0">
+                        <div class="card rounded-1">
                             <div class="card-body">
                                 <form method="POST" action="{{ route('password.confirm') }}">
                                     @csrf
@@ -16,7 +16,7 @@
                                     <div class="mt-3">
                                         <label for="password">{{ __('messages.password') }}</label>
                                         <input type="password" name="password" id="password"
-                                               class="form-control rounded-0 @error('password') is-invalid @enderror"
+                                               class="form-control rounded-1 @error('password') is-invalid @enderror"
                                                required
                                                autocomplete="current-password"/>
                                         @error('password')
@@ -25,7 +25,7 @@
                                     </div>
 
                                     <div class="mt-3 d-flex justify-content-center">
-                                        <button type="submit" class="btn btn-success btn-sm rounded-0 d-block w-100 mt-2">
+                                        <button type="submit" class="btn btn-success btn-sm rounded-1 d-block w-100 mt-2">
                                             {{ __('profiles.password.confirmed') }}
                                         </button>
                                     </div>

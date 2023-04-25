@@ -1,4 +1,4 @@
-<div class="card rounded-0 mb-3">
+<div class="card rounded-1 mb-3">
     <div class="card-body">
         <div class="members-picture">
             <h2>{{ __('profiles.discord.discord') }}</h2>
