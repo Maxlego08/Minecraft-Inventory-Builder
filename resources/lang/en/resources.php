@@ -28,6 +28,13 @@ return [
         'success' => [
             'title' => 'Resource updated !',
             'content' => 'You have just updated your resource'
+        ],
+        'icon_modal' => [
+            'title' => 'Edit Resource Icon',
+            'success' => [
+                'title' => 'Felicitation !',
+                'content' => 'You have just changed the icon of your resource'
+            ]
         ]
     ],
     'create' => [

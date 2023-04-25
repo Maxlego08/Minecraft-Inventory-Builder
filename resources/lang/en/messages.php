@@ -28,6 +28,7 @@ return [
     'premium' => 'Premium',
     'inventory-builder' => 'Inventory Builder',
     'home' => 'Home',
+    'save_changes' => 'Save changes',
     'bstats' => [
         'players' => 'Current servers',
         'servers' => 'Current players',

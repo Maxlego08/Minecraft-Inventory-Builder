@@ -19,6 +19,7 @@ use Illuminate\Support\Str;
  * Class Plugin
  * @package App\Models
  * @property int $id
+ * @property int $image_id
  * @property string $name
  * @property string $description
  * @property string $image

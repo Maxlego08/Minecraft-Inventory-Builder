@@ -9,6 +9,7 @@ use App\Http\Controllers\Resource\ResourceBuyerController;
 use App\Http\Controllers\Resource\ResourceCreateController;
 use App\Http\Controllers\Resource\ResourceDownloadController;
 use App\Http\Controllers\Resource\ResourceEditController;
+use App\Http\Controllers\Resource\ResourceIconController;
 use App\Http\Controllers\Resource\ResourceIndexController;
 use App\Http\Controllers\Resource\ResourceReviewController;
 use App\Http\Controllers\Resource\ResourceUpdateController;
@@ -101,6 +102,8 @@ Route::prefix('resources')->name('resources.')->group(function () {
         // Buyers
         Route::get('/{slug}.{resource}/buyers', [ResourceBuyerController::class, 'index'])->name('buyers');
         Route::get('/{resource}/buyers', [ResourceBuyerController::class, 'indexById'])->name('buyers.id');
+
+        Route::post('/{resource}/icon', [ResourceIconController::class, 'store'])->name('icon');
     });
 
     Route::get('/{slug}.{resource}/updates', [ResourceUpdateController::class, 'index'])->name('updates');
