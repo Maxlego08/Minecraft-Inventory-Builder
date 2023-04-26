@@ -106,6 +106,7 @@ Route::prefix('resources')->name('resources.')->group(function () {
         // Update
         Route::prefix('/{resource}/update')->name('update.')->group(function () {
             Route::get('/', [ResourceUpdateController::class, 'update'])->name('index');
+            Route::post('/store', [ResourceVersionController::class, 'store'])->name('store');
         });
 
         // icon

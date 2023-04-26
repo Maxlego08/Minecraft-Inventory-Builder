@@ -33,7 +33,7 @@
                         @foreach($resources as $resource)
                             @include('resources.elements.resource', ['resource' => $resource])
                         @endforeach
-                        {!! $resources->links() !!}
+                        {!! $resources->links('elements.pagination') !!}
                     </div>
                 </div>
             </div>

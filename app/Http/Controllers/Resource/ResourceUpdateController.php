@@ -32,7 +32,10 @@ class ResourceUpdateController extends Controller
         }
 
         if ($slug != $resource->slug()) return Redirect::route('resources.updates', ['resource' => $resource->id, 'slug' => $resource->slug()]);
-        return view('resources.pages.update', ['resource' => $resource,]);
+
+        $versions = $resource->versions()->with('reviews')->orderBy('created_at', 'desc')->paginate(15);
+
+        return view('resources.pages.update', ['resource' => $resource, 'versions' => $versions]);
     }
 
     /**

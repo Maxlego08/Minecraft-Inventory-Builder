@@ -102,7 +102,6 @@ class ResourceCreateController extends Controller
 
         $resource->update(['version_id' => $version->id]);
 
-
         return Redirect::route('resources.index')->with('toast', createToast('success', __('resources.create.success.title'), __('resources.create.success.content'), 5000));
     }
 
