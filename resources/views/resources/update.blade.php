@@ -8,10 +8,7 @@
             <div class="container">
                 <div class="card mb-3 rounded-1">
                     <div class="card-body">
-                        <h4 class="fw-bold fs-5 mb-0">Faire une mise à jour</h4>
-                        <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas egestas nibh
-                            at ante luctus
-                            convallis.</p>
+                        <h4 class="fw-bold fs-5 mb-0">{{ __('resources.update.info.title') }}</h4>
                     </div>
                 </div>
 

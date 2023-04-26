@@ -38,6 +38,10 @@ return [
         ]
     ],
     'create' => [
+        'info' => [
+            'title' => 'Add resource',
+            'description' => 'You will create a resource, it will be checked by the moderation team of the site. Please save the description of your resource, if it is rejected you will not be able to retrieve it.',
+        ],
         'success' => [
             'title' => 'You just create a new resource !',
             'content' => 'Your resource is being validated, wait few hours'
@@ -203,7 +207,10 @@ return [
         'success' => [
             'title' => 'Resource updated !',
             'content' => 'You have just updated your resource.',
-        ]
+        ],
+        'info' => [
+            'title' => 'Post Resource Update',
+        ],
     ],
     'versions' => [
         'title' => 'Version History',

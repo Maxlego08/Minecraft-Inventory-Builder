@@ -8,10 +8,8 @@
             <div class="container">
                 <div class="card rounded-1 mb-3">
                     <div class="card-body">
-                        <h1 class="fw-bold fs-5 mb-0">Créer une nouvelle ressource</h1>
-                        <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas egestas nibh
-                            at ante luctus
-                            convallis.</p>
+                        <h1 class="fw-bold fs-5 mb-0">{{ __('resources.create.info.title') }}</h1>
+                        <p class="mb-0">{{ __('resources.create.info.description') }}</p>
                     </div>
                 </div>
 
