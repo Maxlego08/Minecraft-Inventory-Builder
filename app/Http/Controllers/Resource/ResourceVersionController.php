@@ -35,7 +35,10 @@ class ResourceVersionController extends Controller
         }
 
         if ($slug != $resource->slug()) return Redirect::route('resources.versions', ['resource' => $resource->id, 'slug' => $resource->slug()]);
-        return view('resources.pages.versions', ['resource' => $resource]);
+
+        $versions = $resource->versions()->orderBy('created_at', 'desc')->paginate(30);
+
+        return view('resources.pages.versions', ['resource' => $resource, 'versions' => $versions]);
     }
 
     /**

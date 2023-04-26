@@ -9,34 +9,31 @@
                 <table class="table">
                     <thead>
                     <tr class="text-muted">
-                        <th scope="col" class="fw-light">Avis général</th>
-                        <th scope="col" class="fw-light">Téléchargement</th>
-                        <th scope="col" class="fw-light">Date de sortie</th>
-                        <th scope="col" class="fw-light">Version</th>
+                        <th scope="col" class="fw-light">{{ __('resources.versions.version') }}</th>
+                        <th scope="col" class="fw-light">{{ __('messages.released_at') }}</th>
+                        <th scope="col" class="fw-light">{{ __('messages.downloads') }}</th>
+                        <th scope="col" class="fw-light">{{ __('messages.average_rating') }}</th>
                         <th scope="col" class="fw-light"></th>
                     </tr>
                     </thead>
                     <tbody>
-                    @for ($d = 0; $d < 6; $d++)
+                    @foreach($versions as $version)
                         <tr>
-                            <th scope="row" class="fw-normal">15.356.2</th>
-                            <td>17 jui. 2022</td>
-                            <td>19</td>
+                            <th scope="row" class="fw-normal">{{ $version->version }}</th>
+                            <td>{{ format_date($version->created_at, true) }}</td>
+                            <td>{{ $version->download }}</td>
                             <td class="text-nowrap">
                             <span class="text-warning text-nowrap">
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-half"></i>
-                                <i class="bi bi-star"></i>
+                                 {!! $version->reviewScore() !!}
                             </span>
-                                <span class="ms-2">2</span>
+                                <span class="ms-2">{{ $version->reviews->count() }}</span>
                             </td>
-                            <td><a href="#" class="btn btn-primary btn-sm fw-light">TÉLÉCHARGER</a></td>
+                            <td><a href="{{ $version->download() }}" class="btn btn-secondary btn-sm fw-light">{{ __('messages.download') }}</a></td>
                         </tr>
-                    @endfor
+                    @endforeach
                     </tbody>
                 </table>
+                {!! $versions->links('elements.pagination') !!}
             </div>
         </div>
     </div>

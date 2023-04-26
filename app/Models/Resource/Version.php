@@ -109,4 +109,14 @@ class Version extends Model
         });
     }
 
+    /**
+     * Download link
+     *
+     * @return string
+     */
+    public function download(): string
+    {
+        return route('resources.download', ['resource' => $this->resource_id, 'version' => $this->id]);
+    }
+
 }

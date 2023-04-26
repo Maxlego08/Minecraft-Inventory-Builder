@@ -13,6 +13,7 @@ return [
     'close' => 'Close',
     'free' => 'Free',
     'downloads' => 'Downloads',
+    'download' => 'Download',
     'updated' => 'Updated',
     'reviews' => 'reviews',
     'author' => 'Author',
@@ -31,6 +32,8 @@ return [
     'save_changes' => 'Save changes',
     'save_update' => 'Save update',
     'copyright' => 'All rights reserved. Minecraft Inventory Builder is not affiliated with Mojang',
+    'released_at' => 'Release Date',
+    'average_rating' => 'Average Rating',
     'about' => [
         'title' => 'About',
         'content' => 'Minecraft Inventory Builder is a site dedicated to the zMenu plugin. zMenu is a minecraft plugin dedicated to inventory creation. The site includes a marketplace for selling and downloading resource related to zMenu. It also includes an inventory editor.'
