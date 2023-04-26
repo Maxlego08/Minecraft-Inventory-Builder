@@ -36,6 +36,10 @@ class ResourceBuyerController extends Controller
             return Redirect::route('resources.index')->with('toast', createToast('error', __('resources.view.errors.deleted.title'), __('resources.view.errors.deleted.content'), 5000));
         }
 
+        if ($resource->price == 0){
+            return Redirect::route('resources.view', ['resource' => $resource, 'slug' => $resource->slug()]);
+        }
+
         if ($slug != $resource->slug()) return Redirect::route('resources.buyers', ['resource' => $resource->id, 'slug' => $resource->slug()]);
         return view('resources.pages.buyers', ['resource' => $resource]);
     }
