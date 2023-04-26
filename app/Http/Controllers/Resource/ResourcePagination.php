@@ -14,7 +14,7 @@ class ResourcePagination
 {
 
     public static function mostResources(){
-        return User::select('users.name', 'users.id')
+        return User::select('users.name', 'users.id', 'users.profile_photo_path')
             ->addSelect(DB::raw("COUNT(`resource_resources`.`id`) AS `resource`"))
             ->join('resource_resources', 'resource_resources.user_id', '=', 'users.id')
             ->where('resource_resources.is_display', true)
@@ -22,6 +22,7 @@ class ResourcePagination
             ->groupBy('resource_resources.user_id')
             ->groupBy('users.id')
             ->groupBy('users.name')
+            ->groupBy('users.profile_photo_path')
             ->orderBy('resource', 'DESC')
             ->limit(5)->get();
     }
