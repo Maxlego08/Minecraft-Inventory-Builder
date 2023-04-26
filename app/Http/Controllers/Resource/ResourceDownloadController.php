@@ -62,7 +62,7 @@ class ResourceDownloadController extends Controller
 
         try {
             $path = "$resource->id/{$version->file->file_name}.{$version->file->file_extension}";
-            return Storage::disk('plugins')->download($path, "{$version->file_name}d.{$version->file->file_extension}");
+            return Storage::disk('plugins')->download($path, "{$version->file_name}.{$version->file->file_extension}");
         } catch (Exception) {
             return Redirect::route('resources.index')->with('toast', createToast('error', __('resources.download.errors.other.title'), __('resources.download.errors.other.content'), 5000));
         }

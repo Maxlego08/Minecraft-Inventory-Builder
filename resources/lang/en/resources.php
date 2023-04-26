@@ -199,6 +199,10 @@ return [
         'version' => [
             'name' => 'Version title',
             'version' => 'Version string',
+        ],
+        'success' => [
+            'title' => 'Resource updated !',
+            'content' => 'You have just updated your resource.',
         ]
     ],
     'versions' => [

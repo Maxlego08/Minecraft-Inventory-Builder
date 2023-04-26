@@ -186,6 +186,15 @@ class Resource extends Model
         $this->version->clear('count.score.version');
     }
 
+    public function clearVersionUpdate(){
+        $this->clear('count.download');
+        $this->clear('resource.version');
+        $this->clear('file.information');
+        $this->clear('count.versions');
+        $this->clear('count.review.version');
+        $this->clear('count.score.version');
+    }
+
     /**
      * Clear cache
      *
