@@ -20,6 +20,7 @@ class ResourcePagination
             ->where('resource_resources.is_display', true)
             ->where('resource_resources.is_pending', false)
             ->groupBy('resource_resources.user_id')
+            ->groupBy('users.id')
             ->orderBy('resource', 'DESC')
             ->limit(5)->get();
     }
