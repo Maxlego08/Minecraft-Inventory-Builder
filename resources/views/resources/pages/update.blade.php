@@ -4,29 +4,17 @@
 
 @section('resource')
     <div class="bg-blue-800 p-4 show active">
-        @for ($i = 0; $i < 3; $i++)
+        @foreach($versions as $version)
             <div class="card mb-4 rounded-1 bg-blue-700">
                 <div class="card-body">
-                    <a href="#" class="fs-5 mb-3 d-block" title="Mise à jour #3">Mise à jour #3 - Bug fixes
-                        v15.356.2</a>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas egestas nibh at ante luctus
-                        convallis.
-                        Cras
-                        eget placerat felis, eu fringilla enim. Vestibulum ante ipsum primis in faucibus orci luctus et
-                        ultrices
-                        posuere
-                        cubilia curae; Sed vulputate, odio nec dapibus blandit, libero leo facilisis leo, sed interdum
-                        turpis
-                        diam a
-                        arcu. Integer at elementum est. Etiam vulputate lacus ut est posuere, vitae feugiat orci tempus.
-                        Morbi
-                        id
-                        elementum eros, quis viverra felis. Maecenas dignissim ligula quis orci tincidunt tincidunt.
-                    </p>
-                    <span>Posté par <span class="text-danger">Maxlego08</span>, le 17 jui. 2022</span>
+                    <span class="d-flex align-items-end">
+                        <a href="#" class="fs-5 d-block" title="Mise à jour #3">{{ $version->title }}</a>
+                        <span class="fs-6 ms-2">{{ $version->version }}</span>
+                    </span>
+                    <p class="fs-6">{{ \Illuminate\Support\Str::limit($version->description, 500) }}</p>
+                    <span class="fs-7">Posté par <span class="text-danger">Maxlego08</span>, le 17 jui. 2022</span>
                 </div>
             </div>
-        @endfor
+        @endforeach
     </div>
 @endsection
