@@ -35,4 +35,4 @@
     <div id="upload_file_error" class="invalid-feedback">{{ $message }}</div>
     @enderror
 </div>
-@include('elements.textarea', ['description' => 'Description', 'row' => 20, 'content' => old('description')])
+@include('elements.textarea', ['description' => 'Description', 'row' => 15, 'content' => old('description')])
