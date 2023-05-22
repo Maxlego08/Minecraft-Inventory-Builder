@@ -2,8 +2,10 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AdministratorDashboard;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\EncryptCookies;
+use App\Http\Middleware\ModeratorDashboard;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\TrimStrings;
@@ -89,5 +91,7 @@ class Kernel extends HttpKernel
         'verified' => EnsureEmailIsVerified::class,
         'abilities' => CheckAbilities::class,
         'ability' => CheckForAnyAbility::class,
+        'admin' => AdministratorDashboard::class,
+        'moderator' => ModeratorDashboard::class,
     ];
 }

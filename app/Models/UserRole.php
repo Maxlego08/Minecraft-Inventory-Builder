@@ -60,4 +60,9 @@ class UserRole extends Model
     {
         return $this->power == self::ADMIN;
     }
+
+    public function isBanned(): bool
+    {
+        return $this->power == self::BANNED;
+    }
 }

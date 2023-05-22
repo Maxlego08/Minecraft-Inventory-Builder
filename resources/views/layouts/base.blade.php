@@ -13,7 +13,7 @@
     <meta property="og:image" content="">
     <meta property="og:description" content="@yield('description', 'description'))">
     <meta property="og:site_name" content="GroupeZ">
-@stack('meta')
+    @stack('meta')
 
 <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">

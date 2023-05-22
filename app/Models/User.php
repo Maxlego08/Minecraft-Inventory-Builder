@@ -140,6 +140,15 @@ class User extends Authenticate
         return $this->hasMany(AlertUser::class);
     }
 
+
+    /**
+     * @return HasMany
+     */
+    public function resources(): HasMany
+    {
+        return $this->hasMany(Resource::class);
+    }
+
     /**
      * @return HasMany
      */
@@ -222,6 +231,24 @@ class User extends Authenticate
     }
 
     /**
+     * Cache system
+     *
+     * user.role
+     *
+     * @param string $key
+     * @return mixed
+     */
+    public function cache(string $key): mixed
+    {
+        return Cache::remember("user.$key::$this->id", 86400, function () use ($key) {
+            return match ($key) {
+                "role" => $this->role,
+                default => ""
+            };
+        });
+    }
+
+    /**
      * Check if player has access to this resource
      *
      * @param Resource $resource
@@ -233,23 +260,6 @@ class User extends Authenticate
             return true;
         }
         return Access::where('user_id', $this->id)->where('resource_id', $resource->id)->count() > 0;
-    }
-
-    /**
-     * Cache system
-     *
-     * user.role
-     *
-     * @param string $key
-     * @return mixed
-     */
-    public function cache(string $key) : mixed {
-        return Cache::remember("user.$key::$this->id", 86400, function () use ($key){
-            return match ($key) {
-                "role" => $this->role,
-                default => ""
-            };
-        });
     }
 
     /**
