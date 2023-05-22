@@ -39,6 +39,7 @@ use Illuminate\Support\Str;
  * @property Version $version;
  * @property Category $category;
  * @property String $versions;
+ * @property Access[] $buyers;
  * @method static Resource find(int $id)
  * @method static Resource findOrFail(int $id)
  * @method static Resource create(array $values)
@@ -65,6 +66,14 @@ class Resource extends Model
     public function icon(): BelongsTo
     {
         return $this->belongsTo(File::class, 'image_id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function buyers(): HasMany
+    {
+        return $this->hasMany(Access::class);
     }
 
     /**
@@ -186,15 +195,6 @@ class Resource extends Model
         $this->version->clear('count.score.version');
     }
 
-    public function clearVersionUpdate(){
-        $this->clear('count.download');
-        $this->clear('resource.version');
-        $this->clear('file.information');
-        $this->clear('count.versions');
-        $this->clear('count.review.version');
-        $this->clear('count.score.version');
-    }
-
     /**
      * Clear cache
      *
@@ -220,6 +220,16 @@ class Resource extends Model
     public function clear(string $key): void
     {
         Cache::forget("$key::$this->id");
+    }
+
+    public function clearVersionUpdate()
+    {
+        $this->clear('count.download');
+        $this->clear('resource.version');
+        $this->clear('file.information');
+        $this->clear('count.versions');
+        $this->clear('count.review.version');
+        $this->clear('count.score.version');
     }
 
     public function getIconPath()
@@ -310,8 +320,9 @@ class Resource extends Model
      * @param string $key
      * @return mixed
      */
-    public function cache(string $key) : mixed {
-        return Cache::remember("resource.$key::$this->id", 86400, function () use ($key){
+    public function cache(string $key): mixed
+    {
+        return Cache::remember("resource.$key::$this->id", 86400, function () use ($key) {
             return match ($key) {
                 "version" => $this->version,
                 "category" => $this->category,

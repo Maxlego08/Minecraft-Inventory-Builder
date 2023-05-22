@@ -218,6 +218,28 @@ return [
     ],
     'buyers' => [
         'title' => 'Buyers',
+        'search' => 'Find buyer',
+        'user' => 'User',
+        'price' => 'Price',
+        'added_on' => 'Added on',
+        'free' => 'Free',
+        'remove' => [
+            'title' => 'Perfect !',
+            'content' => 'You have just removed the access to the resource'
+        ],
+        'create' => [
+            'title' => 'Perfect !',
+            'content' => 'You have just added a user to your resource'
+        ],
+        'error' => [
+            'title' => 'Error !',
+            'content' => 'Impossible to find this user.',
+        ],
+        'already' => [
+            'title' => 'Error !',
+            'content' => 'This user already has access to this resource.',
+        ],
+        'add' => 'Add buyer',
     ],
     'most' => [
         'title' => 'Most Resources',
