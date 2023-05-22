@@ -101,6 +101,8 @@ Route::prefix('resources')->name('resources.')->group(function () {
 
         // Buyers
         Route::get('/{slug}.{resource}/buyers', [ResourceBuyerController::class, 'index'])->name('buyers');
+        Route::get('/{resource}/buyer/remove/{buyer}', [ResourceBuyerController::class, 'remove'])->name('buyers.remove');
+        Route::post('/{resource}/buyer/create', [ResourceBuyerController::class, 'create'])->name('buyers.create');
         Route::get('/{resource}/buyers', [ResourceBuyerController::class, 'indexById'])->name('buyers.id');
 
         // Update

@@ -14,6 +14,7 @@ return [
     'free' => 'Free',
     'downloads' => 'Downloads',
     'download' => 'Download',
+    'save' => 'Save changed',
     'updated' => 'Updated',
     'reviews' => 'reviews',
     'author' => 'Author',

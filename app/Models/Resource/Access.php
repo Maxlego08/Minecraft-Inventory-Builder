@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $payment_id
+ * @property int $resource_id
+ * @property Payment $payment
+ */
 class Access extends Model
 {
     use HasFactory;
@@ -45,4 +50,10 @@ class Access extends Model
     {
         return $this->belongsTo(Resource::class, 'resource_id');
     }
+
+    public function getPrice(){
+        if ($this->payment_id == null) return __('resources.buyers.free');
+        else return $this->payment->price;
+    }
+
 }
