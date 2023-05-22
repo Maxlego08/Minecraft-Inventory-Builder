@@ -49,7 +49,7 @@
                                 <th scope="row">
                                     <a href="{{ route('admin.users.show', ['user' => $user]) }}" class="mx-1"
                                        title="Modifier l'utilisateur" data-toggle="tooltip">
-                                        <img style="width: 30px; height: 30px; border-radius: 3px"
+                                        <img style="border-radius: 3px" height="30" width="30"
                                              src="{{ $user->getProfilePhotoUrlAttribute() }}"
                                              alt="Image du joueur {{ $user->name }}">
                                     </a>

@@ -4,7 +4,11 @@
     <div class="container-fluid">
 
         <!-- Page Heading -->
-        <h1 class="h3 mb-2 text-gray-800">Edition de l'utilisateur {{ $user->name }}</h1>
+        <h1 class="h4 mb-2 text-gray-800">Edition de l'utilisateur {{ $user->name }}
+            <img style="border-radius: 3px" height="30" width="30"
+                 src="{{ $user->getProfilePhotoUrlAttribute() }}"
+                 alt="Image du joueur {{ $user->name }}">
+        </h1>
 
         <div class="row">
             <div class="col-md-12">
