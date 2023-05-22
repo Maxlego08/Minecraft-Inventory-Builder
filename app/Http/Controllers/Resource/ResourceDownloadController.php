@@ -44,7 +44,7 @@ class ResourceDownloadController extends Controller
             return Redirect::route('resources.index')->with('toast', createToast('error', __('resources.download.errors.ban.title'), __('resources.download.errors.ban.content'), 5000));
         }
 
-        if ($resource->price != 0 && !$user->hasAccess($resource)) {
+        if ($resource->price != 0 && !$user->hasAccessWithoutCache($resource)) {
             return Redirect::route('resources.index')->with('toast', createToast('error', __('resources.download.errors.purchase.title'), __('resources.download.errors.purchase.content'), 5000));
         }
 

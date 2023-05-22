@@ -30,9 +30,8 @@
                                     </div>
                                 @else
                                     <div class="col-lg-3 col-xl-2 offset-lg-1">
-                                        <div
-                                            class="btn btn-primary w-100 rounded-1"
-                                            title="{{ __('resources.download.access') }}">{{ __('resources.download.button') }}
+                                        <div class="btn btn-primary w-100 rounded-1 cursor-disabled"
+                                            title="{{ __('resources.download.access') }}">{{ $resource->price }}€
                                             <span class="fs-9 fw-light d-block">{{ $resource->fileInformations()['size'] }} .{{ $resource->fileInformations()['extension'] }}</span>
                                         </div>
                                     </div>

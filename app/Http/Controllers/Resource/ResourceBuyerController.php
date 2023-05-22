@@ -90,6 +90,7 @@ class ResourceBuyerController extends Controller
             return Redirect::route('resources.index')->with('toast', createToast('error', __('resources.view.errors.deleted.title'), __('resources.view.errors.deleted.content'), 5000));
         }
 
+        $buyer->user->clear('user.access');
         $buyer->delete();
 
         return Redirect::route('resources.buyers', ['resource' => $resource, 'slug' => $resource->slug()])->with('toast', createToast('success', __('resources.buyers.remove.title'), __('resources.buyers.remove.content'), 5000));
@@ -128,6 +129,7 @@ class ResourceBuyerController extends Controller
             'user_id' => $user->id,
             'resource_id' => $resource->id,
         ]);
+        $user->clear('user.access');
 
         return Redirect::route('resources.buyers', ['resource' => $resource, 'slug' => $resource->slug()])->with('toast', createToast('success', __('resources.buyers.create.title'), __('resources.buyers.create.content'), 5000));
     }

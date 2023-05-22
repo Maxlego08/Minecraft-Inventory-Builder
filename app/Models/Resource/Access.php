@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $payment_id
  * @property int $resource_id
  * @property Payment $payment
+ * @property User $user
  */
 class Access extends Model
 {

@@ -216,9 +216,23 @@ class User extends Authenticate
         if ($this->cache('role')->isModerator() || $this->id === $resource->user_id || $resource->price == 0) {
             return true;
         }
-        return Cache::remember("user.access::$this->id", 86400, function (Resource $resource) {
+        return Cache::remember("user.access::$this->id", 86400, function () use ($resource) {
             return Access::where('user_id', $this->id)->where('resource_id', $resource->id)->count() > 0;
         });
+    }
+
+    /**
+     * Check if player has access to this resource
+     *
+     * @param Resource $resource
+     * @return bool
+     */
+    public function hasAccessWithoutCache(Resource $resource): bool
+    {
+        if ($this->cache('role')->isModerator() || $this->id === $resource->user_id || $resource->price == 0) {
+            return true;
+        }
+        return Access::where('user_id', $this->id)->where('resource_id', $resource->id)->count() > 0;
     }
 
     /**
