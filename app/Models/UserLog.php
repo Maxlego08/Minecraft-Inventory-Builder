@@ -13,10 +13,10 @@ class UserLog extends Model
     public const ICON_ADD = "fas fa-plus";
     public const ICON_SMS = "fas fa-sms";
     public const ICON_FILE = "fas fa-file-archive";
-    public const ICON_STARS = "fas fa-stars";
+    public const ICON_STARS = "fas fa-star";
     public const ICON_DOWNLOAD = "fas fa-download";
     public const ICON_REMOVE = "fas fa-minus";
-    public const ICON_CODE = "fas fa-CODE";
+    public const ICON_CODE = "fas fa-code";
     public const ICON_VOTE = "fas fa-vote-yea";
     public const ICON_USER_CREATE = "fas fa-user-plus";
     public const ICON_USER_LOGIN = "fas fa-sign-in-alt";

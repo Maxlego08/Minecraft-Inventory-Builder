@@ -20,7 +20,7 @@ class AdministratorDashboard
     {
         $user = user();
         if (!$user->role->isAdmin()) {
-            return Redirect::route('home')->with('toast', createToast('error', 'Error', "You dont have permission.", 5000));
+            return Redirect::route('admin.index')->with('toast', createToast('error', 'Error', "You dont have permission.", 5000));
         }
         return $next($request);
     }

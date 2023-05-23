@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Resource\Access;
 use App\Models\Resource\Resource;
 use App\Models\User;
+use App\Models\UserLog;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\ValidationException;
 
 class ResourceBuyerController extends Controller
 {
@@ -93,10 +95,18 @@ class ResourceBuyerController extends Controller
         $buyer->user->clear('user.access');
         $buyer->delete();
 
+        userLog("Suppression de l'utilisateur $buyer->user_id à la resource $resource->id", UserLog::COLOR_DANGER, UserLog::ICON_FILE);
+
         return Redirect::route('resources.buyers', ['resource' => $resource, 'slug' => $resource->slug()])->with('toast', createToast('success', __('resources.buyers.remove.title'), __('resources.buyers.remove.content'), 5000));
     }
 
-    public function create(Request $request, Resource $resource)
+    /**
+     * @param Request $request
+     * @param Resource $resource
+     * @return RedirectResponse
+     * @throws ValidationException
+     */
+    public function create(Request $request, Resource $resource): RedirectResponse
     {
 
         if (!$resource->isModerator()) {
@@ -130,6 +140,8 @@ class ResourceBuyerController extends Controller
             'resource_id' => $resource->id,
         ]);
         $user->clear('user.access');
+
+        userLog("Ajout de l'utilisateur $user->id à la resource $resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_FILE);
 
         return Redirect::route('resources.buyers', ['resource' => $resource, 'slug' => $resource->slug()])->with('toast', createToast('success', __('resources.buyers.create.title'), __('resources.buyers.create.content'), 5000));
     }

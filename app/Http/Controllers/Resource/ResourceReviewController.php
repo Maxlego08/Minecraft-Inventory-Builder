@@ -91,7 +91,7 @@ class ResourceReviewController extends Controller
             return Redirect::back()->with('toast', createToast('error', __('resources.reviews.errors.rate.title'), __('resources.reviews.errors.rate.content'), 5000));
         }
 
-        Review::create(['user_id' => $user->id, 'resource_id' => $resource->id, 'version_id' => $resource->version_id, 'score' => $rate, 'review' => $request['message']]);
+        $review = Review::create(['user_id' => $user->id, 'resource_id' => $resource->id, 'version_id' => $resource->version_id, 'score' => $rate, 'review' => $request['message']]);
 
         $resource->clearReview();
         userLog("Création de review $review->id pour la resource $resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_STARS);
