@@ -5,7 +5,7 @@ return [
     'list' => [
         'title' => 'See the conversation',
         'start' => 'Started by :name :date',
-        'last' => "Last <a class='conversation-link' href=':link#last' title='View last message'>message</a> by :name :date",
+        'last' => "Last <a class='conversation-link' href=':link' title='View last message'>message</a> by :name :date",
     ],
     'show' => [
         'title' => ':title',

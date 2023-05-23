@@ -137,6 +137,15 @@ class ConversationController extends Controller
             'description' => 'required|max:10000',
         ]);
 
+        $key = self::CACHE_MESSAGE . user()->id;
+        if (RateLimiter::tooManyAttempts($key, 1)) {
+            $seconds = RateLimiter::availableIn($key);
+            return Redirect::back()->withInput()
+                ->with('toast', createToast('error', __('conversations.cooldown.title'), __('conversations.cooldown.description', ['seconds' => $seconds])));
+        }
+
+        RateLimiter::hit($key, 30);
+
         $conversation->createMessage($user, $request['description']);
         $count = $conversation->messages->count();
         $page = (int)($count % 15 == 0 ? $count / 15 : ($count / 15) + 1);
