@@ -2,11 +2,16 @@
 
 use App\Http\Controllers\Admin\IndexController;
 use App\Http\Controllers\Admin\LogController;
+use App\Http\Controllers\Admin\ResourceController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
+// Moderator access
 Route::get('/', [IndexController::class, 'index'])->name('index');
 
+Route::prefix('resources/')->name('resources.')->group(function () {
+    Route::get('/', [ResourceController::class, 'index'])->name('index');
+});
 
 // Admin access
 Route::middleware('admin')->group(function () {

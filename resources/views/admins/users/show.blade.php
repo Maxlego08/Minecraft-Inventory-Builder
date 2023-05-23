@@ -85,6 +85,9 @@
                 </div>
             </div>
         </div>
-
     </div>
+
+    @include('admins.users.elements.resources')
+    @include('admins.users.elements.logs')
+
 @endsection

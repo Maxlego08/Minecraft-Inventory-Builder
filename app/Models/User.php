@@ -3,12 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Models\Affiliates\Affiliate;
 use App\Models\Alert\AlertUser;
 use App\Models\Conversation\ConversationNotification;
 use App\Models\Resource\Access;
 use App\Models\Resource\Resource;
-use App\Models\Webhook\Webhook;
 use App\Traits\HasProfilePhoto;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -67,6 +65,16 @@ class User extends Authenticate
      * @var array<string, string>
      */
     protected $casts = ['email_verified_at' => 'datetime'];
+
+    /**
+     * Retourne la liste des logs de l'utilisateur
+     *
+     * @return HasMany
+     */
+    public function logs(): HasMany
+    {
+        return $this->hasMany(UserLog::class);
+    }
 
     /**
      * Permet de retourner le lien du compte discord de l'utilisateur
@@ -186,6 +194,16 @@ class User extends Authenticate
     }
 
     /**
+     * username as slug
+     *
+     * @return string
+     */
+    public function slug(): string
+    {
+        return Str::slug($this->name);
+    }
+
+    /**
      * Return the path to the image
      *
      * @return string
@@ -203,16 +221,6 @@ class User extends Authenticate
     public function authorPage(): string
     {
         return route('resources.author', ['slug' => $this->slug(), 'user' => $this->id]);
-    }
-
-    /**
-     * username as slug
-     *
-     * @return string
-     */
-    public function slug(): string
-    {
-        return Str::slug($this->name);
     }
 
     /**

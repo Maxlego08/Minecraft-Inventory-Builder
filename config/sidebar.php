@@ -16,6 +16,12 @@ return [
                     'icon' => 'fas fa-users fa-chart-area',
                     'power' => UserRole::ADMIN
                 ],
+                'resources' => [
+                    'name' => 'Ressources',
+                    'route' => 'admin.resources.index',
+                    'icon' => 'fas fa-puzzle-piece',
+                    'power' => UserRole::MODERATOR
+                ],
             ],
 
         ],
