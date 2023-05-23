@@ -22,6 +22,12 @@ return [
                     'icon' => 'fas fa-puzzle-piece',
                     'power' => UserRole::MODERATOR
                 ],
+                'resources_pending' => [
+                    'name' => 'Ressources en attente',
+                    'route' => 'admin.resources.pending',
+                    'icon' => 'fas fa-pause-circle',
+                    'power' => UserRole::MODERATOR
+                ],
             ],
 
         ],

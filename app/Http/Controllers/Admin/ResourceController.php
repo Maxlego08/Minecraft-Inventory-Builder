@@ -22,4 +22,19 @@ class ResourceController extends Controller
             'resources' => $resources,
         ]);
     }
+
+    /**
+     * Display pending resource
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|View|Application
+     */
+    public function pending(): Application|View|Factory|\Illuminate\Contracts\Foundation\Application
+    {
+        $resources = Resource::where('is_pending', true)->paginate();
+        return view('admins.resources.pending', [
+            'resources' => $resources,
+        ]);
+    }
+
+
 }
