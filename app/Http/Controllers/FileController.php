@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\FileExtensionException;
 use App\Exceptions\UserFileFullException;
 use App\Models\File;
+use App\Models\UserLog;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -48,6 +49,7 @@ class FileController extends Controller
         $image = Image::make($file);
         try {
             $media = $this->storeImage($user, $file, $image, true, true);
+            userLog("Création de l'image $media->id", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
             return json_encode(['toast' => createToast('success', 'New image', "You just create a new image", 2000), 'status' => 'success', 'element' => ['url' => $media->getPath(), 'name' => "$media->file_name.$media->file_extension"]]);
         } catch (UserFileFullException) {
             return json_encode(['toast' => createToast('error', 'Impossible to create an image', 'You dont have enough space for upload a new image.', 5000), 'status' => 'error']);
@@ -70,7 +72,8 @@ class FileController extends Controller
 
         $file = $request->file('image');
         $image = Image::make($file);
-        $this->storeImage($user, $file, $image, true, true);
+        $media = $this->storeImage($user, $file, $image, true, true);
+        userLog("Création de l'image $media->id (JS)", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
 
         return Redirect::back()->with('toast', createToast('success', __('images.upload.title'), __('images.upload.content'), 5000));
     }
@@ -93,6 +96,7 @@ class FileController extends Controller
 
         Storage::disk('public')->delete("images/$file->file_name.$file->file_extension");
         $file->delete();
+        userLog('Suppression du fichier ' . $file->id, UserLog::COLOR_DANGER, UserLog::ICON_REMOVE);
 
         return Redirect::back()->with('toast', createToast('success', __('images.delete.success.title'), __('images.delete.success.content'), 5000));
     }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Resource\Download;
 use App\Models\Resource\Resource;
 use App\Models\Resource\Review;
+use App\Models\UserLog;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -90,9 +91,10 @@ class ResourceReviewController extends Controller
             return Redirect::back()->with('toast', createToast('error', __('resources.reviews.errors.rate.title'), __('resources.reviews.errors.rate.content'), 5000));
         }
 
-        Review::create(['user_id' => $user->id, 'resource_id' => $resource->id, 'version_id' => $resource->version_id, 'score' => $rate, 'review' => $request['message']]);
+        $review = Review::create(['user_id' => $user->id, 'resource_id' => $resource->id, 'version_id' => $resource->version_id, 'score' => $rate, 'review' => $request['message']]);
 
         $resource->clearReview();
+        userLog("Création de review $review->id pour la resource $resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_STARS);
 
         return Redirect::back()->with('toast', createToast('success', __('resources.reviews.success.title'), __('resources.reviews.success.content'), 5000));
     }
@@ -115,6 +117,7 @@ class ResourceReviewController extends Controller
         $review->delete();
 
         $resource->clearReview();
+        userLog("Suppression de review $review->id de la resource $resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_STARS);
 
         return Redirect::back()->with('toast', createToast('success', 'Action effectuée', 'Vous venez de supprimer cette review.', 5000));
     }
@@ -134,6 +137,8 @@ class ResourceReviewController extends Controller
 
         $review->update(['response' => null]);
 
+        userLog("Suppression de la review $review->id", UserLog::COLOR_SUCCESS, UserLog::ICON_STARS);
+
         return Redirect::back()->with('toast', createToast('success', __('resources.reviews.response.title'), __('resources.reviews.response.content'), 5000));
     }
 
@@ -147,6 +152,8 @@ class ResourceReviewController extends Controller
 
         $this->validate($request, ['message' => 'required|min:3|max:5000']);
         $review->update(['response' => $request['message']]);
+
+        userLog("Réponse à la review $review->id", UserLog::COLOR_SUCCESS, UserLog::ICON_STARS);
 
         return Redirect::back()->with('toast', createToast('success', __('resources.reviews.reply.title'), __('resources.reviews.reply.content'), 5000));
     }

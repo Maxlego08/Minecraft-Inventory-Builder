@@ -47,12 +47,15 @@ class UserController extends Controller
      */
     public function show(User $user): \Illuminate\Foundation\Application|View|Factory|Application
     {
-        $resources = $user->resources()->paginate(15, ['*'], 'resources');
+        $resources = $user->resources()->paginate(10, ['*'], 'resources');
+        $logs = $user->logs()->latest()->paginate(10, ['*'], 'logs');
+
         $roles = UserRole::all();
         return view('admins.users.show', [
             'resources' => $resources,
             'user' => $user,
-            'roles' => $roles
+            'roles' => $roles,
+            'logs' => $logs,
         ]);
     }
 

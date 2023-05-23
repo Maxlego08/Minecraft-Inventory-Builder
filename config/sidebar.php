@@ -16,6 +16,18 @@ return [
                     'icon' => 'fas fa-users fa-chart-area',
                     'power' => UserRole::ADMIN
                 ],
+                'resources' => [
+                    'name' => 'Ressources',
+                    'route' => 'admin.resources.index',
+                    'icon' => 'fas fa-puzzle-piece',
+                    'power' => UserRole::MODERATOR
+                ],
+                'resources_pending' => [
+                    'name' => 'Ressources en attente',
+                    'route' => 'admin.resources.pending',
+                    'icon' => 'fas fa-pause-circle',
+                    'power' => UserRole::MODERATOR
+                ],
             ],
 
         ],
@@ -39,7 +51,12 @@ return [
 
             'title' => 'Autres',
             'routes' => [
-
+                'logs' => [
+                    'name' => 'Logs',
+                    'route' => 'admin.logs.index',
+                    'icon' => 'fas fa-fw fa-history',
+                    'power' => UserRole::ADMIN
+                ],
             ],
 
         ],

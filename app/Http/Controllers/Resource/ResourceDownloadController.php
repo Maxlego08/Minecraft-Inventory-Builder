@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Resource\Download;
 use App\Models\Resource\Resource;
 use App\Models\Resource\Version;
+use App\Models\UserLog;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -62,6 +63,9 @@ class ResourceDownloadController extends Controller
 
         try {
             $path = "$resource->id/{$version->file->file_name}.{$version->file->file_extension}";
+
+            userLog("Téléchargement de la resource $resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_FILE);
+
             return Storage::disk('plugins')->download($path, "{$version->file_name}.{$version->file->file_extension}");
         } catch (Exception) {
             return Redirect::route('resources.index')->with('toast', createToast('error', __('resources.download.errors.other.title'), __('resources.download.errors.other.content'), 5000));

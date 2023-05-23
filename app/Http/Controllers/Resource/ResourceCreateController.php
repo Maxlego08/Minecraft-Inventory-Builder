@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Resource\Category;
 use App\Models\Resource\Resource;
 use App\Models\Resource\Version;
+use App\Models\UserLog;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -101,6 +102,8 @@ class ResourceCreateController extends Controller
         $version = Version::create(['version' => $request['version'], 'resource_id' => $resource->id, 'title' => 'First version of the plugin', 'description' => 'No description.', 'download' => 0, 'file_id' => $storedFile->id, 'file_name' => $fileName,]);
 
         $resource->update(['version_id' => $version->id]);
+
+        userLog("Création de la resource $resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_FILE);
 
         return Redirect::route('resources.index')->with('toast', createToast('success', __('resources.create.success.title'), __('resources.create.success.content'), 5000));
     }

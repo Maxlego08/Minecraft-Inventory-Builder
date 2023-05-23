@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Conversation\Conversation;
 use App\Models\User;
+use App\Models\UserLog;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -19,7 +20,7 @@ class ConversationController extends Controller
     private const CACHE_MESSAGE = "messages:";
 
     /**
-     * Afficher la liste des conversions d'un utilisateur
+     * View a list of user conversions
      *
      * @return Application|Factory|View
      */
@@ -37,7 +38,7 @@ class ConversationController extends Controller
     }
 
     /**
-     * Permet de créer une conversation
+     * Creates a conversation
      *
      * @param User $user
      * @return Application|Factory|View|RedirectResponse
@@ -77,12 +78,14 @@ class ConversationController extends Controller
         $conversation = Conversation::createNewConversation(user(), $request['subject'], $request['description']);
         $conversation->addParticipant($user);
 
+        userLog("Création de la conversation avec $user->name ($conversation->id)", UserLog::COLOR_SUCCESS, UserLog::ICON_SMS);
+
         return Redirect::route('profile.conversations.show', ['conversation' => $conversation->id])
             ->with('toast', createToast('success', __('conversations.create_success.title'), __('conversations.create_success.description')));
     }
 
     /**
-     * Permet d'afficher la conversation
+     * Displays the conversation
      *
      * @param Conversation $conversation
      * @return Application|Factory|RedirectResponse|View
@@ -134,9 +137,20 @@ class ConversationController extends Controller
             'description' => 'required|max:10000',
         ]);
 
+        $key = self::CACHE_MESSAGE . user()->id;
+        if (RateLimiter::tooManyAttempts($key, 1)) {
+            $seconds = RateLimiter::availableIn($key);
+            return Redirect::back()->withInput()
+                ->with('toast', createToast('error', __('conversations.cooldown.title'), __('conversations.cooldown.description', ['seconds' => $seconds])));
+        }
+
+        RateLimiter::hit($key, 30);
+
         $conversation->createMessage($user, $request['description']);
         $count = $conversation->messages->count();
         $page = (int)($count % 15 == 0 ? $count / 15 : ($count / 15) + 1);
+
+        userLog("Réponse à la conversation $conversation->id", UserLog::COLOR_SUCCESS, UserLog::ICON_SMS);
 
         return Redirect::route('profile.conversations.show', ['conversation' => $conversation, 'page' => $page])
             ->with('toast', createToast('success', __('conversations.send_success.title'), __('conversations.send_success.description')))
@@ -144,7 +158,7 @@ class ConversationController extends Controller
     }
 
     /**
-     * Permet de vérifier si l'utilisateur à accès la conversation
+     * Check if the user has access to the conversation
      *
      * @param Conversation $conversation
      * @param User $user
@@ -152,7 +166,7 @@ class ConversationController extends Controller
      */
     private function hasAccessTo(Conversation $conversation, User $user): bool
     {
-        // ToDo Ajouter un système d'administrateur pouvant tout voir
+        if ($user->role->isModerator()) return true;
         return $conversation->participants()->where('user_id', $user->id)->count() == 1;
     }
 }

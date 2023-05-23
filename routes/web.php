@@ -3,6 +3,7 @@
 use App\Http\Controllers\AlertController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Resource\ResourceAuthorController;
 use App\Http\Controllers\Resource\ResourceBuyerController;
@@ -28,9 +29,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+Route::get('/', [IndexController::class, 'index'])->name('home');
 
 Route::prefix('/profile')->name('profile.')->middleware('auth')->group(function () {
 

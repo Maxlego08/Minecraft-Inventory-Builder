@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use App\Models\UserLog;
 use Carbon\Carbon;
 
 if (!function_exists('user')) {
@@ -132,5 +133,26 @@ if (!function_exists('replaceDependency')) {
             "luckperm", "luckperms", => "<a href='https://www.spigotmc.org/resources/28140/' target='_blank'>$string</a>",
             default => $string
         };
+    }
+}
+
+if (!function_exists('getIpV4')) {
+    function getIpV4(): string
+    {
+        return request()->headers->get('cf-connecting-ip') ?? '0.0.0.0';
+    }
+}
+
+if (!function_exists('userLog')) {
+    function userLog(string $action, string $color, string $icon, int $type = UserLog::TYPE_DEFAULT)
+    {
+        UserLog::make(user(), $action, $color, $icon, $type);
+    }
+}
+
+if (!function_exists('format_date_compact')) {
+    function format_date_compact(Carbon $date): string
+    {
+        return $date->format('d/m/Y \à G:i');
     }
 }

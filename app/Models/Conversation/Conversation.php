@@ -70,7 +70,7 @@ class Conversation extends Model
     {
         $count = $this->messages->count();
         $page = (int)($count % 15 == 0 ? $count / 15 : ($count / 15) + 1);
-        return route('profile.conversations.show', ['conversation' => $this, 'page' => $page]);
+        return route('profile.conversations.show', ['conversation' => $this, 'page' => $page]) . "#last";
     }
 
     /**

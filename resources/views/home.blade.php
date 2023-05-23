@@ -274,49 +274,7 @@
                     </div>
                     <div class="row flex-column g-4 mt-4">
                         <div class="col">
-                            <div class="block_resources bg-blue-800 rounded-1">
-                                <div class="d-flex flex-wrap flex-lg-nowrap">
-                                    <div class="block_resources_start me-0 me-lg-4">
-                                        <a class="img_1" href="https://groupez.dev/resources/zkoth.9"
-                                           title="Show zKoth description">
-                                            <img class="" src="https://groupez.dev/storage/images/9.png"
-                                                 alt="zKoth logo">
-                                        </a>
-                                        <a class="img_2 position-absolute start-100"
-                                           href="https://groupez.dev/resources/authors/maxlego08.1"
-                                           title="Maxlego08 profile">
-                                            <img class=" rounded-circle"
-                                                 src="https://groupez.dev/storage/images/users/0/0/0/1.png"
-                                                 alt="Maxlego08 Avatar">
-                                        </a>
-                                    </div>
-                                    <div class="block_resources_center ms-4 ms-lg-5">
-                                        <h4 class="fw-bold fs-5 mb-0">zKoth - Minecraft KOTH Plugin (1.7.10 - 1.19.1)
-                                            <span
-                                                class="text-muted fw-normal fs-6 ms-2">v2.0.4.2</span></h4>
-                                        <span class="text-muted fw-light fs-7">Posté par <span class="text-danger">Maxlego08</span> le 18/07/2022</span>
-                                        <p class="mt-1 mb-0">A King of The Hill plugin that has all the flexibility that
-                                            you need!</p>
-                                    </div>
-                                    <div class="block_resources_end d-flex align-items-center flex-grow-1">
-                                        <span class="btn btn-success rounded-4 fw-normal py-0 me-3 me-lg-5">8€</span>
-                                        <ul class="navbar-nav flex-grow-1">
-                                            <li class="py-1"><span class="text-warning">
-                                                    <i class="bi bi-star-fill"></i>
-                                                    <i class="bi bi-star-fill"></i>
-                                                    <i class="bi bi-star-fill"></i>
-                                                    <i class="bi bi-star-half"></i>
-                                                    <i class="bi bi-star"></i>
-                                                </span>
-                                                <span class="float-lg-end">43 avis</span></li>
-                                            <li class="py-1"><span>Téléchargement</span> <span
-                                                    class="float-lg-end">4136</span></li>
-                                            <li class="py-1"><span>Mise à jour</span> <span class="float-lg-end">Lundi 18 juillet</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
+                            @include('resources.elements.resource', ['resource' => $resource])
                         </div>
                     </div>
                 </div>
