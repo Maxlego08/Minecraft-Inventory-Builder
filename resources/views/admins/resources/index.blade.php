@@ -68,7 +68,7 @@
                                 <th>{{ $resource->countDownload() }}</th>
                                 <th>{{ format_date($resource->created_at, true) }}</th>
                                 <th>
-                                    
+
                                 </th>
                             </tr>
                         @endforeach
