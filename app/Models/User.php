@@ -41,6 +41,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property ConversationNotification $conversationNotifications
  * @property UserRole $role
  * @method static User find(int $id)
+ * @method string getProfilePhotoUrlAttribute()
  */
 class User extends Authenticate
 {

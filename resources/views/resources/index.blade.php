@@ -26,6 +26,9 @@
                         <div class="row">
                             @include('resources.elements.categories')
                             @include('resources.elements.users')
+                            <div class="col-md-6 col-lg-12">
+                                @include('resources.elements.sponsor')
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-9">

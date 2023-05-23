@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Resource;
 use App\Http\Controllers\Controller;
 use App\Models\Resource\Category;
 use App\Models\Resource\Resource;
+use App\Models\UserLog;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -85,6 +86,8 @@ class ResourceEditController extends Controller
         ]);
 
         $resource->clear('supported.version');
+
+        userLog("Modification de la resource $resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_FILE);
 
         return Redirect::route('resources.view', ['resource' => $resource, 'slug' => $resource->slug()])->with('toast', createToast('success', __('resources.edit.success.title'), __('resources.edit.success.content'), 5000));
     }

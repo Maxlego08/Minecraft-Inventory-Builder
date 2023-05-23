@@ -14,30 +14,32 @@
 
     <hr class="sidebar-divider">
 
-@foreach(config('sidebar.elements') as $elements => $element)
+    @foreach(config('sidebar.elements') as $elements => $element)
 
-    @if (isset($element['role']))
-        <!-- Do nothing -->
+        @if (isset($element['role']))
+            <!-- Do nothing -->
         @else
             <div class="sidebar-heading">
                 {{ __($element['title']) }}
             </div>
 
             @foreach($element['routes'] as $route)
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route($route['route']) }}">
-                        <i class="{{ $route['icon'] }}"></i>
-                        <span>{{ __($route['name']) }}</span>
-                    </a>
-                </li>
+                @if(user()->role->power >= $route['power'])
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route($route['route']) }}">
+                            <i class="{{ $route['icon'] }}"></i>
+                            <span>{{ __($route['name']) }}</span>
+                        </a>
+                    </li>
+                @endif
             @endforeach
 
             <hr class="sidebar-divider">
-    @endif
+        @endif
 
-@endforeach
+    @endforeach
 
-<!-- Sidebar Toggler (Sidebar) -->
+    <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
     </div>

@@ -6,6 +6,7 @@ use App\Exceptions\FileExtensionException;
 use App\Exceptions\UserFileFullException;
 use App\Http\Controllers\Controller;
 use App\Models\Resource\Resource;
+use App\Models\UserLog;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -58,6 +59,8 @@ class ResourceIconController extends Controller
         $icon->delete();
 
         $resource->clear('icon.path');
+
+        userLog("Création de l'icon de la resource $resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_FILE);
 
         return Redirect::route('resources.view', ['resource' => $resource, 'slug' => $resource->slug()])->with('toast', createToast('success', __('resources.edit.icon_modal.success.title'), __('resources.edit.icon_modal.success.content'), 5000));
     }

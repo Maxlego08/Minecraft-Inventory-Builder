@@ -39,7 +39,12 @@ return [
 
             'title' => 'Autres',
             'routes' => [
-
+                'logs' => [
+                    'name' => 'Logs',
+                    'route' => 'admin.logs.index',
+                    'icon' => 'fas fa-fw fa-history',
+                    'power' => UserRole::ADMIN
+                ],
             ],
 
         ],
