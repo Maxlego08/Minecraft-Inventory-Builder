@@ -182,7 +182,7 @@ class User extends Authenticate
 
     public function getProfileUrl(): string
     {
-        return route('resources.author', $this);
+        return route('resources.author', ['user' => $this, 'slug' => $this->slug()]);
     }
 
     /**

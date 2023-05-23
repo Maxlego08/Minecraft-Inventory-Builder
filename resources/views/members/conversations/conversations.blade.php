@@ -26,8 +26,8 @@
                                     </a>
                                 </div>
                                 <div class="d-flex flex-column">
-                                    <small class="text-secondary">{!! __('conversations.list.last', ['date' => format($conversation->last_message_at), 'name' => "<a href='".route('resources.author', $conversation->getLastMessage()->user)."' class='text-decoration-none'>".$conversation->getLastMessage()->user->name."</a>", 'link' => $conversation->getLastMessageURL()]) !!}</small>
-                                    <small class="text-secondary">{!! __('conversations.list.start', ['date' => format($conversation->created_at), 'name' => "<a href='".route('resources.author', $conversation->user)."' class='text-decoration-none'>".$conversation->user->name."</a>"]) !!}</small>
+                                    <small class="text-secondary">{!! __('conversations.list.last', ['date' => format($conversation->last_message_at), 'name' => "<a href='".route('resources.author', ['user' => $conversation->getLastMessage()->user, 'slug' => $conversation->getLastMessage()->user->slug()])."' class='text-decoration-none'>".$conversation->getLastMessage()->user->name."</a>", 'link' => $conversation->getLastMessageURL()]) !!}</small>
+                                    <small class="text-secondary">{!! __('conversations.list.start', ['date' => format($conversation->created_at), 'name' => "<a href='".route('resources.author', ['user' => $conversation->user, 'slug' => $conversation->user->slug()])."' class='text-decoration-none'>".$conversation->user->name."</a>"]) !!}</small>
                                 </div>
                             </div>
                         </div>
