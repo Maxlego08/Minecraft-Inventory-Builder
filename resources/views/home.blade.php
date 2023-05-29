@@ -10,7 +10,8 @@
                 <h1 class="display-5 fw-semibold">Minecraft Inventory Builder</h1>
                 <p class="fs-7">Description du projet GroupeZ MarketPlace ainsi que ses objectifs
                     et les envies de l’administration.</p>
-                <p class="fs-1 text-danger"><i class="bi bi-exclamation"></i> IN DEVELOPMENT <i class="bi bi-exclamation"></i></p>
+                <p class="fs-1 text-danger"><i class="bi bi-exclamation"></i> IN DEVELOPMENT <i
+                        class="bi bi-exclamation"></i></p>
             </div>
             <a href="#home_marketplace" class="home_arrow_scroll text-white"><i class="bi bi-arrow-down fs-2"></i></a>
         </article>
@@ -272,11 +273,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row flex-column g-4 mt-4">
-                        <div class="col">
-                            @include('resources.elements.resource', ['resource' => $resource])
+                    @if ($resource)
+                        <div class="row flex-column g-4 mt-4">
+                            <div class="col">
+                                @include('resources.elements.resource', ['resource' => $resource])
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
             </div>
         </article>

@@ -53,7 +53,7 @@ class ResourceCreateController extends Controller
             'tags' => ['required', 'string', 'min:3', 'max:150'],
 
             'description' => 'required',
-            'price' => ['nullable', 'integer', 'min:0', 'max:100'],
+            'price' => ['nullable', 'decimal:2', 'min:0.0', 'max:100'],
             'category' => ['required'],
             'version_base_mc' => ['required'],
 
@@ -103,7 +103,7 @@ class ResourceCreateController extends Controller
 
         $resource->update(['version_id' => $version->id]);
 
-        userLog("Création de la resource $resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_FILE);
+        userLog("Création de la ressource $resource->name.$resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_FILE);
 
         return Redirect::route('resources.index')->with('toast', createToast('success', __('resources.create.success.title'), __('resources.create.success.content'), 5000));
     }

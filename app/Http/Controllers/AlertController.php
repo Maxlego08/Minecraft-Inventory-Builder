@@ -5,14 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\Alert\AlertUser;
 use App\Models\Conversation\Conversation;
 use Carbon\Carbon;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 
 class AlertController extends Controller
 {
 
-    public function show()
+    /**
+     * Display last alerts
+     *
+     * @return View|\Illuminate\Foundation\Application|Factory|Application
+     */
+    public function show(): View|\Illuminate\Foundation\Application|Factory|Application
     {
-
-        $data = Carbon::now()->subDays(1);
+        $data = Carbon::now()->subDays(7);
         $alerts = user()->alerts()->whereNull('opened_at')->orWhere('opened_at', '>=', $data)->orderBy('created_at', 'desc')->get();
 
         foreach ($alerts as $alert) {
@@ -47,6 +54,46 @@ class AlertController extends Controller
         }
 
         return $content;
+    }
+
+    private function toHtml(AlertUser $alert): string
+    {
+
+        $divAlert = "<li class='list-group-item list-group-item-{$alert->level} fs-7 rounded-1 mt-1 p-1'>";
+
+        if ($alert->target_id || $alert->translation_key || $alert->icon) {
+
+            $divAlert .= "<div class='d-flex'>";
+            if ($alert->target_id) {
+                $target = $alert->target;
+                $divAlert .= "<img src='{$target->getProfilePhotoUrlAttribute()}'
+                             height='50' width='50' alt='{$target->name} avatar' class='rounded-2'>";
+            } else {
+                $divAlert .= "<i class='$alert->icon fs-2'></i>";
+            }
+            $divAlert .= "<div class='ms-1'>";
+            $divAlert .= "<div>";
+            if ($alert->translation_key) {
+                $link = $alert->link ?? "#";
+                $targetName = isset($target) ? $target->name : '';
+                $targetUrl = isset($target) ? $target->getProfileUrl() : '';
+                $divAlert .= __($alert->translation_key, ['user' => "<a href='$targetUrl'>{$targetName}</a>", 'content' => "<a href='{$link}'>{$alert->content}</a>"]);
+            } else {
+                $divAlert .= $alert->content;
+            }
+            $divAlert .= "</div>";
+            $date = format($alert->created_at);
+            $divAlert .= "<small>{$date}</small>";
+            $divAlert .= "</div>";
+            $divAlert .= "</div>";
+
+        } else {
+            $divAlert .= $alert->content;
+        }
+
+        $divAlert .= "</li>";
+        return $divAlert;
+
     }
 
     public function latestMessages(): string
@@ -93,46 +140,6 @@ class AlertController extends Controller
         $div .= '</li>';
 
         return $div;
-    }
-
-    private function toHtml(AlertUser $alert): string
-    {
-
-        $divAlert = "<li class='list-group-item list-group-item-{$alert->level} fs-7 rounded-1 mt-1 p-1'>";
-
-        if ($alert->target_id || $alert->translation_key || $alert->icon) {
-
-            $divAlert .= "<div class='d-flex'>";
-            if ($alert->target_id) {
-                $target = $alert->target;
-                $divAlert .= "<img src='{$target->getProfilePhotoUrlAttribute()}'
-                             height='50' width='50' alt='{$target->name} avatar' class='rounded-2'>";
-            } else {
-                $divAlert .= $alert->icon;
-            }
-            $divAlert .= "<div class='ms-1'>";
-            $divAlert .= "<div>";
-            if ($alert->translation_key) {
-                $link = $alert->link ?? "#";
-                $targetName = $target->name ?? '';
-                $targetUrl = $target->getProfileUrl() ?? '';
-                $divAlert .= __($alert->translation_key, ['user' => "<a href='$targetUrl'>{$targetName}</a>", 'content' => "<a href='{$link}'>{$alert->content}</a>"]);
-            } else {
-                $divAlert .= $alert->content;
-            }
-            $divAlert .= "</div>";
-            $date = format($alert->created_at);
-            $divAlert .= "<small>{$date}</small>";
-            $divAlert .= "</div>";
-            $divAlert .= "</div>";
-
-        } else {
-            $divAlert .= $alert->content;
-        }
-
-        $divAlert .= "</li>";
-        return $divAlert;
-
     }
 
 }

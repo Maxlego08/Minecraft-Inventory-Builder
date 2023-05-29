@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Alert\AlertUser;
 use App\Models\User;
 use App\Models\UserLog;
 use Carbon\Carbon;
@@ -154,5 +155,20 @@ if (!function_exists('format_date_compact')) {
     function format_date_compact(Carbon $date): string
     {
         return $date->format('d/m/Y \à G:i');
+    }
+}
+
+if (!function_exists('createAlert')) {
+    function createAlert(int $user_id, string $content, string $icon, string $level, string $translation_key = null, string $link = null, int $target_id = null): AlertUser
+    {
+        return AlertUser::create([
+            'user_id' => $user_id,
+            'level' => $level,
+            'content' => $content,
+            'link' => $link,
+            'icon' => $icon,
+            'translation_key' => $translation_key,
+            'target_id' => $target_id
+        ]);
     }
 }

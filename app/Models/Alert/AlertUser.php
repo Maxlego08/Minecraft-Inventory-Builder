@@ -35,6 +35,12 @@ class AlertUser extends Model
 
     protected $fillable = ['user_id', 'level', 'content', 'link', 'opened_at', 'icon', 'translation_key', 'target_id'];
 
+    const ICON_TRASH = "bi bi-trash3";
+    const ICON_SUCCESS = "bi bi-bookmark-check-fill";
+
+    const DANGER = "danger";
+    const SUCCESS = "success";
+
     /**
      * Permet d'obtenir l'utilisateur
      *
@@ -60,7 +66,7 @@ class AlertUser extends Model
      *
      * @return void
      */
-    public function markAsRead()
+    public function markAsRead(): void
     {
         if ($this->opened_at === null) {
             $this->update(['opened_at' => now()]);

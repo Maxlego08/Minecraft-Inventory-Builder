@@ -59,6 +59,14 @@ class Version extends Model
     }
 
     /**
+     * @return HasMany
+     */
+    public function downloads(): HasMany
+    {
+        return $this->hasMany(Download::class);
+    }
+
+    /**
      * Display the rating stars
      *
      * @return string

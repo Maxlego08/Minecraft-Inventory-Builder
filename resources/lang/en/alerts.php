@@ -10,8 +10,9 @@ return [
 
     'alerts' => [
         'resources' => [
-            'update' => ':user updated the resource :content',
-            'delete' => 'Your resource :content has just been rejected',
+            'updated' => ':user updated the resource :content.',
+            'deleted' => 'Your resource :content has just been rejected.',
+            'accepted' => 'Your resource :content has just been accepted !',
         ],
         'messages' => ':user answered in the conversation :conversation'
     ],
