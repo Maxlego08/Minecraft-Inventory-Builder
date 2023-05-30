@@ -14,18 +14,23 @@
 
                     @if ($alert->target_id || $alert->translation_key || $alert->icon)
 
-                        <li class="list-group-item rounded-1 mb-2">
+                        <li class="list-group-item list-group-item-{{ $alert->level }} rounded-0 mb-2 p-2">
                             <div class='d-flex'>
                                 @if ($alert->target_id)
                                     <img src="{{ $alert->target->getProfilePhotoUrlAttribute() }}"
-                                         height='50' width='50' alt='{{ $alert->target->name }} avatar' class='rounded-2'>
+                                         height='50' width='50' alt='{{ $alert->target->name }} avatar'
+                                         class='rounded-2'>
                                 @else
-                                    {!! $alert->icon !!}
+                                    <i class="{!! $alert->icon !!} fs-2"></i>
                                 @endif
                                 <div class='ms-2'>
                                     <div>
                                         @if ($alert->translation_key)
-                                            {!! __($alert->translation_key, ['user' => "<a href='/profile/'{$alert->target->name}>{$alert->target->name}</a>", 'content' => "<a href='{$alert->link}'>{$alert->content}</a>"]) !!}
+                                            @if ($alert->target_id)
+                                                {!! __($alert->translation_key, ['user' => "<a href='/profile/'{$alert->target->name}>{$alert->target->name}</a>", 'content' => "<a href='{$alert->link}'>{$alert->content}</a>"]) !!}
+                                            @else
+                                                {!! __($alert->translation_key, ['user' => "#", 'content' => "<a href='{$alert->link}'>{$alert->content}</a>"]) !!}
+                                            @endif
                                         @else
                                             {{ $alert->content }}
                                         @endif

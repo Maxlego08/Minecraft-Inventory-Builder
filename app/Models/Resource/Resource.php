@@ -40,6 +40,7 @@ use Illuminate\Support\Str;
  * @property Category $category;
  * @property String $versions;
  * @property Access[] $buyers;
+ * @property Review[] $reviews;
  * @method static Resource find(int $id)
  * @method static Resource findOrFail(int $id)
  * @method static Resource create(array $values)
@@ -327,9 +328,33 @@ class Resource extends Model
                 "version" => $this->version,
                 "category" => $this->category,
                 "user" => $this->user,
+                "icon" => $this->icon,
                 default => ""
             };
         });
+    }
+
+    /**
+     * Return status tag
+     *
+     * @return string[]
+     */
+    public function getStatus(): array
+    {
+        if ($this->is_deleted)
+            return [
+                'message' => 'deleted',
+                'color' => 'red'
+            ];
+        if ($this->is_pending)
+            return [
+                'message' => 'pending',
+                'color' => '#ca4100'
+            ];
+        return [
+            'message' => 'approved',
+            'color' => 'rgb(72, 187, 156)'
+        ];
     }
 
 }

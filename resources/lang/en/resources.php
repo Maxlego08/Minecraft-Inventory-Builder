@@ -102,7 +102,7 @@ return [
             'description' => 'Link to an information page of your resource',
         ],
         'support' => [
-            'name' => 'Support URL',
+            'name' => 'Support URL (Required)',
             'description' => 'Link to your support system. (Your discord or your site. We advise you to create documentation on <a href="https://gitbook.com/" target="_blank">gitbook.com</a>)',
         ],
         'image' => [

@@ -33,6 +33,16 @@
             </div>
         </li>
 
+        <li class="nav-item dropdown no-arrow mx-1">
+            <a class="nav-link dropdown-toggle" href="{{ route('admin.resources.pending') }}">
+                <i class="fas fa-bell fa-fw"></i>
+                @if($pending_resources > 0)
+                    <span class="badge badge-danger badge-counter"
+                          id="notificationsCounter">{{ $pending_resources }}</span>
+                @endif
+            </a>
+        </li>
+
         <div class="topbar-divider d-none d-sm-block"></div>
 
         <!-- Nav Item - User Information -->
