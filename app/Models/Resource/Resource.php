@@ -328,6 +328,7 @@ class Resource extends Model
                 "version" => $this->version,
                 "category" => $this->category,
                 "user" => $this->user,
+                "icon" => $this->icon,
                 default => ""
             };
         });

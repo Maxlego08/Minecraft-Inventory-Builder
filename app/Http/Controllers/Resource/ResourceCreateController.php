@@ -14,6 +14,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\ValidationException;
 use Intervention\Image\Facades\Image;
@@ -104,6 +105,8 @@ class ResourceCreateController extends Controller
         $resource->update(['version_id' => $version->id]);
 
         userLog("Création de la ressource $resource->name.$resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_FILE);
+
+        Cache::forget('pending_resources');
 
         return Redirect::route('resources.index')->with('toast', createToast('success', __('resources.create.success.title'), __('resources.create.success.content'), 5000));
     }

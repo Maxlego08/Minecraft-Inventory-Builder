@@ -8,6 +8,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
 
 class ResourceAuthorController extends Controller
@@ -22,8 +23,11 @@ class ResourceAuthorController extends Controller
      */
     public function index(string $slug, User $user): View|\Illuminate\Foundation\Application|Factory|Application
     {
+        $resources = ResourcePagination::paginateAuthor($user);
         return view('resources.pages.author', [
             'user' => $user,
+            'resources_count' => $resources->total(),
+            'resources' => $resources,
         ]);
     }
 

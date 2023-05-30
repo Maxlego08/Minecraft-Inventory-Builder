@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Dashboard')
+
 @section('content')
 
     <div class="content_resources_show py-5 mb-5 members">
@@ -31,10 +33,10 @@
                                             <a href="{{ route('profile.images.index') }}">{{ __('profiles.nav.images') }}</a>
                                         </li>
                                         <li class="list-group-item mb-2">
-                                            <a href="#">{{ __('profiles.nav.resources.your') }}</a>
+                                            <a href="{{ user()->getProfileUrl() }}">{{ __('profiles.nav.resources.your') }}</a>
                                         </li>
                                         <li class="list-group-item mb-2">
-                                            <a href="#">{{ __('profiles.nav.resources.add') }}</a>
+                                            <a href="{{ route('resources.create.index') }}">{{ __('profiles.nav.resources.add') }}</a>
                                         </li>
                                     </ul>
                                 </nav>

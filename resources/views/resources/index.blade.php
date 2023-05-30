@@ -32,7 +32,6 @@
                         </div>
                     </div>
                     <div class="col-lg-9">
-                        <h2 class="visually-hidden-focusable">Les ressources</h2>
                         @foreach($resources as $resource)
                             @include('resources.elements.resource', ['resource' => $resource])
                         @endforeach

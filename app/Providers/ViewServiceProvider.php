@@ -4,8 +4,9 @@ namespace App\Providers;
 
 use App\Http\View\Composers\AlertComposer;
 use App\Http\View\Composers\MessageComposer;
-use Illuminate\Support\ServiceProvider;
+use App\Http\View\Composers\PendingResourceComposer;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\ServiceProvider;
 
 class ViewServiceProvider extends ServiceProvider
 {
@@ -29,6 +30,7 @@ class ViewServiceProvider extends ServiceProvider
     {
         View::composer('elements.alerts', AlertComposer::class);
         View::composer('elements.messages', MessageComposer::class);
+        View::composer('admins.layouts.header', PendingResourceComposer::class);
     }
 
 }

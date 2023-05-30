@@ -65,6 +65,7 @@ class ResourceDownloadController extends Controller
             $path = "$resource->id/{$version->file->file_name}.{$version->file->file_extension}";
 
             userLog("Téléchargement de la resource $resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_FILE);
+            $user->enableNotification($resource);
 
             return Storage::disk('plugins')->download($path, "{$version->file_name}.{$version->file->file_extension}");
         } catch (Exception) {

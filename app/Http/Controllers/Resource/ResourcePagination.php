@@ -5,15 +5,14 @@ namespace App\Http\Controllers\Resource;
 use App\Models\Resource\Category;
 use App\Models\Resource\Resource;
 use App\Models\User;
-use Illuminate\Database\Query\Builder;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ResourcePagination
 {
 
-    public static function mostResources(){
+    public static function mostResources()
+    {
         return User::select('users.name', 'users.id', 'users.profile_photo_path')
             ->addSelect(DB::raw("COUNT(`resource_resources`.`id`) AS `resource`"))
             ->join('resource_resources', 'resource_resources.user_id', '=', 'users.id')
@@ -25,6 +24,26 @@ class ResourcePagination
             ->groupBy('users.profile_photo_path')
             ->orderBy('resource', 'DESC')
             ->limit(5)->get();
+    }
+
+    public static function paginateAuthor(User $user): \Illuminate\Contracts\Pagination\LengthAwarePaginator
+    {
+        return Resource::select("resource_resources.*")
+            ->with('version')
+            ->with('category')
+            ->with('icon')
+            ->leftJoin('resource_versions', 'resource_resources.version_id', '=', 'resource_versions.id')
+            ->when(!Auth::guest(), function ($query) {
+                $currentUser = Auth::user();
+                $query->where('resource_resources.is_pending', true)->where('resource_resources.user_id', $currentUser->id)
+                    ->orWhere('resource_resources.is_pending', false);
+            }, function ($query) {
+                $query->where('resource_resources.is_pending', false);
+            })
+            ->where('resource_resources.is_display', true)
+            ->where('resource_resources.user_id', $user->id)
+            ->orderBy('resource_versions.created_at', 'DESC')
+            ->paginate();
     }
 
     /**

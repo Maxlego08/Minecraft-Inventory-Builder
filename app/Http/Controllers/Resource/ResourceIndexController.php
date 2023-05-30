@@ -19,7 +19,7 @@ class ResourceIndexController extends Controller
         // DB::enableQueryLog(); // Enable query log
         // dd(DB::getQueryLog()); // Show results of log
 
-        $mostResources = Cache::remember('resources:mostResources', 300, function () {
+        $mostResources = Cache::remember('resources:mostResources', 86400, function () {
             $mostResourcesUsers = ResourcePagination::mostResources();
             $mostResources = [];
             foreach ($mostResourcesUsers as $user) {

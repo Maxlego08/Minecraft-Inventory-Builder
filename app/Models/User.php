@@ -6,6 +6,7 @@ namespace App\Models;
 use App\Models\Alert\AlertUser;
 use App\Models\Conversation\ConversationNotification;
 use App\Models\Resource\Access;
+use App\Models\Resource\Notification;
 use App\Models\Resource\Resource;
 use App\Traits\HasProfilePhoto;
 use Carbon\Carbon;
@@ -36,6 +37,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property Carbon $updated_at
  * @property DiscordUser $discord
  * @property AlertUser[] $alerts
+ * @property Notification[] $resourceNotifications
  * @property ConversationNotification $conversationNotifications
  * @property UserRole $role
  * @method static User find(int $id)
@@ -74,6 +76,16 @@ class User extends Authenticate
     public function logs(): HasMany
     {
         return $this->hasMany(UserLog::class);
+    }
+
+    /**
+     * Retourne la liste des notifications de l'utilisateur
+     *
+     * @return HasMany
+     */
+    public function resourceNotifications(): HasMany
+    {
+        return $this->hasMany(Notification::class);
     }
 
     /**
@@ -279,8 +291,21 @@ class User extends Authenticate
      * @param string $key
      * @return void
      */
-    public function clear(string $key)
+    public function clear(string $key): void
     {
         Cache::forget("$key::$this->id");
     }
+
+    public function enableNotification(Resource $resource)
+    {
+        $isExist = $this->resourceNotifications()->where('resource_id', $resource->id)->exists();
+        if (!$isExist) {
+            Notification::create([
+                'user_id' => $this->id,
+                'resource_id' => $resource->id,
+                'unsubscribe' => Str::random(64),
+            ]);
+        }
+    }
+
 }

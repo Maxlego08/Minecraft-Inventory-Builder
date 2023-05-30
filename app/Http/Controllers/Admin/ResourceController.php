@@ -13,6 +13,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
@@ -60,8 +61,10 @@ class ResourceController extends Controller
         ]);
 
         createAlert($resource->user_id, $resource->name, AlertUser::ICON_SUCCESS, AlertUser::SUCCESS, 'alerts.alerts.resources.accepted');
-
         userLog("Ressource accepté $resource->name ($resource->id)", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
+
+        Cache::forget('pending_resources');
+        Cache::forget('resources:mostResources');
 
         return Redirect::route('admin.resources.pending')->with('toast', createToast('success', 'Ressource acceptée !', 'Vous venez d\'accepter la ressource ' . $resource->name . '.' . $resource->id, 5000));
     }
@@ -105,9 +108,13 @@ class ResourceController extends Controller
 
         $resource->delete();
         File::where('id', $fileId)->delete();
+        Storage::disk('plugins')->deleteDirectory($resource->id);
 
         createAlert($resource->user_id, $resource->name, AlertUser::ICON_TRASH, AlertUser::DANGER, 'alerts.alerts.resources.deleted');
         userLog("Ressource refusé $resource->name ($resource->id)", UserLog::COLOR_DANGER, UserLog::ICON_TRASH);
+
+        Cache::forget('pending_resources');
+        Cache::forget('resources:mostResources');
 
         return Redirect::route('admin.resources.pending')->with('toast', createToast('success', 'Ressource refusée !', 'Vous venez de refuser la ressource ' . $resource->name . '.' . $resource->id, 5000));
     }
