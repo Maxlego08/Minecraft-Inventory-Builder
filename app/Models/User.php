@@ -37,6 +37,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property Carbon $updated_at
  * @property DiscordUser $discord
  * @property AlertUser[] $alerts
+ * @property Resource[] $resources
  * @property Notification[] $resourceNotifications
  * @property ConversationNotification $conversationNotifications
  * @property UserRole $role
@@ -296,7 +297,13 @@ class User extends Authenticate
         Cache::forget("$key::$this->id");
     }
 
-    public function enableNotification(Resource $resource)
+    /**
+     * Adds a notification to the user if it does not exist
+     *
+     * @param Resource $resource
+     * @return void
+     */
+    public function enableNotification(Resource $resource): void
     {
         $isExist = $this->resourceNotifications()->where('resource_id', $resource->id)->exists();
         if (!$isExist) {

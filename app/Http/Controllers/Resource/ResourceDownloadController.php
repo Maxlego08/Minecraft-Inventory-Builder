@@ -51,7 +51,7 @@ class ResourceDownloadController extends Controller
 
         $key = "download::$user->id";
         if (Cache::has($key)) {
-            return Redirect::route('resources.index')->with('toast', createToast('error', __('resources.download.errors.cache.title'), __('resources.download.errors.cache.content'), 5000));
+            return Redirect::route('resources.view', ['resource' => $resource, 'slug' => $resource->slug()])->with('toast', createToast('error', __('resources.download.errors.cache.title'), __('resources.download.errors.cache.content'), 5000));
         }
 
         Cache::put($key, 'cooldown', 15);

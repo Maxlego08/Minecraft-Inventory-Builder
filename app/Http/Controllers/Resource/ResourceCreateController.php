@@ -54,7 +54,7 @@ class ResourceCreateController extends Controller
             'tags' => ['required', 'string', 'min:3', 'max:150'],
 
             'description' => 'required',
-            'price' => ['nullable', 'decimal:2', 'min:0.0', 'max:100'],
+            'price' => ['nullable', 'numeric', 'between:0,100', 'regex:/^\d+(\.\d{1,2})?$/'],
             'category' => ['required'],
             'version_base_mc' => ['required'],
 

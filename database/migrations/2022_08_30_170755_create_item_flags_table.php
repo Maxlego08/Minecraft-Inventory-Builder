@@ -27,6 +27,7 @@ return new class extends Migration {
         ItemFlag::create(['name' => 'HIDE_POTION_EFFECTS']);
         ItemFlag::create(['name' => 'HIDE_UNBREAKABLE']);
         ItemFlag::create(['name' => 'HIDE_DYE', 'version' => 1.17]);
+        ItemFlag::create(['name' => 'HIDE_ARMOR_TRIM', 'version' => 1.20]);
     }
 
     /**

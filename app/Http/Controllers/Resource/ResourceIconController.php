@@ -59,6 +59,7 @@ class ResourceIconController extends Controller
         $icon->delete();
 
         $resource->clear('icon.path');
+        $resource->clear('resource.icon');
 
         userLog("Création de l'icon de la resource $resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_FILE);
 

@@ -33,4 +33,7 @@ return [
             'content' => 'You just delete an image'
         ]
     ],
+    'textarea' => [
+        'title' => 'Add an image'
+    ]
 ];

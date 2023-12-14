@@ -37,6 +37,7 @@ class AlertUser extends Model
 
     const ICON_TRASH = "bi bi-trash3";
     const ICON_SUCCESS = "bi bi-bookmark-check-fill";
+    const ICON_ENVELOPE = "bi bi-envelope-arrow-down";
 
     const DANGER = "danger";
     const SUCCESS = "success";

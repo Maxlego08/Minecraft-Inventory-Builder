@@ -214,6 +214,7 @@ class Resource extends Model
      * resource.version
      * resource.category
      * resource.user
+     * resource.icon
      *
      * @param string $key
      * @return void

@@ -87,7 +87,7 @@
 
             <div class="mb-3">
                 <label for="price" class="form-label">{{ __('resources.create.price.name') }}</label>
-                <input type="number" step=".01" min="0" max="100" placeholder="0.00€ ({{ __('messages.free') }})"
+                <input type="number" step="0.01" min="0.0" max="100.0" placeholder="0.00€ ({{ __('messages.free') }})"
                        class="form-control rounded-1 @error('price') is-invalid @enderror" id="price" name="price"
                        value="{{ old('price') }}">
                 @if ($role->premium_resources)

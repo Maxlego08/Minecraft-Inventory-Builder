@@ -171,7 +171,15 @@ return [
             'title' => 'Reply to Review',
             'content' => 'You just answered this review',
         ],
+        'delete' => [
+            'title' => 'You just deleted your review',
+            'content' => 'Why did you delete your review ? Reviews are very important !',
+        ],
         'errors' => [
+            'permission' => [
+                'title' => "You don’t have permission",
+                'content' => 'You do not have permission to perform this action',
+            ],
             'download' => [
                 'title' => 'You can\'t review !',
                 'content' => 'You must download the resource before you can rate it.',
@@ -197,6 +205,7 @@ return [
             'title' => 'Success',
             'content' => 'You just delete your response.',
         ],
+        'alert' => ':user just put a review to your resource :content'
     ],
     'update' => [
         'title' => 'Updates',

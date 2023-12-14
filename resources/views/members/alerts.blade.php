@@ -27,7 +27,7 @@
                                     <div>
                                         @if ($alert->translation_key)
                                             @if ($alert->target_id)
-                                                {!! __($alert->translation_key, ['user' => "<a href='/profile/'{$alert->target->name}>{$alert->target->name}</a>", 'content' => "<a href='{$alert->link}'>{$alert->content}</a>"]) !!}
+                                                {!! __($alert->translation_key, ['user' => "<a href='" . route('resources.author', ['user' => $alert->target, 'slug' => $alert->target->slug()]) ."'>{$alert->target->name}</a>", 'content' => "<a href='{$alert->link}'>{$alert->content}</a>"]) !!}
                                             @else
                                                 {!! __($alert->translation_key, ['user' => "#", 'content' => "<a href='{$alert->link}'>{$alert->content}</a>"]) !!}
                                             @endif
