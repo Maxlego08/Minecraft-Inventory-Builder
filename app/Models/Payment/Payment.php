@@ -110,7 +110,16 @@ class Payment extends Model
      */
     public function isPaid(): bool
     {
-        return $this->status !== self::STATUS_UNPAID;
+        return $this->status === self::STATUS_PAID;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isDispute(): bool
+    {
+        return $this->status === Payment::STATUS_DISPUTE;
     }
 
     /**
