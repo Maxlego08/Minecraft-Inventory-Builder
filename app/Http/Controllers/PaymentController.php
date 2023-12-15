@@ -59,7 +59,7 @@ class PaymentController extends Controller
         if (isset($paymentInfo)) {
             $paymentInfo->update($request->all());
         } else {
-            UserPaymentInfo::create([
+            $paymentInfo = UserPaymentInfo::create([
                 'user_id' => user()->id,
                 'sk_live' => $sk_live,
                 'pk_live' => $pk_live

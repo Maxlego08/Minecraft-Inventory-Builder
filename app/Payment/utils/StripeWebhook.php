@@ -43,8 +43,7 @@ class StripeWebhook
         $this->deleteEndPointIfAlreadyExist();
 
         $response = $this->stripe->webhookEndpoints->create([
-            // 'url' => $this->getRouteEndPoint(),
-            'url' => 'https://mib.test/api/v1/stripe/notification',
+            'url' => $this->getRouteEndPoint(),
             'enabled_events' => [
                 'checkout.session.completed',
                 'checkout.session.async_payment_succeeded',
