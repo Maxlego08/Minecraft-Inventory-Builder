@@ -2,7 +2,6 @@
 
 namespace App\Payment\Method;
 
-use App\Models\Log;
 use App\Models\Payment\Gift;
 use App\Models\Payment\Payment;
 use App\Models\User;
@@ -11,8 +10,10 @@ use App\Models\UserLog;
 use App\Payment\Events\PaymentDispute;
 use App\Payment\Events\PaymentRefund;
 use App\Payment\PaymentMethod;
-use App\Payment\Utils\StripeWebhook;
+use App\Payment\utils\StripeWebhook;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Stripe\Checkout\Session;
 use Stripe\Exception\ApiErrorException;
 use Stripe\Exception\SignatureVerificationException;
@@ -32,8 +33,12 @@ class StripeMethod extends PaymentMethod
     {
 
         // Vérifier si l'endpoint est correcte
-        $stripeWebhook = new StripeWebhook($paymentInfo);
-        $stripeWebhook->make();
+        try {
+            $stripeWebhook = new StripeWebhook($paymentInfo);
+            $stripeWebhook->make();
+        } catch (Exception $exception) {
+            return Redirect::back()->with('toast', createToast('error', 'Error', 'Impossible to create Stripe Webhook', 5000));
+        }
 
         Stripe::setApiKey($paymentInfo->sk_live);
 
