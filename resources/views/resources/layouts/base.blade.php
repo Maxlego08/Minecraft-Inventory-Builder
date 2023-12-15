@@ -21,7 +21,14 @@
                                 </div>
                             </div>
                             @auth()
-                                @if (user()->hasAccess($resource))
+                                @if(user()->role->id == \App\Models\UserRole::BANNED)
+                                    <div class="col-lg-3 col-xl-2 offset-lg-1">
+                                        <div class="btn btn-primary w-100 rounded-1 cursor-disabled"
+                                           title="{{ __('resources.download.access') }}">{{ $resource->price }}€
+                                            <span class="fs-9 fw-light d-block">{{ $resource->fileInformations()['size'] }} .{{ $resource->fileInformations()['extension'] }}</span>
+                                        </div>
+                                    </div>
+                                @elseif (user()->hasAccess($resource))
                                     <div class="col-lg-3 col-xl-2 offset-lg-1">
                                         <a href="{{  $resource->link('download') }}"
                                            class="btn btn-primary w-100 rounded-1">{{ __('resources.download.button') }}
@@ -30,10 +37,10 @@
                                     </div>
                                 @else
                                     <div class="col-lg-3 col-xl-2 offset-lg-1">
-                                        <div class="btn btn-primary w-100 rounded-1 cursor-disabled"
-                                            title="{{ __('resources.download.access') }}">{{ $resource->price }}€
+                                        <a class="btn btn-primary w-100 rounded-1" href="{{ $resource->link('purchase') }}"
+                                            title="{{ __('resources.purchase.button', ['price' => $resource->price]) }}">{{ __('resources.purchase.button', ['price' => $resource->price]) }}
                                             <span class="fs-9 fw-light d-block">{{ $resource->fileInformations()['size'] }} .{{ $resource->fileInformations()['extension'] }}</span>
-                                        </div>
+                                        </a>
                                     </div>
                                 @endif
                             @endauth

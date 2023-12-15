@@ -4,6 +4,7 @@ use App\Http\Controllers\AlertController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Resource\ResourceAuthorController;
 use App\Http\Controllers\Resource\ResourceBuyerController;
@@ -12,10 +13,12 @@ use App\Http\Controllers\Resource\ResourceDownloadController;
 use App\Http\Controllers\Resource\ResourceEditController;
 use App\Http\Controllers\Resource\ResourceIconController;
 use App\Http\Controllers\Resource\ResourceIndexController;
+use App\Http\Controllers\Resource\ResourcePurchaseController;
 use App\Http\Controllers\Resource\ResourceReviewController;
 use App\Http\Controllers\Resource\ResourceUpdateController;
 use App\Http\Controllers\Resource\ResourceVersionController;
 use App\Http\Controllers\Resource\ResourceViewController;
+use App\Models\Payment\Payment;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -64,6 +67,16 @@ Route::prefix('/profile')->name('profile.')->middleware('auth')->group(function 
         Route::post('store/redirect', [FileController::class, 'uploadImageForm'])->name('store.redirect');
         Route::post('delete/{file}', [FileController::class, 'delete'])->name('delete');
     });
+
+    // Payment
+    Route::prefix('/payment')->name('payment.')->group(function () {
+        Route::get('', [PaymentController::class, 'index'])->name('index');
+        Route::post('/store/stripe', [PaymentController::class, 'storeStripe'])->name('store.stripe');
+        Route::post('/store/paypal', [PaymentController::class, 'storePaypal'])->name('store.paypal');
+        Route::post('/store/currency', [PaymentController::class, 'storeCurrency'])->name('store.currency');
+        Route::post('/delete/stripe', [PaymentController::class, 'deleteStripe'])->name('delete.stripe');
+        Route::post('/delete/paypal', [PaymentController::class, 'deletePaypal'])->name('delete.paypal');
+    });
 });
 
 Route::prefix('resources')->name('resources.')->group(function () {
@@ -72,6 +85,9 @@ Route::prefix('resources')->name('resources.')->group(function () {
 
     Route::get('/authors/{slug}.{user}', [ResourceAuthorController::class, 'index'])->name('author');
     Route::get('/authors/{user}', [ResourceAuthorController::class, 'indexById'])->name('author.id');
+
+    Route::get('/payment/success/{payment:payment_id}', [ResourcePurchaseController::class, 'success'])->name('payment.success');
+    Route::get('/payment/cancel/{payment:payment_id}', [ResourcePurchaseController::class, 'cancel'])->name('payment.cancel');
 
     Route::middleware('auth')->group(function () {
 
@@ -112,6 +128,9 @@ Route::prefix('resources')->name('resources.')->group(function () {
 
         // icon
         Route::post('/{resource}/icon', [ResourceIconController::class, 'store'])->name('icon');
+
+        Route::get('/{resource}/purchase', [ResourcePurchaseController::class, 'index'])->name('purchase');
+        Route::post('/{resource}/purchase/create/session', [ResourcePurchaseController::class, 'store'])->name('purchase.session');
     });
 
     Route::get('/{slug}.{resource}/updates', [ResourceUpdateController::class, 'index'])->name('updates');

@@ -12,7 +12,8 @@
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.7",
-        "stevebauman/purify": "^5.0"
+        "stevebauman/purify": "^5.0",
+        "stripe/stripe-php": "^13.6"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",

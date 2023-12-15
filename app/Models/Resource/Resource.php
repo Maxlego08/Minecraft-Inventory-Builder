@@ -267,12 +267,13 @@ class Resource extends Model
     public function link(string $key): string
     {
         return match ($key) {
-            "description" => route('resources.view', ['slug' => Str::slug($this->name), 'resource' => $this->id]),
-            "download" => route('resources.download', ['resource' => $this->id, 'version' => $this->version_id]),
-            "updates" => route('resources.updates', ['slug' => Str::slug($this->name), 'resource' => $this->id]),
-            "reviews" => route('resources.reviews', ['slug' => Str::slug($this->name), 'resource' => $this->id]),
-            "buyers" => route('resources.buyers', ['slug' => Str::slug($this->name), 'resource' => $this->id]),
-            "versions" => route('resources.versions', ['slug' => Str::slug($this->name), 'resource' => $this->id]),
+            'description' => route('resources.view', ['slug' => Str::slug($this->name), 'resource' => $this->id]),
+            'download' => route('resources.download', ['resource' => $this->id, 'version' => $this->version_id]),
+            'updates' => route('resources.updates', ['slug' => Str::slug($this->name), 'resource' => $this->id]),
+            'reviews' => route('resources.reviews', ['slug' => Str::slug($this->name), 'resource' => $this->id]),
+            'buyers' => route('resources.buyers', ['slug' => Str::slug($this->name), 'resource' => $this->id]),
+            'versions' => route('resources.versions', ['slug' => Str::slug($this->name), 'resource' => $this->id]),
+            'purchase' => route('resources.purchase', ['resource' => $this->id]),
             default => "",
         };
     }

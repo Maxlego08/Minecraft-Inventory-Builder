@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\GiftController;
+use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\ResourceUserController;
 use App\Http\Controllers\Api\V1\BStatsController;
 use App\Http\Controllers\Api\V1\DiscordAuthController;
@@ -43,5 +45,8 @@ Route::prefix('/v1')->name('v1.')->group(function () {
         Route::get('/url/{id}', [BStatsController::class, 'getUrl'])->name('url');
         Route::get('/{id}/{chart}', [BStatsController::class, 'getStats'])->name('stats');
     });
+
+    Route::post('{payment}/notification/{id?}', [PaymentController::class, 'notification'])->name('notification');
+    Route::get('gift/verify/{code}/{resource}/{user}', [GiftController::class, 'verify'])->name('gift');
 
 });

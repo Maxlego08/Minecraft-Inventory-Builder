@@ -1,6 +1,8 @@
 window.addEventListener('load', function () {
     const exampleModal = document.getElementById('reviewModal');
 
+    if (exampleModal == null) return
+
     let elementButton = document.getElementById('rate-submit')
     let elementTextarea = document.getElementById('message')
 

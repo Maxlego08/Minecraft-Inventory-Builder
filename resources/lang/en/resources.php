@@ -276,4 +276,7 @@ return [
             ]
         ],
     ],
+    'purchase' => [
+        'button' => 'Buy now for :price€',
+    ]
 ];

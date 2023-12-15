@@ -1,8 +1,10 @@
 <?php
 
 use App\Models\Alert\AlertUser;
+use App\Models\Resource\Resource;
 use App\Models\User;
 use App\Models\UserLog;
+use App\Payment\PaymentManager;
 use Carbon\Carbon;
 
 if (!function_exists('user')) {
@@ -170,5 +172,78 @@ if (!function_exists('createAlert')) {
             'translation_key' => $translation_key,
             'target_id' => $target_id
         ]);
+    }
+}
+
+/*
+ * Payment Manager
+ * */
+if (!function_exists('paymentManager')) {
+    function paymentManager(): PaymentManager
+    {
+        return app(PaymentManager::class);
+    }
+}
+
+/*
+ * Price format
+ * */
+if (!function_exists('resourcePrice')) {
+    function resourcePrice(Resource $resource): string
+    {
+        return formatPrice($resource->price, $resource->user->paymentInfo->currency);
+    }
+}
+
+/*
+ * Price format
+ * */
+if (!function_exists('formatPrice')) {
+    function formatPrice($price, $currency): string
+    {
+        // Format the price to 2 decimal places
+        $formattedPrice = number_format($price, 2, '.', ' ');
+
+        // Add currency symbol based on the currency code
+        return match (strtolower($currency)) {
+            'eur' => $formattedPrice . '€',
+            'gbp' => $formattedPrice . '£',
+            'usd' => '$' . $formattedPrice,
+            default => $formattedPrice . ' ' . strtoupper($currency),
+        };
+    }
+}
+
+/*
+ * Price format
+ * */
+if (!function_exists('currency')) {
+    function currency($currency): string
+    {
+        return match (strtolower($currency)) {
+            'eur' => '€',
+            'gbp' => '£',
+            'usd' => '$',
+            default => $currency,
+        };
+    }
+}
+
+/*
+ * Price format
+ * */
+if (!function_exists('formatPriceWithId')) {
+    function formatPriceWithId($price, $currency): string
+    {
+        // Format the price to 2 decimal places
+        $formattedPrice = number_format($price, 2, '.', ' ');
+
+        // Add currency symbol based on the currency code
+        return match (strtolower($currency)) {
+            'eur' => "<span data-price='$price' id='price'>$formattedPrice</span>€",
+            'usd' => "$<span data-price='$price' id='price'>$formattedPrice</span>",
+            'gbp' => "<span data-price='$price' id='price'>$formattedPrice</span>£",
+            default => $formattedPrice . ' ' . strtoupper($currency),
+        };
     }
 }

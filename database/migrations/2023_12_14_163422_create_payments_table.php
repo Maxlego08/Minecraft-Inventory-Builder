@@ -14,8 +14,13 @@ return new class extends Migration
         Schema::create('payment_payments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->unsignedInteger('content_id');
+            $table->foreignId('gift_id')->nullable();
+            $table->string('external_id')->nullable();
+            $table->string('payment_id');
+            $table->string('content_id');
             $table->double('price');
+            $table->string('status');
+            $table->integer('type');
             $table->timestamps();
         });
     }

@@ -8,6 +8,7 @@ use App\Models\Conversation\ConversationNotification;
 use App\Models\Resource\Access;
 use App\Models\Resource\Notification;
 use App\Models\Resource\Resource;
+use App\Models\User\UserPaymentInfo;
 use App\Traits\HasProfilePhoto;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -41,6 +42,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property Notification[] $resourceNotifications
  * @property ConversationNotification $conversationNotifications
  * @property UserRole $role
+ * @property UserPaymentInfo $paymentInfo
  * @method static User find(int $id)
  * @method string getProfilePhotoUrlAttribute()
  */
@@ -80,13 +82,13 @@ class User extends Authenticate
     }
 
     /**
-     * Retourne la liste des notifications de l'utilisateur
+     * Retourne les informations de paiement de l'utilisateur
      *
-     * @return HasMany
+     * @return HasOne
      */
-    public function resourceNotifications(): HasMany
+    public function paymentInfo(): HasOne
     {
-        return $this->hasMany(Notification::class);
+        return $this->hasOne(UserPaymentInfo::class);
     }
 
     /**
@@ -161,7 +163,6 @@ class User extends Authenticate
     {
         return $this->hasMany(AlertUser::class);
     }
-
 
     /**
      * @return HasMany
@@ -313,6 +314,21 @@ class User extends Authenticate
                 'unsubscribe' => Str::random(64),
             ]);
         }
+    }
+
+    /**
+     * Retourne la liste des notifications de l'utilisateur
+     *
+     * @return HasMany
+     */
+    public function resourceNotifications(): HasMany
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role->power == UserRole::ADMIN;
     }
 
 }

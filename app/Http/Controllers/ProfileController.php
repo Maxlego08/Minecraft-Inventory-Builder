@@ -56,7 +56,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Permet d'upload une image de profile
+     * Permet d'upload une image de profil
      *
      * @param Request $request
      * @return RedirectResponse
