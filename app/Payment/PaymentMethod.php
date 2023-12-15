@@ -61,7 +61,7 @@ abstract class PaymentMethod
                 'payment_id' => $payment->id
             ]);
 
-            userLog("Ressource acheté $resource->name.$resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
+            userLogOffline($payment->user_id, "Ressource acheté $resource->name.$resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
         }
 
         // TODO

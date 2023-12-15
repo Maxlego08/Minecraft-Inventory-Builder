@@ -96,6 +96,29 @@ class UserLog extends Model
     /**
      * Create new log
      *
+     * @param $user
+     * @param string $action
+     * @param string $color
+     * @param string $icon
+     * @param int $type
+     * @return UserLog
+     */
+    public static function makeOffline($userId, string $action, string $color, string $icon, int $type = self::TYPE_DEFAULT): UserLog
+    {
+        $ipV4 = "";
+        return self::create([
+            'user_id' => $userId,
+            'action' => $action,
+            'color' => $color,
+            'icon' => $icon,
+            'type' => $type,
+            'ipv4' => $ipV4,
+        ]);
+    }
+
+    /**
+     * Create new log
+     *
      * @param User $user
      * @param string $action
      * @param string $color

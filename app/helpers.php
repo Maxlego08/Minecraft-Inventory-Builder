@@ -153,6 +153,13 @@ if (!function_exists('userLog')) {
     }
 }
 
+if (!function_exists('userLog')) {
+    function userLogOffline($userId, string $action, string $color, string $icon, int $type = UserLog::TYPE_DEFAULT): void
+    {
+        UserLog::makeOffline($userId, $action, $color, $icon, $type);
+    }
+}
+
 if (!function_exists('format_date_compact')) {
     function format_date_compact(Carbon $date): string
     {
