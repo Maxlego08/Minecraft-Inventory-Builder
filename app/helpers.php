@@ -153,7 +153,7 @@ if (!function_exists('userLog')) {
     }
 }
 
-if (!function_exists('userLog')) {
+if (!function_exists('userLogOffline')) {
     function userLogOffline($userId, string $action, string $color, string $icon, int $type = UserLog::TYPE_DEFAULT): void
     {
         UserLog::makeOffline($userId, $action, $color, $icon, $type);
