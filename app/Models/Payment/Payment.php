@@ -168,6 +168,9 @@ class Payment extends Model
 
     public function updateGiftCode()
     {
+
+        if ($this->gift_id == null) return;
+
         $this->gift->update([
             'used' => $this->gift->used + 1
         ]);
