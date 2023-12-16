@@ -42,6 +42,7 @@ class ResourcePagination
             ->groupBy('users.id')
             ->groupBy('users.name')
             ->groupBy('users.profile_photo_path')
+            ->groupBy('users.user_role_id')
             ->orderBy('resource', 'DESC')
             ->limit(5)->get();
     }
