@@ -7,7 +7,7 @@
 
     <div class="payment-table rounded-1">
         <h3><i class="bi bi-wallet2"></i> {{ __('resources.dashboard.payments.title') }}</h3>
-        <table>
+        <table class="w-100">
             <thead>
             <tr>
                 <th class="w-25">{{ __('resources.dashboard.payments.resource') }}</th>
