@@ -313,7 +313,8 @@ return [
             'transaction' => 'Transaction ID',
             'date' => 'Date',
             'earning' => 'Earnings',
-            'details' => 'Details'
+            'details' => 'Details',
+            'transaction_details' => 'Transaction details'
         ]
     ]
 ];

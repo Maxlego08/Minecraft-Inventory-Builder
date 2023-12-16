@@ -63,11 +63,49 @@ class DashboardController extends Controller
             ->join('resource_resources', 'payment_payments.content_id', '=', 'resource_resources.id')
             ->where('resource_resources.user_id', user()->id) // L'identifiant de l'utilisateur qui possède la ressource
             ->where('payment_payments.type', Payment::TYPE_RESOURCE) // Assurez-vous que le type de paiement est pour les ressources
-            ->where('payment_payments.status', Payment::STATUS_PAID) // Vous pouvez ajuster ce critère en fonction de vos besoins
-            ->paginate();
+            ->where('payment_payments.status', Payment::STATUS_PAID) // Filtrer par statut de paiement si nécessaire
+            ->orderBy('payment_payments.created_at', 'desc') // Tri par date de création, le plus récent en premier
+            ->paginate(30);
 
         return view('resources.dashboard.payments', [
             'payments' => $payments,
+        ]);
+    }
+
+    /**
+     * Afficher le détail d'un paiement
+     *
+     * @param Payment $payment
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|View|Application
+     */
+    public function paymentDetails(Payment $payment): Application|View|Factory|\Illuminate\Contracts\Foundation\Application
+    {
+        $currency = "eur";
+        $name = "";
+        $gift = $payment->gift;
+        $contentPrice = $payment->price;
+        $price = $payment->price;
+        $giftReduction = 0;
+        if ($payment->type == Payment::TYPE_RESOURCE) {
+            $resource = $payment->resource;
+            $contentPrice = $resource->price;
+            $currency = $payment->currency->currency;
+            $name = $resource->name;
+        }
+
+        if (isset($gift)) {
+            $giftReduction = ($contentPrice * $gift->reduction) / 100;
+            $price = $contentPrice - $giftReduction;
+        }
+
+        return view('resources.dashboard.details', [
+            'payment' => $payment,
+            'price' => $price,
+            'name' => $name,
+            'currency' => $currency,
+            'gift' => $gift,
+            'giftReduction' => $giftReduction,
+            'contentPrice' => $contentPrice,
         ]);
     }
 

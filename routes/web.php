@@ -139,6 +139,7 @@ Route::prefix('resources')->name('resources.')->group(function () {
         Route::prefix('/dashboard/')->name('dashboard.')->group(function () {
             Route::get('', [DashboardController::class, 'index'])->name('index');
             Route::get('/payments', [DashboardController::class, 'payments'])->name('payments');
+            Route::get('/payments/{payment:payment_id}', [DashboardController::class, 'paymentDetails'])->name('payments.details');
             Route::get('/resources', [DashboardController::class, 'resources'])->name('resources');
 
             Route::prefix('/gift/')->name('gift.')->group(function () {
