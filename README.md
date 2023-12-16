@@ -20,7 +20,7 @@ Thing to develop to open the site
 # How do I contribute?
 
 The site is developed with laravel, so you must have knowledge in Laravel, php, html and scss.<br>
-To contribute you just need to clone the project, make your changes and create a pull request.
+To contribute you just need to clone the project, make your changes and create a pull request. You must always do your merge on the <b>develop branch !</b>
 
 To install the Laravel app I advise you to use https://laravel.com/docs/10.x/homestead
 
