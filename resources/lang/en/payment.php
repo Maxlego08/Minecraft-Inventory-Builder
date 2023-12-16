@@ -80,4 +80,12 @@ return [
         'info' => 'Your payment has been accepted, another few minutes for it to validate.',
     ],
 
+    'dashboard' => [
+        'buyer' => 'Buyer',
+        'earning' => 'Your earnings',
+        'date' => 'Date',
+        'transaction' => 'Transactions ID',
+        'gateway' => 'Gateway'
+    ],
+
 ];

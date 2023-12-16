@@ -11,6 +11,27 @@
             <table class="w-100 table table-responsive">
                 <thead>
                 <tr>
+                    <th>{{ __('payment.dashboard.buyer') }}</th>
+                    <th>{{ __('payment.dashboard.earning') }}</th>
+                    <th>{{ __('payment.dashboard.date') }}</th>
+                    <th>{{ __('payment.dashboard.transaction') }}</th>
+                    <th>{{ __('payment.dashboard.gateway') }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="t-12">
+                    <th>{!! $payment->user->displayNameAndLink() !!}</th>
+                    <th>{{ formatPrice($price, $currency) }}</th>
+                    <th>{{ simple_date($payment->created_at) }}</th>
+                    <th>{{ $payment->external_id }}</th>
+                    <th>{{ $payment->gateway }}</th>
+                </tr>
+                </tbody>
+            </table>
+            <hr>
+            <table class="w-100 table table-responsive">
+                <thead>
+                <tr>
                     <th class="w-75">{{ __('payment.resource') }}</th>
                     <th>{{ __('payment.price') }}</th>
                     <th>{{ __('payment.quantity') }}</th>

@@ -205,7 +205,7 @@ if (!function_exists('paymentManager')) {
 if (!function_exists('resourcePrice')) {
     function resourcePrice(Resource $resource): string
     {
-        return formatPrice($resource->price, $resource->user->paymentInfo->currency->currency);
+        return formatPrice($resource->price, $resource->user->paymentInfo?->currency->currency ?: 'eur');
     }
 }
 

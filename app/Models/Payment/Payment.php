@@ -20,6 +20,7 @@ use Illuminate\Support\Str;
  * @property string $external_id
  * @property int $content_id
  * @property string $status
+ * @property string $gateway
  * @property User $user
  * @property Carbon $created_at
  * @property Resource $resource
@@ -52,7 +53,8 @@ class Payment extends Model
         'currency_id',
         'price',
         'status',
-        'type'
+        'type',
+        'gateway'
     ];
 
     /**
@@ -63,10 +65,11 @@ class Payment extends Model
      * @param int $type
      * @param int $contentId
      * @param int $currencyId
+     * @param string $gateway
      * @param null $giftId
      * @return Payment
      */
-    public static function makeDefault(User $user, float $price, int $type, int $contentId, int $currencyId, $giftId = null): Payment
+    public static function makeDefault(User $user, float $price, int $type, int $contentId, int $currencyId, string $gateway, $giftId = null): Payment
     {
         $payment_id = "mib_" . Str::random(10);
         return Payment::create([
@@ -78,6 +81,7 @@ class Payment extends Model
             'price' => $price,
             'type' => $type,
             'status' => self::STATUS_UNPAID,
+            'gateway' => $gateway
         ]);
     }
 

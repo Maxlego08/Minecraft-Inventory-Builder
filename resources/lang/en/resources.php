@@ -121,7 +121,8 @@ return [
         'price' => [
             'name' => 'Price',
             'description' => '<b>Read Me</b>: It appears that you are submitting a premium resource. Please take a moment to read the approval guidelines listed here. Not following them and our rules will lead to your resource getting rejected! Make sure that you save a copy of your description and other info locally, you will not be able to access that if rejected!',
-            'permission' => 'You do not have permission to put a price on a resource. Click <a href="" target="_blank">here</a> to improve your account.'
+            'permission' => 'You do not have permission to put a price on a resource. Click <a href="" target="_blank">here</a> to improve your account.',
+            'payment' => 'You forgot to add a payment method to your account, we advise you to do it now <a href="https://minecraft-inventory-builder.com/profile/payment" target="_blank">here</a> !'
         ],
         'discord' => [
             'name' => 'Discord ID',
