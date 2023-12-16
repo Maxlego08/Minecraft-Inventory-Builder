@@ -214,6 +214,7 @@ class Resource extends Model
      * resource.version
      * resource.category
      * resource.user
+     * resource.icon
      *
      * @param string $key
      * @return void
@@ -266,12 +267,13 @@ class Resource extends Model
     public function link(string $key): string
     {
         return match ($key) {
-            "description" => route('resources.view', ['slug' => Str::slug($this->name), 'resource' => $this->id]),
-            "download" => route('resources.download', ['resource' => $this->id, 'version' => $this->version_id]),
-            "updates" => route('resources.updates', ['slug' => Str::slug($this->name), 'resource' => $this->id]),
-            "reviews" => route('resources.reviews', ['slug' => Str::slug($this->name), 'resource' => $this->id]),
-            "buyers" => route('resources.buyers', ['slug' => Str::slug($this->name), 'resource' => $this->id]),
-            "versions" => route('resources.versions', ['slug' => Str::slug($this->name), 'resource' => $this->id]),
+            'description' => route('resources.view', ['slug' => Str::slug($this->name), 'resource' => $this->id]),
+            'download' => route('resources.download', ['resource' => $this->id, 'version' => $this->version_id]),
+            'updates' => route('resources.updates', ['slug' => Str::slug($this->name), 'resource' => $this->id]),
+            'reviews' => route('resources.reviews', ['slug' => Str::slug($this->name), 'resource' => $this->id]),
+            'buyers' => route('resources.buyers', ['slug' => Str::slug($this->name), 'resource' => $this->id]),
+            'versions' => route('resources.versions', ['slug' => Str::slug($this->name), 'resource' => $this->id]),
+            'purchase' => route('resources.purchase', ['resource' => $this->id]),
             default => "",
         };
     }
@@ -355,6 +357,17 @@ class Resource extends Model
             'message' => 'approved',
             'color' => 'rgb(72, 187, 156)'
         ];
+    }
+
+    /**
+     * Vérifier si la resource peut être acheté
+     *
+     * @return bool
+     */
+    public function canBePurchase(): bool
+    {
+        if (!isset($this->user->paymentInfo)) return false;
+        return $this->user->paymentInfo->sk_live != null || $this->user->paymentInfo->paypal_email != null;
     }
 
 }

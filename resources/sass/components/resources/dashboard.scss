@@ -1,0 +1,23 @@
+.payment-table {
+
+    background: $color-primary;
+    padding: 10px;
+
+    h3 {
+        margin: 10px 0 20px 0;
+        color: white;
+        font-size: 22px;
+    }
+
+    thead {
+        background: #0f6848;
+        border-bottom: 1px solid #b9b9b9;
+    }
+
+    tbody {
+        tr {
+            border-bottom: 1px solid #b9b9b9;
+        }
+    }
+
+}

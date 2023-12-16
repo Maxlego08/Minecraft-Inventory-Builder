@@ -52,7 +52,7 @@ class ResourceEditController extends Controller
             'tags' => ['required', 'string', 'min:3', 'max:150'],
 
             'description' => 'required',
-            'price' => ['nullable', 'decimal:2', 'min:0.0', 'max:100'],
+            'price' => ['nullable', 'numeric', 'between:0,100', 'regex:/^\d+(\.\d{1,2})?$/'],
             'version_base_mc' => ['required'],
 
             'contributors' => ['nullable', 'string', 'min:0', 'max:300'],
@@ -84,6 +84,12 @@ class ResourceEditController extends Controller
             'lang_support' => $request['lang_support'],
             'versions' => implode(",", $request['versions'] ?? []),
         ]);
+
+        if ($resource->price != 0) {
+            $resource->update([
+                'price' => $request['price'],
+            ]);
+        }
 
         $resource->clear('supported.version');
 

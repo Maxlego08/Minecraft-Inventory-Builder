@@ -54,7 +54,7 @@ class ResourceCreateController extends Controller
             'tags' => ['required', 'string', 'min:3', 'max:150'],
 
             'description' => 'required',
-            'price' => ['nullable', 'decimal:2', 'min:0.0', 'max:100'],
+            'price' => ['nullable', 'numeric', 'between:0,100', 'regex:/^\d+(\.\d{1,2})?$/'],
             'category' => ['required'],
             'version_base_mc' => ['required'],
 
@@ -103,6 +103,7 @@ class ResourceCreateController extends Controller
         $version = Version::create(['version' => $request['version'], 'resource_id' => $resource->id, 'title' => 'First version of the plugin', 'description' => 'No description.', 'download' => 0, 'file_id' => $storedFile->id, 'file_name' => $fileName,]);
 
         $resource->update(['version_id' => $version->id]);
+        $user->clear('user.resource_count');
 
         userLog("Création de la ressource $resource->name.$resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_FILE);
 

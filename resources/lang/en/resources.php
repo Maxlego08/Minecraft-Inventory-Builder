@@ -25,6 +25,7 @@ return [
         'icon' => 'Edit Resource Icon',
         'content' => 'Edit Resource',
         'update' => 'Post Resource Update',
+        'purchase' => 'Buy the resource',
         'success' => [
             'title' => 'Resource updated !',
             'content' => 'You have just updated your resource'
@@ -120,7 +121,8 @@ return [
         'price' => [
             'name' => 'Price',
             'description' => '<b>Read Me</b>: It appears that you are submitting a premium resource. Please take a moment to read the approval guidelines listed here. Not following them and our rules will lead to your resource getting rejected! Make sure that you save a copy of your description and other info locally, you will not be able to access that if rejected!',
-            'permission' => 'You do not have permission to put a price on a resource. Click <a href="" target="_blank">here</a> to improve your account.'
+            'permission' => 'You do not have permission to put a price on a resource. Click <a href="" target="_blank">here</a> to improve your account.',
+            'payment' => 'You forgot to add a payment method to your account, we advise you to do it now <a href="https://minecraft-inventory-builder.com/profile/payment" target="_blank">here</a> !'
         ],
         'discord' => [
             'name' => 'Discord ID',
@@ -171,7 +173,15 @@ return [
             'title' => 'Reply to Review',
             'content' => 'You just answered this review',
         ],
+        'delete' => [
+            'title' => 'You just deleted your review',
+            'content' => 'Why did you delete your review ? Reviews are very important !',
+        ],
         'errors' => [
+            'permission' => [
+                'title' => "You don’t have permission",
+                'content' => 'You do not have permission to perform this action',
+            ],
             'download' => [
                 'title' => 'You can\'t review !',
                 'content' => 'You must download the resource before you can rate it.',
@@ -197,6 +207,7 @@ return [
             'title' => 'Success',
             'content' => 'You just delete your response.',
         ],
+        'alert' => ':user just put a review to your resource :content'
     ],
     'update' => [
         'title' => 'Updates',
@@ -220,6 +231,7 @@ return [
         'title' => 'Buyers',
         'search' => 'Find buyer',
         'user' => 'User',
+        'username' => 'User Name',
         'price' => 'Price',
         'added_on' => 'Added on',
         'free' => 'Free',
@@ -267,4 +279,44 @@ return [
             ]
         ],
     ],
+    'purchase' => [
+        'button' => 'Buy now for :price€',
+        'error' => 'Unable to purchase this resource at this time.'
+    ],
+    'actions' => [
+        'resources' => 'your resources',
+        'purchase' => 'purchases resources',
+        'creator_board' => 'creator dashboard'
+    ],
+
+    'dashboard' => [
+        'title' => 'Creator dashboard',
+        'description' => 'Manage your resources, create gift codes, display your payments, all this happens in the creator dashboard',
+        'overview' => [
+            'title' => 'Overview',
+            'resources' => 'Resources',
+            'payments' => 'Transactions',
+            'download' => 'Downloads',
+            'earn' => 'Earnings all time'
+        ],
+        'products' => [
+            'title' => 'My Resources'
+        ],
+        'gifts' => [
+            'title' => 'Gift code',
+        ],
+        'discord' => [
+            'title' => 'Discord Webhook',
+        ],
+        'payments' => [
+            'title' => 'Transactions',
+            'resource' => 'Resource',
+            'buyer' => 'Buyer',
+            'transaction' => 'Transaction ID',
+            'date' => 'Date',
+            'earning' => 'Earnings',
+            'details' => 'Details',
+            'transaction_details' => 'Transaction details'
+        ]
+    ]
 ];

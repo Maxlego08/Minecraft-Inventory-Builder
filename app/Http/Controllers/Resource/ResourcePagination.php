@@ -5,15 +5,35 @@ namespace App\Http\Controllers\Resource;
 use App\Models\Resource\Category;
 use App\Models\Resource\Resource;
 use App\Models\User;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class ResourcePagination
 {
 
+    /**
+     * Retourne la liste des resources les plus stylés
+     *
+     * @return mixed
+     */
+    public static function mostResourcesPagination(): mixed
+    {
+        return Cache::remember('resources:mostResources', 86400, function () {
+            $mostResourcesUsers = ResourcePagination::mostResources();
+            $mostResources = [];
+            foreach ($mostResourcesUsers as $user) {
+                $count = Resource::where('user_id', $user->id)->count();
+                $mostResources[] = ['name' => $user->displayNameAndLink(), 'url' => $user->authorPage(), 'count' => $count, 'image' => $user->getProfilePhotoUrlAttribute(),];
+            }
+            return $mostResources;
+        });
+    }
+
     public static function mostResources()
     {
-        return User::select('users.name', 'users.id', 'users.profile_photo_path')
+        return User::select('users.name', 'users.id', 'users.profile_photo_path', 'users.user_role_id')
             ->addSelect(DB::raw("COUNT(`resource_resources`.`id`) AS `resource`"))
             ->join('resource_resources', 'resource_resources.user_id', '=', 'users.id')
             ->where('resource_resources.is_display', true)
@@ -26,7 +46,7 @@ class ResourcePagination
             ->limit(5)->get();
     }
 
-    public static function paginateAuthor(User $user): \Illuminate\Contracts\Pagination\LengthAwarePaginator
+    public static function paginateAuthor(User $user): LengthAwarePaginator
     {
         return Resource::select("resource_resources.*")
             ->with('version')
@@ -83,5 +103,27 @@ class ResourcePagination
             ->orderBy('resource_versions.created_at', 'DESC')
             ->paginate();
     }
+
+    /**
+     * Renvoie la liste des ressources auxquelles l'utilisateur actuel a accès.
+     *
+     * @return LengthAwarePaginator
+     */
+    public static function paginateUserAccessibleResources(): LengthAwarePaginator
+    {
+        return Resource::select("resource_resources.*")
+            ->with(['version', 'category', 'icon', 'buyers'])
+            ->leftJoin('resource_versions', 'resource_resources.version_id', '=', 'resource_versions.id')
+            ->leftJoin('resource_accesses', 'resource_resources.id', '=', 'resource_accesses.resource_id')
+            ->when(Auth::check(), function ($query) {
+                $user = user();
+                // Filtrer les ressources selon les accès définis dans le modèle Access
+                $query->where('resource_accesses.user_id', $user->id);
+            })
+            ->where('resource_resources.is_display', true)
+            ->orderBy('resource_versions.created_at', 'DESC')
+            ->paginate();
+    }
+
 
 }

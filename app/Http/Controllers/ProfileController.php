@@ -11,6 +11,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
@@ -28,7 +29,15 @@ class ProfileController extends Controller
      */
     public function destroyProfile(): RedirectResponse
     {
-        user()->deleteProfilePhoto();
+        $user = user();
+        $user->deleteProfilePhoto();
+
+        Cache::forget('resources:mostResources');
+
+        foreach ($user->resources as $resource){
+            $resource->clear('icon.path');
+            $resource->clear('resource.user');
+        }
 
         userLog('Suppression de la photo de profil', UserLog::COLOR_DANGER, UserLog::ICON_REMOVE);
 
@@ -37,7 +46,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Retourne la page du profile de l'utilisateur
+     * Retourne la page de profil de l'utilisateur
      *
      * @return Application|Factory|View
      */
@@ -47,7 +56,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Permet d'upload une image de profile
+     * Permet d'upload une image de profil
      *
      * @param Request $request
      * @return RedirectResponse
@@ -57,8 +66,16 @@ class ProfileController extends Controller
     {
         $this->validate($request, ['image' => 'required|image|mimes:jpeg,png,jpg|max:1024']);
 
-        user()->updateProfilePhoto($request->file('image'));
+        $user = user();
+        $user->updateProfilePhoto($request->file('image'));
         userLog('Création de la photo de profil', UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
+
+        Cache::forget('resources:mostResources');
+
+        foreach ($user->resources as $resource){
+            $resource->clear('icon.path');
+            $resource->clear('resource.user');
+        }
 
         return Redirect::route('profile.index')
             ->with('toast', createToast('success', __('profiles.avatar.name'), __('profiles.avatar.added')));

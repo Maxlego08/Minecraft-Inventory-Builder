@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Resource;
 
 use App\Http\Controllers\Controller;
+use App\Models\Alert\AlertUser;
 use App\Models\Resource\Download;
 use App\Models\Resource\Resource;
 use App\Models\Resource\Review;
@@ -96,6 +97,8 @@ class ResourceReviewController extends Controller
         $resource->clearReview();
         userLog("Création de review $review->id pour la resource $resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_STARS);
 
+        createAlert($resource->user_id, $resource->name, AlertUser::ICON_ENVELOPE, AlertUser::SUCCESS, 'resources.reviews.alert', $resource->link('reviews'), $user->id);
+
         return Redirect::back()->with('toast', createToast('success', __('resources.reviews.success.title'), __('resources.reviews.success.content'), 5000));
     }
 
@@ -109,8 +112,8 @@ class ResourceReviewController extends Controller
     {
 
         $user = user();
-        if (!$user->role->isModerator()) {
-            return Redirect::back()->with('toast', createToast('error', 'Erreur !', 'Vous ne pouvez pas faire ça !', 5000));
+        if ($review->user_id != $user->id && !$user->role->isModerator()) {
+            return Redirect::back()->with('toast', createToast('error', __('resources.reviews.errors.permission.title'), __('resources.reviews.errors.permission.content'), 5000));
         }
 
         $resource = $review->resource;
@@ -119,7 +122,7 @@ class ResourceReviewController extends Controller
         $resource->clearReview();
         userLog("Suppression de review $review->id de la resource $resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_STARS);
 
-        return Redirect::back()->with('toast', createToast('success', 'Action effectuée', 'Vous venez de supprimer cette review.', 5000));
+        return Redirect::back()->with('toast', createToast('error', __('resources.reviews.delete.title'), __('resources.reviews.delete.content'), 5000));
     }
 
     /**

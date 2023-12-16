@@ -37,8 +37,10 @@
             </div>
 
             <div class="mb-3">
-                <label for="required_dependencies" class="form-label">{{ __('resources.create.required_dependencies.name') }}</label>
-                <input type="text" class="form-control rounded-1 @error('required_dependencies') is-invalid @enderror" id="required_dependencies"
+                <label for="required_dependencies"
+                       class="form-label">{{ __('resources.create.required_dependencies.name') }}</label>
+                <input type="text" class="form-control rounded-1 @error('required_dependencies') is-invalid @enderror"
+                       id="required_dependencies"
                        name="required_dependencies" value="{{ old('required_dependencies') }}"
                        minlength="3" maxlength="300">
                 <small>{{ __('resources.create.required_dependencies.description') }}</small>
@@ -48,8 +50,10 @@
             </div>
 
             <div class="mb-3">
-                <label for="optional_dependencies" class="form-label">{{ __('resources.create.optional_dependencies.name') }}</label>
-                <input type="text" class="form-control rounded-1 @error('optional_dependencies') is-invalid @enderror" id="optional_dependencies"
+                <label for="optional_dependencies"
+                       class="form-label">{{ __('resources.create.optional_dependencies.name') }}</label>
+                <input type="text" class="form-control rounded-1 @error('optional_dependencies') is-invalid @enderror"
+                       id="optional_dependencies"
                        name="optional_dependencies" value="{{ old('optional_dependencies') }}"
                        minlength="3" maxlength="300">
                 <small>{{ __('resources.create.optional_dependencies.description') }}</small>
@@ -87,7 +91,7 @@
 
             <div class="mb-3">
                 <label for="price" class="form-label">{{ __('resources.create.price.name') }}</label>
-                <input type="number" step=".01" min="0" max="100" placeholder="0.00€ ({{ __('messages.free') }})"
+                <input type="number" step="0.01" min="0.0" max="100.0" placeholder="0.00€ ({{ __('messages.free') }})"
                        class="form-control rounded-1 @error('price') is-invalid @enderror" id="price" name="price"
                        value="{{ old('price') }}">
                 @if ($role->premium_resources)
@@ -98,6 +102,9 @@
                 @error('price')
                 <div id="price_error" class="invalid-feedback">{{ $message }}</div>
                 @enderror
+                @if(!isset(user()->paymentInfo))
+                    <h3 class="text-danger">{!! __('resources.create.price.payment') !!}</h3>
+                @endif
             </div>
 
             <hr>

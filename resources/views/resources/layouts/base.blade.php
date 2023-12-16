@@ -1,3 +1,4 @@
+@php use App\Models\UserRole; @endphp
 @extends('layouts.base')
 
 @section('app')
@@ -21,19 +22,34 @@
                                 </div>
                             </div>
                             @auth()
-                                @if (user()->hasAccess($resource))
+                                @if(user()->role->id == UserRole::BANNED)
+                                    <div class="col-lg-3 col-xl-2 offset-lg-1">
+                                        <div class="btn btn-primary w-100 rounded-1 cursor-disabled"
+                                             title="{{ __('resources.download.access') }}">{{ $resource->price }}€
+                                            <span class="fs-9 fw-light d-block">{{ $resource->fileInformations()['size'] }} .{{ $resource->fileInformations()['extension'] }}</span>
+                                        </div>
+                                    </div>
+                                @elseif (user()->hasAccess($resource))
                                     <div class="col-lg-3 col-xl-2 offset-lg-1">
                                         <a href="{{  $resource->link('download') }}"
                                            class="btn btn-primary w-100 rounded-1">{{ __('resources.download.button') }}
                                             <span class="fs-9 fw-light d-block">{{ $resource->fileInformations()['size'] }} .{{ $resource->fileInformations()['extension'] }}</span>
                                         </a>
                                     </div>
-                                @else
+                                @elseif(!$resource->canBePurchase())
                                     <div class="col-lg-3 col-xl-2 offset-lg-1">
-                                        <div class="btn btn-primary w-100 rounded-1 cursor-disabled"
-                                            title="{{ __('resources.download.access') }}">{{ $resource->price }}€
+                                        <div class="btn btn-primary w-100 rounded-1 disabled cursor-disabled"
+                                             title="{{ __('resources.purchase.error', ['price' => $resource->price]) }}">{{ __('resources.purchase.button', ['price' => $resource->price]) }}
                                             <span class="fs-9 fw-light d-block">{{ $resource->fileInformations()['size'] }} .{{ $resource->fileInformations()['extension'] }}</span>
                                         </div>
+                                    </div>
+                                @else
+                                    <div class="col-lg-3 col-xl-2 offset-lg-1">
+                                        <a class="btn btn-primary w-100 rounded-1"
+                                           href="{{ $resource->link('purchase') }}"
+                                           title="{{ __('resources.purchase.button', ['price' => $resource->price]) }}">{{ __('resources.purchase.button', ['price' => $resource->price]) }}
+                                            <span class="fs-9 fw-light d-block">{{ $resource->fileInformations()['size'] }} .{{ $resource->fileInformations()['extension'] }}</span>
+                                        </a>
                                     </div>
                                 @endif
                             @endauth
@@ -110,6 +126,10 @@
                                            class="text-decoration-none d-block">{{ __('resources.edit.icon') }}</a>
                                         <a href="{{ route('resources.update.index', ['resource' => $resource]) }}"
                                            class="text-decoration-none d-block">{{ __('resources.edit.update') }}</a>
+                                        @if(user()->isAdmin())
+                                            <a href="{{ $resource->link('purchase')  }}"
+                                               class="text-decoration-none d-block">{{ __('resources.edit.purchase') }}</a>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="modal fade" id="iconModal" tabindex="-1" aria-labelledby="iconModalLabel"
@@ -126,8 +146,11 @@
                                                             data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <label class="form-check-label" for="icon">{{ __('resources.create.image.name') }}</label>
-                                                    <input type="file" class="form-control rounded-1 mt-2 @error('icon') is-invalid @enderror" name="icon"
+                                                    <label class="form-check-label"
+                                                           for="icon">{{ __('resources.create.image.name') }}</label>
+                                                    <input type="file"
+                                                           class="form-control rounded-1 mt-2 @error('icon') is-invalid @enderror"
+                                                           name="icon"
                                                            id="icon" accept=".jpg,.jpeg,.png" required>
                                                     <small>{{ __('resources.create.image.description') }}</small>
                                                     @error('icon')
@@ -192,8 +215,8 @@
                                 <h2 class="text-center fs-6 fw-bold mb-3">{{ __('resources.informations') }}</h2>
                                 <ul class="list-group">
                                     <li class="d-flex justify-content-between align-items-center">
-                                        {{ __('messages.author') }} <span class="text-danger"><a
-                                                href="{{ $resource->cache('user')->authorPage() }}">{{ $resource->cache('user')->name  }}</a></span>
+                                        {{ __('messages.author') }} <a
+                                            href="{{ $resource->cache('user')->authorPage() }}" class="text-decoration-none">{!! $resource->cache('user')->displayName() !!}</a>
                                     </li>
                                     <li class="d-flex justify-content-between align-items-center">
                                         {{ __('messages.downloads') }}<span>{{ $resource->countDownload() }}</span>

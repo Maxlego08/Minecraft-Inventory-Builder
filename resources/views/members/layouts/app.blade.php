@@ -21,22 +21,25 @@
                                 <nav>
                                     <ul class="ps-0">
                                         <li class="list-group-item mb-2">
-                                            <a href="{{ route('profile.index') }}">{{ __('profiles.nav.account') }}</a>
+                                            <a href="{{ route('profile.index') }}"><i class="bi bi-person-fill"></i> {{ __('profiles.nav.account') }}</a>
                                         </li>
                                         <li class="list-group-item mb-2">
-                                            <a href="{{ route('profile.alerts') }}">{{ __('profiles.nav.alerts') }}</a>
+                                            <a href="{{ route('profile.alerts') }}"><i class="bi bi-bell"></i> {{ __('profiles.nav.alerts') }}</a>
                                         </li>
                                         <li class="list-group-item mb-2">
-                                            <a href="{{ route('profile.conversations.index') }}">{{ __('profiles.nav.conversations') }}</a>
+                                            <a href="{{ route('profile.conversations.index') }}"><i class="bi bi-chat-dots"></i> {{ __('profiles.nav.conversations') }}</a>
                                         </li>
                                         <li class="list-group-item mb-2">
-                                            <a href="{{ route('profile.images.index') }}">{{ __('profiles.nav.images') }}</a>
+                                            <a href="{{ route('profile.images.index') }}"><i class="bi bi-card-image"></i> {{ __('profiles.nav.images') }}</a>
                                         </li>
                                         <li class="list-group-item mb-2">
-                                            <a href="{{ user()->getProfileUrl() }}">{{ __('profiles.nav.resources.your') }}</a>
+                                            <a href="{{ user()->getProfileUrl() }}"><i class="bi bi-list-task"></i> {{ __('profiles.nav.resources.your') }}</a>
                                         </li>
                                         <li class="list-group-item mb-2">
-                                            <a href="{{ route('resources.create.index') }}">{{ __('profiles.nav.resources.add') }}</a>
+                                            <a href="{{ route('resources.create.index') }}"><i class="bi bi-plus-lg"></i> {{ __('profiles.nav.resources.add') }}</a>
+                                        </li>
+                                        <li class="list-group-item mb-2">
+                                            <a href="{{ route('profile.payment.index') }}"><i class="bi bi-currency-euro"></i> {{ __('payment.nav') }}</a>
                                         </li>
                                     </ul>
                                 </nav>

@@ -23,6 +23,12 @@ return new class extends Migration {
         });
 
         MinecraftVersion::create([
+            'version' => '1.20',
+            'minecraft_version' => 1.20,
+            'released_at' => Carbon::create(2023, 6, 7),
+        ]);
+
+        MinecraftVersion::create([
             'version' => '1.19',
             'minecraft_version' => 1.19,
             'released_at' => Carbon::create(2022, 6, 7),

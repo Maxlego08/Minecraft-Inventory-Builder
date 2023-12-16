@@ -9,11 +9,15 @@
                          alt="{{ $review->user->name }} Avatar">
                 </a>
                 <div class="ms-3 w-100">
-                    <a href="{{ $review->user->authorPage() }}" class="fw-bold text-decoration-none"
-                       title="{{ $review->user->name }}">{{ $review->user->name }}</a>
-                    <span class="d-inline-flex text-warning ms-1">{!! $review->reviewScore() !!}</span>
-                    <span class="text-muted fw-light fs-8 ms-1 text-nowrap">{{ __('resources.versions.version') }}: {{ $review->version->version }}
+                    <div class="d-flex align-items-end">
+                        <div class="user-name">
+                            <a href="{{ $review->user->authorPage() }}" class="fw-bold text-decoration-none"
+                               title="{{ $review->user->name }}">{!! $review->user->displayName() !!}</a>
+                        </div>
+                        <span class="d-inline-flex text-warning ms-2">{!! $review->reviewScore() !!}</span>
+                        <span class="text-muted fw-light fs-8 ms-2 text-nowrap">{{ __('resources.versions.version') }}: {{ $review->version->version }}
                             </span>
+                    </div>
                     <p class="mt-1 mb-1 fs-7">{{ $review->review }}</p>
                     <div class="d-flex justify-content-between">
                         <span class="text-muted fs-8 fw-light">{{ format_date($review->created_at) }}</span>
@@ -42,8 +46,8 @@
                 </a>
                 <div class="ms-3 w-100">
                     <a href="{{ $resource->user->authorPage() }}"
-                       class="fw-bold text-decoration-none text-warning"
-                       title="{{ $resource->user->name }}">{{ $resource->user->name }}
+                       class="fw-bold text-decoration-none"
+                       title="{{ $resource->user->name }}">{!! $resource->user->displayName() !!}
                         <div class="badge bg-warning ms-2"> {{ __('resources.reviews.author') }}</div>
                     </a>
                     <p class="mt-1 mb-1 fs-7">{{ $review->response }}</p>
@@ -62,7 +66,7 @@
             </div>
         @else
             @auth
-                @if ($resource->user_id === user()->id)
+                @if ($resource->user_id === user()->id || user()->role->isModerator())
                     <div class="d-flex justify-content-end p-2">
                                 <span type="button" class="text-warning" data-bs-toggle="modal"
                                       data-bs-target="#responseModal{{ $review->id }}">

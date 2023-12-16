@@ -17,6 +17,7 @@ class UserLog extends Model
     public const ICON_DOWNLOAD = "fas fa-download";
     public const ICON_REMOVE = "fas fa-minus";
     public const ICON_CODE = "fas fa-code";
+    public const ICON_EURO = "fas fa-euro-sign";
     public const ICON_VOTE = "fas fa-vote-yea";
     public const ICON_USER_CREATE = "fas fa-user-plus";
     public const ICON_USER_LOGIN = "fas fa-sign-in-alt";
@@ -85,6 +86,29 @@ class UserLog extends Model
         $ipV4 = getIpV4();
         return self::create([
             'user_id' => $user->id,
+            'action' => $action,
+            'color' => $color,
+            'icon' => $icon,
+            'type' => $type,
+            'ipv4' => $ipV4,
+        ]);
+    }
+
+    /**
+     * Create new log
+     *
+     * @param $user
+     * @param string $action
+     * @param string $color
+     * @param string $icon
+     * @param int $type
+     * @return UserLog
+     */
+    public static function makeOffline($userId, string $action, string $color, string $icon, int $type = self::TYPE_DEFAULT): UserLog
+    {
+        $ipV4 = "";
+        return self::create([
+            'user_id' => $userId,
             'action' => $action,
             'color' => $color,
             'icon' => $icon,

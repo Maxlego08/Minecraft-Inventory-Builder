@@ -60,7 +60,7 @@
                                      alt="{{ $buyer->user->name }} Avatar" width="30" height="30">
                             </a>
                             <a href="{{ $buyer->user->authorPage() }}" class="fw-bold text-decoration-none d-block ms-3"
-                               title="{{ $buyer->user->name }} username">{{ $buyer->user->name }}</a>
+                               title="{{ $buyer->user->name }} username">{!! $buyer->user->displayName() !!}</a>
                         </th>
                         <th>{{ $buyer->getPrice() }}</th>
                         <th>{{ format_date($buyer->created_at, true) }}</th>

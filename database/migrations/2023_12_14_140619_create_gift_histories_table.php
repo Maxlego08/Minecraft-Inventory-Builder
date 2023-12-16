@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payment_payments', function (Blueprint $table) {
+        Schema::create('gift_histories', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('gift_id')->constrained();
             $table->foreignId('user_id')->constrained();
-            $table->unsignedInteger('content_id');
-            $table->double('price');
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payment_payments');
+        Schema::dropIfExists('gift_histories');
     }
 };

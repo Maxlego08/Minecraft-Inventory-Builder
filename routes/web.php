@@ -4,7 +4,11 @@ use App\Http\Controllers\AlertController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Resource\DashboardController;
+use App\Http\Controllers\Resource\DashboardDiscordController;
+use App\Http\Controllers\Resource\DashboardGiftController;
 use App\Http\Controllers\Resource\ResourceAuthorController;
 use App\Http\Controllers\Resource\ResourceBuyerController;
 use App\Http\Controllers\Resource\ResourceCreateController;
@@ -12,6 +16,7 @@ use App\Http\Controllers\Resource\ResourceDownloadController;
 use App\Http\Controllers\Resource\ResourceEditController;
 use App\Http\Controllers\Resource\ResourceIconController;
 use App\Http\Controllers\Resource\ResourceIndexController;
+use App\Http\Controllers\Resource\ResourcePurchaseController;
 use App\Http\Controllers\Resource\ResourceReviewController;
 use App\Http\Controllers\Resource\ResourceUpdateController;
 use App\Http\Controllers\Resource\ResourceVersionController;
@@ -64,6 +69,16 @@ Route::prefix('/profile')->name('profile.')->middleware('auth')->group(function 
         Route::post('store/redirect', [FileController::class, 'uploadImageForm'])->name('store.redirect');
         Route::post('delete/{file}', [FileController::class, 'delete'])->name('delete');
     });
+
+    // Payment
+    Route::prefix('/payment')->name('payment.')->group(function () {
+        Route::get('', [PaymentController::class, 'index'])->name('index');
+        Route::post('/store/stripe', [PaymentController::class, 'storeStripe'])->name('store.stripe');
+        Route::post('/store/paypal', [PaymentController::class, 'storePaypal'])->name('store.paypal');
+        Route::post('/store/currency', [PaymentController::class, 'storeCurrency'])->name('store.currency');
+        Route::post('/delete/stripe', [PaymentController::class, 'deleteStripe'])->name('delete.stripe');
+        Route::post('/delete/paypal', [PaymentController::class, 'deletePaypal'])->name('delete.paypal');
+    });
 });
 
 Route::prefix('resources')->name('resources.')->group(function () {
@@ -72,6 +87,9 @@ Route::prefix('resources')->name('resources.')->group(function () {
 
     Route::get('/authors/{slug}.{user}', [ResourceAuthorController::class, 'index'])->name('author');
     Route::get('/authors/{user}', [ResourceAuthorController::class, 'indexById'])->name('author.id');
+
+    Route::get('/payment/success/{payment:payment_id}', [ResourcePurchaseController::class, 'success'])->name('payment.success');
+    Route::get('/payment/cancel/{payment:payment_id}', [ResourcePurchaseController::class, 'cancel'])->name('payment.cancel');
 
     Route::middleware('auth')->group(function () {
 
@@ -89,6 +107,8 @@ Route::prefix('resources')->name('resources.')->group(function () {
 
         // Download
         Route::get('download/{resource}/{version}', [ResourceDownloadController::class, 'download'])->name('download');
+
+        Route::get('purchased', [ResourcePurchaseController::class, 'purchased'])->name('purchased');
 
         // Review
         Route::prefix('review/')->name('review.')->group(function () {
@@ -112,6 +132,27 @@ Route::prefix('resources')->name('resources.')->group(function () {
 
         // icon
         Route::post('/{resource}/icon', [ResourceIconController::class, 'store'])->name('icon');
+
+        Route::get('/{resource}/purchase', [ResourcePurchaseController::class, 'index'])->name('purchase');
+        Route::post('/{resource}/purchase/create/session', [ResourcePurchaseController::class, 'store'])->name('purchase.session');
+
+        Route::prefix('/dashboard/')->name('dashboard.')->group(function () {
+            Route::get('', [DashboardController::class, 'index'])->name('index');
+            Route::get('/payments', [DashboardController::class, 'payments'])->name('payments');
+            Route::get('/payments/{payment:payment_id}', [DashboardController::class, 'paymentDetails'])->name('payments.details');
+            Route::get('/resources', [DashboardController::class, 'resources'])->name('resources');
+
+            Route::prefix('/gift/')->name('gift.')->group(function () {
+                Route::get('', [DashboardGiftController::class, 'index'])->name('index');
+
+            });
+
+            Route::prefix('/discord/')->name('discord.')->group(function () {
+                Route::get('', [DashboardDiscordController::class, 'index'])->name('index');
+
+            });
+
+        });
     });
 
     Route::get('/{slug}.{resource}/updates', [ResourceUpdateController::class, 'index'])->name('updates');

@@ -1,8 +1,10 @@
 <?php
 
 use App\Models\Alert\AlertUser;
+use App\Models\Resource\Resource;
 use App\Models\User;
 use App\Models\UserLog;
+use App\Payment\PaymentManager;
 use Carbon\Carbon;
 
 if (!function_exists('user')) {
@@ -17,6 +19,13 @@ if (!function_exists('format_date')) {
     {
         $date->locale($locale);
         return $date->translatedFormat(($fullTime ? 'j F Y \à G:i' : 'j F Y'));
+    }
+}
+
+if (!function_exists('simple_date')) {
+    function simple_date(Carbon $date): string
+    {
+        return $date->translatedFormat('M d, Y');
     }
 }
 
@@ -151,6 +160,13 @@ if (!function_exists('userLog')) {
     }
 }
 
+if (!function_exists('userLogOffline')) {
+    function userLogOffline($userId, string $action, string $color, string $icon, int $type = UserLog::TYPE_DEFAULT): void
+    {
+        UserLog::makeOffline($userId, $action, $color, $icon, $type);
+    }
+}
+
 if (!function_exists('format_date_compact')) {
     function format_date_compact(Carbon $date): string
     {
@@ -170,5 +186,93 @@ if (!function_exists('createAlert')) {
             'translation_key' => $translation_key,
             'target_id' => $target_id
         ]);
+    }
+}
+
+/*
+ * Payment Manager
+ * */
+if (!function_exists('paymentManager')) {
+    function paymentManager(): PaymentManager
+    {
+        return app(PaymentManager::class);
+    }
+}
+
+/*
+ * Price format
+ * */
+if (!function_exists('resourcePrice')) {
+    function resourcePrice(Resource $resource): string
+    {
+        return formatPrice($resource->price, $resource->user->paymentInfo?->currency->currency ?: 'eur');
+    }
+}
+
+/*
+ * Price format
+ * */
+if (!function_exists('formatPrice')) {
+    function formatPrice($price, $currency): string
+    {
+        // Format the price to 2 decimal places
+        $formattedPrice = number_format($price, 2, '.', ' ');
+
+        // Add currency symbol based on the currency code
+        return match (strtolower($currency)) {
+            'eur' => $formattedPrice . '€',
+            'gbp' => $formattedPrice . '£',
+            'usd' => '$' . $formattedPrice,
+            default => $formattedPrice . ' ' . strtoupper($currency),
+        };
+    }
+}
+
+/*
+ * Price format
+ * */
+if (!function_exists('currency')) {
+    function currency($currency): string
+    {
+        return match (strtolower($currency)) {
+            'eur' => '€',
+            'gbp' => '£',
+            'usd' => '$',
+            default => $currency,
+        };
+    }
+}
+
+/*
+ * Price format
+ * */
+if (!function_exists('currencyIcon')) {
+    function currencyIcon($currency): string
+    {
+        return match (strtolower($currency)) {
+            'eur' => '<i class="bi bi-currency-euro"></i>',
+            'gbp' => '<i class="bi bi-currency-pound"></i>',
+            'usd' => '<i class="bi bi-currency-dollar"></i>',
+            default => $currency,
+        };
+    }
+}
+
+/*
+ * Price format
+ * */
+if (!function_exists('formatPriceWithId')) {
+    function formatPriceWithId($price, $currency): string
+    {
+        // Format the price to 2 decimal places
+        $formattedPrice = number_format($price, 2, '.', ' ');
+
+        // Add currency symbol based on the currency code
+        return match (strtolower($currency)) {
+            'eur' => "<span data-price='$price' id='price'>$formattedPrice</span>€",
+            'usd' => "$<span data-price='$price' id='price'>$formattedPrice</span>",
+            'gbp' => "<span data-price='$price' id='price'>$formattedPrice</span>£",
+            default => $formattedPrice . ' ' . strtoupper($currency),
+        };
     }
 }

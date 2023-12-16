@@ -8,6 +8,7 @@ use App\Models\Conversation\ConversationNotification;
 use App\Models\Resource\Access;
 use App\Models\Resource\Notification;
 use App\Models\Resource\Resource;
+use App\Models\User\UserPaymentInfo;
 use App\Traits\HasProfilePhoto;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -37,9 +38,12 @@ use Laravel\Sanctum\HasApiTokens;
  * @property Carbon $updated_at
  * @property DiscordUser $discord
  * @property AlertUser[] $alerts
+ * @property Resource[] $resources
  * @property Notification[] $resourceNotifications
  * @property ConversationNotification $conversationNotifications
  * @property UserRole $role
+ * @property Access $accesses
+ * @property UserPaymentInfo $paymentInfo
  * @method static User find(int $id)
  * @method string getProfilePhotoUrlAttribute()
  */
@@ -79,13 +83,23 @@ class User extends Authenticate
     }
 
     /**
-     * Retourne la liste des notifications de l'utilisateur
+     * Retourne la liste des accès aux resources
      *
      * @return HasMany
      */
-    public function resourceNotifications(): HasMany
+    public function accesses(): HasMany
     {
-        return $this->hasMany(Notification::class);
+        return $this->hasMany(Access::class);
+    }
+
+    /**
+     * Retourne les informations de paiement de l'utilisateur
+     *
+     * @return HasOne
+     */
+    public function paymentInfo(): HasOne
+    {
+        return $this->hasOne(UserPaymentInfo::class);
     }
 
     /**
@@ -161,7 +175,6 @@ class User extends Authenticate
         return $this->hasMany(AlertUser::class);
     }
 
-
     /**
      * @return HasMany
      */
@@ -200,19 +213,9 @@ class User extends Authenticate
         return 'https://discord.com/api/oauth2/authorize?client_id=' . $client_id . '&redirect_uri=' . urlencode($api) . '&response_type=code&scope=identify&state=' . $this->id;
     }
 
-    public function getProfileUrl(): string
+    public function createConversation(): string
     {
-        return route('resources.author', ['user' => $this, 'slug' => $this->slug()]);
-    }
-
-    /**
-     * username as slug
-     *
-     * @return string
-     */
-    public function slug(): string
-    {
-        return Str::slug($this->name);
+        return route('profile.conversations.create', ['user' => $this]);
     }
 
     /**
@@ -236,19 +239,34 @@ class User extends Authenticate
     }
 
     /**
+     * username as slug
+     *
+     * @return string
+     */
+    public function slug(): string
+    {
+        return Str::slug($this->name);
+    }
+
+    /**
      * Check if player has access to this resource
      *
      * @param Resource $resource
+     * @param bool $useCache
      * @return bool
      */
-    public function hasAccess(Resource $resource): bool
+    public function hasAccess(Resource $resource, bool $useCache = true): bool
     {
         if ($this->cache('role')->isModerator() || $this->id === $resource->user_id || $resource->price == 0) {
             return true;
         }
-        return Cache::remember("user.access::$this->id", 86400, function () use ($resource) {
+        if ($useCache) {
+            return Cache::remember("user.access::$this->id", 86400, function () use ($resource) {
+                return Access::where('user_id', $this->id)->where('resource_id', $resource->id)->count() > 0;
+            });
+        } else {
             return Access::where('user_id', $this->id)->where('resource_id', $resource->id)->count() > 0;
-        });
+        }
     }
 
     /**
@@ -287,6 +305,8 @@ class User extends Authenticate
      * Delete cache value for user
      *
      * user.access
+     * user.resource_count
+     * user.resource_access
      *
      * @param string $key
      * @return void
@@ -296,7 +316,13 @@ class User extends Authenticate
         Cache::forget("$key::$this->id");
     }
 
-    public function enableNotification(Resource $resource)
+    /**
+     * Adds a notification to the user if it does not exist
+     *
+     * @param Resource $resource
+     * @return void
+     */
+    public function enableNotification(Resource $resource): void
     {
         $isExist = $this->resourceNotifications()->where('resource_id', $resource->id)->exists();
         if (!$isExist) {
@@ -306,6 +332,55 @@ class User extends Authenticate
                 'unsubscribe' => Str::random(64),
             ]);
         }
+    }
+
+    /**
+     * Retourne la liste des notifications de l'utilisateur
+     *
+     * @return HasMany
+     */
+    public function resourceNotifications(): HasMany
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role->power == UserRole::ADMIN;
+    }
+
+    function countResources(): int
+    {
+        return Cache::remember("user.resource_count::$this->id", 86400, function () {
+            return $this->resources->count();
+        });
+    }
+
+    function countAccess(): int
+    {
+        return Cache::remember("user.resource_access::$this->id", 86400, function () {
+            return $this->accesses->count();
+        });
+    }
+
+    function displayNameAndLink(bool $tooltip = true): string
+    {
+        return "<a href='{$this->getProfileUrl()}' class='text-decoration-none'>{$this->displayName($tooltip)}</a>";
+    }
+
+    public function getProfileUrl(): string
+    {
+        return route('resources.author', ['user' => $this, 'slug' => $this->slug()]);
+    }
+
+    function displayName(bool $tooltip = true): string
+    {
+        $tooltipCss = $tooltip ? 'username-tooltip' : '';
+        $url = route('api.v1.tooltip', $this);
+        return match ($this->role->power) {
+            UserRole::ADMIN => "<span class='username $tooltipCss username-admin' data-url='$url'>$this->name</span>",
+            default => "<span class='username $tooltipCss username-member' data-url='$url'>$this->name</span>"
+        };
     }
 
 }

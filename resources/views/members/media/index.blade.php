@@ -61,21 +61,21 @@
                                     <button type="button"
                                             class="btn btn-danger btn-sm rounded-1 d-flex align-items-center justify-content-center"
                                             data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal{{ $image->id }}">
+                                            data-bs-target="#deleteModal{{ $image->id }}">
                                         {{ __('images.table.delete') }}
                                     </button>
 
-                                    <div class="modal fade" id="exampleModal{{ $image->id }}" tabindex="-1"
-                                         aria-labelledby="exampleModalLabel{{ $image->id }}" aria-hidden="true">
+                                    <div class="modal fade" id="deleteModal{{ $image->id }}" tabindex="-1"
+                                         aria-labelledby="deleteModalLabel{{ $image->id }}" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content rounded-1">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title text-dark"
-                                                        id="exampleModalLabel">{{ __('images.modal.title') }}</h5>
+                                                    <h5 class="modal-title text-white"
+                                                        id="deleteModalLabel">{{ __('images.modal.title') }}</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
                                                 </div>
-                                                <div class="modal-body text-dark">
+                                                <div class="modal-body text-white">
                                                     {{ __('images.modal.content') }}
                                                 </div>
                                                 <div class="modal-footer">

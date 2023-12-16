@@ -24,6 +24,7 @@
                 <div class="row my-4">
                     <div class="col-lg-3">
                         <div class="row">
+                            @include('resources.elements.actions')
                             @include('resources.elements.categories')
                             @include('resources.elements.users')
                             <div class="col-md-6 col-lg-12">

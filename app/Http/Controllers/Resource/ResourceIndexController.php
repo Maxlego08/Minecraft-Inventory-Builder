@@ -3,11 +3,7 @@
 namespace App\Http\Controllers\Resource;
 
 use App\Http\Controllers\Controller;
-use App\Models\Resource\Category;
-use App\Models\Resource\Resource;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 
 class ResourceIndexController extends Controller
 {
@@ -19,16 +15,7 @@ class ResourceIndexController extends Controller
         // DB::enableQueryLog(); // Enable query log
         // dd(DB::getQueryLog()); // Show results of log
 
-        $mostResources = Cache::remember('resources:mostResources', 86400, function () {
-            $mostResourcesUsers = ResourcePagination::mostResources();
-            $mostResources = [];
-            foreach ($mostResourcesUsers as $user) {
-                $count = Resource::where('user_id', $user->id)->count();
-                $mostResources[] = ['name' => $user->name, 'url' => $user->authorPage(), 'count' => $count, 'image' => $user->getProfilePhotoUrlAttribute(),];
-            }
-            return $mostResources;
-        });
-
+        $mostResources = ResourcePagination::mostResourcesPagination();
         return view('resources.index', ['resources' => $pagination, 'categories' => $this->categories(), 'mostResources' => $mostResources,]);
     }
 }

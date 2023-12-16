@@ -13,7 +13,7 @@
                              alt="{{ $ms['name'] }}" width="50" height="50">
                     </a>
                     <div class="ms-3">
-                        <p class="mb-0 fw-light">{{ $ms['name'] }}</p>
+                        <p class="mb-0 fw-light">{!! $ms['name'] !!}</p>
                         <span class="text-muted fs-7">{{ __('messages.resources') }}: {{ $ms['count'] }}</span>
                     </div>
                 </li>

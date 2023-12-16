@@ -6,7 +6,7 @@
                  height='50' width='50' alt='{{ $message->user->name }} avatar' class='rounded-2'>
         </a>
         <a href="{{ $message->user->authorPage() }}"
-           class="conversation-user-name">{{ $message->user->name }}</a>
+           class="conversation-user-name">{!! $message->user->displayName()  !!}</a>
     </div>
     <div class="conversation-content">
         <div class="conversation-content-text">
