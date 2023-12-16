@@ -2,6 +2,8 @@
 
 Site for the zMenu plugin. The site will include a marketplace, an online inventory editor, and why not create a forum ?
 
+Test site here: https://preprod.minecraft-inventory-builder.com/
+
 ## ToDo
 
 Thing to develop to open the site
