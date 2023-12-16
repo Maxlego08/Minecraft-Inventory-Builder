@@ -25,7 +25,7 @@ class ResourcePagination
             $mostResources = [];
             foreach ($mostResourcesUsers as $user) {
                 $count = Resource::where('user_id', $user->id)->count();
-                $mostResources[] = ['name' => $user->name, 'url' => $user->authorPage(), 'count' => $count, 'image' => $user->getProfilePhotoUrlAttribute(),];
+                $mostResources[] = ['name' => $user->displayNameAndLink(), 'url' => $user->authorPage(), 'count' => $count, 'image' => $user->getProfilePhotoUrlAttribute(),];
             }
             return $mostResources;
         });
@@ -33,7 +33,7 @@ class ResourcePagination
 
     public static function mostResources()
     {
-        return User::select('users.name', 'users.id', 'users.profile_photo_path')
+        return User::select('users.name', 'users.id', 'users.profile_photo_path', 'users.user_role_id')
             ->addSelect(DB::raw("COUNT(`resource_resources`.`id`) AS `resource`"))
             ->join('resource_resources', 'resource_resources.user_id', '=', 'users.id')
             ->where('resource_resources.is_display', true)

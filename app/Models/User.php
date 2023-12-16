@@ -213,24 +213,9 @@ class User extends Authenticate
         return 'https://discord.com/api/oauth2/authorize?client_id=' . $client_id . '&redirect_uri=' . urlencode($api) . '&response_type=code&scope=identify&state=' . $this->id;
     }
 
-    public function getProfileUrl(): string
-    {
-        return route('resources.author', ['user' => $this, 'slug' => $this->slug()]);
-    }
-
     public function createConversation(): string
     {
         return route('profile.conversations.create', ['user' => $this]);
-    }
-
-    /**
-     * username as slug
-     *
-     * @return string
-     */
-    public function slug(): string
-    {
-        return Str::slug($this->name);
     }
 
     /**
@@ -254,19 +239,34 @@ class User extends Authenticate
     }
 
     /**
+     * username as slug
+     *
+     * @return string
+     */
+    public function slug(): string
+    {
+        return Str::slug($this->name);
+    }
+
+    /**
      * Check if player has access to this resource
      *
      * @param Resource $resource
+     * @param bool $useCache
      * @return bool
      */
-    public function hasAccess(Resource $resource): bool
+    public function hasAccess(Resource $resource, bool $useCache = true): bool
     {
         if ($this->cache('role')->isModerator() || $this->id === $resource->user_id || $resource->price == 0) {
             return true;
         }
-        return Cache::remember("user.access::$this->id", 86400, function () use ($resource) {
+        if ($useCache) {
+            return Cache::remember("user.access::$this->id", 86400, function () use ($resource) {
+                return Access::where('user_id', $this->id)->where('resource_id', $resource->id)->count() > 0;
+            });
+        } else {
             return Access::where('user_id', $this->id)->where('resource_id', $resource->id)->count() > 0;
-        });
+        }
     }
 
     /**
@@ -363,6 +363,16 @@ class User extends Authenticate
         });
     }
 
+    function displayNameAndLink(bool $tooltip = true): string
+    {
+        return "<a href='{$this->getProfileUrl()}' class='text-decoration-none'>{$this->displayName($tooltip)}</a>";
+    }
+
+    public function getProfileUrl(): string
+    {
+        return route('resources.author', ['user' => $this, 'slug' => $this->slug()]);
+    }
+
     function displayName(bool $tooltip = true): string
     {
         $tooltipCss = $tooltip ? 'username-tooltip' : '';
@@ -371,11 +381,6 @@ class User extends Authenticate
             UserRole::ADMIN => "<span class='username $tooltipCss username-admin' data-url='$url'>$this->name</span>",
             default => "<span class='username $tooltipCss username-member' data-url='$url'>$this->name</span>"
         };
-    }
-
-    function displayNameAndLink(bool $tooltip = true): string
-    {
-        return "<a href='{$this->getProfileUrl()}' class='text-decoration-none'>{$this->displayName($tooltip)}</a>";
     }
 
 }

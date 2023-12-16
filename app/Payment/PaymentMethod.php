@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\UserLog;
 use App\Payment\Events\PaymentPaid;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 abstract class PaymentMethod
 {
@@ -60,6 +61,7 @@ abstract class PaymentMethod
                 'resource_id' => $payment->content_id,
                 'payment_id' => $payment->id
             ]);
+            Cache::forget("user.access::$payment->user_id");
 
             userLogOffline($payment->user_id, "Ressource acheté $resource->name.$resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
         }

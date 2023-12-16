@@ -231,6 +231,7 @@ return [
         'title' => 'Buyers',
         'search' => 'Find buyer',
         'user' => 'User',
+        'username' => 'User Name',
         'price' => 'Price',
         'added_on' => 'Added on',
         'free' => 'Free',

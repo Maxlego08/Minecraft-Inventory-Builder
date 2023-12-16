@@ -1,3 +1,4 @@
+@php use Illuminate\Support\Str; @endphp
 @extends('resources.layouts.base')
 
 @section('title', "$resource->name | Updates")
@@ -11,8 +12,10 @@
                         <a href="#" class="fs-5 d-block" title="Mise à jour #3">{{ $version->title }}</a>
                         <span class="fs-6 ms-2">{{ $version->version }}</span>
                     </span>
-                    <p class="fs-6">{{ \Illuminate\Support\Str::limit($version->description, 500) }}</p>
-                    <span class="fs-7">Posté par <span class="text-danger">{{ $version->resource->user->name }}</span>, le {{ format_date($version->created_at, true) }}</span>
+                    <p class="fs-6">{{ Str::limit($version->description, 500) }}</p>
+                    <div class="fs-7 d-flex">
+                        <div>{!! $version->resource->user->displayNameAndLink() !!}</div>
+                        , {{ format_date($version->created_at, true) }}</div>
                 </div>
             </div>
         @endforeach

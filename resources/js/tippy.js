@@ -12,6 +12,7 @@ window.addEventListener('load', function () {
         zIndex: 99999,
         theme: 'light', // show delay is 100ms, hide delay is the default
         delay: [100, null],
+        appendTo: reference => reference.parentNode,
         onShow(instance) {
             let url = instance.reference.getAttribute('data-url')
             axios.get(url).then((response) => {

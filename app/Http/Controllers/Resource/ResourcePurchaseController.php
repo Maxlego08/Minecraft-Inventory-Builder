@@ -27,7 +27,7 @@ class ResourcePurchaseController extends Controller
     public function index(Resource $resource): Application|View|Factory|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
         // Si l'utilisateur à déjà accès à la resource ou que le prix est à 0, alors on retourne en arrière
-        if ($resource->price == 0 || (user()->hasAccess($resource) && !user()->isAdmin())) {
+        if ($resource->price == 0 || (user()->hasAccess($resource, false) && !user()->isAdmin())) {
             return Redirect::route('resources.view', ['slug' => Str::slug($resource->name), 'resource' => $resource->id]);
         }
 

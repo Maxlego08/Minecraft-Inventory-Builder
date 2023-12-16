@@ -14,12 +14,18 @@
             </a>
         </div>
         <div class="block_resources_center ms-2 ms-lg-2 d-flex flex-column justify-content-center">
-            <h3 class="fw-bold fs-5 mb-0"><a class="link-light text-decoration-none text-break"
-                                             href="{{ $resource->link('description') }}">{{ $resource->name }}</a>
-                <span
-                    class="text-muted fw-normal fs-7 ms-2">{{ $resource->cache('version')->version }}</span></h3>
-            <span class="text-muted fw-light fs-8"><a class="text-danger"
-                                                      href="{{ $resource->user->authorPage() }}">{{ $resource->cache('user')->name }}</a>, {{ format_date($resource->created_at) }}, <span>{{ $resource->cache('category')->name }}</span></span>
+            <h3 class="fw-bold fs-5 mb-0">
+                <a class="link-light text-decoration-none text-break"
+                   href="{{ $resource->link('description') }}">{{ $resource->name }}</a>
+                <span class="text-muted fw-normal fs-7 ms-2">{{ $resource->cache('version')->version }}</span>
+            </h3>
+            <div class="text-muted fw-light fs-8 d-flex">
+                <div>
+                    <a class="text-danger"
+                       href="{{ $resource->user->authorPage() }}">{!! $resource->cache('user')->displayName() !!}</a>
+                </div>
+                , {{ format_date($resource->created_at) }}, <span>{{ $resource->cache('category')->name }}</span>
+            </div>
             <p class="mt-1 mb-0 fs-7">{{ $resource->tag }}</p>
         </div>
         <div class="block_resources_end d-flex align-items-center justify-content-end flex-grow-1 fs-7">

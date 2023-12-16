@@ -97,7 +97,7 @@ class ResourceReviewController extends Controller
         $resource->clearReview();
         userLog("Création de review $review->id pour la resource $resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_STARS);
 
-        createAlert($resource->user_id, $resource->name, AlertUser::ICON_ENVELOPE, AlertUser::SUCCESS, 'resources.resources.alert', $resource->link('reviews'), $user->id);
+        createAlert($resource->user_id, $resource->name, AlertUser::ICON_ENVELOPE, AlertUser::SUCCESS, 'resources.reviews.alert', $resource->link('reviews'), $user->id);
 
         return Redirect::back()->with('toast', createToast('success', __('resources.reviews.success.title'), __('resources.reviews.success.content'), 5000));
     }
