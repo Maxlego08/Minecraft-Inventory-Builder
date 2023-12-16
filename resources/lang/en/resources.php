@@ -25,6 +25,7 @@ return [
         'icon' => 'Edit Resource Icon',
         'content' => 'Edit Resource',
         'update' => 'Post Resource Update',
+        'purchase' => 'Buy the resource',
         'success' => [
             'title' => 'Resource updated !',
             'content' => 'You have just updated your resource'
@@ -278,5 +279,35 @@ return [
     ],
     'purchase' => [
         'button' => 'Buy now for :price€',
+        'error' => 'Unable to purchase this resource at this time.'
+    ],
+    'actions' => [
+        'resources' => 'your resources',
+        'purchase' => 'purchases resources',
+        'creator_board' => 'creator dashboard'
+    ],
+
+    'dashboard' => [
+        'title' => 'Creator dashboard',
+        'description' => 'Manage your resources, create gift codes, display your payments, all this happens in the creator dashboard',
+        'overview' => [
+            'title' => 'Overview',
+            'resources' => 'Resources',
+            'payments' => 'Transactions',
+            'download' => 'Downloads',
+            'earn' => 'Earnings all time'
+        ],
+        'products' => [
+            'title' => 'My Resources'
+        ],
+        'gifts' => [
+            'title' => 'Gift code',
+        ],
+        'discord' => [
+            'title' => 'Discord Webhook',
+        ],
+        'payments' => [
+            'title' => 'Transactions'
+        ]
     ]
 ];

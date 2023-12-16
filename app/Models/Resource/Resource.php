@@ -359,4 +359,15 @@ class Resource extends Model
         ];
     }
 
+    /**
+     * Vérifier si la resource peut être acheté
+     *
+     * @return bool
+     */
+    public function canBePurchase(): bool
+    {
+        if (!isset($this->user->paymentInfo)) return false;
+        return $this->user->paymentInfo->sk_live != null || $this->user->paymentInfo->paypal_email != null;
+    }
+
 }

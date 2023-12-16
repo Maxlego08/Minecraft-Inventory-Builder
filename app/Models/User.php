@@ -42,6 +42,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property Notification[] $resourceNotifications
  * @property ConversationNotification $conversationNotifications
  * @property UserRole $role
+ * @property Access $accesses
  * @property UserPaymentInfo $paymentInfo
  * @method static User find(int $id)
  * @method string getProfilePhotoUrlAttribute()
@@ -79,6 +80,16 @@ class User extends Authenticate
     public function logs(): HasMany
     {
         return $this->hasMany(UserLog::class);
+    }
+
+    /**
+     * Retourne la liste des accès aux resources
+     *
+     * @return HasMany
+     */
+    public function accesses(): HasMany
+    {
+        return $this->hasMany(Access::class);
     }
 
     /**
@@ -289,6 +300,8 @@ class User extends Authenticate
      * Delete cache value for user
      *
      * user.access
+     * user.resource_count
+     * user.resource_access
      *
      * @param string $key
      * @return void
@@ -329,6 +342,18 @@ class User extends Authenticate
     public function isAdmin(): bool
     {
         return $this->role->power == UserRole::ADMIN;
+    }
+
+    function countResources() : int{
+        return Cache::remember("user.resource_count::$this->id", 86400, function () {
+            return $this->resources->count();
+        });
+    }
+
+    function countAccess() : int{
+        return Cache::remember("user.resource_access::$this->id", 86400, function () {
+            return $this->accesses->count();
+        });
     }
 
 }

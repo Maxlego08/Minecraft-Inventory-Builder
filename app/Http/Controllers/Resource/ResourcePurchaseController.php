@@ -128,4 +128,17 @@ class ResourcePurchaseController extends Controller
         return view('resources.purchase.cancel');
     }
 
+    /**
+     * Affiche les ressources achetées par l'utilisateur
+     *
+     * @return View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+     */
+    public function purchased(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    {
+
+        $mostResources = ResourcePagination::mostResourcesPagination();
+        $pagination = ResourcePagination::paginateUserAccessibleResources();
+        return view('resources.index', ['resources' => $pagination, 'categories' => $this->categories(), 'mostResources' => $mostResources,]);
+    }
+
 }

@@ -24,7 +24,9 @@
         </div>
         <div class="block_resources_end d-flex align-items-center justify-content-end flex-grow-1 fs-7">
             @if($resource->price > 0)
-                <span class="btn btn-success rounded-1 fw-normal py-0 me-2 me-lg-3">{{ $resource->price }} €</span>
+                <div class="btn btn-success rounded-1 fw-normal py-0 me-2 me-lg-3">
+                    {{ resourcePrice($resource) }}
+                </div>
             @endif
             @if ($resource->is_pending)
                 <i class="bi bi-eye py-0 me-2 me-lg-3 text-danger"></i>

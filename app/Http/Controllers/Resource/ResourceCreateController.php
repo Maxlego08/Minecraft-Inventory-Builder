@@ -103,6 +103,7 @@ class ResourceCreateController extends Controller
         $version = Version::create(['version' => $request['version'], 'resource_id' => $resource->id, 'title' => 'First version of the plugin', 'description' => 'No description.', 'download' => 0, 'file_id' => $storedFile->id, 'file_name' => $fileName,]);
 
         $resource->update(['version_id' => $version->id]);
+        $user->clear('user.resource_count');
 
         userLog("Création de la ressource $resource->name.$resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_FILE);
 

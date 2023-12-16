@@ -26,7 +26,7 @@
                                         <input type="text"
                                                class="form-control rounded-1 @error('name') is-invalid @enderror"
                                                id="name" name="name" value="{{ old('name') }}" required
-                                               autocomplete="username" autofocus>
+                                               autocomplete="off">
                                         @error('name')
                                         <div id="password-error" class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -36,7 +36,7 @@
                                         <input type="email"
                                                class="form-control rounded-1 @error('email') is-invalid @enderror"
                                                id="email" name="email" value="{{ old('email') }}" required
-                                               autocomplete="email">
+                                               autocomplete="email" autofocus>
                                         @error('email')
                                         <div id="password-error" class="invalid-feedback">{{ $message }}</div>
                                         @enderror

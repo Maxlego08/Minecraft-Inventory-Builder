@@ -239,6 +239,21 @@ if (!function_exists('currency')) {
 /*
  * Price format
  * */
+if (!function_exists('currencyIcon')) {
+    function currencyIcon($currency): string
+    {
+        return match (strtolower($currency)) {
+            'eur' => '<i class="bi bi-currency-euro"></i>',
+            'gbp' => '<i class="bi bi-currency-pound"></i>',
+            'usd' => '<i class="bi bi-currency-dollar"></i>',
+            default => $currency,
+        };
+    }
+}
+
+/*
+ * Price format
+ * */
 if (!function_exists('formatPriceWithId')) {
     function formatPriceWithId($price, $currency): string
     {
