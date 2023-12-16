@@ -9,6 +9,11 @@ window.addEventListener('load', function () {
 
     let price = Number(elementPrice.getAttribute('data-price'))
 
+    let numberFormat = new Intl.NumberFormat('en-US', {
+        maximumFractionDigits: 2,
+        minimumFractionDigits: 2,
+    })
+
     elementInput.addEventListener('change', function (event) {
         let text = event.target.value
 
@@ -16,8 +21,8 @@ window.addEventListener('load', function () {
         axios.get(url).then(function (result) {
             let reduction = result.data.reduction
             let priceReduction = (price * reduction) / 100
-            let resultReduction = new Intl.NumberFormat('en-US', {maximumSignificantDigits: 3}).format(priceReduction)
-            let resultPrice = new Intl.NumberFormat('en-US', {maximumSignificantDigits: 3}).format(price - priceReduction)
+            let resultReduction = numberFormat.format(priceReduction)
+            let resultPrice = numberFormat.format(price - priceReduction)
             elementGift.innerText = resultReduction
             elementPrice.innerText = resultPrice
 

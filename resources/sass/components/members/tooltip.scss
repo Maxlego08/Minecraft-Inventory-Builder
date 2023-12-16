@@ -1,0 +1,51 @@
+.tooltip {
+    border: none !important; /* Supprime la bordure du tooltip */
+}
+
+.tooltip .tooltip-inner {
+    border: none !important; /* Supprime la bordure de l'intérieur du tooltip */
+}
+
+.tooltip .arrow::before {
+    border-color: transparent !important; /* Rend toutes les parties de la flèche transparentes */
+}
+
+.tippy-content {
+    padding: 0 !important;
+}
+
+.user-tooltip {
+
+    width: 300px;
+    border: 1px solid #3f3f58;
+
+    &-header {
+        padding: 5px;
+        background: #26263f;
+
+        .join-info {
+            font-size: 14px;
+            color: whitesmoke;
+        }
+    }
+
+    &-content {
+        padding: 15px 5px;
+        background: #161628;
+
+        .conversation-button {
+            background: #6f6f6f;
+            transition: 0.2s ease-in-out;
+            color: whitesmoke;
+            font-size: 14px;
+            padding: 8px;
+            margin: 5px 0;
+            text-decoration: none;
+
+            &:hover {
+                background: #7b7b7b;
+            }
+        }
+    }
+
+}

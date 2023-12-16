@@ -10,9 +10,10 @@ $font-path: './fonts/';
 
 @import "mixin";
 
-@import "components/content-components";
 @import "vars";
+@import "components/content-components";
 @import "editor/editor";
+
 
 .nav-tabs .nav-item a {
     background-color: #13132a;
@@ -33,5 +34,3 @@ $font-path: './fonts/';
     cursor: not-allowed !important;
     pointer-events: unset !important;
 }
-
-

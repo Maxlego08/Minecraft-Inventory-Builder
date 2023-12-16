@@ -100,7 +100,7 @@
                                         <td></td>
                                         <th>{{ __('payment.gift.title') }}</th>
                                         <td>-<span
-                                                id="gift">0</span>{{ currency($resource->user->paymentInfo->currency) }}
+                                                id="gift">0</span>{{ currency($resource->user->paymentInfo->currency->currency) }}
                                         </td>
                                     </tr>
                                     </tbody>
@@ -118,7 +118,7 @@
                                 <hr>
                                 <div class="d-flex justify-content-end">
                                     <h4>{{ __('payment.total_end') }}</h4>
-                                    <p class="ms-3 h4 text-info">{!! formatPriceWithId($resource->price, $resource->user->paymentInfo->currency) !!}</p>
+                                    <p class="ms-3 h4 text-info">{!! formatPriceWithId($resource->price, $resource->user->paymentInfo->currency->currency) !!}</p>
                                 </div>
                             </div>
                         </div>

@@ -25,27 +25,32 @@
                 <div class="row my-4">
                     <div class="col-lg-3">
                         <div class="row">
-                            <div class="col-md-6 col-lg-12">
+                            <div class="col-md-6 col-lg-12 members">
                                 <div class="card mb-3 rounded-1">
-                                    <div class="card-body">
+                                    <div class="card-body px-4">
                                         <h2 class="text-center fs-5 fw-bold"> {{ __('resources.dashboard.title') }}</h2>
-                                        <ul class="list-group">
-                                            <li class="d-flex justify-content-between align-items-cente">
-                                                <a class="text-decoration-none" href="{{ route('resources.dashboard.index') }}"><i class="bi bi-globe"></i> {{ __('resources.dashboard.overview.title') }}</a>
-                                            </li>
-                                            <li class="d-flex justify-content-between align-items-cente">
-                                                <a class="text-decoration-none" href="{{ route('resources.dashboard.resources') }}"><i class="bi bi-list-task"></i> {{ __('resources.dashboard.products.title') }}</a>
-                                            </li>
-                                            <li class="d-flex justify-content-between align-items-cente">
-                                                <a class="text-decoration-none" href="{{ route('resources.dashboard.payments') }}"><i class="bi bi-wallet2"></i> {{ __('resources.dashboard.payments.title') }}</a>
-                                            </li>
-                                            <li class="d-flex justify-content-between align-items-cente">
-                                                <a class="text-decoration-none" href="{{ route('resources.dashboard.gift.index') }}"><i class="bi bi-gift"></i> {{ __('resources.dashboard.gifts.title') }}</a>
-                                            </li>
-                                            <li class="d-flex justify-content-between align-items-cente">
-                                                <a class="text-decoration-none" href="{{ route('resources.dashboard.discord.index') }}"><i class="bi bi-discord"></i> {{ __('resources.dashboard.discord.title') }}</a>
-                                            </li>
-                                        </ul>
+                                        <nav>
+                                            <ul class="ps-0">
+                                                <li class="list-group-item mb-2">
+                                                    <a href="{{ route('resources.dashboard.index') }}"><i class="bi bi-globe"></i> {{ __('resources.dashboard.overview.title') }}</a>
+                                                </li>
+                                                <li class="list-group-item mb-2">
+                                                    <a href="{{ route('resources.dashboard.resources') }}"><i class="bi bi-list-task"></i> {{ __('resources.dashboard.products.title') }}</a>
+                                                </li>
+                                                <li class="list-group-item mb-2">
+                                                    <a href="{{ route('resources.dashboard.payments') }}"><i class="bi bi-wallet2"></i> {{ __('resources.dashboard.payments.title') }}</a>
+                                                </li>
+                                                <li class="list-group-item mb-2">
+                                                    <a href="{{ route('resources.dashboard.gift.index') }}"><i class="bi bi-gift"></i> {{ __('resources.dashboard.gifts.title') }}</a>
+                                                </li>
+                                                <li class="list-group-item mb-2">
+                                                    <a href="{{ route('resources.dashboard.discord.index') }}"><i class="bi bi-discord"></i> {{ __('resources.dashboard.discord.title') }}</a>
+                                                </li>
+                                                <li class="list-group-item mb-2">
+                                                    <a href="{{ route('profile.payment.index') }}"><i class="bi bi-currency-euro"></i> {{ __('payment.nav') }}</a>
+                                                </li>
+                                            </ul>
+                                        </nav>
                                     </div>
                                 </div>
                             </div>

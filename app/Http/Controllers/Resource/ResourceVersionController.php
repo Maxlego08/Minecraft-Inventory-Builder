@@ -89,9 +89,10 @@ class ResourceVersionController extends Controller
 
         $resource->clearVersionUpdate();
 
+        // TODO
         // Ajouter les notifications
 
-        userLog("Mise à jour de la resource $resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_FILE);
+        userLog("Mise à jour de la resource $resource->name.$resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_FILE);
 
         return Redirect::route('resources.view', ['resource' => $resource, 'slug' => $resource->slug()])->with('toast', createToast('success', __('resources.updates.success.title'), __('resources.updates.success.content'), 5000));
     }

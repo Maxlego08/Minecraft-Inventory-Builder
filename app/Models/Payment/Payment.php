@@ -24,6 +24,7 @@ use Illuminate\Support\Str;
  * @property Carbon $created_at
  * @property Resource $resource
  * @property Gift $gift
+ * @property Currency $currency
  */
 class Payment extends Model
 {
@@ -48,6 +49,7 @@ class Payment extends Model
         'external_id',
         'payment_id',
         'content_id',
+        'currency_id',
         'price',
         'status',
         'type'
@@ -60,15 +62,17 @@ class Payment extends Model
      * @param float $price
      * @param int $type
      * @param int $contentId
+     * @param int $currencyId
      * @param null $giftId
      * @return Payment
      */
-    public static function makeDefault(User $user, float $price, int $type, int $contentId, $giftId = null): Payment
+    public static function makeDefault(User $user, float $price, int $type, int $contentId, int $currencyId, $giftId = null): Payment
     {
         $payment_id = "mib_" . Str::random(10);
         return Payment::create([
             'payment_id' => $payment_id,
             'user_id' => $user->id,
+            'currency_id' => $currencyId,
             'content_id' => $contentId,
             'gift_id' => $giftId,
             'price' => $price,
@@ -85,6 +89,16 @@ class Payment extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Retourne la currency
+     *
+     * @return BelongsTo
+     */
+    public function currency(): BelongsTo
+    {
+        return $this->belongsTo(Currency::class);
     }
 
     /**

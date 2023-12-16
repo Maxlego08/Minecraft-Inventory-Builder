@@ -44,17 +44,17 @@ class StripeMethod extends PaymentMethod
 
         $type = $payment->type;
         $name = match ($type) {
-            Payment::TYPE_RESOURCE => "Minecraft Inventory Builder - Resource $payment->content_id",
+            Payment::TYPE_RESOURCE => "Minecraft Inventory Builder - Resource {$payment->resource->name}.$payment->content_id",
             Payment::TYPE_ACCOUNT_UPGRADE => "Minecraft Inventory Builder - Account Upgrade",
         };
 
         $description = match ($type) {
-            Payment::TYPE_RESOURCE => "Purchase Resource $payment->content_id",
+            Payment::TYPE_RESOURCE => "Purchase Resource {$payment->resource->name}.$payment->content_id",
             Payment::TYPE_ACCOUNT_UPGRADE => "Account Upgrade $payment->content_id",
         };
 
         $content = match ($type) {
-            Payment::TYPE_RESOURCE => "Purchase Resource $payment->content_id",
+            Payment::TYPE_RESOURCE => "Purchase Resource {$payment->resource->name}.$payment->content_id",
             Payment::TYPE_ACCOUNT_UPGRADE => "Account Upgrade $payment->content_id",
         };
 
@@ -96,8 +96,8 @@ class StripeMethod extends PaymentMethod
             'customer_email' => $user->email,
             'line_items' => [[
                 'price_data' => [
-                    'currency' => $paymentInfo->currency,
-                    'unit_amount' => $price * 100,
+                    'currency' => $paymentInfo->currency->currency,
+                    'unit_amount' => (int) ($price * 100),
                     'product_data' => [
                         'name' => $name,
                         'description' => $description,

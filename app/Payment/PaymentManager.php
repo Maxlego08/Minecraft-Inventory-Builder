@@ -64,7 +64,7 @@ class PaymentManager
         // Si le gift.js est valide, alors on va l'utiliser et modifier le prix
         if ($this->isValid($resource, $gift)) {
             $price = $resource->price - (($resource->price * $gift->reduction) / 100);
-            $resource->update(['price' => $price]);
+            $payment->update(['price' => $price]);
         }
 
         return $method->startPayment($user, $paymentInfo, $payment, $price, $gift);

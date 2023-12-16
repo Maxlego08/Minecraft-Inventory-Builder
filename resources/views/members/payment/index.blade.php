@@ -84,9 +84,10 @@
 
                     <div class="mb-3">
                         <select class="form-select rounded-1" name="currency" id="currency" required>
-                            <option value="eur" @if ($currency == 'eur') selected @endif>EUR €</option>
-                            <option value="usd" @if ($currency == 'usd') selected @endif>USD $</option>
-                            <option value="gbp" @if ($currency == 'gbp') selected @endif>GBP £</option>
+                            @foreach($currencies as $currentCurrency)
+                                <option value="{{ $currentCurrency->id }}"
+                                        @if ($currency == $currentCurrency->id) selected @endif>{{ strtoupper($currentCurrency->currency) }} {{ $currentCurrency->icon }}</option>
+                            @endforeach
                         </select>
                     </div>
 

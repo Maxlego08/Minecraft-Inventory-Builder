@@ -22,6 +22,13 @@ if (!function_exists('format_date')) {
     }
 }
 
+if (!function_exists('simple_date')) {
+    function simple_date(Carbon $date): string
+    {
+        return $date->translatedFormat('M d, Y');
+    }
+}
+
 if (!function_exists('createToast')) {
     /**
      * type = text / log / info / warn / error / success
@@ -198,7 +205,7 @@ if (!function_exists('paymentManager')) {
 if (!function_exists('resourcePrice')) {
     function resourcePrice(Resource $resource): string
     {
-        return formatPrice($resource->price, $resource->user->paymentInfo->currency);
+        return formatPrice($resource->price, $resource->user->paymentInfo->currency->currency);
     }
 }
 

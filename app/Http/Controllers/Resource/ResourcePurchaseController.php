@@ -73,7 +73,7 @@ class ResourcePurchaseController extends Controller
         }
 
         $user = user();
-        $payment = Payment::makeDefault($user, $resource->price, Payment::TYPE_RESOURCE, $resource->id);
+        $payment = Payment::makeDefault($user, $resource->price, Payment::TYPE_RESOURCE, $resource->id, $resource->user->paymentInfo->currency_id, $gift?->id);
 
         return paymentManager()->startPayment($request, $resource, $paymentMethod, $payment, $gift);
     }
@@ -93,7 +93,7 @@ class ResourcePurchaseController extends Controller
         if ($payment->type == Payment::TYPE_RESOURCE) {
             $resource = $payment->resource;
             $contentPrice = $resource->price;
-            $currency = $resource->user->paymentInfo->currency;
+            $currency = $payment->currency->currency;
             $name = $resource->name;
         }
 

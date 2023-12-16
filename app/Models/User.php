@@ -218,6 +218,11 @@ class User extends Authenticate
         return route('resources.author', ['user' => $this, 'slug' => $this->slug()]);
     }
 
+    public function createConversation(): string
+    {
+        return route('profile.conversations.create', ['user' => $this]);
+    }
+
     /**
      * username as slug
      *
@@ -344,16 +349,33 @@ class User extends Authenticate
         return $this->role->power == UserRole::ADMIN;
     }
 
-    function countResources() : int{
+    function countResources(): int
+    {
         return Cache::remember("user.resource_count::$this->id", 86400, function () {
             return $this->resources->count();
         });
     }
 
-    function countAccess() : int{
+    function countAccess(): int
+    {
         return Cache::remember("user.resource_access::$this->id", 86400, function () {
             return $this->accesses->count();
         });
+    }
+
+    function displayName(bool $tooltip = true): string
+    {
+        $tooltipCss = $tooltip ? 'username-tooltip' : '';
+        $url = route('api.v1.tooltip', $this);
+        return match ($this->role->power) {
+            UserRole::ADMIN => "<span class='username $tooltipCss username-admin' data-url='$url'>$this->name</span>",
+            default => "<span class='username $tooltipCss username-member' data-url='$url'>$this->name</span>"
+        };
+    }
+
+    function displayNameAndLink(bool $tooltip = true): string
+    {
+        return "<a href='{$this->getProfileUrl()}' class='text-decoration-none'>{$this->displayName($tooltip)}</a>";
     }
 
 }

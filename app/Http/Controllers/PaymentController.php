@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Payment\Currency;
 use App\Models\User\UserPaymentInfo;
+use App\Models\UserLog;
 use App\Payment\utils\StripeWebhook;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -23,9 +25,11 @@ class PaymentController extends Controller
     public function index(): Application|View|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $paymentInfo = user()->paymentInfo ?? null;
+        $currencies = Currency::all();
         return view('members.payment.index', [
             'paymentInfo' => $paymentInfo,
-            'currency' => $paymentInfo->currency ?? 'eur'
+            'currency' => $paymentInfo->currency->id ?? 1,
+            'currencies' => $currencies,
         ]);
     }
 
@@ -77,6 +81,8 @@ class PaymentController extends Controller
             return Redirect::back()->with('toast', createToast('error', __('payment.stripe.error_api.title'), __('payment.stripe.error_api.description'), 5000));
         }
 
+        userLog("Ajout des informations Stripe", UserLog::COLOR_SUCCESS, UserLog::ICON_EURO);
+
         return Redirect::route('profile.payment.index')->with('toast', createToast('success', __('payment.stripe.success.title'), __('payment.stripe.success.description'), 5000));
     }
 
@@ -104,6 +110,8 @@ class PaymentController extends Controller
             ]);
         }
 
+        userLog("Ajout d'un email Paypal ({$request['paypal_email']})", UserLog::COLOR_SUCCESS, UserLog::ICON_EURO);
+
         return Redirect::route('profile.payment.index')->with('toast', createToast('success', __('payment.paypal.success.title'), __('payment.paypal.success.description'), 5000));
     }
 
@@ -120,6 +128,8 @@ class PaymentController extends Controller
             'pk_live' => null,
         ]);
 
+        userLog("Suppression de Stripe", UserLog::COLOR_DANGER, UserLog::ICON_TRASH);
+
         return Redirect::route('profile.payment.index')->with('toast', createToast('success', __('payment.stripe.delete.title'), __('payment.stripe.delete.description'), 5000));
     }
 
@@ -135,6 +145,8 @@ class PaymentController extends Controller
             'paypal_email' => null,
         ]);
 
+        userLog("Suppression de Paypal", UserLog::COLOR_DANGER, UserLog::ICON_TRASH);
+
         return Redirect::route('profile.payment.index')->with('toast', createToast('success', __('payment.paypal.delete.title'), __('payment.paypal.delete.description'), 5000));
     }
 
@@ -149,17 +161,31 @@ class PaymentController extends Controller
             'currency' => ['required'],
         ]);
 
-        $currency = $request['currency'];
-        $currencies = array('eur', 'usd', 'gbp');
+        $currency = Currency::find($request['currency']);
+        $currencyIcon = '€';
 
-        if (!in_array($currency, $currencies)) {
-            $currency = 'eur';
+        if (!isset($currency)) {
+            $currency = 1;
+        } else {
+            $currencyIcon = $currency->icon;
+            $currency = $currency->id;
         }
 
         $paymentInfo = user()->paymentInfo;
-        $paymentInfo?->update([
-            'currency' => $currency,
-        ]);
+        $oldCurrency = '€';
+        if (isset($paymentInfo)) {
+            $oldCurrency = $paymentInfo->currency->icon;
+            $paymentInfo->update([
+                'currency_id' => $currency,
+            ]);
+        } else {
+            UserPaymentInfo::create([
+                'user_id' => user()->id,
+                'currency_id' => $currency
+            ]);
+        }
+
+        userLog("Mise à jour de la devise, $oldCurrency vers $currencyIcon", UserLog::COLOR_SUCCESS, UserLog::ICON_EURO);
 
         return Redirect::route('profile.payment.index')->with('toast', createToast('success', __('payment.currency.success.title'), __('payment.currency.success.description'), 5000));
     }

@@ -307,7 +307,13 @@ return [
             'title' => 'Discord Webhook',
         ],
         'payments' => [
-            'title' => 'Transactions'
+            'title' => 'Transactions',
+            'resource' => 'Resource',
+            'buyer' => 'Buyer',
+            'transaction' => 'Transaction ID',
+            'date' => 'Date',
+            'earning' => 'Earnings',
+            'details' => 'Details'
         ]
     ]
 ];
