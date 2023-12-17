@@ -47,7 +47,7 @@ trait HasProfilePhoto
             $disk = Storage::disk($this->profilePhotoDisk());
             $fileName = $photo->hashName();
             $image = Image::make($photo);
-            $image->resize(1420, 300);
+            $image->resizeCanvas(1420, 300);
 
             $path = "profile-photos/b/" . $fileName;
             $disk->put($path, $image->encode(null, 75));
