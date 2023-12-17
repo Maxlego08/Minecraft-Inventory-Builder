@@ -24,6 +24,8 @@
                         <div class="pb-2">
                             {!! $user->role->getRoleIcon() !!}
                         </div>
+                        <div>
+                        </div>
                         <span class="join-info">{{ __('tooltip.join_at') }}{{ simple_date($user->created_at) }}</span>
                     </div>
                 </div>

@@ -9,6 +9,7 @@ use App\Models\Payment\Payment;
 use App\Models\Resource\Access;
 use App\Models\Resource\Notification;
 use App\Models\Resource\Resource;
+use App\Models\User\NameColor;
 use App\Models\User\UserPaymentInfo;
 use App\Traits\HasProfilePhoto;
 use Carbon\Carbon;
@@ -28,6 +29,7 @@ use Laravel\Sanctum\HasApiTokens;
  * Class User
  * @package App\Models
  * @property int $id
+ * @property int $name_color_id
  * @property string $email
  * @property string $name
  * @property string $link
@@ -47,6 +49,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property UserRole $role
  * @property Access $accesses
  * @property UserPaymentInfo $paymentInfo
+ * @property NameColor $nameColor
  * @property File[] $files
  * @property Payment[] $payments
  * @method static User find(int $id)
@@ -62,7 +65,7 @@ class User extends Authenticate
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'email', 'password', 'user_role_id'];
+    protected $fillable = ['name', 'email', 'password', 'user_role_id', 'name_color_id'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -116,6 +119,16 @@ class User extends Authenticate
     public function discord(): HasOne
     {
         return $this->hasOne(DiscordUser::class);
+    }
+
+    /**
+     * Permet de retourner la couleur de l'utilisateur
+     *
+     * @return BelongsTo
+     */
+    public function nameColor(): BelongsTo
+    {
+        return $this->belongsTo(NameColor::class);
     }
 
     /**
@@ -298,6 +311,7 @@ class User extends Authenticate
         return Cache::remember("user.$key::$this->id", 86400, function () use ($key) {
             return match ($key) {
                 'role' => $this->role,
+                'color' => $this->nameColor,
                 default => ""
             };
         });
@@ -393,7 +407,13 @@ class User extends Authenticate
     {
         $tooltipCss = $tooltip ? 'username-tooltip' : '';
         $url = route('api.v1.tooltip', $this);
-        return match ($this->role->power) {
+
+        if ($this->name_color_id) {
+            $color = $this->cache('color')->code;
+            return "<span class='username $tooltipCss $color' data-url='$url'>$this->name</span>";
+        }
+
+        return match ($this->cache('role')->power) {
             UserRole::ADMIN => "<span class='username $tooltipCss username-admin' data-url='$url'>$this->name</span>",
             UserRole::MODERATOR => "<span class='username $tooltipCss username-moderator' data-url='$url'>$this->name</span>",
             UserRole::PREMIUM => "<span class='username $tooltipCss username-premium' data-url='$url'>$this->name</span>",
