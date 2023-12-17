@@ -43,6 +43,10 @@ Route::prefix('/profile')->name('profile.')->middleware('auth')->group(function 
         Route::post('/destroy', [ProfileController::class, 'destroyProfile'])->name('destroy');
         Route::post('/update', [ProfileController::class, 'uploadProfile'])->name('update');
     });
+    Route::prefix('/banner')->name('banner.')->group(function () {
+        Route::post('/destroy', [ProfileController::class, 'destroyProfileBanner'])->name('destroy');
+        Route::post('/update', [ProfileController::class, 'uploadProfileBanner'])->name('update');
+    });
 
     Route::post('/email', [ProfileController::class, 'changeEmail'])->name('email');
     Route::post('/password', [ProfileController::class, 'changePassword'])->name('password');

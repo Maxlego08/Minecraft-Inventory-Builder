@@ -2,5 +2,7 @@
 
 return [
     'join_at' => 'Joined: ',
-    'conversation' => 'Start conversation'
+    'conversation' => 'Start conversation',
+    'resources' => 'Resources',
+    'payments' => 'Purchases'
 ];

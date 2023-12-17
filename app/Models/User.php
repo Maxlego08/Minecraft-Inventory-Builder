@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Alert\AlertUser;
 use App\Models\Conversation\ConversationNotification;
+use App\Models\Payment\Payment;
 use App\Models\Resource\Access;
 use App\Models\Resource\Notification;
 use App\Models\Resource\Resource;
@@ -31,6 +32,8 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string $name
  * @property string $link
  * @property string $profile_photo_path
+ * @property string $profile_photo_path_large
+ * @property string $banner_photo_path
  * @property string $two_factor_secret
  * @property string $two_factor_recovery_codes
  * @property Carbon $created_at
@@ -44,8 +47,11 @@ use Laravel\Sanctum\HasApiTokens;
  * @property UserRole $role
  * @property Access $accesses
  * @property UserPaymentInfo $paymentInfo
+ * @property File[] $files
+ * @property Payment[] $payments
  * @method static User find(int $id)
  * @method string getProfilePhotoUrlAttribute()
+ * @method string getProfilePhotoLargeUrlAttribute()
  */
 class User extends Authenticate
 {
@@ -166,6 +172,16 @@ class User extends Authenticate
     }
 
     /**
+     * User payments
+     *
+     * @return HasMany
+     */
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    /**
      * Retourne-les alerts
      *
      * @return HasMany
@@ -281,7 +297,7 @@ class User extends Authenticate
     {
         return Cache::remember("user.$key::$this->id", 86400, function () use ($key) {
             return match ($key) {
-                "role" => $this->role,
+                'role' => $this->role,
                 default => ""
             };
         });
@@ -379,8 +395,33 @@ class User extends Authenticate
         $url = route('api.v1.tooltip', $this);
         return match ($this->role->power) {
             UserRole::ADMIN => "<span class='username $tooltipCss username-admin' data-url='$url'>$this->name</span>",
+            UserRole::MODERATOR => "<span class='username $tooltipCss username-moderator' data-url='$url'>$this->name</span>",
+            UserRole::PREMIUM => "<span class='username $tooltipCss username-premium' data-url='$url'>$this->name</span>",
+            UserRole::PRO => "<span class='username $tooltipCss username-pro' data-url='$url'>$this->name</span>",
+            UserRole::BANNED => "<span class='username $tooltipCss username-banned' data-url='$url'>$this->name</span>",
             default => "<span class='username $tooltipCss username-member' data-url='$url'>$this->name</span>"
         };
+    }
+
+    /**
+     * Vérifier si l'utilisateur à des informations à afficher dans le tooltips
+     *
+     * @return bool
+     */
+    function hasTooltipInformations(): bool
+    {
+        $tooltipInformations = $this->getTooltipInformations();
+        return $tooltipInformations['resources'] > 0 || $tooltipInformations['payments'] > 0;
+    }
+
+    function getTooltipInformations(): array
+    {
+        return Cache::remember("user.tooltip::$this->id", 300, function () {
+            return [
+                'resources' => $this->resources->count(),
+                'payments' => $this->payments->where('status', Payment::STATUS_PAID)->count(),
+            ];
+        });
     }
 
 }

@@ -4,45 +4,79 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 
 class TooltipController extends Controller
 {
     public function tooltip(User $user): string
     {
-        $userProfilePhotoUrl = $user->getProfilePhotoUrlAttribute(); // Récupérer l'URL de la photo de profil
-        $userDisplayName = $user->displayNameAndLink(false); // Récupérer le nom d'affichage
-        $userCreatedAt = simple_date($user->created_at); // Récupérer la date de création et la formater
-        $conversationLink = $user->createConversation(); // Récupérer le lien pour créer une conversation
-        $tooltipJoinAt = __('tooltip.join_at'); // Localiser le texte
-        $tooltipConversation = __('tooltip.conversation'); // Localiser le texte
+        // Préparation des variables PHP
+        $profilePhotoUrl = $user->getProfilePhotoUrlAttribute();
+        $userName = $user->name;
+        $displayNameAndLink = $user->displayNameAndLink(false);
+        $joinInfo = __('tooltip.join_at') . simple_date($user->created_at);
+        $conversationLink = $user->createConversation();
+        $conversationText = __('tooltip.conversation');
+
+
+        $hasTooltipInformations = $user->hasTooltipInformations();
+        $resources = $hasTooltipInformations ? $user->getTooltipInformations()['resources'] : '';
+        $payments = $hasTooltipInformations ? $user->getTooltipInformations()['payments'] : '';
+        $resourcesLabel = __('tooltip.resources');
+        $paymentsLabel = __('tooltip.payments');
 
         $htmlContent = <<<HTML
-    <div class='user-tooltip'>
+<div class='user-tooltip'>
+    <div class="user-tooltip-header d-flex">
+        <div class="me-2">
+            <img src="{$profilePhotoUrl}" height="50" width="50" alt="{$userName}" class="rounded-2">
+        </div>
+        <div class="d-flex flex-column">
+            <span class="name">{$displayNameAndLink}</span>
+            <span class="join-info">{$joinInfo}</span>
+        </div>
+    </div>
+    <div class="user-tooltip-content">
+HTML;
 
-        <div class="user-tooltip-header d-flex">
-            <div class="me-2">
-                <img src="{$userProfilePhotoUrl}" height="50" width="50"
-                     alt="{$user->name}" class="rounded-2">
+        if ($hasTooltipInformations) {
+            $htmlContent .= <<<HTML
+        <div class="d-flex justify-content-evenly user-tooltip-content-informations">
+            <div class="d-flex flex-column">
+                <span>{$resourcesLabel}</span>
+                <span class="text-center">{$resources}</span>
             </div>
             <div class="d-flex flex-column">
-                <span class="name">{$userDisplayName}</span>
-                <span class="join-info">{$tooltipJoinAt}{$userCreatedAt}</span>
+                <span>{$paymentsLabel}</span>
+                <span class="text-center">{$payments}</span>
             </div>
         </div>
-        <div class="user-tooltip-content">
-            <a class="conversation-button rounded-1" href="{$conversationLink}">{$tooltipConversation}</a>
-        </div>
-
-    </div>
+        <hr>
 HTML;
+        }
+
+        $htmlContent .= <<<HTML
+        <div class="user-tooltip-content-buttons">
+            <a class="conversation-button rounded-1" href="{$conversationLink}">{$conversationText}</a>
+        </div>
+    </div>
+</div>
+HTML;
+
         return $htmlContent;
     }
 
-    public function test(User $user)
+    /**
+     * Test du tooltip sur une page static
+     *
+     * @param User $user
+     * @return View|\Illuminate\Foundation\Application|Factory|Application
+     */
+    public function test(User $user): View|\Illuminate\Foundation\Application|Factory|Application
     {
-        return view('members.tooltip', [
-            'user' => $user,
-        ]);
+        return view('members.tooltip', ['user' => $user,]);
     }
 
 }

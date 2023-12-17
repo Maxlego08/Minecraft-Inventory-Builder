@@ -36,7 +36,7 @@ return new class extends Migration {
         ]);
 
         UserRole::create([
-            'name' => 'Free',
+            'name' => 'Member',
             'total_size' => 1024000 * 10, // 10 MO
             'size' => 1024000 * 2, // 2 MO
             'allow_files' => 'jpeg,png,jpg',

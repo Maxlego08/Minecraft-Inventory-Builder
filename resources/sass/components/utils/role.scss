@@ -1,0 +1,49 @@
+.btn-role {
+    font-size: 14px;
+    padding: 5px 10px;
+    font-weight: bold;
+    animation: shiftBackground 6s ease-in-out infinite;
+}
+
+.btn-admin {
+    background: linear-gradient(25deg, #3d1212, #ff2b00, #4f1c10);
+    background-size: 200% 100%;
+}
+
+.btn-moderator {
+    background: linear-gradient(25deg, #104f18, #19e55a, #104f18);
+    background-size: 200% 100%;
+}
+
+.btn-pro {
+    background: linear-gradient(25deg, #0b5f4e, #16e6bf, #0b5f4e);
+    background-size: 200% 100%;
+}
+
+.btn-premium {
+    background: linear-gradient(25deg, #a650de, #9a0fea, #a650de);
+    background-size: 200% 100%;
+}
+
+.btn-member {
+    background: linear-gradient(25deg, #535353, #898989, #535353);
+    background-size: 200% 100%;
+}
+
+.btn-banned {
+    background: linear-gradient(25deg, #000000, #454545, #000000);
+    background-size: 200% 100%;
+}
+
+@keyframes shiftBackground {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+

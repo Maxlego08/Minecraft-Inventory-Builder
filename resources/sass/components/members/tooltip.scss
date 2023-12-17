@@ -20,32 +20,50 @@
     border: 1px solid #3f3f58;
 
     &-header {
+
         padding: 5px;
         background: #26263f;
+        color: #dfdfdf;
 
         .join-info {
             font-size: 14px;
-            color: whitesmoke;
         }
     }
 
     &-content {
-        padding: 15px 5px;
+        padding: 0 5px;
         background: #161628;
 
-        .conversation-button {
-            background: #6f6f6f;
-            transition: 0.2s ease-in-out;
-            color: whitesmoke;
-            font-size: 14px;
-            padding: 8px;
-            margin: 5px 0;
-            text-decoration: none;
+        hr {
+            margin: 5px 0 15px 0;
+        }
 
-            &:hover {
-                background: #7b7b7b;
-            }
+        &-informations {
+
+            font-size: 13px;
+            color: #bebebe;
+            padding-top: 5px;
+
+        }
+
+        &-buttons {
+            padding-bottom: 15px;
         }
     }
 
+}
+
+.conversation-button {
+    background: #6f6f6f;
+    transition: 0.2s ease-in-out;
+    color: whitesmoke;
+    font-size: 14px;
+    padding: 8px;
+    margin: 5px 0;
+    text-decoration: none;
+
+    &:hover {
+        color: whitesmoke;
+        background: #7b7b7b;
+    }
 }

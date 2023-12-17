@@ -200,4 +200,39 @@ class ProfileController extends Controller
         return $user->createToken(env('TOKEN_NAME'), [env('ABILITY_RESOURCE')])->plainTextToken;
     }
 
+    /**
+     * Permet d'upload une image de profil
+     *
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws ValidationException
+     */
+    public function uploadProfileBanner(Request $request): RedirectResponse
+    {
+        $this->validate($request, ['image' => 'required|image|mimes:jpeg,png,jpg|max:10240']);
+
+        $user = user();
+        $user->updateBannerPhoto($request->file('image'));
+        userLog('Création de la bannière', UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
+
+        return Redirect::route('profile.index')
+            ->with('toast', createToast('success', __('profiles.banner.name'), __('profiles.banner.added')));
+    }
+
+    /**
+     * Permet de supprimer son image de profile
+     *
+     * @return RedirectResponse
+     */
+    public function destroyProfileBanner(): RedirectResponse
+    {
+        $user = user();
+        $user->deleteBannerPhoto();
+
+        userLog('Suppression de la bannière', UserLog::COLOR_DANGER, UserLog::ICON_REMOVE);
+
+        return Redirect::route('profile.index')
+            ->with('toast', createToast('success', __('profiles.banner.name'), __('profiles.banner.deleted')));
+    }
+
 }

@@ -3,32 +3,60 @@
 @section('title', $user->name)
 
 @section('app')
-    <div class="content_resources_add py-5 mb-5">
+
+    <div class="content_resources_add pt-5 mb-2 creator">
+        <div class="container">
+            <div class="card rounded-1">
+                <div class="creator-header d-flex"
+                     @if(isset($user->banner_photo_path))
+                     style="
+                         background-image: url('{{ $user->getBannerUrlAttribute() }}') ;
+                         background-repeat: no-repeat;
+                         background-size: cover;
+                         background-position: 0 0;
+                         "
+                    @endif
+                >
+                    <img src="{{ $user->getProfilePhotoLargeUrlAttribute() }}" height="150" width="150" alt="User"
+                         class="rounded-1">
+                    <div class="ms-2 d-flex flex-column">
+                        <div class="h3">{!! $user->displayName(false) !!}</div>
+                        <div class="pb-2">
+                            {!! $user->role->getRoleIcon() !!}
+                        </div>
+                        <span class="join-info">{{ __('tooltip.join_at') }}{{ simple_date($user->created_at) }}</span>
+                    </div>
+                </div>
+                <div class="creator-content">
+                    <div class="creator-content-informations d-flex justify-content-evenly">
+                        <div class="d-flex flex-column">
+                            <span>{{ __('tooltip.resources') }}</span>
+                            <span class="text-center">{{ $user->getTooltipInformations()['resources'] }}</span>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <span>{{ __('tooltip.payments') }}</span>
+                            <span class="text-center">{{ $user->getTooltipInformations()['payments'] }}</span>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="user-tooltip-content-buttons">
+                        <a class="conversation-button rounded-1"
+                           href="{{ $user->createConversation() }}">{{ __('tooltip.conversation') }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content_resources_add mb-5">
         <div class="container">
             <div class="px-0 px-lg-0">
                 <div class="row my-4">
                     <div class="col-lg-3">
                         <div class="row">
                             <div class="col-md-6 col-lg-12">
-                                <div class="card mb-3 rounded-1">
-                                    <div class="card-header d-flex justify-content-center align-items-center">
-                                        <img src="{{ $user->getProfilePhotoUrlAttribute() }}" height="50" width="50"
-                                             alt="{{ $user->name }}" class="rounded-2">
-                                        <span class="d-lg-block ms-2">{{ $user->name }}</span>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <p>{{ __('messages.resources') }}:</p>
-                                            <p>{{ $resources_count }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 col-lg-12">
                                 @include('resources.elements.sponsor')
                             </div>
-
                         </div>
                     </div>
                     <div class="col-lg-9">

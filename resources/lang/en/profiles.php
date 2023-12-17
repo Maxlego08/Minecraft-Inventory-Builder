@@ -23,6 +23,13 @@ return [
         'added' => "You have just added an avatar",
     ],
 
+    'banner' => [
+        'name' => 'Banner',
+        'delete' => 'Delete your banner',
+        'deleted' => 'You have just deleted your banner',
+        'added' => "You have just added a banner",
+    ],
+
     'email' => [
         'change' => 'Change your email',
         'new' => 'New email',

@@ -29,6 +29,13 @@ class UserRole extends Model
     const MODERATOR = 50;
     const ADMIN = 100;
 
+    const ICON_BANNED = "bi bi-shield-lock-fill";
+    const ICON_MEMBER = "bi bi-person";
+    const ICON_PREMIUM = "bi bi-balloon-heart-fill";
+    const ICON_PRO = "bi bi-gem";
+    const ICON_MODERATOR = "bi bi-hammer";
+    const ICON_ADMIN = "bi bi-code-slash";
+
     protected $fillable = [
         'name',
         'total_size',
@@ -65,4 +72,17 @@ class UserRole extends Model
     {
         return $this->power == self::BANNED;
     }
+
+    public function getRoleIcon(): string
+    {
+        return match ($this->power) {
+            self::ADMIN => "<span class='btn-role btn-admin rounded-1'><i class='me-2 " . self::ICON_ADMIN . "'></i>$this->name</span>",
+            self::MODERATOR => "<span class='btn-role btn-moderator rounded-1'><i class='me-2 " . self::ICON_MODERATOR . "'></i>$this->name</span>",
+            self::PRO => "<span class='btn-role btn-pro rounded-1'><i class='me-2 " . self::ICON_PRO . "'></i>$this->name</span>",
+            self::PREMIUM => "<span class='btn-role btn-premium rounded-1'><i class='me-2 " . self::ICON_PREMIUM . "'></i>$this->name</span>",
+            self::BANNED => "<span class='btn-role btn-banned rounded-1'><i class='me-2 " . self::ICON_BANNED . "'></i>$this->name</span>",
+            default => "<span class='btn-role btn-member rounded-1'><i class='me-2 " . self::ICON_MEMBER . "'></i>$this->name</span>",
+        };
+    }
+
 }

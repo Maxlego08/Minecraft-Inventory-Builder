@@ -29,6 +29,7 @@
             </div>
         </div>
 
+        @include('members.elements.banner')
         @include('members.elements.email')
         @include('members.elements.password')
         @include('members.elements.discord')
