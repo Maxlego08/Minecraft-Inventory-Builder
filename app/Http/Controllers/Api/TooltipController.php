@@ -55,7 +55,7 @@ HTML;
                     <img src="{$userProfilePhotoUrl}" height="75" width="75" alt="{$userName}" class="rounded-2">
                 </div>
                 <div class="d-flex flex-column">
-                    <span class="name">{$userDisplayNameAndLink}</span>
+                    <span class="name h5 mb-0">{$userDisplayNameAndLink}</span>
                     <div class="pt-2 pb-2">
                     {$userRoleIcon}
                     </div>

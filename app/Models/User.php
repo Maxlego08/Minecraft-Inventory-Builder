@@ -10,6 +10,7 @@ use App\Models\Resource\Access;
 use App\Models\Resource\Notification;
 use App\Models\Resource\Resource;
 use App\Models\User\NameColor;
+use App\Models\User\NameColorAccess;
 use App\Models\User\UserPaymentInfo;
 use App\Traits\HasProfilePhoto;
 use Carbon\Carbon;
@@ -52,6 +53,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property NameColor $nameColor
  * @property File[] $files
  * @property Payment[] $payments
+ * @property NameColorAccess $names
  * @method static User find(int $id)
  * @method string getProfilePhotoUrlAttribute()
  * @method string getProfilePhotoLargeUrlAttribute()
@@ -192,6 +194,16 @@ class User extends Authenticate
     public function payments(): HasMany
     {
         return $this->hasMany(Payment::class);
+    }
+
+    /**
+     * User names
+     *
+     * @return HasMany
+     */
+    public function names(): HasMany
+    {
+        return $this->hasMany(NameColorAccess::class);
     }
 
     /**
@@ -356,11 +368,7 @@ class User extends Authenticate
     {
         $isExist = $this->resourceNotifications()->where('resource_id', $resource->id)->exists();
         if (!$isExist) {
-            Notification::create([
-                'user_id' => $this->id,
-                'resource_id' => $resource->id,
-                'unsubscribe' => Str::random(64),
-            ]);
+            Notification::create(['user_id' => $this->id, 'resource_id' => $resource->id, 'unsubscribe' => Str::random(64),]);
         }
     }
 
@@ -437,11 +445,20 @@ class User extends Authenticate
     function getTooltipInformations(): array
     {
         return Cache::remember("user.tooltip::$this->id", 300, function () {
-            return [
-                'resources' => $this->resources->count(),
-                'payments' => $this->payments->where('status', Payment::STATUS_PAID)->count(),
-            ];
+            return ['resources' => $this->resources->count(), 'payments' => $this->payments->where('status', Payment::STATUS_PAID)->count(),];
         });
+    }
+
+    /**
+     * Vérifier si le joueur à l'accès à la couleur
+     *
+     * @param NameColor $nameColor
+     * @return bool
+     */
+    function hasNameAccess(NameColor $nameColor): bool
+    {
+        if ($this->cache('role')->isModerator()) return true;
+        return $this->names->where('color_id', $nameColor->id)->count() > 0;
     }
 
 }

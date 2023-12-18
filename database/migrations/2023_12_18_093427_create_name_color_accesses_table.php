@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('name_color_id')->nullable()->constrained('user_name_colors');
+        Schema::create('user_name_color_accesses', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('color_id')->constrained('user_name_colors');
+            $table->timestamps();
         });
     }
 
@@ -21,9 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign('users_name_color_id_foreign');
-            $table->dropColumn('name_color_id');
-        });
+        Schema::dropIfExists('user_name_color_accesses');
     }
 };

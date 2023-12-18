@@ -23,6 +23,7 @@ return new class extends Migration
     {
         Schema::table('resource_resources', function (Blueprint $table) {
             $table->dropForeign('resource_resources_version_id_foreign');
+            $table->dropColumn('version_id');
         });
     }
 };

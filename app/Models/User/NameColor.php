@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property int $id
  * @property string $code
+ * @property double $price
  */
 class NameColor extends Model
 {
@@ -15,6 +16,6 @@ class NameColor extends Model
 
     protected $table = "user_name_colors";
 
-    protected $fillable = ['code'];
+    protected $fillable = ['code', 'price'];
 
 }

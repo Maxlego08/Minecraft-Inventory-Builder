@@ -4,6 +4,7 @@ use App\Http\Controllers\AlertController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\NameController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Resource\DashboardController;
@@ -82,6 +83,13 @@ Route::prefix('/profile')->name('profile.')->middleware('auth')->group(function 
         Route::post('/store/currency', [PaymentController::class, 'storeCurrency'])->name('store.currency');
         Route::post('/delete/stripe', [PaymentController::class, 'deleteStripe'])->name('delete.stripe');
         Route::post('/delete/paypal', [PaymentController::class, 'deletePaypal'])->name('delete.paypal');
+    });
+
+    // Colors
+    Route::prefix('/colors')->name('colors.')->group(function () {
+        Route::get('', [NameController::class, 'index'])->name('index');
+        Route::post('/disable', [NameController::class, 'disable'])->name('disable');
+        Route::post('/enable/{nameColor}', [NameController::class, 'active'])->name('store');
     });
 });
 

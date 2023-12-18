@@ -22,7 +22,7 @@
                          alt="{{ $user->name }}" class="rounded-2">
                 </div>
                 <div class="d-flex flex-column">
-                    <span class="name">{!! $user->displayNameAndLink(false) !!}</span>
+                    <span class="name h5 mb-0">{!! $user->displayNameAndLink(false) !!}</span>
                     <div class="pt-2 pb-2">
                     {!! $user->role->getRoleIcon() !!}
                     </div>
