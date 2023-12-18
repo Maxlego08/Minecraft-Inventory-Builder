@@ -41,6 +41,9 @@
                                         <li class="list-group-item mb-2">
                                             <a href="{{ route('profile.payment.index') }}"><i class="bi bi-currency-euro"></i> {{ __('payment.nav') }}</a>
                                         </li>
+                                        <li class="list-group-item mb-2">
+                                            <a href="{{ route('profile.colors.index') }}"><i class="bi bi-palette"></i> {{ __('profiles.nav.color') }}</a>
+                                        </li>
                                     </ul>
                                 </nav>
 

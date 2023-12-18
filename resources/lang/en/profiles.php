@@ -13,7 +13,8 @@ return [
         'resources' => [
             'your' => 'Your Resources',
             'add' => 'Add Resource',
-        ]
+        ],
+        'color' => 'Change name color'
     ],
 
     'avatar' => [
