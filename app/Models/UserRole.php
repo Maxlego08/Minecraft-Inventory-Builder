@@ -46,7 +46,36 @@ class UserRole extends Model
      */
     public function getImageValidator(): string
     {
-        return 'required|image|mimes:' . $this->allow_files . ',|max:' . ($this->size / 1000);
+        return 'required|image|mimes:' . $this->allow_files . '|max:' . ($this->size / 1000);
+    }
+
+    /**
+     * Return the validator for profil image
+     *
+     * @return string
+     */
+    public function getImageValidatorProfil(): string
+    {
+        if ($this->isPro()) {
+            return 'required|image|mimes:jpeg,png,jpg,gif|max:' . ($this->size / 1000);
+        } else {
+            return 'required|image|mimes:jpeg,png,jpg|max:' . ($this->size / 1000);
+        }
+    }
+
+    public function isPro(): bool
+    {
+        return $this->power >= self::PRO;
+    }
+
+    /**
+     * Return the validator for banner image
+     *
+     * @return string
+     */
+    public function getImageValidatorBanner(): string
+    {
+        return 'required|image|mimes:jpeg,png,jpg|max:' . ($this->size / 1000);
     }
 
     public function isModerator(): bool
@@ -74,11 +103,6 @@ class UserRole extends Model
             self::BANNED => "<span class='btn-role btn-banned rounded-1'><i class='me-2 " . self::ICON_BANNED . "'></i>$this->name</span>",
             default => "<span class='btn-role btn-member rounded-1'><i class='me-2 " . self::ICON_MEMBER . "'></i>$this->name</span>",
         };
-    }
-
-    public function isPro(): bool
-    {
-        return $this->power >= self::PRO;
     }
 
 }

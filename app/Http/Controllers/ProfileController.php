@@ -64,9 +64,9 @@ class ProfileController extends Controller
      */
     public function uploadProfile(Request $request): RedirectResponse
     {
-        $this->validate($request, ['image' => 'required|image|mimes:jpeg,png,jpg|max:1024']);
-
         $user = user();
+        $this->validate($request, ['image' => $user->role->getImageValidatorProfil()]);
+
         $user->updateProfilePhoto($request->file('image'));
         userLog('Création de la photo de profil', UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
 
@@ -209,9 +209,9 @@ class ProfileController extends Controller
      */
     public function uploadProfileBanner(Request $request): RedirectResponse
     {
-        $this->validate($request, ['image' => 'required|image|mimes:jpeg,png,jpg|max:10240']);
-
         $user = user();
+        $this->validate($request, ['image' => $user->role->getImageValidatorBanner()]);
+
         $user->updateBannerPhoto($request->file('image'));
         userLog('Création de la bannière', UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
 

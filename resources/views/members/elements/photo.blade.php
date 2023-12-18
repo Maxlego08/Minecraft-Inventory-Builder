@@ -15,7 +15,7 @@
                     <form method="POST" action="{{ route('profile.picture.update') }}" class="w-100"
                           enctype="multipart/form-data">
                         @csrf
-                        <input type="file" onchange="this.form.submit()" name="image" accept=".jpg,.jpeg,.png"
+                        <input type="file" onchange="this.form.submit()" name="image" @if(user()->role->isPro()) accept=".jpg,.jpeg,.png,.gif" @else accept=".jpg,.jpeg,.png" @endif
                                class="form-control btn btn-primary btn-sm d-block px-4 w-100 my-2 rounded-1 @error('image') is-invalid @enderror"/>
                         @error('image')
                         <div id="image-error" class="invalid-feedback">{{ $message }}</div>

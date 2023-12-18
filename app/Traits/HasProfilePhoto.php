@@ -5,8 +5,8 @@ namespace App\Traits;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
-use Psy\Util\Str;
 
 trait HasProfilePhoto
 {
@@ -22,16 +22,55 @@ trait HasProfilePhoto
         tap($this->profile_photo_path, function ($previous) use ($photo) {
 
             $disk = Storage::disk($this->profilePhotoDisk());
+            if ($previous) {
+                $disk->delete($previous);
+                $disk->delete($this->profile_photo_path_large);
+            }
+
             $pathSmall = $this->saveImage($photo, true);
             $pathLarge = $this->saveImage($photo, false);
 
             $this->forceFill(['profile_photo_path' => $pathSmall, 'profile_photo_path_large' => $pathLarge,])->save();
 
-            if ($previous) {
-                Storage::disk($this->profilePhotoDisk())->delete($previous);
-                Storage::disk($this->profilePhotoDisk())->delete($this->profile_photo_path_large);
-            }
         });
+    }
+
+    /**
+     * Get the disk that profile photos should be stored on.
+     *
+     * @return string
+     */
+    protected function profilePhotoDisk(): string
+    {
+        return isset($_ENV['VAPOR_ARTIFACT_NAME']) ? 's3' : config('jetstream.profile_photo_disk', 'public');
+    }
+
+    /**
+     * Save user image in 2 different sizes
+     *
+     * @param UploadedFile $photo
+     * @param bool $isSmall
+     * @return string
+     */
+    private function saveImage(UploadedFile $photo, bool $isSmall): string
+    {
+
+        $disk = Storage::disk($this->profilePhotoDisk());
+        $fileName = $photo->hashName();
+        $image = Image::make($photo);
+        $subFolder = $isSmall ? 's' : 'l';
+        $path = "profile-photos/$subFolder/" . $fileName;
+
+        $size = $isSmall ? 50 : 150;
+        $image->resize($size, $size);
+
+        if ($image->mime != 'image/gif') {
+            $disk->put($path, $image->encode(null, 75));
+        } else {
+            $photo->storeAs("profile-photos/$subFolder", $fileName, 'public');
+        }
+
+        return $path;
     }
 
     /**
@@ -58,38 +97,6 @@ trait HasProfilePhoto
                 Storage::disk($this->profilePhotoDisk())->delete($previous);
             }
         });
-    }
-
-    /**
-     * Get the disk that profile photos should be stored on.
-     *
-     * @return string
-     */
-    protected function profilePhotoDisk(): string
-    {
-        return isset($_ENV['VAPOR_ARTIFACT_NAME']) ? 's3' : config('jetstream.profile_photo_disk', 'public');
-    }
-
-    /**
-     * Save user image in 2 different sizes
-     *
-     * @param UploadedFile $photo
-     * @param bool $isSmall
-     * @return string
-     */
-    private function saveImage(UploadedFile $photo, bool $isSmall): string
-    {
-        $disk = Storage::disk($this->profilePhotoDisk());
-        $fileName = $photo->hashName();
-        $image = Image::make($photo);
-        $size = $isSmall ? 50 : 150;
-        $image->resize($size, $size);
-
-        $subFolder = $isSmall ? 's' : 'l';
-        $path = "profile-photos/$subFolder/" . $fileName;
-        $disk->put($path, $image->encode(null, 75));
-
-        return $path;
     }
 
     /**
@@ -138,6 +145,20 @@ trait HasProfilePhoto
     }
 
     /**
+     * Get the default profile photo URL if no profile photo has been uploaded.
+     *
+     * @return string
+     */
+    protected function defaultProfilePhotoUrl(): string
+    {
+        $name = trim(collect(explode(' ', $this->name))->map(function ($segment) {
+            return mb_substr($segment, 0, 1);
+        })->join(' '));
+
+        return 'https://ui-avatars.com/api/?name=' . urlencode($name) . '&color=7F9CF5&background=EBF4FF';
+    }
+
+    /**
      * Get the URL to the user's profile photo large.
      *
      * @return string
@@ -155,20 +176,6 @@ trait HasProfilePhoto
     public function getBannerUrlAttribute(): string
     {
         return Storage::disk($this->profilePhotoDisk())->url($this->banner_photo_path);
-    }
-
-    /**
-     * Get the default profile photo URL if no profile photo has been uploaded.
-     *
-     * @return string
-     */
-    protected function defaultProfilePhotoUrl(): string
-    {
-        $name = trim(collect(explode(' ', $this->name))->map(function ($segment) {
-            return mb_substr($segment, 0, 1);
-        })->join(' '));
-
-        return 'https://ui-avatars.com/api/?name=' . urlencode($name) . '&color=7F9CF5&background=EBF4FF';
     }
 
 }
