@@ -7,6 +7,7 @@ return [
 
     'nav' => [
         'account' => 'Your Account',
+        'details' => 'Account details',
         'alerts' => 'Your Alerts',
         'conversations' => 'View Conversations',
         'images' => 'Your Images',
@@ -29,6 +30,7 @@ return [
         'delete' => 'Delete your banner',
         'deleted' => 'You have just deleted your banner',
         'added' => "You have just added a banner",
+        'permission' => 'You must be pro to add a banner',
     ],
 
     'email' => [

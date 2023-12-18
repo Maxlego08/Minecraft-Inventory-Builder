@@ -10,40 +10,38 @@
                 <h2 class="h3">{{ __('colors.title') }}</h2>
                 <hr>
                 <div class="d-flex justify-content-center h2">
-                    {!! user()->displayNameAndLink() !!}
+                    {!! user()->displayNameAndLink(true, 'user-name') !!}
                 </div>
                 <hr>
-                <ul class="list-group list-group-flush">
+
+                <div class="d-flex flex-wrap mb-5 justify-content-center">
                     @foreach($colors as $color)
-                        <li class="d-flex justify-content-between align-items-center ps-2 pe-2">
-                            <span class="{{ $color->code }}">{{ __('colors.' . $color->code) }}</span>
+                        <div class="username-card">
                             @if(user()->name_color_id == $color->id)
-                                <form action="{{ route('profile.colors.disable') }}" method="POST">
-                                    @csrf
-                                    <button type="submit"
-                                            class="btn btn-sm btn-danger btn-sm"><i
-                                            class="bi bi-trash me-2"></i>{{ __('colors.disable') }}</button>
-                                </form>
+                                <i class="bi bi-trash me-2 text-danger"></i>
                             @elseif(user()->hasNameAccess($color))
-                                <form action="{{ route('profile.colors.store', ['nameColor' => $color->id]) }}"
-                                      method="POST">
-                                    @csrf
-                                    <button type="submit"
-                                            class="btn btn-sm btn-success btn-sm">{{ __('colors.enable') }}</button>
-                                </form>
+                                <i class="bi bi-check-lg text-success"></i>
                             @else
-                                <form action="{{ route('profile.colors.checkout', ['nameColor' => $color->id]) }}"
-                                      method="POST">
-                                    @csrf
-                                    <button type="submit" class="btn btn-sm btn-success btn-sm"><i
-                                            class="bi bi-cart me-2"></i>{{ __('colors.buy', ['price' => $color->getPrice()]) }}
-                                    </button>
-                                </form>
+                                <i class="bi bi-cart me-2 text-warning"></i>
                             @endif
-                        </li>
-                        <hr>
+                            <span class="username-card-content {{ $color->code }}"
+                                  data-toggle="{{ user()->name_color_id === $color->id }}"
+                                  data-access="{{ user()->hasNameAccess($color) }}"
+                                  @if(user()->name_color_id == $color->id)
+                                      data-translation="{{ __('colors.disable') }}"
+                                  data-url="{{ route('profile.colors.disable') }}"
+                                  @elseif(user()->hasNameAccess($color))
+                                      data-translation="{{ __('colors.enable') }}"
+                                      data-url="{{ route('profile.colors.store', ['nameColor' => $color->id]) }}"
+                                  @else
+                                      data-translation="{{ __('colors.buy', ['price' => $color->getPrice()]) }}"
+                                      data-url="{{ route('profile.colors.checkout', ['nameColor' => $color->id]) }}"
+                                  @endif
+                                  data-csrf="{{ csrf_token() }}"
+                            >{{ __('colors.' . $color->code) }}</span>
+                        </div>
                     @endforeach
-                </ul>
+                </div>
             </div>
         </div>
     </div>

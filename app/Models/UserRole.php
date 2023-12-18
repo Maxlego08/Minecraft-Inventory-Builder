@@ -36,18 +36,7 @@ class UserRole extends Model
     const ICON_MODERATOR = "bi bi-hammer";
     const ICON_ADMIN = "bi bi-code-slash";
 
-    protected $fillable = [
-        'name',
-        'total_size',
-        'size',
-        'allow_files',
-        'max_resources',
-        'premium_resources',
-        'power',
-        'is_banned',
-        'max_inventories',
-        'max_folders'
-    ];
+    protected $fillable = ['name', 'total_size', 'size', 'allow_files', 'max_resources', 'premium_resources', 'power', 'is_banned', 'max_inventories', 'max_folders'];
 
 
     /**
@@ -85,6 +74,11 @@ class UserRole extends Model
             self::BANNED => "<span class='btn-role btn-banned rounded-1'><i class='me-2 " . self::ICON_BANNED . "'></i>$this->name</span>",
             default => "<span class='btn-role btn-member rounded-1'><i class='me-2 " . self::ICON_MEMBER . "'></i>$this->name</span>",
         };
+    }
+
+    public function isPro(): bool
+    {
+        return $this->power >= self::PRO;
     }
 
 }

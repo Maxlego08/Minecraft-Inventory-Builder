@@ -29,11 +29,11 @@ return new class extends Migration {
         NameColor::create(['code' => 'username-color-blue-aqua', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-teal-magenta', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-sunset', 'price' => 2.0]);
-        NameColor::create(['code' => 'username-color-royal-blue', 'price' => 2.0]);
-        NameColor::create(['code' => 'username-color-neon-life', 'price' => 2.0]);
+        // NameColor::create(['code' => 'username-color-royal-blue', 'price' => 2.0]);
+        NameColor::create(['code' => 'username-color-neon-life', 'price' => 10.0]);
         NameColor::create(['code' => 'username-color-flare', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-lush', 'price' => 2.0]);
-        NameColor::create(['code' => 'username-color-frost', 'price' => 2.0]);
+        // NameColor::create(['code' => 'username-color-frost', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-mauve', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-aqua-splash', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-berry-bliss', 'price' => 2.0]);
@@ -43,23 +43,22 @@ return new class extends Migration {
         NameColor::create(['code' => 'username-color-sunset-beach', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-crimson-tide', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-forest-hues', 'price' => 2.0]);
-        NameColor::create(['code' => 'username-color-ocean-wave', 'price' => 2.0]);
+        NameColor::create(['code' => 'username-color-ocean-wave', 'price' => 5.0]);
         NameColor::create(['code' => 'username-color-lavender-blush', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-fiery-fuchsia', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-citrus-peel', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-winter-neva', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-velvet-sun', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-plum-plate', 'price' => 2.0]);
-        NameColor::create(['code' => 'username-color-summer-breeze', 'price' => 2.0]);
+        NameColor::create(['code' => 'username-color-summer-breeze', 'price' => 5.0]);
         NameColor::create(['code' => 'username-color-mystic-sunset', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-dreamy-rainbow', 'price' => 2.0]);
-        NameColor::create(['code' => 'username-color-cosmic-dance', 'price' => 2.0]);
+        NameColor::create(['code' => 'username-color-cosmic-dance', 'price' => 10.0]);
         NameColor::create(['code' => 'username-color-aurora-sky', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-ocean-mirage', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-tropical-fade', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-orchid-bliss', 'price' => 2.0]);
-        NameColor::create(['code' => 'username-color-spring-awakening', 'price' => 2.0]);
-        NameColor::create(['code' => 'username-color-moonlit-asteroid', 'price' => 2.0]);
+        NameColor::create(['code' => 'username-color-spring-awakening', 'price' => 3.0]);
         NameColor::create(['code' => 'username-color-pink-serenade', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-sunset-glow', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-magic-meadow', 'price' => 2.0]);
@@ -82,7 +81,6 @@ return new class extends Migration {
         NameColor::create(['code' => 'username-color-summer-twilight', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-winter-whisper', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-desert-dusk', 'price' => 2.0]);
-        NameColor::create(['code' => 'username-color-midnight-flame', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-sunset-serenade', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-rainbow-bliss', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-twilight-haze', 'price' => 2.0]);
@@ -90,22 +88,23 @@ return new class extends Migration {
         NameColor::create(['code' => 'username-color-burning-sky', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-mystic-forest', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-autumn-blaze', 'price' => 2.0]);
-        NameColor::create(['code' => 'username-color-polar-lights', 'price' => 2.0]);
+        NameColor::create(['code' => 'username-color-polar-lights', 'price' => 8.0]);
         NameColor::create(['code' => 'username-color-dreamy-pink', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-sunset-glow2', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-arctic-dawn', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-lush-garden', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-berry-fusion', 'price' => 2.0]);
-        NameColor::create(['code' => 'username-color-neon-breeze', 'price' => 2.0]);
+        NameColor::create(['code' => 'username-color-neon-breeze', 'price' => 5.0]);
         NameColor::create(['code' => 'username-color-oceanic-depth', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-citrus-rush', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-cherry-blossom', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-frosted-mint', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-vintage-rose', 'price' => 2.0]);
         NameColor::create(['code' => 'username-color-glacial-stream', 'price' => 2.0]);
-        NameColor::create(['code' => 'username-color-golden-sunset', 'price' => 2.0]);
-        NameColor::create(['code' => 'username-color-moonlit-night', 'price' => 2.0]);
-
+        NameColor::create(['code' => 'username-color-golden-sunset', 'price' => 5.0]);
+        NameColor::create(['code' => 'username-color-moonlit-asteroid', 'price' => 100.0]);
+        NameColor::create(['code' => 'username-color-midnight-flame', 'price' => 100.0]);
+        NameColor::create(['code' => 'username-color-moonlit-night', 'price' => 100.0]);
 
 
     }

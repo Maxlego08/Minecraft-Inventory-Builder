@@ -589,3 +589,19 @@
     color: transparent;
 }
 
+.username-card {
+    padding: 4px;
+    margin: 1px;
+    width: 250px;
+    text-align: center;
+}
+
+.username-card-content {
+    cursor: pointer;
+}
+
+.username-tippy {
+    width: 250px;
+    background: $color-primary;
+    border: 1px solid rgba(162, 162, 162, 0.5);
+}

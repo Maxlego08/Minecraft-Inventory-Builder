@@ -401,9 +401,9 @@ class User extends Authenticate
         });
     }
 
-    function displayNameAndLink(bool $tooltip = true): string
+    function displayNameAndLink(bool $tooltip = true, ?string $customId = null): string
     {
-        return "<a href='{$this->getProfileUrl()}' class='text-decoration-none'>{$this->displayName($tooltip)}</a>";
+        return "<a href='{$this->getProfileUrl()}' class='text-decoration-none'>{$this->displayName($tooltip, $customId)}</a>";
     }
 
     public function getProfileUrl(): string
@@ -411,23 +411,24 @@ class User extends Authenticate
         return route('resources.author', ['user' => $this, 'slug' => $this->slug()]);
     }
 
-    function displayName(bool $tooltip = true): string
+    function displayName(bool $tooltip = true, ?string $customId = null): string
     {
         $tooltipCss = $tooltip ? 'username-tooltip' : '';
         $url = route('api.v1.tooltip', $this);
+        $idElement = $customId == null ? '' : "id='$customId'";
 
         if ($this->name_color_id) {
             $color = $this->cache('color')->code;
-            return "<span class='username $tooltipCss $color' data-url='$url'>$this->name</span>";
+            return "<span $idElement class='username $tooltipCss $color' data-url='$url'>$this->name</span>";
         }
 
         return match ($this->cache('role')->power) {
-            UserRole::ADMIN => "<span class='username $tooltipCss username-admin' data-url='$url'>$this->name</span>",
-            UserRole::MODERATOR => "<span class='username $tooltipCss username-moderator' data-url='$url'>$this->name</span>",
-            UserRole::PREMIUM => "<span class='username $tooltipCss username-premium' data-url='$url'>$this->name</span>",
-            UserRole::PRO => "<span class='username $tooltipCss username-pro' data-url='$url'>$this->name</span>",
-            UserRole::BANNED => "<span class='username $tooltipCss username-banned' data-url='$url'>$this->name</span>",
-            default => "<span class='username $tooltipCss username-member' data-url='$url'>$this->name</span>"
+            UserRole::ADMIN => "<span $idElement class='username $tooltipCss username-admin' data-url='$url'>$this->name</span>",
+            UserRole::MODERATOR => "<span $idElement class='username $tooltipCss username-moderator' data-url='$url'>$this->name</span>",
+            UserRole::PREMIUM => "<span $idElement class='username $tooltipCss username-premium' data-url='$url'>$this->name</span>",
+            UserRole::PRO => "<span $idElement class='username $tooltipCss username-pro' data-url='$url'>$this->name</span>",
+            UserRole::BANNED => "<span $idElement class='username $tooltipCss username-banned' data-url='$url'>$this->name</span>",
+            default => "<span $idElement class='username $tooltipCss username-member' data-url='$url'>$this->name</span>"
         };
     }
 

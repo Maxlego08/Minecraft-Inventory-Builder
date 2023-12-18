@@ -32,7 +32,7 @@ class NameColor extends Model
 
     public function getPrice(): float
     {
-        return user()->role->power >= UserRole::PRO ? $this->price / 2 : $this->price;
+        return user()->role->isPro() ? $this->price / 2 : $this->price;
     }
 
 }

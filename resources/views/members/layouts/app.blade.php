@@ -21,7 +21,10 @@
                                 <nav>
                                     <ul class="ps-0">
                                         <li class="list-group-item mb-2">
-                                            <a href="{{ route('profile.index') }}"><i class="bi bi-person-fill"></i> {{ __('profiles.nav.account') }}</a>
+                                            <a href="{{ route('resources.author', ['slug' => user()->slug(), 'user' => user()]) }}"><i class="bi bi-people-fill"></i> {{ __('profiles.nav.account') }}</a>
+                                        </li>
+                                        <li class="list-group-item mb-2">
+                                            <a href="{{ route('profile.index') }}"><i class="bi bi-person-fill"></i> {{ __('profiles.nav.details') }}</a>
                                         </li>
                                         <li class="list-group-item mb-2">
                                             <a href="{{ route('profile.alerts') }}"><i class="bi bi-bell"></i> {{ __('profiles.nav.alerts') }}</a>
