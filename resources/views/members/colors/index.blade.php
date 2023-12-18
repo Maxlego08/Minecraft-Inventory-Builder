@@ -36,7 +36,7 @@
                                       method="POST">
                                     @csrf
                                     <button type="submit" class="btn btn-sm btn-success btn-sm"><i
-                                            class="bi bi-cart me-2"></i>{{ __('colors.buy', ['price' => $color->price]) }}
+                                            class="bi bi-cart me-2"></i>{{ __('colors.buy', ['price' => $color->getPrice()]) }}
                                     </button>
                                 </form>
                             @endif

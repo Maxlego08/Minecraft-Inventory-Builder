@@ -82,10 +82,10 @@ class NameController extends Controller
     /**
      * Permet d'afficher la page pour acheter une couleur
      *
-     * @param Resource $resource
-     * @return \Illuminate\Contracts\Foundation\Application|Factory|View|\Illuminate\Foundation\Application|RedirectResponse
+     * @param NameColor $nameColor
+     * @return Application|Factory|View|\Illuminate\Foundation\Application|RedirectResponse
      */
-    public function checkout(NameColor $nameColor)
+    public function checkout(NameColor $nameColor): \Illuminate\Foundation\Application|View|Factory|RedirectResponse|Application
     {
         // Si l'utilisateur à déjà accès à la resource ou que le prix est à 0, alors on retourne en arrière
         if ($nameColor->price == 0 || (user()->hasNameAccess($nameColor) && !user()->isAdmin())) {
@@ -98,7 +98,7 @@ class NameController extends Controller
         // Sinon, on affiche la page d'achat
         return view('resources.purchase.checkout', [
             'paymentInfo' => $paymentInfo,
-            'price' => $nameColor->price,
+            'price' => $nameColor->getPrice(),
             'currency' => 'eur',
             'confirmUrl' => route('profile.colors.purchase', $nameColor),
             'name' => "Name Color : <span class='$nameColor->code'>$name</span>",
@@ -119,7 +119,7 @@ class NameController extends Controller
         $this->validate($request, ['terms' => ['accepted'],]);
 
         $user = user();
-        $payment = Payment::makeDefault($user, $nameColor->price, Payment::TYPE_NAME_COLOR, $nameColor->id, env('CURRENCY_ADMIN_ID'), 'stripe');
+        $payment = Payment::makeDefault($user, $nameColor->getPrice(), Payment::TYPE_NAME_COLOR, $nameColor->id, env('CURRENCY_ADMIN_ID'), 'stripe');
 
         return paymentManager()->startPaymentNameColor($request, $nameColor, $payment);
     }

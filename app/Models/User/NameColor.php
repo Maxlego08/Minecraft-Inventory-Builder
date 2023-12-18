@@ -2,6 +2,7 @@
 
 namespace App\Models\User;
 
+use App\Models\UserRole;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,6 +28,11 @@ class NameColor extends Model
     public function translation(): string
     {
         return __("colors.$this->code");
+    }
+
+    public function getPrice(): float
+    {
+        return user()->role->power >= UserRole::PRO ? $this->price / 2 : $this->price;
     }
 
 }
