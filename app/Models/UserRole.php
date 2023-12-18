@@ -44,7 +44,9 @@ class UserRole extends Model
         'max_resources',
         'premium_resources',
         'power',
-        'is_banned'
+        'is_banned',
+        'max_inventories',
+        'max_folders'
     ];
 
 

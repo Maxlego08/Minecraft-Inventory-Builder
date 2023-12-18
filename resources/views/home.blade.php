@@ -1,3 +1,4 @@
+@php use App\Models\UserRole; @endphp
 @extends('layouts.base')
 
 @section('title', 'GroupeZ')
@@ -8,8 +9,7 @@
             <img class="img-fluid" src="{{asset('images/newfondavril.png')}}" alt="">
             <div class="home_background_text">
                 <h1 class="display-5 fw-semibold">Minecraft Inventory Builder</h1>
-                <p class="fs-7">Description du projet GroupeZ MarketPlace ainsi que ses objectifs
-                    et les envies de l’administration.</p>
+                <p class="fs-7">{{ __('about.description') }}</p>
                 <p class="fs-1 text-danger"><i class="bi bi-exclamation"></i> IN DEVELOPMENT <i
                         class="bi bi-exclamation"></i></p>
             </div>
@@ -81,154 +81,96 @@
         <article class="home_abonnement bg-blue-800">
             <div class="container">
                 <div class="text-center block_title">
-                    <h2>Abonnement</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas egestas nibh at ante luctus
-                        convallis. Cras eget placerat felis.</p>
+                    <h2>{{ __('upgrade.title') }}</h2>
+                    <p>{{ __('upgrade.description') }}</p>
                 </div>
                 <div class="px-3 px-lg-0">
                     <div class="row g-5 row-cols-lg-3">
                         <div>
                             <div class="p-4 rounded-1 bg-blue-700">
-                                <h3 class="fw-normal fs-5 mb-0">Compte gratuie</h3>
+                                <h3 class="fw-normal fs-5 mb-0">
+                                    <span class='btn-role btn-member rounded-1'><i class='me-2 {{ UserRole::ICON_MEMBER }}'></i>{{ __('upgrade.member') }}</span>
+                                </h3>
                                 <span class="home_abonnement_price fw-bold fs-2">0.00€</span>
-                                <p class="home_abonnement_description mt-4">Plan gratuit pour tous les utilisateurs:</p>
                                 <ul class="nav">
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Accès
-                                        au
-                                        marketplace
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Créer
-                                        jusqu’à 10 ressources à la vente
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Aucune
-                                        taxe, commission et aucun pourcentage sur vos ventes
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>5%
-                                        de
-                                        réduction sur votre premier achat
-                                    </li>
-                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>Mise en
-                                        avant
-                                        de votre ressource pendant 2 jours
-                                    </li>
-                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>Accès à
-                                        l’utilisation de notre API
-                                    </li>
-                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>Badge
-                                        exclusif
-                                        sur votre profil de vendeur
-                                    </li>
-                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>Aucune
-                                        limite
-                                        de vente mensuelle sur vos ressources
-                                    </li>
-                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>Support
-                                        Premium 7j/7 24h/24
-                                    </li>
-                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>Accès aux
-                                        salons promotionnels sur notre serveur discord.
-                                    </li>
-                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>Accès à
-                                        l’étiquette “Ressource premium” sur vos ressources en vente.
-                                    </li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.creator_dashboard') }}</li>
+                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.discord_support_ticket') }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.discord_support_forum') }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.resource_access') }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.resource_amount', ['size' => 10]) }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.image_size', ['size' => '2mo']) }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.image_global_size', ['size' => '50mo']) }}</li>
+                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.resource_premium') }}</li>
+                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.resource_gift_code') }}</li>
+                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.gift_access') }}</li>
+                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.discord_webhook') }}</li>
+                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.banner_change') }}</li>
+                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.resource_priority') }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.inventory_amount', ['size' => 100]) }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.inventory_folder', ['size' => 10]) }}</li>
+                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.resource_fee') }}</li>
+                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.name_color_reduction') }}</li>
+                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.gif_avatar') }}</li>
                                 </ul>
-                                <a href="#" class="btn btn-secondary w-100 rounded-1 mt-4">Vous possédez déjà ce
-                                    plan</a>
+                                <a href="#" class="btn btn-secondary w-100 rounded-1 mt-4 disabled">{{ __('upgrade.already') }}</a>
                             </div>
                         </div>
                         <div>
                             <div class="p-4 rounded-1 bg-blue-700">
-                                <h3 class="fw-normal fs-5 mb-0">Compte pro</h3>
-                                <span class="home_abonnement_price fw-bold fs-2">4.99€</span>
-                                <p class="home_abonnement_description mt-4">Plan gratuit pour tous les utilisateurs:</p>
+                                <h3 class="fw-normal fs-5 mb-0">
+                                    <span class='btn-role btn-premium rounded-1'><i class='me-2 {{ UserRole::ICON_PREMIUM }}'></i>Premium</span>
+                                </h3>
+                                <span class="home_abonnement_price fw-bold fs-2">14.99€</span>
                                 <ul class="nav">
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Accès
-                                        au
-                                        marketplace
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Créer
-                                        jusqu’à 5 ressources à la vente
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Aucune
-                                        taxe, commission et aucun pourcentage sur vos ventes
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>5%
-                                        de
-                                        réduction sur votre premier achat
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Mise
-                                        en
-                                        avant de votre ressource pendant 2 jours
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Accès
-                                        à
-                                        l’utilisation de notre API
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Badge
-                                        exclusif sur votre profil de vendeur
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Aucune
-                                        limite de vente mensuelle sur vos ressources
-                                    </li>
-                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>Support
-                                        Premium 7j/7 24h/24
-                                    </li>
-                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>Accès aux
-                                        salons promotionnels sur notre serveur discord.
-                                    </li>
-                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>Accès à
-                                        l’étiquette “Ressource premium” sur vos ressources en vente.
-                                    </li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.creator_dashboard') }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.discord_support_ticket') }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.discord_support_forum') }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.resource_access') }}</li>
+                                    <li class="py-1 d-flex text-warning"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.resource_amount', ['size' => 50]) }}</li>
+                                    <li class="py-1 d-flex text-warning"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.image_size', ['size' => '10mo']) }}</li>
+                                    <li class="py-1 d-flex text-warning"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.image_global_size', ['size' => '500mo']) }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.resource_premium') }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.resource_gift_code') }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.gift_access') }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.discord_webhook') }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.banner_change') }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.resource_priority') }}</li>
+                                    <li class="py-1 d-flex text-warning"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.inventory_amount', ['size' => '1.000']) }}</li>
+                                    <li class="py-1 d-flex text-warning"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.inventory_folder', ['size' => '100']) }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.resource_fee') }}</li>
+                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.name_color_reduction') }}</li>
+                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.gif_avatar') }}</li>
                                 </ul>
-                                <a href="#" class="btn btn-success w-100 rounded-1 mt-4">S'abonner</a>
+                                <a href="#" class="btn btn-success w-100 rounded-1 mt-4">{{ __('upgrade.purchase', ['price' => '14.99']) }}</a>
                             </div>
                         </div>
                         <div>
                             <div class="p-4 rounded-1 bg-blue-700">
-                                <h3 class="fw-normal fs-5 mb-0">Compte premium</h3>
-                                <span class="home_abonnement_price fw-bold fs-2">7.99€</span>
-                                <p class="home_abonnement_description mt-4">Plan gratuit pour tous les utilisateurs:</p>
+                                <h3 class="fw-normal fs-5 mb-0">
+                                    <span class='btn-role btn-pro rounded-1'><i class='me-2 {{ UserRole::ICON_PRO }}'></i>Pro</span>
+                                </h3>
+                                <span class="home_abonnement_price fw-bold fs-2">49.99€</span>
                                 <ul class="nav">
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Accès
-                                        au
-                                        marketplace
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Créer
-                                        jusqu’à 5 ressources à la vente
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Aucune
-                                        taxe, commission et aucun pourcentage sur vos ventes
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>5%
-                                        de
-                                        réduction sur votre premier achat
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Mise
-                                        en
-                                        avant de votre ressource pendant 2 jours
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Accès
-                                        à
-                                        l’utilisation de notre API
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Badge
-                                        exclusif sur votre profil de vendeur
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Aucune
-                                        limite de vente mensuelle sur vos ressources
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Support
-                                        Premium 7j/7 24h/24
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Accès
-                                        aux salons promotionnels sur notre serveur discord.
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Accès
-                                        à
-                                        l’étiquette “Ressource premium” sur vos ressources en vente.
-                                    </li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.creator_dashboard') }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.discord_support_ticket') }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.discord_support_forum') }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.resource_access') }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.resource_amount', ['size' => '1.000']) }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.image_size', ['size' => '50mo']) }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.image_global_size', ['size' => '2go']) }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.resource_premium') }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.resource_gift_code') }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.gift_access') }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.discord_webhook') }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.banner_change') }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.resource_priority') }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.inventory_amount', ['size' => '10.000']) }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.inventory_folder', ['size' => '1.000']) }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.resource_fee') }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.name_color_reduction') }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.gif_avatar') }}</li>
                                 </ul>
-                                <a href="#" class="btn btn-success w-100 rounded-1 mt-4">S'abonner</a>
+                                <a href="#" class="btn btn-success w-100 rounded-1 mt-4">{{ __('upgrade.purchase', ['price' => '49.99']) }}</a>
                             </div>
                         </div>
                     </div>
