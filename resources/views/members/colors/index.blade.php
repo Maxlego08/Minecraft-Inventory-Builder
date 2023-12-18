@@ -32,10 +32,13 @@
                                             class="btn btn-sm btn-success btn-sm">{{ __('colors.enable') }}</button>
                                 </form>
                             @else
-                                <a href=""
-                                   class="btn btn-sm btn-primary"><i
-                                        class="bi bi-cart me-2"></i>{{ __('colors.buy', ['price' => $color->price]) }}
-                                </a>
+                                <form action="{{ route('profile.colors.checkout', ['nameColor' => $color->id]) }}"
+                                      method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn btn-sm btn-success btn-sm"><i
+                                            class="bi bi-cart me-2"></i>{{ __('colors.buy', ['price' => $color->price]) }}
+                                    </button>
+                                </form>
                             @endif
                         </li>
                         <hr>

@@ -18,4 +18,15 @@ class NameColor extends Model
 
     protected $fillable = ['code', 'price'];
 
+
+    /**
+     * Retourne la traduction du name color
+     *
+     * @return string
+     */
+    public function translation(): string
+    {
+        return __("colors.$this->code");
+    }
+
 }

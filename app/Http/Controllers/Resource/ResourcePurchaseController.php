@@ -31,13 +31,21 @@ class ResourcePurchaseController extends Controller
             return Redirect::route('resources.view', ['slug' => Str::slug($resource->name), 'resource' => $resource->id]);
         }
 
-        $info = $resource->user->paymentInfo;
-        if ($info->sk_live == null && $info->paypal_email == null) {
+        $paymentInfo = $resource->user->paymentInfo;
+        if ($paymentInfo->sk_live == null && $paymentInfo->paypal_email == null) {
             return Redirect::route('resources.view', ['slug' => Str::slug($resource->name), 'resource' => $resource->id]);
         }
 
         // Sinon, on affiche la page d'achat
-        return view('resources.purchase.checkout', ['resource' => $resource]);
+        return view('resources.purchase.checkout', [
+            'paymentInfo' => $paymentInfo,
+            'price' => $resource->price,
+            'currency' => $paymentInfo->currency->currency,
+            'confirmUrl' => route('resources.purchase.session', ['resource' => $resource->id]),
+            'name' => $resource->name,
+            'enableGift' => true,
+            'resource' => $resource,
+        ]);
     }
 
     /**

@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Payment\Gift;
+use App\Models\Payment\Payment;
+use App\Models\Resource\Resource;
 use App\Models\User\NameColor;
+use App\Models\User\UserPaymentInfo;
 use App\Models\UserLog;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -11,6 +15,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class NameController extends Controller
 {
@@ -71,6 +77,51 @@ class NameController extends Controller
         user()->update(['name_color_id' => null]);
         userLog("Suppression de la couleur de pseudo", UserLog::COLOR_DANGER, UserLog::ICON_TRASH);
         return Redirect::back()->with('toast', createToast('success', __('colors.remove.title'), __('colors.remove.description'), 5000));
+    }
+
+    /**
+     * Permet d'afficher la page pour acheter une couleur
+     *
+     * @param Resource $resource
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|View|\Illuminate\Foundation\Application|RedirectResponse
+     */
+    public function checkout(NameColor $nameColor)
+    {
+        // Si l'utilisateur à déjà accès à la resource ou que le prix est à 0, alors on retourne en arrière
+        if ($nameColor->price == 0 || (user()->hasNameAccess($nameColor) && !user()->isAdmin())) {
+            return Redirect::route('profile.colors.index');
+        }
+
+        $paymentInfo = UserPaymentInfo::where('id', env('PAYMENT_INFO_ADMIN_ID'))->first();
+        $name = __("colors.$nameColor->code");
+
+        // Sinon, on affiche la page d'achat
+        return view('resources.purchase.checkout', [
+            'paymentInfo' => $paymentInfo,
+            'price' => $nameColor->price,
+            'currency' => 'eur',
+            'confirmUrl' => route('profile.colors.purchase', $nameColor),
+            'name' => "Name Color : <span class='$nameColor->code'>$name</span>",
+            'enableGift' => false,
+        ]);
+    }
+
+    /**
+     * Commencer l'achat d'une couleur
+     *
+     * @param Request $request
+     * @param NameColor $nameColor
+     * @return mixed
+     * @throws ValidationException
+     */
+    public function purchase(Request $request, NameColor $nameColor): mixed
+    {
+        $this->validate($request, ['terms' => ['accepted'],]);
+
+        $user = user();
+        $payment = Payment::makeDefault($user, $nameColor->price, Payment::TYPE_NAME_COLOR, $nameColor->id, env('CURRENCY_ADMIN_ID'), 'stripe');
+
+        return paymentManager()->startPaymentNameColor($request, $nameColor, $payment);
     }
 
 }

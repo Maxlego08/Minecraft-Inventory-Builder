@@ -17,7 +17,7 @@ class NameColorAccess extends Model
 
     protected $table = "user_name_color_accesses";
 
-    protected $fillable = ['user_id', 'color_id'];
+    protected $fillable = ['user_id', 'color_id', 'payment_id'];
 
     /**
      * Retourne la couleur

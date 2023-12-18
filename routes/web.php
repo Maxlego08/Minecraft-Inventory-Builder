@@ -88,6 +88,8 @@ Route::prefix('/profile')->name('profile.')->middleware('auth')->group(function 
     // Colors
     Route::prefix('/colors')->name('colors.')->group(function () {
         Route::get('', [NameController::class, 'index'])->name('index');
+        Route::post('/checkout/{nameColor}', [NameController::class, 'checkout'])->name('checkout');
+        Route::post('/purchase/{nameColor}', [NameController::class, 'purchase'])->name('purchase');
         Route::post('/disable', [NameController::class, 'disable'])->name('disable');
         Route::post('/enable/{nameColor}', [NameController::class, 'active'])->name('store');
     });

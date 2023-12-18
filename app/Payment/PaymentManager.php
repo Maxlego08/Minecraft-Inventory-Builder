@@ -8,6 +8,8 @@ use App\Models\Payment\Gift;
 use App\Models\Payment\GiftHistory;
 use App\Models\Payment\Payment;
 use App\Models\Resource\Resource;
+use App\Models\User\NameColor;
+use App\Models\User\UserPaymentInfo;
 use App\Payment\Method\PaypalMethod;
 use App\Payment\Method\StripeMethod;
 use Illuminate\Http\Request;
@@ -68,6 +70,26 @@ class PaymentManager
         }
 
         return $method->startPayment($user, $paymentInfo, $payment, $price, $gift);
+    }
+
+    /**
+     * Permet de commencer un paiement pour une couleur
+     *
+     * @param Request $request
+     * @param NameColor $nameColor
+     * @param Payment $payment
+     * @return mixed
+     */
+    public function startPaymentNameColor(Request $request, NameColor $nameColor, Payment $payment): mixed
+    {
+
+        $method = $this->getMethodOrFail('stripe');
+
+        $paymentInfo = UserPaymentInfo::where('id', env('PAYMENT_INFO_ADMIN_ID'))->first();
+        $user = $request->user();
+        $price = $nameColor->price;
+
+        return $method->startPayment($user, $paymentInfo, $payment, $price);
     }
 
     /**

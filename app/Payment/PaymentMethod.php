@@ -47,23 +47,31 @@ abstract class PaymentMethod
      */
     protected function postProcessPayment(Request $request, Payment $payment): string
     {
-
         // On va mettre à jour le status du paiement
         $payment->update(['status' => Payment::STATUS_PAID,]);
         // On va utiliser le code cadeau
         $payment->updateGiftCode();
+        // Gestion des accès lié au paiement
+        switch ($payment->type) {
+            case Payment::TYPE_RESOURCE :
+            {
+                $resource = $payment->resource;
+                Access::create(['user_id' => $payment->user_id, 'resource_id' => $payment->content_id, 'payment_id' => $payment->id]);
+                Cache::forget("user.access::$payment->user_id");
 
-        if ($payment->type == Payment::TYPE_RESOURCE) {
+                userLogOffline($payment->user_id, "Ressource achetée $resource->name.$resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
+            }
+            case Payment::TYPE_ACCOUNT_UPGRADE :
+            {
 
-            $resource = $payment->resource;
-            Access::create([
-                'user_id' => $payment->user_id,
-                'resource_id' => $payment->content_id,
-                'payment_id' => $payment->id
-            ]);
-            Cache::forget("user.access::$payment->user_id");
+            }
+            case Payment::TYPE_NAME_COLOR :
+            {
+                $nameColor = $payment->nameColor;
+                User\NameColorAccess::create(['user_id' => $payment->user(), 'color_id' => $payment->content_id, 'payment_id' => $payment->id]);
 
-            userLogOffline($payment->user_id, "Ressource acheté $resource->name.$resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
+                userLogOffline($payment->user_id, "Couleur achetée $nameColor->code.$nameColor->id", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
+            }
         }
 
         // TODO
@@ -77,16 +85,31 @@ abstract class PaymentMethod
         return json_encode(['status' => 'true']);
     }
 
-    protected function removeAccess(Payment $payment)
+    /**
+     * Retirer l'accès à un contenu lié au paiement
+     *
+     * @param Payment $payment
+     * @return void
+     */
+    protected function removeAccess(Payment $payment): void
     {
 
-        if ($payment->type == Payment::TYPE_RESOURCE) {
-            $access = Access::where('user_id', $payment->user_id, 'resource_id', $payment->content_id);
-            if (isset($access)) {
-                $access->delete();
+        switch ($payment->type) {
+            case Payment::TYPE_RESOURCE :
+            {
+                $access = Access::where('user_id', $payment->user_id, 'resource_id', $payment->content_id);
+                $access?->delete();
+            }
+            case Payment::TYPE_ACCOUNT_UPGRADE :
+            {
+
+            }
+            case Payment::TYPE_NAME_COLOR :
+            {
+                $access = User\NameColorAccess::where('user_id', $payment->user_id, 'color_id', $payment->content_id);
+                $access?->delete();
             }
         }
-
     }
 
 }

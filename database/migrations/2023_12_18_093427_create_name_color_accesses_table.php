@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('color_id')->constrained('user_name_colors');
+            $table->foreignId('payment_id')->nullable()->constrained('payment_payments');
             $table->timestamps();
         });
     }
