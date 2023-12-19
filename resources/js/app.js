@@ -8,3 +8,14 @@ import './discord'
 import './review'
 import './gift'
 import './tippy'
+import './discord_webhook'
+
+import "@melloware/coloris/dist/coloris.css";
+import Coloris from "@melloware/coloris";
+Coloris.init();
+Coloris({
+    el: "#coloris",
+    alpha: false,
+    themeMode: 'dark',
+    format: 'hex',
+});

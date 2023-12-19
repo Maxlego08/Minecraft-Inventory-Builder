@@ -31,6 +31,7 @@ class UserLog extends Model
     public const ICON_EDIT = "fas fa-edit";
     public const ICON_DOLLAR = "fas fa-dollar-sign";
     public const ICON_STRIPE = "fab fa-stripe-s";
+    public const ICON_DISCORD = "fab fa-discord";
 
     public const COLOR_SUCCESS = "#3CB371";
     public const COLOR_REGISTER = "#0b5037";

@@ -163,7 +163,10 @@ Route::prefix('resources')->name('resources.')->group(function () {
 
             Route::prefix('/discord/')->name('discord.')->group(function () {
                 Route::get('', [DashboardDiscordController::class, 'index'])->name('index');
-
+                Route::get('/create', [DashboardDiscordController::class, 'create'])->name('create');
+                Route::post('/store', [DashboardDiscordController::class, 'store'])->name('store');
+                Route::get('/edit/{notification}', [DashboardDiscordController::class, 'edit'])->name('edit');
+                Route::post('/store/{notification}', [DashboardDiscordController::class, 'update'])->name('update');
             });
 
         });

@@ -307,6 +307,35 @@ return [
         ],
         'discord' => [
             'title' => 'Discord Webhook',
+            'create' => 'Create Discord Webhook',
+            'url' => 'Discord Webhook URL',
+            'event' => 'Event',
+            'username' => 'Username',
+            'avatar_url' => 'Avatar URL',
+            'url_errors' => 'The url is not the right format.',
+            'embed' => [
+                'add' => 'Add Embed',
+                'title' => 'Embed Title',
+                'url' => 'Embed URL',
+                'color' => 'Embed Color',
+                'description' => 'Embed Description',
+                'thumbnail' => 'Embed Thumbnail',
+                'footer' => 'Embed Footer'
+            ],
+            'errors' => [
+                'limit' => [
+                    'title' => 'Limit reached',
+                    'description' => 'You have just reached the webhook discord limit. You cannot create a new one.',
+                ],
+            ],
+            'success' => [
+                'title' => 'New Discord Webhook',
+                'description' => 'You just created a discord webhook.',
+            ],
+            'update' => [
+                'title' => 'Update Discord Webhook',
+                'description' => 'You just updated a discord webhook.',
+            ],
         ],
         'payments' => [
             'title' => 'Transactions',
