@@ -362,6 +362,7 @@ class User extends Authenticate implements MustVerifyEmail
      * user.access
      * user.resource_count
      * user.resource_access
+     * user.color
      *
      * @param string $key
      * @return void

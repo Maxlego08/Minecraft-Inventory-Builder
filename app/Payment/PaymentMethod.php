@@ -94,20 +94,28 @@ abstract class PaymentMethod
     protected function removeAccess(Payment $payment): void
     {
 
+        $user = $payment->user;
         switch ($payment->type) {
             case Payment::TYPE_RESOURCE :
             {
                 $access = Access::where('user_id', $payment->user_id, 'resource_id', $payment->content_id);
                 $access?->delete();
+
+                $user->clear('user.resource_access');
+                break;
             }
             case Payment::TYPE_ACCOUNT_UPGRADE :
             {
-
+                break;
             }
             case Payment::TYPE_NAME_COLOR :
             {
                 $access = User\NameColorAccess::where('user_id', $payment->user_id, 'color_id', $payment->content_id);
                 $access?->delete();
+
+                $user->update(['name_color_id' => null]);
+                $user->clear('user.clear');
+                break;
             }
         }
     }

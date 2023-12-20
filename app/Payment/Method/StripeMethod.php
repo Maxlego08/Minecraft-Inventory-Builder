@@ -19,7 +19,6 @@ use Stripe\Exception\ApiErrorException;
 use Stripe\Exception\SignatureVerificationException;
 use Stripe\Stripe;
 use Stripe\Webhook;
-use function Symfony\Component\Translation\t;
 
 class StripeMethod extends PaymentMethod
 {
@@ -97,9 +96,14 @@ class StripeMethod extends PaymentMethod
 
     public function process(Request $request, ?string $paymentId): mixed
     {
-        $referenceId = $request['data']['object']['client_reference_id'];
-
-        $payment = Payment::where('payment_id', $referenceId)->first();
+        $eventType = $request['type'];
+        if ($eventType === 'checkout.session.completed') {
+            $referenceId = $request['data']['object']['client_reference_id'] ?? '';
+            $payment = Payment::where('payment_id', $referenceId)->first();
+        } else {
+            $paymentIntent = $request['data']['object']['payment_intent'];
+            $payment = Payment::where('external_id', $paymentIntent)->first();
+        }
 
         if (!isset($payment)) {
             return json_encode(['status' => 'error', 'message' => 'Payment not found',]);

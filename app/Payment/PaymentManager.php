@@ -151,7 +151,7 @@ class PaymentManager
         $user = $payment->user;
         $authorId = $payment->type == Payment::TYPE_RESOURCE ? $payment->resource->user_id : env('ADMIN_DISCORD_ID');
 
-        $webhooks = DiscordNotification::where('events', $event)->where('user_id', $authorId)->where('is_valid', true)->get();
+        $webhooks = DiscordNotification::where('event', $event)->where('user_id', $authorId)->where('is_valid', true)->get();
         foreach ($webhooks as $webhook) {
             DiscordWebhookNotification::dispatch(DiscordWebhook::build($webhook, $user, $payment), $webhook->url);
         }

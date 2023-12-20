@@ -75,7 +75,7 @@ class DashboardDiscordController extends Controller
 
             $message = str_replace('{payment_price}', $payment->price, $message);
             $message = str_replace('{payment_currency}', currency($payment->currency?->currency ?? 'eur'), $message);
-            $message = str_replace('{payment_id}', $payment->external_id, $message);
+            $message = str_replace('{payment_id}', $payment->external_id ?? '', $message);
 
             if ($payment->content_id == -1) {
                 $message = str_replace('{payment_content_name}', 'Test content', $message);
