@@ -22,7 +22,15 @@ use Illuminate\Validation\ValidationException;
 
 class DashboardDiscordController extends Controller
 {
-    const EVENTS = ['event.payment.completed', 'event.payment.refunded', 'event.payment.dispute.created', 'event.resource.created', 'event.resource.updated',];
+    const EVENTS = [
+        'event.payment.completed',
+        'event.payment.refunded',
+        'event.payment.created',
+        'event.payment.canceled',
+        'event.payment.dispute.created',
+        'event.resource.created',
+        'event.resource.updated',
+    ];
 
     const REPLACEMENT_VARIABLES = [
         'client_id',

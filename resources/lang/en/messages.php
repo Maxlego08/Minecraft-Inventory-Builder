@@ -50,4 +50,6 @@ return [
         'servers' => 'Current players',
         'more' => 'Show more on <a href="" target="_blank" id="bstats-url" data-url=":url">bStats</a>'
     ],
+    'login' => 'Login',
+    'register' => 'Register',
 ];

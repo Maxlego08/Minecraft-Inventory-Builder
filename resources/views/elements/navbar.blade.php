@@ -19,10 +19,10 @@
             @guest()
                 <li class="nav-item">
                     <a class="nav-link py-2 me-2" href="{{route('register')}}"><i class="bi bi-person-plus"></i>
-                        Inscription</a>
+                        {{ __('messages.register') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link py-2 me-2" href="{{route('login')}}"><i class="bi bi-person"></i> Connexion</a>
+                    <a class="nav-link py-2 me-2" href="{{route('login')}}"><i class="bi bi-person"></i> {{ __('messages.login') }}</a>
                 </li>
             @endguest
             @auth()
@@ -38,7 +38,7 @@
                        data-bs-toggle="dropdown"
                        aria-expanded="false" data-bs-display="static">
                         <img src="{{ user()->getProfilePhotoUrlAttribute() }}" height="30" width="30" alt="{{ user()->name }}" class="rounded-circle">
-                        <span class=" d-none d-lg-block ms-2">{{ user()->name }}</span>
+                        {!! user()->displayName(false, customCss: 'd-none d-lg-block ms-2') !!}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" data-bs-popper="none">
                         <li><a class="dropdown-item" href="{{ route('profile.index') }}">Profile</a></li>

@@ -25,6 +25,7 @@ class TooltipController extends Controller
         $tooltipConversation = htmlspecialchars(__('tooltip.conversation'));
         $tooltipResources = htmlspecialchars(__('tooltip.resources'));
         $tooltipPayments = htmlspecialchars(__('tooltip.payments'));
+        $tooltipCss = $user->hasTooltipInformations() ? '' : ' pt-3';
 
         if (isset($user->banner_photo_path)) {
             $userBannerUrl = htmlspecialchars($user->getBannerUrlAttribute());
@@ -64,7 +65,7 @@ HTML;
             </div>
             <div class="user-tooltip-content">
                 {$tooltipInformations}
-                <div class="user-tooltip-content-buttons">
+                <div class="user-tooltip-content-buttons$tooltipCss">
                     <a class="conversation-button rounded-1" href="{$userCreateConversationUrl}">{$tooltipConversation}</a>
                 </div>
             </div>

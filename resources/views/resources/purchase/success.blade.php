@@ -34,7 +34,7 @@
                         <table class="w-100">
                             <thead>
                             <tr>
-                                <th class="w-50">{{ __('payment.resource') }}</th>
+                                <th class="w-50">{{ __('payment.content') }}</th>
                                 <th>{{ __('payment.price') }}</th>
                                 <th>{{ __('payment.quantity') }}</th>
                                 <th class="text-right">{{ __('payment.total') }}</th>
@@ -42,7 +42,7 @@
                             </thead>
                             <tbody>
                             <tr class="t-12">
-                                <td>{{ $name }}</td>
+                                <td>{!! $name !!}</td>
                                 <td>{{ formatPrice($contentPrice, $currency) }}</td>
                                 <th>1</th>
                                 <td>{{ formatPrice($contentPrice, $currency) }}</td>

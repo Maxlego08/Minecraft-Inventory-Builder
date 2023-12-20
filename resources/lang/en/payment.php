@@ -14,6 +14,7 @@ return [
     'details' => 'Your Details',
     'order' => 'Your Order',
 
+    'content' => 'Content',
     'resource' => 'Resource',
     'price' => 'Price',
     'quantity' => 'Quantity',

@@ -9,7 +9,7 @@
 
             <div class="user-tooltip-header d-flex"
                  @if(isset($user->banner_photo_path))
-                 style="
+                     style="
                      background-image: url('{{ $user->getBannerUrlAttribute() }}') ;
                      background-repeat: no-repeat;
                      background-size: cover;
@@ -24,7 +24,7 @@
                 <div class="d-flex flex-column">
                     <span class="name h5 mb-0">{!! $user->displayNameAndLink(false) !!}</span>
                     <div class="pt-2 pb-2">
-                    {!! $user->role->getRoleIcon() !!}
+                        {!! $user->role->getRoleIcon() !!}
                     </div>
                     <span class="join-info">{{ __('tooltip.join_at') }}{{ simple_date($user->created_at) }}</span>
                 </div>
@@ -42,14 +42,15 @@
                         </div>
                     </div>
                     <hr>
+                    <div class="user-tooltip-content-buttons">
+                @else
+                    <div class="user-tooltip-content-buttons pt-3">
                 @endif
-                <div class="user-tooltip-content-buttons">
-                    <a class="conversation-button rounded-1"
-                       href="{{ $user->createConversation() }}">{{ __('tooltip.conversation') }}</a>
+                    <a class="conversation-button rounded-1" href="{{ $user->createConversation() }}">{{ __('tooltip.conversation') }}</a>
+                    </div>
                 </div>
-            </div>
 
+            </div>
         </div>
-    </div>
 
 @endsection

@@ -353,6 +353,7 @@ return [
                 'edit' => 'Edit this webhook'
             ],
             'documentation' => [
+                'events' => 'Events',
                 'title' => 'Documentation',
                 'variable' => 'Variables',
                 'description' => 'Description',

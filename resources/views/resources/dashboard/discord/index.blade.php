@@ -61,9 +61,28 @@
         </div>
     </div>
 
+    <div class="card rounded-1 mb-3">
+        <div class="card-body">
+            <h3>{{ __('resources.dashboard.discord.documentation.events') }}</h3>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th class="w-25">{{ __('resources.dashboard.discord.documentation.events') }}</th>
+                        <th>{{ __('resources.dashboard.discord.documentation.description') }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
     <div class="card rounded-1">
         <div class="card-body">
-            <h3>{{ __('resources.dashboard.discord.documentation.title') }}</h3>
+            <h3>{{ __('resources.dashboard.discord.documentation.variable') }}</h3>
             <div class="table-responsive">
                 <table class="table table-striped table-hover">
                     <thead>

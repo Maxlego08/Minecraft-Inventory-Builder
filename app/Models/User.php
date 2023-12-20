@@ -423,24 +423,25 @@ class User extends Authenticate
         return route('resources.author', ['user' => $this, 'slug' => $this->slug()]);
     }
 
-    function displayName(bool $tooltip = true, ?string $customId = null): string
+    function displayName(bool $tooltip = true, ?string $customId = null, ?string $customCss = null): string
     {
         $tooltipCss = $tooltip ? 'username-tooltip' : '';
         $url = route('api.v1.tooltip', $this);
         $idElement = $customId == null ? '' : "id='$customId'";
+        $css = $customCss == null ? '' : $customCss;
 
         if ($this->name_color_id) {
             $color = $this->cache('color')->code;
-            return "<span $idElement class='username $tooltipCss $color' data-url='$url'>$this->name</span>";
+            return "<span $idElement class='username $tooltipCss $color $css' data-url='$url'>$this->name</span>";
         }
 
         return match ($this->cache('role')->power) {
-            UserRole::ADMIN => "<span $idElement class='username $tooltipCss username-admin' data-url='$url'>$this->name</span>",
-            UserRole::MODERATOR => "<span $idElement class='username $tooltipCss username-moderator' data-url='$url'>$this->name</span>",
-            UserRole::PREMIUM => "<span $idElement class='username $tooltipCss username-premium' data-url='$url'>$this->name</span>",
-            UserRole::PRO => "<span $idElement class='username $tooltipCss username-pro' data-url='$url'>$this->name</span>",
-            UserRole::BANNED => "<span $idElement class='username $tooltipCss username-banned' data-url='$url'>$this->name</span>",
-            default => "<span $idElement class='username $tooltipCss username-member' data-url='$url'>$this->name</span>"
+            UserRole::ADMIN => "<span $idElement class='username $tooltipCss username-admin $css' data-url='$url'>$this->name</span>",
+            UserRole::MODERATOR => "<span $idElement class='username $tooltipCss username-moderator $css' data-url='$url'>$this->name</span>",
+            UserRole::PREMIUM => "<span $idElement class='username $tooltipCss username-premium $css' data-url='$url'>$this->name</span>",
+            UserRole::PRO => "<span $idElement class='username $tooltipCss username-pro $css' data-url='$url'>$this->name</span>",
+            UserRole::BANNED => "<span $idElement class='username $tooltipCss username-banned $css' data-url='$url'>$this->name</span>",
+            default => "<span $idElement class='username $tooltipCss username-member $css' data-url='$url'>$this->name</span>"
         };
     }
 

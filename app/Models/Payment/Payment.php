@@ -218,6 +218,15 @@ class Payment extends Model
         };
     }
 
+    public function getPaymentContentNameFormatted(): string
+    {
+        return match ($this->type) {
+            Payment::TYPE_RESOURCE => "<a href='{$this->resource->link('description')}'>{$this->resource->name}</a>",
+            Payment::TYPE_ACCOUNT_UPGRADE => $this->content_id,
+            Payment::TYPE_NAME_COLOR => "<span class='{$this->nameColor->code}'>{$this->nameColor->translation()}</span>",
+        };
+    }
+
     public function getPaymentLogo(): string
     {
         return match ($this->type) {
