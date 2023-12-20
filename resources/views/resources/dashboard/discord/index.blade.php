@@ -17,6 +17,7 @@
                     <thead>
                     <tr>
                         <th style="width: 25px"></th>
+                        <th>{{ __('resources.dashboard.discord.table.event') }}</th>
                         <th>{{ __('resources.dashboard.discord.table.url') }}</th>
                         <th class="text-center">{{ __('resources.dashboard.discord.table.actions') }}</th>
                     </tr>
@@ -31,7 +32,8 @@
                                     <i class="bi bi-x-lg text-danger"></i>
                                 @endif
                             </td>
-                            <td>{{ Str::limit($discord->url, 75) }}</td>
+                            <td>{{ $discord->event }}</td>
+                            <td>{{ Str::limit($discord->url, 50) }}</td>
                             <td class="d-flex justify-content-evenly align-items-center">
                                 <a href="{{ route('resources.dashboard.discord.edit', $discord) }}"
                                    title="{{ __('resources.dashboard.discord.table.edit') }}"><i

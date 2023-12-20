@@ -345,6 +345,7 @@ return [
                 'description' => 'You just send a test for your discord webhook.',
             ],
             'table' => [
+                'event' => 'Event',
                 'url' => 'URL',
                 'actions' => 'Actions',
                 'send' => 'Send a test',
