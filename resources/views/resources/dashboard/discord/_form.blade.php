@@ -31,7 +31,7 @@
 <div class="mb-3">
     <label for="textarea" class="form-check-label">{{ __('resources.dashboard.discord.content') }}</label>
     <textarea id="textarea" name="textarea" class="form-control rounded-1 @error('textarea') is-invalid @enderror"
-              placeholder="**{client_name}.{client_id}** has just bought the resource **{resource_name}.{resource_id}** for {payment_price}{payment_currency}. (Payment ID {payment_id})"
+              placeholder="**{client_name}.{client_id}** has just bought the resource **{payment_content_name}.{payment_content_id}** for {payment_price}{payment_currency}. (Payment ID {payment_id})"
               rows="3">{{ old('textarea', $discord->content ?? '') }}</textarea>
     @error('textarea')
     <div id="textarea-error" class="invalid-feedback">{{ $message }}</div>

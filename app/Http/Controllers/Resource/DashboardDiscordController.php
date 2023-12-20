@@ -24,6 +24,31 @@ class DashboardDiscordController extends Controller
 {
     const EVENTS = ['event.payment.completed', 'event.payment.refunded', 'event.payment.dispute.created', 'event.resource.created', 'event.resource.updated',];
 
+    const REPLACEMENT_VARIABLES = [
+        'client_id',
+        'client_name',
+        'client_email',
+        'payment_price',
+        'payment_currency',
+        'payment_id',
+        'payment_content_name',
+        'payment_content_id',
+        'resource_name',
+        'resource_tag',
+        'resource_id',
+        'resource_price',
+        'resource_logo',
+        'resource_download',
+        'resource_link',
+        'resource_currency',
+        'author_name',
+        'author_id',
+        'resource_version',
+        'resource_version_name',
+        'resource_version_download',
+        'color_random',
+    ];
+
     const MAX_DISCORD_WEBHOOK = 5;
 
     public static function replaceContent(string $message, ?User $user, ?Payment $payment, ?Resource $resource, ?Version $version): array|string
@@ -40,7 +65,7 @@ class DashboardDiscordController extends Controller
         if (isset($payment)) {
 
             $message = str_replace('{payment_price}', $payment->price, $message);
-            $message = str_replace('{payment_currency}', $payment->currency?->currency ?? 'eur', $message);
+            $message = str_replace('{payment_currency}', currency($payment->currency?->currency ?? 'eur'), $message);
             $message = str_replace('{payment_id}', $payment->external_id, $message);
 
             if ($payment->content_id == -1) {
@@ -108,6 +133,7 @@ class DashboardDiscordController extends Controller
     {
         return view('resources.dashboard.discord.index', [
             'discords' => user()->webhooks,
+            'variables' => self::REPLACEMENT_VARIABLES,
         ]);
     }
 
@@ -217,6 +243,20 @@ class DashboardDiscordController extends Controller
     }
 
     /**
+     * Supprimer un webhook discord
+     *
+     * @param DiscordNotification $notification
+     * @return RedirectResponse
+     */
+    public function test(DiscordNotification $notification): RedirectResponse
+    {
+        $this->checkUrl($notification);
+        userLog("Envoie d'un test du webhook discord $notification->id", UserLog::COLOR_SUCCESS, UserLog::ICON_DISCORD);
+
+        return Redirect::route('resources.dashboard.discord.index')->with('toast', createToast('success', __('resources.dashboard.discord.test.title'), __('resources.dashboard.discord.test.description')));
+    }
+
+    /**
      * Éditer un webhook discord
      *
      * @param Request $request
@@ -283,6 +323,10 @@ class DashboardDiscordController extends Controller
      */
     private function checkUrl(DiscordNotification $notification)
     {
+        $notification->update([
+            'is_valid' => false,
+        ]);
+
         rescue(function () use ($notification) {
             $user = new User();
             $user->id = 99999;

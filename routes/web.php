@@ -166,6 +166,7 @@ Route::prefix('resources')->name('resources.')->group(function () {
                 Route::get('/create', [DashboardDiscordController::class, 'create'])->name('create');
                 Route::post('/store', [DashboardDiscordController::class, 'store'])->name('store');
                 Route::post('/delete/{notification}', [DashboardDiscordController::class, 'delete'])->name('delete');
+                Route::post('/test/{notification}', [DashboardDiscordController::class, 'test'])->name('test');
                 Route::get('/edit/{notification}', [DashboardDiscordController::class, 'edit'])->name('edit');
                 Route::post('/store/{notification}', [DashboardDiscordController::class, 'update'])->name('update');
             });
