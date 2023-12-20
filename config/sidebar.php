@@ -28,6 +28,12 @@ return [
                     'icon' => 'fas fa-pause-circle',
                     'power' => UserRole::MODERATOR
                 ],
+                'payments' => [
+                    'name' => 'Payments',
+                    'route' => 'admin.payments.index',
+                    'icon' => 'fas fa-dollar-sign fa-chart-area',
+                    'power' => UserRole::ADMIN
+                ],
             ],
 
         ],
@@ -55,7 +61,7 @@ return [
                     'name' => 'Logs',
                     'route' => 'admin.logs.index',
                     'icon' => 'fas fa-fw fa-history',
-                    'power' => UserRole::ADMIN
+                    'power' => UserRole::MODERATOR
                 ],
             ],
 

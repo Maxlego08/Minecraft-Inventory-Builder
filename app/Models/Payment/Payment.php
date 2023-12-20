@@ -191,6 +191,15 @@ class Payment extends Model
         };
     }
 
+    public function getPaymentTypeName(): string
+    {
+        return match ($this->type) {
+            Payment::TYPE_RESOURCE => 'Resource',
+            Payment::TYPE_ACCOUNT_UPGRADE => 'Account Upgrade',
+            Payment::TYPE_NAME_COLOR => 'Name color',
+        };
+    }
+
     public function getPaymentDescription(): string
     {
         return match ($this->type) {
@@ -227,11 +236,38 @@ class Payment extends Model
         };
     }
 
+    public function getPaymentContentNameFormattedLimited(): string
+    {
+        return match ($this->type) {
+            Payment::TYPE_RESOURCE => "<a href='{$this->resource->link('description')}'>" . Str::limit($this->resource->name, 50) . "</a>",
+            Payment::TYPE_ACCOUNT_UPGRADE => $this->content_id,
+            Payment::TYPE_NAME_COLOR => "<span class='{$this->nameColor->code}'>{$this->nameColor->translation()}</span>",
+        };
+    }
+
     public function getPaymentLogo(): string
     {
         return match ($this->type) {
             Payment::TYPE_RESOURCE => $this->resource->getIconPath(),
             default => 'todo',
+        };
+    }
+
+    /**
+     * Retourne une couleur basée sur le statut du paiement.
+     *
+     * @return string
+     */
+    public function getColorForStatus(): string
+    {
+        return match ($this->status) {
+            self::STATUS_PAID => '#028a00',
+            self::STATUS_UNPAID => '#33b8ff',
+            self::STATUS_REFUND => '#4877b5',
+            self::STATUS_DISPUTE => '#db341a',
+            self::STATUS_PENDING => '#2adea5',
+            self::STATUS_CANCEL => '#ed1111',
+            default => 'black',
         };
     }
 

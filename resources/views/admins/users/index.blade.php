@@ -33,8 +33,8 @@
                         <thead>
                         <tr>
                             <th scope="col" style="width: 100px">#</th>
-                            <th scope="col" style="width: 118px; text-align: center">Double auth</th>
                             <th scope="col" style="width: 200px">Pseudo</th>
+                            <th scope="col" style="width: 118px; text-align: center">Double auth</th>
                             <th scope="col" style="width: 200px">Email</th>
                             <th scope="col" style="width: 132px; text-align: center">Email vérifié</th>
                             <th scope="col">Role</th>
@@ -63,6 +63,9 @@
                                            title="L'utilisateur est bannis du site" data-toggle="tooltip"></i>
                                     @endif
                                 </th>
+                                <td @if($user->role->isBanned())style="color: rgba(0, 0, 0, 0.2)"@endif>
+                                    {!! $user->displayName(false)!!}
+                                </td>
                                 <th>
                                     <div class="d-flex justify-content-center">
                                         @if ($user->two_factor_confirmed_at)
@@ -72,9 +75,6 @@
                                         @endif
                                     </div>
                                 </th>
-                                <td @if($user->role->isBanned())style="color: rgba(0, 0, 0, 0.2)"@endif>
-                                    {{ $user->name }}
-                                </td>
                                 <td @if($user->role->isBanned())style="color: rgba(0, 0, 0, 0.2)"@endif> {{ $user->email }} </td>
                                 <th>
                                     <div class="d-flex justify-content-center">
@@ -101,7 +101,7 @@
                     </table>
                 </div>
 
-                {{ $users->withQueryString()->links() }}
+                {{ $users->withQueryString()->links('vendor.pagination.bootstrap-4') }}
             </div>
         </div>
     </div>

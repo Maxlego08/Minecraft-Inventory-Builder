@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\IndexController;
 use App\Http\Controllers\Admin\LogController;
+use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ResourceController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
@@ -11,9 +12,14 @@ Route::get('/', [IndexController::class, 'index'])->name('index');
 
 Route::prefix('resources/')->name('resources.')->group(function () {
     Route::get('/', [ResourceController::class, 'index'])->name('index');
+    Route::get('/edit/{resource}', [ResourceController::class, 'edit'])->name('edit');
     Route::get('/pending', [ResourceController::class, 'pending'])->name('pending');
     Route::post('/accept/{resource}', [ResourceController::class, 'accept'])->name('accept');
     Route::post('/refuse/{resource}', [ResourceController::class, 'refuse'])->name('refuse');
+});
+
+Route::prefix('logs/')->name('logs.')->group(function () {
+    Route::get('/', [LogController::class, 'index'])->name('index');
 });
 
 // Admin access
@@ -27,7 +33,11 @@ Route::middleware('admin')->group(function () {
         Route::post('/{user}/banner', [UserController::class, 'deleteBanner'])->name('delete.banner');
     });
 
-    Route::prefix('logs/')->name('logs.')->group(function () {
-        Route::get('/', [LogController::class, 'index'])->name('index');
+    Route::prefix('/payments')->name('payments.')->group(function () {
+        Route::get('/', [PaymentController::class, 'index'])->name('index');
+        Route::get('/delete', [PaymentController::class, 'delete'])->name('delete');
+        Route::get('/create', [PaymentController::class, 'create'])->name('create');
+        Route::post('/store', [PaymentController::class, 'store'])->name('store');
+        Route::get('/show/{payment}', [PaymentController::class, 'show'])->name('show');
     });
 });
