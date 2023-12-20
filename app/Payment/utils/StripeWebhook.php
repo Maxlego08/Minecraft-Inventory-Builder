@@ -37,8 +37,9 @@ class StripeWebhook
      */
     public function make(): void
     {
-        if ($this->endpointIsAlreadyCreate())
-            return;
+        if ($this->endpointIsAlreadyCreate() && $this->usePaymentInfo->endpoint_secret != null)  {
+        return;
+    }
 
         $this->deleteEndPointIfAlreadyExist();
 
