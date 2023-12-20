@@ -48,7 +48,7 @@
                         </form>
                     @else
                         <div
-                            class="btn btn-sm btn-primary disabled cursor-disabled w-100 mt-2">{{ __('profile.banner.permission') }}</div>
+                            class="btn btn-sm btn-primary disabled cursor-disabled w-100 mt-2">{{ __('profiles.banner.permission') }}</div>
                     @endif
                 </div>
             </div>

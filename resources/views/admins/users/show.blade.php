@@ -14,7 +14,7 @@
             <div class="col-md-12">
                 <div class="card shadow mb-4">
                     <div class="card-body">
-                        <form action="{{ route('admin.users.store', ['user' => $user]) }}" method="POST">
+                        <form action="{{ route('admin.users.store', ['user' => $user]) }}" method="POST" autocomplete="one-time-code">
                             @csrf
                             <div class="row">
                                 <div class="col-md-4">
@@ -48,7 +48,7 @@
                                         <label for="passwordInput">Mot de passe</label>
                                         <input type="password"
                                                class="form-control @error('password') is-invalid @enderror"
-                                               id="passwordInput" name="new-password" placeholder="**********"
+                                               id="passwordInput" name="new-password" placeholder="**********" autocomplete="one-time-code" value=""
                                         >
                                         @error('password')
                                         <span class="invalid-feedback"

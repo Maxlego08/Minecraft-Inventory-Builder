@@ -76,7 +76,7 @@ Route::prefix('/profile')->name('profile.')->middleware('auth')->group(function 
     });
 
     // Payment
-    Route::prefix('/payment')->name('payment.')->group(function () {
+    Route::prefix('/payment')->name('payment.')->middleware('verified')->group(function () {
         Route::get('', [PaymentController::class, 'index'])->name('index');
         Route::post('/store/stripe', [PaymentController::class, 'storeStripe'])->name('store.stripe');
         Route::post('/store/paypal', [PaymentController::class, 'storePaypal'])->name('store.paypal');
@@ -86,7 +86,7 @@ Route::prefix('/profile')->name('profile.')->middleware('auth')->group(function 
     });
 
     // Colors
-    Route::prefix('/colors')->name('colors.')->group(function () {
+    Route::prefix('/colors')->name('colors.')->middleware('verified')->group(function () {
         Route::get('', [NameController::class, 'index'])->name('index');
         Route::post('/checkout/{nameColor}', [NameController::class, 'checkout'])->name('checkout');
         Route::post('/purchase/{nameColor}', [NameController::class, 'purchase'])->name('purchase');
