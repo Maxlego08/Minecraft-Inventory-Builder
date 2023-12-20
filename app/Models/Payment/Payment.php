@@ -209,6 +209,15 @@ class Payment extends Model
         };
     }
 
+    public function getPaymentContentName(): string
+    {
+        return match ($this->type) {
+            Payment::TYPE_RESOURCE => $this->resource->name,
+            Payment::TYPE_ACCOUNT_UPGRADE => $this->content_id,
+            Payment::TYPE_NAME_COLOR => $this->nameColor->translation(),
+        };
+    }
+
     public function getPaymentLogo(): string
     {
         return match ($this->type) {

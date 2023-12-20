@@ -43,6 +43,14 @@ class DashboardDiscordController extends Controller
             $message = str_replace('{payment_currency}', $payment->currency?->currency ?? 'eur', $message);
             $message = str_replace('{payment_id}', $payment->external_id, $message);
 
+            if ($payment->content_id == -1) {
+                $message = str_replace('{payment_content_name}', 'Test content', $message);
+                $message = str_replace('{payment_content_id}', '1', $message);
+            } else {
+                $message = str_replace('{payment_content_name}', $payment->getPaymentContentName(), $message);
+                $message = str_replace('{payment_content_id}', $payment->content_id, $message);
+            }
+
         }
 
         if (isset($resource)) {
@@ -51,7 +59,7 @@ class DashboardDiscordController extends Controller
             $message = str_replace('{resource_tag}', $resource->tag, $message);
             $message = str_replace('{resource_id}', $resource->id, $message);
             $message = str_replace('{resource_price}', $resource->price, $message);
-            $message = str_replace('{resource_logo}', $resource->icon->getPath(), $message);
+            $message = str_replace('{resource_logo}', $resource->icon?->getPath() ?? '', $message);
             $message = str_replace('{resource_download}', $resource->countDownload(), $message);
             $message = str_replace('{resource_link}', $resource->link('description'), $message);
 
@@ -283,6 +291,8 @@ class DashboardDiscordController extends Controller
 
             $payment = new Payment();
             $payment->currency = 1;
+            $payment->content_id = -1;
+            $payment->gateway = 'stripe';
             $payment->price = 10;
             $payment->id = 88888;
             $payment->external_id = "pi_xxxxxxxxxxxxxxxx";
