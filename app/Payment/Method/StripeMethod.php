@@ -154,7 +154,7 @@ class StripeMethod extends PaymentMethod
 
         event(new PaymentRefund($payment));
 
-        userLog("Remboursement du paiement $payment->payment_id.$payment->id", UserLog::COLOR_DANGER, UserLog::ICON_REMOVE);
+        userLogOffline($payment->user_id, "Remboursement du paiement $payment->payment_id.$payment->id", UserLog::COLOR_DANGER, UserLog::ICON_REMOVE);
 
         return json_encode(['status' => 'success',]);
     }
@@ -166,7 +166,7 @@ class StripeMethod extends PaymentMethod
 
         event(new PaymentDispute($payment));
 
-        userLog("Litige du paiement $payment->payment_id.$payment->id", UserLog::COLOR_DANGER, UserLog::ICON_REMOVE);
+        userLogOffline($payment->user_id, "Litige du paiement $payment->payment_id.$payment->id", UserLog::COLOR_DANGER, UserLog::ICON_REMOVE);
 
         return json_encode(['status' => 'success',]);
     }

@@ -98,7 +98,7 @@ abstract class PaymentMethod
         switch ($payment->type) {
             case Payment::TYPE_RESOURCE :
             {
-                $access = Access::where('user_id', $payment->user_id)->andWhere('resource_id', $payment->content_id)->get();
+                $access = Access::where('user_id', $payment->user_id)->where('resource_id', $payment->content_id)->first();
                 $access?->delete();
 
                 $user->clear('user.resource_access');
@@ -110,7 +110,7 @@ abstract class PaymentMethod
             }
             case Payment::TYPE_NAME_COLOR :
             {
-                $access = User\NameColorAccess::where('user_id', $payment->user_id)->andWhere('color_id', $payment->content_id)->get();
+                $access = User\NameColorAccess::where('user_id', $payment->user_id)->where('color_id', $payment->content_id)->first();
                 $access?->delete();
 
                 $user->update(['name_color_id' => null]);
