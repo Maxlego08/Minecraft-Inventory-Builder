@@ -98,7 +98,9 @@ class DashboardDiscordController extends Controller
      */
     public function index(): Application|View|Factory|\Illuminate\Contracts\Foundation\Application
     {
-        return view('resources.dashboard.discord.index');
+        return view('resources.dashboard.discord.index', [
+            'discords' => user()->webhooks,
+        ]);
     }
 
     /**
@@ -187,6 +189,23 @@ class DashboardDiscordController extends Controller
     public function edit(DiscordNotification $notification): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         return view('resources.dashboard.discord.edit', ['events' => self::EVENTS, 'discord' => $notification]);
+    }
+
+    /**
+     * Supprimer un webhook discord
+     *
+     * @param DiscordNotification $notification
+     * @return RedirectResponse
+     */
+    public function delete(DiscordNotification $notification): RedirectResponse
+    {
+        foreach ($notification->embeds as $embed) {
+            $embed->delete();
+        }
+        $notification->delete();
+        userLog("Suppression du webhook discord $notification->id", UserLog::COLOR_SUCCESS, UserLog::ICON_DISCORD);
+
+        return Redirect::route('resources.dashboard.discord.index')->with('toast', createToast('success', __('resources.dashboard.discord.delete.title'), __('resources.dashboard.discord.delete.description')));
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Alert\AlertUser;
 use App\Models\Conversation\ConversationNotification;
+use App\Models\Discord\DiscordNotification;
 use App\Models\Payment\Payment;
 use App\Models\Resource\Access;
 use App\Models\Resource\Notification;
@@ -52,6 +53,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property UserPaymentInfo $paymentInfo
  * @property NameColor $nameColor
  * @property File[] $files
+ * @property DiscordNotification[] $webhooks
  * @property Payment[] $payments
  * @property NameColorAccess $names
  * @method static User find(int $id)
@@ -91,6 +93,16 @@ class User extends Authenticate
     public function logs(): HasMany
     {
         return $this->hasMany(UserLog::class);
+    }
+
+    /**
+     * Retourne la liste des webhook discords de l'utilisateur
+     *
+     * @return HasMany
+     */
+    public function webhooks(): HasMany
+    {
+        return $this->hasMany(DiscordNotification::class);
     }
 
     /**

@@ -336,6 +336,14 @@ return [
                 'title' => 'Update Discord Webhook',
                 'description' => 'You just updated a discord webhook.',
             ],
+            'delete' => [
+                'title' => 'Delete Discord Webhook',
+                'description' => 'You just deleted a discord webhook.',
+            ],
+            'table' => [
+                'url' => 'URL',
+                'actions' => 'Actions',
+            ]
         ],
         'payments' => [
             'title' => 'Transactions',
