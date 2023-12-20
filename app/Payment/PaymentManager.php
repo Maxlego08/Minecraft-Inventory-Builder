@@ -4,14 +4,19 @@
 namespace App\Payment;
 
 
+use App\Jobs\DiscordWebhookNotification;
+use App\Models\Discord\DiscordNotification;
 use App\Models\Payment\Gift;
 use App\Models\Payment\GiftHistory;
 use App\Models\Payment\Payment;
 use App\Models\Resource\Resource;
 use App\Models\User\NameColor;
 use App\Models\User\UserPaymentInfo;
+use App\Payment\Events\PaymentCreate;
+use App\Payment\Events\PaymentDispute;
 use App\Payment\Method\PaypalMethod;
 use App\Payment\Method\StripeMethod;
+use App\Utils\Discord\DiscordWebhook;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
@@ -69,6 +74,8 @@ class PaymentManager
             $payment->update(['price' => $price]);
         }
 
+        event(new PaymentCreate($payment));
+
         return $method->startPayment($user, $paymentInfo, $payment, $price, $gift);
     }
 
@@ -88,6 +95,8 @@ class PaymentManager
         $paymentInfo = UserPaymentInfo::where('id', env('PAYMENT_INFO_ADMIN_ID'))->first();
         $user = $request->user();
         $price = $nameColor->price;
+
+        event(new PaymentCreate($payment));
 
         return $method->startPayment($user, $paymentInfo, $payment, $price);
     }
@@ -135,6 +144,18 @@ class PaymentManager
     {
         $method = $this->getMethodOrFail($payment);
         return $method->process($request, $paymentId);
+    }
+
+    public function sendDiscordWebhook(Payment $payment, string $event): void
+    {
+        $user = $payment->user;
+        $authorId = $payment->type == Payment::TYPE_RESOURCE ? $payment->resource->user_id : env('ADMIN_DISCORD_ID');
+
+        $webhooks = DiscordNotification::where('events', $event)->where('user_id', $authorId)->where('is_valid', true)->get();
+        foreach ($webhooks as $webhook) {
+            DiscordWebhookNotification::dispatch(DiscordWebhook::build($webhook, $user, $payment), $webhook->url);
+        }
+
     }
 
 }

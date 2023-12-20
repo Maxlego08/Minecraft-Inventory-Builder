@@ -7,6 +7,7 @@ use App\Models\Payment\Gift;
 use App\Models\Payment\Payment;
 use App\Models\Resource\Resource;
 use App\Models\UserLog;
+use App\Payment\Events\PaymentCancel;
 use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -155,6 +156,7 @@ class ResourcePurchaseController extends Controller
                 return Redirect::route('resources.index');
             }
             $payment->update(['status' => Payment::STATUS_CANCEL]);
+            event(new PaymentCancel($payment));
         }
 
         userLogOffline($payment->user_id, "Vient d'annuler le paiement $payment->payment_id.$payment->id", UserLog::COLOR_DANGER, UserLog::ICON_TRASH);

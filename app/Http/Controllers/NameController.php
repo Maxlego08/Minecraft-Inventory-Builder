@@ -75,6 +75,7 @@ class NameController extends Controller
     public function disable(): RedirectResponse
     {
         user()->update(['name_color_id' => null]);
+        user()->clear('user.color');
         userLog("Suppression de la couleur de pseudo", UserLog::COLOR_DANGER, UserLog::ICON_TRASH);
         return Redirect::back()->with('toast', createToast('success', __('colors.remove.title'), __('colors.remove.description'), 5000));
     }

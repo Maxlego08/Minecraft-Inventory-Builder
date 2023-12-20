@@ -23,6 +23,8 @@ Route::middleware('admin')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('index');
         Route::get('/{user}', [UserController::class, 'show'])->name('show');
         Route::post('/{user}/store', [UserController::class, 'store'])->name('store');
+        Route::post('/{user}/icon', [UserController::class, 'deleteIcon'])->name('delete.icon');
+        Route::post('/{user}/banner', [UserController::class, 'deleteBanner'])->name('delete.banner');
     });
 
     Route::prefix('logs/')->name('logs.')->group(function () {

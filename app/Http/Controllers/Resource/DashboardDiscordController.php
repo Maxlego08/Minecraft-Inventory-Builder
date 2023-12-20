@@ -30,12 +30,13 @@ class DashboardDiscordController extends Controller
         'event.payment.dispute.created',
         'event.resource.created',
         'event.resource.updated',
+        // 'event.resource.download',
     ];
 
     const REPLACEMENT_VARIABLES = [
         'client_id',
         'client_name',
-        'client_email',
+        # 'client_email',
         'payment_price',
         'payment_currency',
         'payment_id',
@@ -66,7 +67,7 @@ class DashboardDiscordController extends Controller
 
             $message = str_replace('{client_id}', $user->id, $message);
             $message = str_replace('{client_name}', $user->name, $message);
-            $message = str_replace('{client_email}', $user->email, $message);
+            # $message = str_replace('{client_email}', $user->email, $message);
 
         }
 
