@@ -17,6 +17,7 @@ Thing to develop to open the site
 * [ ] Addition of static pages (terms, conditions etc.)
 * [ ] Improve the user page. Add more information, change the style to have a few more complete things
 * [ ] Management of users who will create a dispute or be refunded a payment (remove access)
+* [ ] Add an ad system. A div will be displayed with a cross to delete the message, and the display information will be stored in a table. So when the player clicks to delete the ad, it will be deleted and added to the database.
 
 # How do I contribute?
 

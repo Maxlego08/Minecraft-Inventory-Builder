@@ -40,7 +40,7 @@ class DashboardDiscordController extends Controller
         if (isset($payment)) {
 
             $message = str_replace('{payment_price}', $payment->price, $message);
-            $message = str_replace('{payment_currency}', $payment->currency->currency, $message);
+            $message = str_replace('{payment_currency}', $payment->currency?->currency ?? 'eur', $message);
             $message = str_replace('{payment_id}', $payment->external_id, $message);
 
         }
@@ -282,6 +282,7 @@ class DashboardDiscordController extends Controller
             $user->email = "test@zmenu.dev";
 
             $payment = new Payment();
+            $payment->currency = 1;
             $payment->price = 10;
             $payment->id = 88888;
             $payment->external_id = "pi_xxxxxxxxxxxxxxxx";
