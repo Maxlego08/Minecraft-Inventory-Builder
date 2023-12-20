@@ -57,7 +57,7 @@ class DashboardDiscordController extends Controller
         'color_random',
     ];
 
-    const MAX_DISCORD_WEBHOOK = 5;
+    const MAX_DISCORD_WEBHOOK = 7;
 
     public static function replaceContent(string $message, ?User $user, ?Payment $payment, ?Resource $resource, ?Version $version): array|string
     {
@@ -142,6 +142,7 @@ class DashboardDiscordController extends Controller
         return view('resources.dashboard.discord.index', [
             'discords' => user()->webhooks,
             'variables' => self::REPLACEMENT_VARIABLES,
+            'events' => self::EVENTS,
         ]);
     }
 

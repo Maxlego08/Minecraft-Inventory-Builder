@@ -73,7 +73,12 @@
                     </tr>
                     </thead>
                     <tbody>
-
+                    @foreach($events as $event)
+                        <tr>
+                            <td>{{ $event }}</td>
+                            <td>{{ __("resources.dashboard.discord.documentation." . str_replace('.', '_', $event)) }}.</td>
+                        </tr>
+                    @endforeach
                     </tbody>
                 </table>
             </div>
@@ -95,7 +100,7 @@
                     @foreach($variables as $variable)
                         <tr>
                             <td>{<span>{{ $variable }}</span>}</td>
-                            <td>{{ __("resources.dashboard.discord.documentation.$variable") }}</td>
+                            <td>{{ __("resources.dashboard.discord.documentation.$variable") }}.</td>
                         </tr>
                     @endforeach
                     </tbody>

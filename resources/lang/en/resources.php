@@ -378,7 +378,14 @@ return [
                 'resource_version' => 'The version of the resource',
                 'resource_version_name' => 'The name of the resource version',
                 'resource_version_download' => 'The download link for the resource version',
-                'color_random' => 'A randomly generated color'
+                'color_random' => 'A randomly generated color',
+                'event_payment_completed' => 'Occurs when a payment is successfully completed',
+                'event_payment_refunded' => 'Occurs when a payment is refunded',
+                'event_payment_created' => 'Occurs when a new payment is created',
+                'event_payment_canceled' => 'Occurs when a payment is canceled',
+                'event_payment_dispute_created' => 'Occurs when a dispute is created for a payment',
+                'event_resource_created' => 'Occurs when a new resource is created',
+                'event_resource_updated' => 'Occurs when an existing resource is updated',
             ],
         ],
         'payments' => [

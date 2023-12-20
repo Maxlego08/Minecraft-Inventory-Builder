@@ -108,7 +108,7 @@ Route::prefix('resources')->name('resources.')->group(function () {
     Route::middleware('auth')->group(function () {
 
         // Create
-        Route::prefix('create')->name('create.')->group(function () {
+        Route::prefix('create')->middleware('verified')->name('create.')->group(function () {
             Route::get('/', [ResourceCreateController::class, 'index'])->name('index');
             Route::post('/store', [ResourceCreateController::class, 'store'])->name('store');
         });
@@ -147,30 +147,33 @@ Route::prefix('resources')->name('resources.')->group(function () {
         // icon
         Route::post('/{resource}/icon', [ResourceIconController::class, 'store'])->name('icon');
 
-        Route::get('/{resource}/purchase', [ResourcePurchaseController::class, 'index'])->name('purchase');
-        Route::post('/{resource}/purchase/create/session', [ResourcePurchaseController::class, 'store'])->name('purchase.session');
+        Route::middleware('verified')->group(function () {
 
-        Route::prefix('/dashboard/')->name('dashboard.')->group(function () {
-            Route::get('', [DashboardController::class, 'index'])->name('index');
-            Route::get('/payments', [DashboardController::class, 'payments'])->name('payments');
-            Route::get('/payments/{payment:payment_id}', [DashboardController::class, 'paymentDetails'])->name('payments.details');
-            Route::get('/resources', [DashboardController::class, 'resources'])->name('resources');
+            Route::get('/{resource}/purchase', [ResourcePurchaseController::class, 'index'])->name('purchase');
+            Route::post('/{resource}/purchase/create/session', [ResourcePurchaseController::class, 'store'])->name('purchase.session');
 
-            Route::prefix('/gift/')->name('gift.')->group(function () {
-                Route::get('', [DashboardGiftController::class, 'index'])->name('index');
+            Route::prefix('/dashboard/')->name('dashboard.')->group(function () {
+                Route::get('', [DashboardController::class, 'index'])->name('index');
+                Route::get('/payments', [DashboardController::class, 'payments'])->name('payments');
+                Route::get('/payments/{payment:payment_id}', [DashboardController::class, 'paymentDetails'])->name('payments.details');
+                Route::get('/resources', [DashboardController::class, 'resources'])->name('resources');
+
+                Route::prefix('/gift/')->name('gift.')->group(function () {
+                    Route::get('', [DashboardGiftController::class, 'index'])->name('index');
+
+                });
+
+                Route::prefix('/discord/')->name('discord.')->group(function () {
+                    Route::get('', [DashboardDiscordController::class, 'index'])->name('index');
+                    Route::get('/create', [DashboardDiscordController::class, 'create'])->name('create');
+                    Route::post('/store', [DashboardDiscordController::class, 'store'])->name('store');
+                    Route::post('/delete/{notification}', [DashboardDiscordController::class, 'delete'])->name('delete');
+                    Route::post('/test/{notification}', [DashboardDiscordController::class, 'test'])->name('test');
+                    Route::get('/edit/{notification}', [DashboardDiscordController::class, 'edit'])->name('edit');
+                    Route::post('/store/{notification}', [DashboardDiscordController::class, 'update'])->name('update');
+                });
 
             });
-
-            Route::prefix('/discord/')->name('discord.')->group(function () {
-                Route::get('', [DashboardDiscordController::class, 'index'])->name('index');
-                Route::get('/create', [DashboardDiscordController::class, 'create'])->name('create');
-                Route::post('/store', [DashboardDiscordController::class, 'store'])->name('store');
-                Route::post('/delete/{notification}', [DashboardDiscordController::class, 'delete'])->name('delete');
-                Route::post('/test/{notification}', [DashboardDiscordController::class, 'test'])->name('test');
-                Route::get('/edit/{notification}', [DashboardDiscordController::class, 'edit'])->name('edit');
-                Route::post('/store/{notification}', [DashboardDiscordController::class, 'update'])->name('update');
-            });
-
         });
     });
 

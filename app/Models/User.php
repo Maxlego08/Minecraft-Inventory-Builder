@@ -15,6 +15,7 @@ use App\Models\User\NameColorAccess;
 use App\Models\User\UserPaymentInfo;
 use App\Traits\HasProfilePhoto;
 use Carbon\Carbon;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -60,7 +61,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @method string getProfilePhotoUrlAttribute()
  * @method string getProfilePhotoLargeUrlAttribute()
  */
-class User extends Authenticate
+class User extends Authenticate implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, TwoFactorAuthenticatable, HasProfilePhoto;
 
