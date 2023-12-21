@@ -7,6 +7,7 @@ return [
         'start' => 'Started by :name :date',
         'last' => "Last <a class='conversation-link' href=':link' title='View last message'>message</a> by :name :date",
     ],
+    'empty' => 'You have no conversations.',
     'show' => [
         'title' => ':title',
     ],
@@ -43,5 +44,15 @@ return [
     'send_success' => [
         'title' => 'New reply',
         'description' => 'You have just sent a reply'
+    ],
+    'auto' => [
+        'title' => 'Auto Response',
+        'permission' => 'You do not have permission to use automatic answers. You must have the role :role. Click <a href="">here</a> to upgrade your account.',
+        'success' => [
+            'title' => 'Update Auto Response',
+            'description' => 'Update your auto response.'
+        ],
+        'enable' => 'Activate the auto response.',
+        'info' => 'auto-reply',
     ],
 ];

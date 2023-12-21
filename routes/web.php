@@ -63,6 +63,7 @@ Route::prefix('/profile')->name('profile.')->middleware('auth')->group(function 
         Route::get('/', [ConversationController::class, 'index'])->name('index');
         Route::get('/create/{user}', [ConversationController::class, 'create'])->name('create');
         Route::post('/create/{user}', [ConversationController::class, 'store'])->name('store');
+        Route::post('/auto/response}', [ConversationController::class, 'autoResponse'])->name('auto');
         Route::get('/{conversation}', [ConversationController::class, 'show'])->name('show');
         Route::post('/{conversation}/post', [ConversationController::class, 'post'])->name('post');
     });

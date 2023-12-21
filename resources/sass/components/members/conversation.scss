@@ -52,6 +52,9 @@
 
             &-text {
                 min-height: 50px;
+                img {
+                    max-width: 100%;
+                }
             }
 
             &-footer {

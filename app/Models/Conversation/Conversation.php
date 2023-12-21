@@ -63,12 +63,13 @@ class Conversation extends Model
         return $this->hasMany(ConversationNotification::class);
     }
 
-    public function createMessage(User $user, string $content)
+    public function createMessage(User $user, string $content, bool $isAuto = false)
     {
         ConversationMessage::create([
             'conversation_id' => $this->id,
             'user_id' => $user->id,
             'content' => $content,
+            'is_automatic' => $isAuto,
         ]);
 
         $this->update(['last_message_at' => now()]);

@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Alert\AlertUser;
+use App\Models\Conversation\ConversationAutoResponse;
 use App\Models\Conversation\ConversationNotification;
 use App\Models\Discord\DiscordNotification;
 use App\Models\Payment\Payment;
@@ -53,6 +54,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property Access $accesses
  * @property UserPaymentInfo $paymentInfo
  * @property NameColor $nameColor
+ * @property ConversationAutoResponse $autoResponse
  * @property File[] $files
  * @property DiscordNotification[] $webhooks
  * @property Payment[] $payments
@@ -265,6 +267,16 @@ class User extends Authenticate implements MustVerifyEmail
         $api = route('api.v1.discord');
         $client_id = env('DISCORD_CLIENT_ID');
         return 'https://discord.com/api/oauth2/authorize?client_id=' . $client_id . '&redirect_uri=' . urlencode($api) . '&response_type=code&scope=identify&state=' . $this->id;
+    }
+
+    /**
+     * User auto message
+     *
+     * @return HasOne
+     */
+    public function autoResponse(): HasOne
+    {
+        return $this->hasOne(ConversationAutoResponse::class);
     }
 
     public function createConversation(): string

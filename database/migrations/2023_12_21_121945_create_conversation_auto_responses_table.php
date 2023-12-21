@@ -8,28 +8,23 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('conversation_messages', function (Blueprint $table) {
+        Schema::create('conversation_auto_responses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('conversation_id')->constrained('conversation_conversations');
             $table->foreignId('user_id')->constrained();
             $table->longText('content');
-            $table->boolean('is_automatic')->default(false);
+            $table->boolean('is_enable');
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('conversation_messages');
+        Schema::dropIfExists('conversation_auto_responses');
     }
 };

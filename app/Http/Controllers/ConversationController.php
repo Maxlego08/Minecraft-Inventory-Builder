@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Conversation\Conversation;
+use App\Models\Conversation\ConversationAutoResponse;
 use App\Models\User;
 use App\Models\UserLog;
 use Illuminate\Contracts\Foundation\Application;
@@ -77,6 +78,10 @@ class ConversationController extends Controller
 
         $conversation = Conversation::createNewConversation(user(), $request['subject'], $request['description']);
         $conversation->addParticipant($user);
+
+        if ($user->autoResponse) {
+            $conversation->createMessage($user, $user->autoResponse->content, true);
+        }
 
         userLog("Création de la conversation avec $user->name ($conversation->id)", UserLog::COLOR_SUCCESS, UserLog::ICON_SMS);
 
@@ -169,4 +174,29 @@ class ConversationController extends Controller
         if ($user->role->isModerator()) return true;
         return $conversation->participants()->where('user_id', $user->id)->count() == 1;
     }
+
+    public function autoResponse(Request $request)
+    {
+
+        $this->validate($request, [
+            'description' => 'required|max:2000'
+        ]);
+
+        // Mise à jour ou création de l'auto-réponse
+        $autoResponse = ConversationAutoResponse::updateOrCreate(
+            [
+                'user_id' => user()->id
+            ],
+            [
+                'content' => $request['description'],
+                'is_enable' => $request['is_enable'] === 'on',
+            ]
+        );
+
+        userLog("Mise à jour de sa réponse automatique ($autoResponse->id)", UserLog::COLOR_SUCCESS, UserLog::ICON_EDIT);
+
+        return Redirect::route('profile.conversations.index')
+            ->with('toast', createToast('success', __('conversations.auto.success.title'), __('conversations.auto.success.description')));
+    }
+
 }
