@@ -11,6 +11,7 @@ use App\Models\Payment\Payment;
 use App\Models\Resource\Access;
 use App\Models\Resource\Notification;
 use App\Models\Resource\Resource;
+use App\Models\User\NameChangeHistory;
 use App\Models\User\NameColor;
 use App\Models\User\NameColorAccess;
 use App\Models\User\UserPaymentInfo;
@@ -59,6 +60,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property File[] $files
  * @property DiscordNotification[] $webhooks
  * @property Payment[] $payments
+ * @property NameChangeHistory[] $nameChangeHistories
  * @property NameColorAccess $names
  * @method static User find(int $id)
  * @method string getProfilePhotoUrlAttribute()
@@ -147,6 +149,16 @@ class User extends Authenticate implements MustVerifyEmail
     public function nameColor(): BelongsTo
     {
         return $this->belongsTo(NameColor::class);
+    }
+
+    /**
+     * Obtient l'historique des changements de nom de l'utilisateur.
+     *
+     * @return HasMany
+     */
+    public function nameChangeHistories(): HasMany
+    {
+        return $this->hasMany(NameChangeHistory::class);
     }
 
     /**

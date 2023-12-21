@@ -35,7 +35,7 @@ return [
                     'power' => UserRole::ADMIN
                 ],
                 'conversations' => [
-                    'name' => 'Payments',
+                    'name' => "Conversations",
                     'route' => 'admin.conversations.index',
                     'icon' => 'fas fa-comments',
                     'power' => UserRole::MODERATOR

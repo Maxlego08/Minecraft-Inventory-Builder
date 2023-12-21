@@ -28,7 +28,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route($route['route']) }}">
                             <i class="{{ $route['icon'] }}"></i>
-                            <span>{{ __($route['name']) }}</span>
+                            <span>{{ $route['name'] }}</span>
                         </a>
                     </li>
                 @endif

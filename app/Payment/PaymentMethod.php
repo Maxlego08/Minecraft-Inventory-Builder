@@ -73,7 +73,7 @@ abstract class PaymentMethod
                 $nameColor = $payment->nameColor;
                 User\NameColorAccess::create(['user_id' => $payment->user_id, 'color_id' => $payment->content_id, 'payment_id' => $payment->id]);
 
-                createAlert($payment->user_id, $nameColor->translation(), AlertUser::ICON_SUCCESS, AlertUser::SUCCESS, 'alerts.alerts.name_color.purchased');
+                createAlert($payment->user_id, $nameColor->translation(), AlertUser::ICON_SUCCESS, AlertUser::SUCCESS, 'alerts.alerts.name_color.purchased', route('profile.colors.index'));
 
                 userLogOffline($payment->user_id, "Couleur achetée {$nameColor->translation()}.$nameColor->id", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
             }

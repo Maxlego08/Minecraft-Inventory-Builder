@@ -4,6 +4,7 @@ use App\Http\Controllers\AlertController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\NameChangeController;
 use App\Http\Controllers\NameController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
@@ -94,6 +95,13 @@ Route::prefix('/profile')->name('profile.')->middleware('auth')->group(function 
         Route::post('/purchase/{nameColor}', [NameController::class, 'purchase'])->name('purchase');
         Route::post('/disable', [NameController::class, 'disable'])->name('disable');
         Route::post('/enable/{nameColor}', [NameController::class, 'active'])->name('store');
+    });
+
+
+    // Colors
+    Route::prefix('/update-name')->name('name.')->middleware('verified')->group(function () {
+        Route::get('', [NameChangeController::class, 'index'])->name('index');
+        Route::post('', [NameChangeController::class, 'updateName'])->name('store');
     });
 });
 

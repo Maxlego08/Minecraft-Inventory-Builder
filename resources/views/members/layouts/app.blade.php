@@ -45,22 +45,23 @@
                                                     class="bi bi-card-image"></i> {{ __('profiles.nav.images') }}</a>
                                         </li>
                                         <li class="list-group-item mb-2">
-                                            <a href="{{ user()->getProfileUrl() }}"><i
-                                                    class="bi bi-list-task"></i> {{ __('profiles.nav.resources.your') }}
-                                            </a>
+                                            <a href="{{ route('profile.colors.index') }}"><i
+                                                    class="bi bi-palette"></i> {{ __('profiles.nav.color') }}</a>
                                         </li>
                                         <li class="list-group-item mb-2">
-                                            <a href="{{ route('resources.create.index') }}"><i
-                                                    class="bi bi-plus-lg"></i> {{ __('profiles.nav.resources.add') }}
+                                            <a href=""><i class="bi bi-arrow-up-right"></i>{{ __('profiles.nav.upgrade') }}</a>
+                                        </li>
+                                        <li class="list-group-item mb-2">
+                                            <a href="{{ route('profile.name.index') }}"><i class="bi bi-person-badge"></i> {{ __('profiles.nav.change_name') }}</a>
+                                        </li>
+
+                                        <li class="list-group-item mb-2 mt-5">
+                                            <a href="{{ route('resources.create.index') }}"><i class="bi bi-plus-lg"></i> {{ __('profiles.nav.resources.add') }}
                                             </a>
                                         </li>
                                         <li class="list-group-item mb-2">
                                             <a href="{{ route('profile.payment.index') }}"><i
                                                     class="bi bi-currency-euro"></i> {{ __('payment.nav') }}</a>
-                                        </li>
-                                        <li class="list-group-item mb-2">
-                                            <a href="{{ route('profile.colors.index') }}"><i
-                                                    class="bi bi-palette"></i> {{ __('profiles.nav.color') }}</a>
                                         </li>
                                         @if(user()->countResources() > 0)
                                             <li class="list-group-item mb-2">

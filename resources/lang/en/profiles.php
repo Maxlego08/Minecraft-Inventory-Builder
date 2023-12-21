@@ -15,7 +15,9 @@ return [
             'your' => 'Your Resources',
             'add' => 'Add Resource',
         ],
-        'color' => 'Change name color'
+        'color' => 'Change name color',
+        'upgrade' => 'Account upgrades',
+        'change_name' => 'Change username'
     ],
 
     'avatar' => [
@@ -94,5 +96,24 @@ return [
         'description' => 'Allows you to link your account to the zMenu plugin on your server.',
         'info' => 'Click to display the command you will have to do in game. Attention, if you click you will have to reconnect the plugin.'
     ],
+
+    'change' => [
+        'title' => 'Change username',
+        'info' => "Please note that you're about to change your username. Once changed, your old username will become available for anyone else to use. Additionally, you'll be able to change your username again in 30 days.",
+        'new_name' => 'New username',
+        'old_name' => 'Old username',
+        'success' => [
+            'title' => 'Success !',
+            'description' => 'You just changed your username.',
+        ],
+        'error' => [
+            'title' => 'Error !',
+            'description' => "You can't change your username for now.",
+        ],
+        'error_time' => [
+            'title' => 'Error !',
+            'description' => "You must wait 30 days between each change.",
+        ],
+    ]
 
 ];
