@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property String $subject
  * @property ConversationMessage[] $messages
  * @property ConversationParticipant[] $participants
+ * @property ConversationNotification[] $notifications
  * @property User $user
  * @method static Conversation create(array $values)
  */
@@ -52,6 +53,14 @@ class Conversation extends Model
     public function participants(): HasMany
     {
         return $this->hasMany(ConversationParticipant::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function notifications(): HasMany
+    {
+        return $this->hasMany(ConversationNotification::class);
     }
 
     public function createMessage(User $user, string $content)

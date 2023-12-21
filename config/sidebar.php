@@ -34,6 +34,12 @@ return [
                     'icon' => 'fas fa-dollar-sign fa-chart-area',
                     'power' => UserRole::ADMIN
                 ],
+                'conversations' => [
+                    'name' => 'Payments',
+                    'route' => 'admin.conversations.index',
+                    'icon' => 'fas fa-comments',
+                    'power' => UserRole::MODERATOR
+                ],
             ],
 
         ],

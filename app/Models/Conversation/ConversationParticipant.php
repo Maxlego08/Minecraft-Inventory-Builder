@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $id
  * @property int $user_id
  * @property int $conversation_id
+ * @property User $user
  * @method static ConversationParticipant create(array $values)
  */
 class ConversationParticipant extends Model

@@ -19,7 +19,7 @@ class ConversationMessage extends Model
 
     protected $table = "conversation_messages";
 
-    protected $fillable = ['id', 'conversation_id', 'user_id', 'content'];
+    protected $fillable = ['id', 'conversation_id', 'user_id', 'content', 'created_at'];
 
     /**
      * @return BelongsTo

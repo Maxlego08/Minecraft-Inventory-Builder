@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ConversationController;
 use App\Http\Controllers\Admin\IndexController;
 use App\Http\Controllers\Admin\LogController;
 use App\Http\Controllers\Admin\PaymentController;
@@ -20,6 +21,11 @@ Route::prefix('resources/')->name('resources.')->group(function () {
 
 Route::prefix('logs/')->name('logs.')->group(function () {
     Route::get('/', [LogController::class, 'index'])->name('index');
+});
+
+Route::prefix('conversations/')->name('conversations.')->group(function () {
+    Route::get('/', [ConversationController::class, 'index'])->name('index');
+    Route::post('/delete/{conversation}', [ConversationController::class, 'delete'])->middleware('admin')->name('delete');
 });
 
 // Admin access

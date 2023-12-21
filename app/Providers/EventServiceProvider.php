@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Listeners\LoginListener;
 use App\Listeners\PaymentCancelNotification;
 use App\Listeners\PaymentCreateNotification;
 use App\Listeners\PaymentDisputeNotification;
@@ -18,10 +19,10 @@ use App\Payment\Events\PaymentRefund;
 use App\Payment\utils\Resources\ResourceCreate;
 use App\Payment\utils\Resources\ResourceDownload;
 use App\Payment\utils\Resources\ResourceUpdate;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -33,6 +34,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        Login::class => [
+            LoginListener::class,
         ],
         PaymentPaid::class => [
             PaymentPaidNotification::class,
