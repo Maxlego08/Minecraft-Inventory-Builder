@@ -22,7 +22,7 @@ class NameChangeController extends Controller
      */
     public function index()
     {
-        if (user()->role->isPro()) {
+        if (!user()->role->isPro()) {
             return Redirect::route('profile.index')->with('toast', createToast('error', __('profiles.change.error_permission.title'), __('profiles.change.error_permission.description'), 5000));
         }
         return view('members.update_name');
