@@ -9,7 +9,7 @@
             <div class="card rounded-1">
                 <div class="creator-header d-flex"
                      @if(isset($user->banner_photo_path))
-                     style="
+                         style="
                          background-image: url('{{ $user->getBannerUrlAttribute() }}') ;
                          background-repeat: no-repeat;
                          background-size: cover;
@@ -20,7 +20,14 @@
                     <img src="{{ $user->getProfilePhotoLargeUrlAttribute() }}" height="150" width="150" alt="User"
                          class="rounded-1">
                     <div class="ms-2 d-flex flex-column">
-                        <div class="h3">{!! $user->displayName(false) !!}</div>
+                        <div class="h3 d-flex align-items-center">
+                            {!! $user->displayName(false) !!}
+                            @if ($user->nameChangeHistories->count() > 0)
+                                <i id="username-history" data-names="{{ $user->getNameHistory() }}" data-title="{{ __('profiles.change.previous') }}"
+                                   class="bi bi-clock-history ms-1" title="{{ __('profiles.change.history') }}"
+                                   style="font-size: 18px"></i>
+                            @endif
+                        </div>
                         <div class="pb-2">
                             {!! $user->role->getRoleIcon() !!}
                         </div>

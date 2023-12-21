@@ -14,13 +14,17 @@ use Illuminate\Validation\ValidationException;
 
 class NameChangeController extends Controller
 {
+
     /**
      * Afficher la page pour changer de pseudo
      *
-     * @return View|\Illuminate\Foundation\Application|Factory|Application
+     * @return Application|Factory|View|\Illuminate\Foundation\Application|RedirectResponse
      */
-    public function index(): View|\Illuminate\Foundation\Application|Factory|Application
+    public function index()
     {
+        if (user()->role->isPro()) {
+            return Redirect::route('profile.index')->with('toast', createToast('error', __('profiles.change.error_permission.title'), __('profiles.change.error_permission.description'), 5000));
+        }
         return view('members.update_name');
     }
 

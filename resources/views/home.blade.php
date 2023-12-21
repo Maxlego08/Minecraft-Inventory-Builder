@@ -114,6 +114,7 @@
                                     <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.name_color_reduction') }}</li>
                                     <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.gif_avatar') }}</li>
                                     <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.auto_response') }}</li>
+                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.username') }}</li>
                                 </ul>
                                 <a href="#" class="btn btn-secondary w-100 rounded-1 mt-4 disabled">{{ __('upgrade.already') }}</a>
                             </div>
@@ -146,6 +147,7 @@
                                     <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.name_color_reduction') }}</li>
                                     <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.gif_avatar') }}</li>
                                     <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.auto_response') }}</li>
+                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.username') }}</li>
                                 </ul>
                                 <a href="#" class="btn btn-success w-100 rounded-1 mt-4">{{ __('upgrade.purchase', ['price' => '14.99']) }}</a>
                             </div>
@@ -178,6 +180,7 @@
                                     <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.name_color_reduction') }}</li>
                                     <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.gif_avatar') }}</li>
                                     <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.auto_response') }}</li>
+                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.username') }}</li>
                                 </ul>
                                 <a href="#" class="btn btn-success w-100 rounded-1 mt-4">{{ __('upgrade.purchase', ['price' => '49.99']) }}</a>
                             </div>

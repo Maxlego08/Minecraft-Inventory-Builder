@@ -98,7 +98,9 @@ return [
     ],
 
     'change' => [
+        'history' => 'Username changed',
         'title' => 'Change username',
+        'previous' => 'Previous usernames',
         'info' => "Please note that you're about to change your username. Once changed, your old username will become available for anyone else to use. Additionally, you'll be able to change your username again in 30 days.",
         'new_name' => 'New username',
         'old_name' => 'Old username',
@@ -113,6 +115,10 @@ return [
         'error_time' => [
             'title' => 'Error !',
             'description' => "You must wait 30 days between each change.",
+        ],
+        'error_permission' => [
+            'title' => 'Error !',
+            'description' => "You must be Pro to change username.",
         ],
     ]
 

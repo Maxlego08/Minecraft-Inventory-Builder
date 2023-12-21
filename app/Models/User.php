@@ -502,4 +502,11 @@ class User extends Authenticate implements MustVerifyEmail
         return $this->names->where('color_id', $nameColor->id)->count() > 0;
     }
 
+    public function getNameHistory(): string
+    {
+        $names = $this->nameChangeHistories->pluck('old_name')->toArray();
+        return implode(',', $names);
+    }
+
+
 }

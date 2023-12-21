@@ -31,6 +31,7 @@ return [
         'gif_avatar' => 'Upload GIF avatars',
         'auto_response' => 'Automatic response to your PMs',
         'zmenu+' => 'Access to <a href="" target="_blank" class="ms-1 me-1">zMenu+</a> addon',
+        'username' => 'Change your username every 30 days',
     ],
 
 ];

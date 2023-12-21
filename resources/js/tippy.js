@@ -21,7 +21,7 @@ window.addEventListener('load', function () {
             let url = instance.reference.getAttribute('data-url');
 
             if (!tooltipsData[url]) {
-                tooltipsData[url] = { lastUpdateAt: 0, content: "" };
+                tooltipsData[url] = {lastUpdateAt: 0, content: ""};
             }
 
             if (tooltipsData[url].lastUpdateAt > Date.now()) {
@@ -44,8 +44,6 @@ window.addEventListener('load', function () {
     if (usernameElement == null) return
 
     let lastElement = usernameElement.classList.item(2);
-    console.log(lastElement)
-    console.log(usernameElement.innerText)
 
     let elements = document.querySelectorAll('.username-card-content')
 
@@ -112,4 +110,44 @@ window.addEventListener('load', function () {
             usernameElement.classList.add(lastElement)
         })
     })
+});
+
+
+window.addEventListener('load', function () {
+
+    let usernameElement = document.getElementById('username-history')
+    if (usernameElement == null) return
+
+    let names = usernameElement.getAttribute('data-names').split(',')
+    let title = usernameElement.getAttribute('data-title')
+
+    tippy(usernameElement, {
+        content: '<span style="padding: 10px 5px">Loading...</span>',
+        arrow: true,
+        allowHTML: true,
+        interactive: true,
+        interactiveBorder: 5,
+        zIndex: 99999,
+        theme: 'light', // show delay is 100ms, hide delay is the default
+        delay: [100, null],
+        trigger: "mouseenter click",
+        appendTo: reference => reference.parentNode,
+        onShow(instance) {
+
+            let value = `
+            <div class="username-history p-2">
+            <div class="username-history-title">
+                ${title}
+            </div>
+            <div class="username-history-content">`
+            names.forEach(function (name) {
+                value += `<span>${name}</span>`
+            })
+            value += `</div>
+    </div>`
+
+            instance.setContent(value);
+        },
+    });
+
 });
