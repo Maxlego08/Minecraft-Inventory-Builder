@@ -44,6 +44,11 @@
                 @endforeach
             </ul>
             {{ $conversations->links() }}
+
+            <div class="my-3">
+                <input class="form-check-input" type="checkbox" name="toggle_conversation" id="toggle_conversation" data-token="{{ csrf_token() }}" data-url="{{ route('profile.conversations.toggle') }}" @if(user()->enable_conversation) checked @endif>
+                <label class="form-check-label" for="toggle_conversation">{{ __('conversations.enable') }}</label>
+            </div>
         </div>
     </div>
 

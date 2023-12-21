@@ -9,7 +9,7 @@ return [
         'account' => 'Your Account',
         'details' => 'Account details',
         'alerts' => 'Your Alerts',
-        'conversations' => 'View Conversations',
+        'conversations' => 'Conversations',
         'images' => 'Your Images',
         'resources' => [
             'your' => 'Your Resources',

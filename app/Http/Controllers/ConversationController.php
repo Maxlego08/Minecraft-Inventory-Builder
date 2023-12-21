@@ -175,7 +175,14 @@ class ConversationController extends Controller
         return $conversation->participants()->where('user_id', $user->id)->count() == 1;
     }
 
-    public function autoResponse(Request $request)
+    /**
+     * Permet de réponse automatiquement à un message
+     *
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws ValidationException
+     */
+    public function autoResponse(Request $request): RedirectResponse
     {
 
         $this->validate($request, [
@@ -197,6 +204,27 @@ class ConversationController extends Controller
 
         return Redirect::route('profile.conversations.index')
             ->with('toast', createToast('success', __('conversations.auto.success.title'), __('conversations.auto.success.description')));
+    }
+
+    /**
+     * Permet d'activer ou désactiver les conversations
+     *
+     * @param Request $request
+     * @return false|string
+     * @throws ValidationException
+     */
+    public function toggle(Request $request): bool|string
+    {
+        $this->validate($request, [
+            'is_enable' => ['required'],
+        ]);
+        user()->update(['enable_conversation' => $request['is_enable'] === 'true']);
+        if (user()->enable_conversation){
+            userLog("Vient d'activer les messages privés", UserLog::COLOR_SUCCESS, UserLog::ICON_SMS);
+        } else {
+            userLog("Vient de désactiver les messages privés", UserLog::COLOR_DANGER, UserLog::ICON_SMS);
+        }
+        return json_encode(['message' => 'success']);
     }
 
 }

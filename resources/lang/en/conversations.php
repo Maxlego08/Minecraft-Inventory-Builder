@@ -8,6 +8,7 @@ return [
         'last' => "Last <a class='conversation-link' href=':link' title='View last message'>message</a> by :name :date",
     ],
     'empty' => 'You have no conversations.',
+    'enable' => 'Enable conversations.',
     'show' => [
         'title' => ':title',
     ],

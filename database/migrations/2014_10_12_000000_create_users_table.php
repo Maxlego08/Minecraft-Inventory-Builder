@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('profile_photo_path', 2048)->nullable();
             $table->string('profile_photo_path_large', 2048)->nullable();
             $table->string('banner_photo_path', 2048)->nullable();
+            $table->boolean('enable_conversation')->default(true);
             $table->timestamps();
         });
     }

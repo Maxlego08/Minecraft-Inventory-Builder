@@ -45,6 +45,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property Carbon $created_at
  * @property Carbon $two_factor_confirmed_at
  * @property Carbon $updated_at
+ * @property boolean $enable_conversation
  * @property DiscordUser $discord
  * @property AlertUser[] $alerts
  * @property Resource[] $resources
@@ -72,7 +73,7 @@ class User extends Authenticate implements MustVerifyEmail
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'email', 'password', 'user_role_id', 'name_color_id'];
+    protected $fillable = ['name', 'email', 'password', 'user_role_id', 'name_color_id', 'enable_conversation'];
 
     /**
      * The attributes that should be hidden for serialization.
