@@ -62,6 +62,12 @@
                                             <a href="{{ route('profile.colors.index') }}"><i
                                                     class="bi bi-palette"></i> {{ __('profiles.nav.color') }}</a>
                                         </li>
+                                        @if(user()->countResources() > 0)
+                                            <li class="list-group-item mb-2">
+                                            <a href="{{ route('resources.dashboard.resources') }}"><i
+                                                    class="bi bi-pencil-square"></i> {{ __('resources.actions.creator_board') }}</a>
+                                        </li>
+                                        @endif
                                     </ul>
                                 </nav>
 

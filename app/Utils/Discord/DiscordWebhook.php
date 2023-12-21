@@ -79,32 +79,33 @@ class DiscordWebhook implements Arrayable
         if ($notification->avatar_url != null)
             $webhook->avatarUrl(DashboardDiscordController::replaceContent($notification->avatar_url, $user, $payment, $resource, $version));
 
-        /*if ($notification->enable_embed) {
+        foreach ($notification->embeds as $embedDiscord){
 
             $embed = new Embed();
 
-            if ($notification->title != null)
-                $embed->title(DashboardDiscordController::replaceContent($notification->title, $user, $payment, $resource, $version));
+            if ($embedDiscord->title != null)
+                $embed->title(DashboardDiscordController::replaceContent($embedDiscord->title, $user, $payment, $resource, $version));
 
-            if ($notification->footer != null)
-                $embed->footer(DashboardDiscordController::replaceContent($notification->footer, $user, $payment, $resource, $version));
+            if ($embedDiscord->footer != null)
+                $embed->footer(DashboardDiscordController::replaceContent($embedDiscord->footer, $user, $payment, $resource, $version));
 
-            if ($notification->description != null)
-                $embed->description(DashboardDiscordController::replaceContent($notification->description, $user, $payment, $resource, $version));
+            if ($embedDiscord->description != null)
+                $embed->description(DashboardDiscordController::replaceContent($embedDiscord->description, $user, $payment, $resource, $version));
 
-            if ($notification->thumbnail != null)
-                $embed->thumbnail(DashboardDiscordController::replaceContent($notification->thumbnail, $user, $payment, $resource, $version));
+            if ($embedDiscord->thumbnail != null)
+                $embed->thumbnail(DashboardDiscordController::replaceContent($embedDiscord->thumbnail, $user, $payment, $resource, $version));
 
-            if ($notification->url_embed != null)
-                $embed->url(DashboardDiscordController::replaceContent($notification->url_embed, $user, $payment, $resource, $version));
+            if ($embedDiscord->url_embed != null)
+                $embed->url(DashboardDiscordController::replaceContent($embedDiscord->url_embed, $user, $payment, $resource, $version));
 
-            if ($notification->color != null)
-                $embed->color($notification->color);
+            if ($embedDiscord->color != null)
+                $embed->color($embedDiscord->color);
 
             if ($embed->isValid()) {
                 $webhook->addEmbed($embed);
             }
-        }*/
+
+        }
 
         return $webhook;
     }

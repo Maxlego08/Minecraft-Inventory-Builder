@@ -3,6 +3,7 @@
 
 namespace App\Payment;
 
+use App\Models\Alert\AlertUser;
 use App\Models\Payment\Gift;
 use App\Models\Payment\Payment;
 use App\Models\Resource\Access;
@@ -59,6 +60,8 @@ abstract class PaymentMethod
                 Access::create(['user_id' => $payment->user_id, 'resource_id' => $payment->content_id, 'payment_id' => $payment->id]);
                 Cache::forget("user.access::$payment->user_id");
 
+                createAlert($payment->user_id, $resource->name, AlertUser::ICON_SUCCESS, AlertUser::SUCCESS, 'alerts.alerts.resources.purchased', $resource->link('description'));
+
                 userLogOffline($payment->user_id, "Ressource achetée $resource->name.$resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
             }
             case Payment::TYPE_ACCOUNT_UPGRADE :
@@ -69,6 +72,8 @@ abstract class PaymentMethod
             {
                 $nameColor = $payment->nameColor;
                 User\NameColorAccess::create(['user_id' => $payment->user_id, 'color_id' => $payment->content_id, 'payment_id' => $payment->id]);
+
+                createAlert($payment->user_id, $nameColor->translation(), AlertUser::ICON_SUCCESS, AlertUser::SUCCESS, 'alerts.alerts.name_color.purchased');
 
                 userLogOffline($payment->user_id, "Couleur achetée {$nameColor->translation()}.$nameColor->id", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
             }

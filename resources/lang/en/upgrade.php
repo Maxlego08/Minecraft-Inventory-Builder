@@ -21,6 +21,7 @@ return [
         'image_global_size' => 'Uploaded up to :size image',
         'gift_access' => 'Access to the GIF upload',
         'discord_webhook' => 'Discord Webhook Integration',
+        'discord_webhook_amount' => 'Created up to :size Discord Webhook',
         'banner_change' => 'Access to the banner upload',
         'discord_support_ticket' => 'Ticket support for zMenu on discord',
         'discord_support_forum' => 'Support in a discord forum',
@@ -28,6 +29,8 @@ return [
         'inventory_folder' => 'Created up to :size folder (WIP)',
         'name_color_reduction' => 'Discount 50% on the price of the name color',
         'gif_avatar' => 'Upload GIF avatars',
+        'auto_response' => 'Automatic response to your PMs',
+        'zmenu+' => 'Access to <a href="" target="_blank" class="ms-1 me-1">zMenu+</a> addon',
     ],
 
 ];

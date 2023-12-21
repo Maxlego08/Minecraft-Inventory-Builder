@@ -28,7 +28,7 @@ class FileController extends Controller
      */
     public function index(): View|\Illuminate\Foundation\Application|Factory|Application
     {
-        $files = user()->images();
+        $files = user()->images()->sortByDesc('file_size');
         return view('members.media.index', ['images' => $files,]);
     }
 

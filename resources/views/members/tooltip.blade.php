@@ -43,12 +43,18 @@
                     </div>
                     <hr>
                     <div class="user-tooltip-content-buttons">
-                @else
-                    <div class="user-tooltip-content-buttons pt-3">
-                @endif
-                    <a class="conversation-button rounded-1" href="{{ $user->createConversation() }}">{{ __('tooltip.conversation') }}</a>
+                        @else
+                            <div class="user-tooltip-content-buttons pt-3">
+                                @endif
+                                @if(!$user->enable_conversation)
+                                    <span class="conversation-button rounded-1 disabled cursor-disabled">{{ __('tooltip.conversation') }}</span>
+                                @else
+                                    <a class="conversation-button rounded-1 @if(!$user->enable_conversation) disabled cursor-disabled @endif"
+                                       href="{{ $user->createConversation() }}">{{ __('tooltip.conversation') }}</a>
+                                @endif
+
+                            </div>
                     </div>
-                </div>
 
             </div>
         </div>

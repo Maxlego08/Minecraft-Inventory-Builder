@@ -11,6 +11,7 @@ use App\Models\Resource\Resource;
 use App\Models\Resource\Version;
 use App\Models\User;
 use App\Models\UserLog;
+use App\Models\UserRole;
 use App\Utils\Discord\DiscordWebhook;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -57,8 +58,6 @@ class DashboardDiscordController extends Controller
         'resource_version_download',
         'color_random',
     ];
-
-    const MAX_DISCORD_WEBHOOK = 7;
 
     public static function replaceContent(string $message, ?User $user, ?Payment $payment, ?Resource $resource, ?Version $version): array|string
     {
@@ -179,7 +178,7 @@ class DashboardDiscordController extends Controller
 
         $user = user();
         $counts = DiscordNotification::where('user_id', $user->id)->count();
-        if ($counts >= self::MAX_DISCORD_WEBHOOK) {
+        if ($counts >= $user->role->max_discord_webhook) {
             return Redirect::route('resources.dashboard.discord.index')->with('toast', createToast('error', __('resources.dashboard.discord.errors.limit.title'), __('resources.dashboard.discord.errors.limit.description')));
         }
 
@@ -217,10 +216,13 @@ class DashboardDiscordController extends Controller
     /**
      * Créer un webhook discord
      *
-     * @return View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|View|Application|RedirectResponse
      */
-    public function create(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    public function create(): Application|View|Factory|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
+        if (user()->role->isMember()) {
+            return Redirect::route('resources.dashboard.discord.index')->with('toast', createToast('error', __('resources.dashboard.discord.error_permission.title'), __('resources.dashboard.discord.error_permission.description')));
+        }
         return view('resources.dashboard.discord.create', ['events' => self::EVENTS,]);
     }
 

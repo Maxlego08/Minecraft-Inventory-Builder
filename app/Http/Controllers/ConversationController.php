@@ -51,6 +51,11 @@ class ConversationController extends Controller
                 ->with('toast', createToast('error', __('conversations.error_create_self.title'), __('conversations.error_create_self.description')));
         }
 
+        if (!$user->enable_conversation && !user()->role->isModerator()) {
+            return Redirect::route('profile.conversations.index')
+                ->with('toast', createToast('error', __('conversations.error_disable.title'), __('conversations.error_disable.description', ['name' => $user->name])));
+        }
+
         return view('members.conversations.create', [
             'target' => $user,
         ]);
@@ -75,6 +80,16 @@ class ConversationController extends Controller
         }
 
         RateLimiter::hit($key, 30);
+
+        if ($user->id == user()->id) {
+            return Redirect::route('profile.conversations.index')
+                ->with('toast', createToast('error', __('conversations.error_create_self.title'), __('conversations.error_create_self.description')));
+        }
+
+        if (!$user->enable_conversation && !user()->role->isModerator()) {
+            return Redirect::route('profile.conversations.index')
+                ->with('toast', createToast('error', __('conversations.error_disable.title'), __('conversations.error_disable.description', ['name' => $user->name])));
+        }
 
         $conversation = Conversation::createNewConversation(user(), $request['subject'], $request['description']);
         $conversation->addParticipant($user);

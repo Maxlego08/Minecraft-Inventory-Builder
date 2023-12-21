@@ -2,7 +2,10 @@ import tippy from 'tippy.js';
 import 'tippy.js/dist/tippy.css';
 
 window.addEventListener('load', function () {
-    // NodeList
+
+    let tooltipsData = {};
+
+// NodeList
     tippy(document.querySelectorAll('.username-tooltip'), {
         content: '<span style="padding: 10px 5px">Loading...</span>',
         arrow: true,
@@ -10,13 +13,27 @@ window.addEventListener('load', function () {
         interactive: true,
         interactiveBorder: 5,
         zIndex: 99999,
-        theme: 'light', // show delay is 100ms, hide delay is the default
-        delay: [100, null],
+        theme: 'light',
+        trigger: "mouseenter click",
+        delay: [500, null],
         appendTo: reference => reference.parentNode,
         onShow(instance) {
-            let url = instance.reference.getAttribute('data-url')
+            let url = instance.reference.getAttribute('data-url');
+
+            if (!tooltipsData[url]) {
+                tooltipsData[url] = { lastUpdateAt: 0, content: "" };
+            }
+
+            if (tooltipsData[url].lastUpdateAt > Date.now()) {
+                instance.setContent(tooltipsData[url].content);
+                return;
+            }
+
+            tooltipsData[url].lastUpdateAt = Date.now() + 1000 * 60; // 60 secondes de cooldown
+
             axios.get(url).then((response) => {
-                instance.setContent(response.data);
+                tooltipsData[url].content = response.data;
+                instance.setContent(tooltipsData[url].content);
             }).catch((error) => {
                 instance.setContent(`Request failed. ${error}`);
             });

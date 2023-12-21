@@ -102,6 +102,7 @@ class UserController extends Controller
             $resource->clear('resource.user');
         }
         $user->clear('user.color');
+        $user->clear('user.role');
 
         userLog("Modification de l'utilisateur $user->name.$user->id", UserLog::COLOR_WARNING, UserLog::ICON_EDIT);
 

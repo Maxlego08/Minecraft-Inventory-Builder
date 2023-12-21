@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->integer('max_folders');
             $table->boolean('premium_resources');
             $table->integer('power');
+            $table->integer('max_discord_webhook');
             $table->boolean('is_banned');
             $table->timestamps();
         });
@@ -36,6 +37,7 @@ return new class extends Migration {
             'power' => 0,
             'max_inventories' => 0,
             'max_folders' => 0,
+            'max_discord_webhook' => 0,
 
             'is_banned' => true,
         ]);
@@ -50,6 +52,7 @@ return new class extends Migration {
             'power' => 1,
             'max_inventories' => 100,
             'max_folders' => 10,
+            'max_discord_webhook' => 0,
             'is_banned' => false,
         ]);
 
@@ -63,6 +66,7 @@ return new class extends Migration {
             'power' => 2,
             'max_inventories' => 1000,
             'max_folders' => 100,
+            'max_discord_webhook' => 5,
             'is_banned' => false,
         ]);
 
@@ -76,6 +80,7 @@ return new class extends Migration {
             'power' => 3,
             'max_inventories' => 10000,
             'max_folders' => 1000,
+            'max_discord_webhook' => 20,
             'is_banned' => false,
         ]);
 
@@ -89,6 +94,7 @@ return new class extends Migration {
             'power' => 50,
             'max_inventories' => 10000,
             'max_folders' => 1000,
+            'max_discord_webhook' => 20,
             'is_banned' => false,
         ]);
 
@@ -102,6 +108,7 @@ return new class extends Migration {
             'power' => 100,
             'max_inventories' => 10000,
             'max_folders' => 1000,
+            'max_discord_webhook' => 20,
             'is_banned' => false,
         ]);
     }

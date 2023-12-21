@@ -313,6 +313,7 @@ return [
             'username' => 'Username',
             'avatar_url' => 'Avatar URL',
             'url_errors' => 'The url is not the right format.',
+            'permission' => 'You do not have permission to create a discord. You must have the role :role. Click <a href="">here</a> to upgrade your account.',
             'embed' => [
                 'add' => 'Add Embed',
                 'title' => 'Embed Title',
@@ -327,6 +328,10 @@ return [
                     'title' => 'Limit reached',
                     'description' => 'You have just reached the webhook discord limit. You cannot create a new one.',
                 ],
+            ],
+            'error_permission' => [
+                'title' => 'No permission',
+                'description' => 'You don’t have permission to create a webhook discord',
             ],
             'success' => [
                 'title' => 'New Discord Webhook',

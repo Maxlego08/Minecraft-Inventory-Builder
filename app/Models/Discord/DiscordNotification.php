@@ -26,7 +26,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property User $user
- * @property Embed[] $embeds
+ * @property DiscordEmbed[] $embeds
  * @method static DiscordNotification find(int $id)
  */
 class DiscordNotification extends Model

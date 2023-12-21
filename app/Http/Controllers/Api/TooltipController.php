@@ -32,6 +32,20 @@ class TooltipController extends Controller
             $userBannerStyle = "style=\"background-image: url('$userBannerUrl'); background-repeat: no-repeat; background-size: cover; background-position: 0 0;\"";
         }
 
+        $userEnableConversation = $user->enable_conversation;
+        $conversationTooltip = __('tooltip.conversation');
+        $createConversationUrl = $user->createConversation();
+
+        if (!$userEnableConversation) {
+            $htmlContentButton = <<<HTML
+        <span class="conversation-button rounded-1 disabled cursor-disabled">{$conversationTooltip}</span>
+    HTML;
+        } else {
+            $htmlContentButton = <<<HTML
+        <a class="conversation-button rounded-1" href="{$createConversationUrl}">{$conversationTooltip}</a>
+    HTML;
+        }
+
         $tooltipInformations = '';
         if ($user->hasTooltipInformations()) {
             $tooltipInformations = <<<HTML
@@ -66,7 +80,7 @@ HTML;
             <div class="user-tooltip-content">
                 {$tooltipInformations}
                 <div class="user-tooltip-content-buttons$tooltipCss">
-                    <a class="conversation-button rounded-1" href="{$userCreateConversationUrl}">{$tooltipConversation}</a>
+                    {$htmlContentButton}
                 </div>
             </div>
         </div>
