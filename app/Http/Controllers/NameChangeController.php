@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User\NameChangeHistory;
+use App\Models\UserLog;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -51,11 +52,13 @@ class NameChangeController extends Controller
             $user->name = $newName;
             $user->save();
 
-            NameChangeHistory::create([
+            $nameChangeHistory = NameChangeHistory::create([
                 'user_id' => $user->id,
                 'old_name' => $oldName,
                 'new_name' => $newName,
             ]);
+
+            userLog("Changement du pseudo de $oldName à $newName ($nameChangeHistory->id)", UserLog::COLOR_SUCCESS, UserLog::ICON_EDIT);
 
             return Redirect::route('profile.name.index')->with('toast', createToast('success', __('profiles.change.success.title'), __('profiles.change.success.description'), 5000));
         }
