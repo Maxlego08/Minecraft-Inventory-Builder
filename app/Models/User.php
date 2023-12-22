@@ -28,6 +28,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticate;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
@@ -492,13 +493,17 @@ class User extends Authenticate implements MustVerifyEmail
     function hasTooltipInformations(): bool
     {
         $tooltipInformations = $this->getTooltipInformations();
-        return $tooltipInformations['resources'] > 0 || $tooltipInformations['payments'] > 0;
+        return $tooltipInformations['resources'] > 0 || $tooltipInformations['payments'] > 0 || $tooltipInformations['reactions'] > 0;
     }
 
     function getTooltipInformations(): array
     {
         return Cache::remember("user.tooltip::$this->id", 300, function () {
-            return ['resources' => $this->resources->count(), 'payments' => $this->payments->where('status', Payment::STATUS_PAID)->count(),];
+            return [
+                'resources' => $this->resources->count(),
+                'payments' => $this->payments->where('status', Payment::STATUS_PAID)->count(),
+                'reactions' => $this->totalReceivedLikes(),
+            ];
         });
     }
 
@@ -555,10 +560,36 @@ class User extends Authenticate implements MustVerifyEmail
     public function canLike(Likeable $likeable): bool
     {
         return match (true) {
-            $likeable instanceof Resource => $likeable->user_id,
-            $likeable instanceof Version => $likeable->resource->user_id,
-            default => null
-        } != user()->id;
+                $likeable instanceof Resource => $likeable->user_id,
+                $likeable instanceof Version => $likeable->resource->user_id,
+                default => null
+            } != $this->id || $this->cache('role')->isAdmin();
+    }
+
+
+    /**
+     * Obtient le total des likes reçus sur les ressources et les versions de l'utilisateur.
+     *
+     * @return int
+     */
+    public function totalReceivedLikes(): int
+    {
+        return Cache::remember("likes.total::$this->id", 86400, function () {
+            // Requête pour les likes sur les ressources
+            $resourceLikes = Like::whereHas('likeable', function ($query) {
+                $query->whereIn('id', $this->resources->pluck('id'))
+                    ->where('likeable_type', Resource::class);
+            });
+
+            // Requête pour les likes sur les versions des ressources
+            $versionLikes = Like::whereHasMorph('likeable', [Version::class], function ($query) {
+                $resourceIds = $this->resources->pluck('id');
+                $query->whereIn('resource_id', $resourceIds);
+            });
+
+            // Combine les deux requêtes en utilisant une union
+            return DB::query()->fromSub($resourceLikes->union($versionLikes), 'combined_likes')->count();
+        });
     }
 
 

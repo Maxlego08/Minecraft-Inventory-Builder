@@ -64,6 +64,7 @@ class LikeController extends Controller
 
         Cache::forget("likes.{$likeable->getCacheName()}");
         Cache::forget("user_{$user->id}_{$likeable->getCacheName()}");
+        $this->cancelAuthorCache($likeable);
 
         return response()->json([
             'message' => $status,
@@ -79,5 +80,14 @@ class LikeController extends Controller
         if ($likeable instanceof Version) {
             createUniqueAlert($likeable->resource->user_id, $likeable->title, AlertUser::ICON_LIKE, AlertUser::SUCCESS, 'alerts.alerts.resources.like_update', $likeable->resource->link('updates'), $user->id);
         }
+    }
+
+    private function cancelAuthorCache(Likeable $likeable)
+    {
+        $id = match (true) {
+            $likeable instanceof Resource => $likeable->user_id,
+            $likeable instanceof Version => $likeable->resource->user_id,
+        };
+        Cache::forget("likes.total::$id");
     }
 }

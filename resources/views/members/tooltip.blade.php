@@ -40,6 +40,10 @@
                             <span>{{ __('tooltip.payments') }}</span>
                             <span class="text-center">{{ $user->getTooltipInformations()['payments'] }}</span>
                         </div>
+                        <div class="d-flex flex-column">
+                            <span>{{ __('tooltip.reactions') }}</span>
+                            <span class="text-center">{{ $user->getTooltipInformations()['reactions'] }}</span>
+                        </div>
                     </div>
                     <hr>
                     <div class="user-tooltip-content-buttons">

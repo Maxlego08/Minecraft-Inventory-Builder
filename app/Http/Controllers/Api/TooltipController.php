@@ -20,12 +20,12 @@ class TooltipController extends Controller
         $userJoinDate = htmlspecialchars(simple_date($user->created_at));
         $userResources = htmlspecialchars($user->getTooltipInformations()['resources'] ?? '');
         $userPayments = htmlspecialchars($user->getTooltipInformations()['payments'] ?? '');
-        $userCreateConversationUrl = htmlspecialchars($user->createConversation());
         $tooltipJoinAt = htmlspecialchars(__('tooltip.join_at'));
-        $tooltipConversation = htmlspecialchars(__('tooltip.conversation'));
         $tooltipResources = htmlspecialchars(__('tooltip.resources'));
         $tooltipPayments = htmlspecialchars(__('tooltip.payments'));
+        $tooltipReactions = htmlspecialchars(__('tooltip.reactions'));
         $tooltipCss = $user->hasTooltipInformations() ? '' : ' pt-3';
+        $totalLikes = $user->totalReceivedLikes();
 
         if (isset($user->banner_photo_path)) {
             $userBannerUrl = htmlspecialchars($user->getBannerUrlAttribute());
@@ -57,6 +57,10 @@ class TooltipController extends Controller
                         <div class="d-flex flex-column">
                             <span>{$tooltipPayments}</span>
                             <span class="text-center">{$userPayments}</span>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <span>{$tooltipReactions}</span>
+                            <span class="text-center">{$totalLikes}</span>
                         </div>
                     </div>
                     <hr>
