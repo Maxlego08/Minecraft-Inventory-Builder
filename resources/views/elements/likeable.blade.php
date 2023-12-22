@@ -1,3 +1,4 @@
+@auth()
 <div class="d-flex flex-column">
     <div class="footer-section mb-1">
         <div class="footer-section-report">
@@ -23,3 +24,4 @@
         {!! formatLikedBy($likeable) !!}
     </div>
 </div>
+@endauth
