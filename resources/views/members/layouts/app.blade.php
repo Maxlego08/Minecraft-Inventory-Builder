@@ -16,7 +16,7 @@
                                      alt="{{ user()->name }}" class="rounded-2">
                                 <div class="d-flex flex-column ms-2 align-items-center justify-content-center">
                                     {!! user()->displayName(false, customCss: 'd-lg-block mb-1') !!}
-                                    {!! user()->role->getRoleIcon() !!}
+                                    {!! user()->cache('role')->getRoleIcon() !!}
                                 </div>
 
                             </div>

@@ -59,7 +59,7 @@
     <div class="card rounded-1 mt-3 mb-3">
         <div class="card-body">
             <h2>{{ __('conversations.auto.title') }}</h2>
-            @if(user()->role->isPro())
+            @if(user()->cache('role')->isPro())
 
                 <form method="POST" action="{{ route('profile.conversations.auto') }}">
                     @csrf

@@ -4,14 +4,17 @@ namespace App\Models\Resource;
 
 use App\Code\BBCode;
 use App\Models\File;
+use App\Models\Like;
 use App\Models\MinecraftVersion;
 use App\Models\User;
 use App\Traits\ReviewStarts;
+use App\Utils\Likeable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
@@ -45,7 +48,7 @@ use Illuminate\Support\Str;
  * @method static Resource findOrFail(int $id)
  * @method static Resource create(array $values)
  */
-class Resource extends Model
+class Resource extends Model implements Likeable
 {
     use HasFactory, ReviewStarts;
 
@@ -111,6 +114,17 @@ class Resource extends Model
     {
         return $this->hasMany(Review::class);
     }
+
+    /**
+     * Like d'une resource
+     *
+     * @return MorphMany
+     */
+    public function likes(): MorphMany
+    {
+        return $this->morphMany(Like::class, 'likeable');
+    }
+
 
     /**
      * Display the rating stars
@@ -370,4 +384,14 @@ class Resource extends Model
         return $this->user->paymentInfo->sk_live != null || $this->user->paymentInfo->paypal_email != null;
     }
 
+    public function getContentName(): string
+    {
+        return "resource $this->name.$this->id";
+    }
+
+    public function getCacheName(): string
+    {
+        return "resource::$this->id";
+    }
 }
+

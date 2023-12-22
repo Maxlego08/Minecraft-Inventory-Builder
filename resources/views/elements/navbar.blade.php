@@ -42,7 +42,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" data-bs-popper="none">
                         <li><a class="dropdown-item" href="{{ route('profile.index') }}">Profile</a></li>
-                        @if (user()->role->isModerator())
+                        @if (user()->cache('role')->isModerator())
                         <li><a class="dropdown-item" href="{{ route('admin.index') }}">Admin</a></li>
                         @endif
                         <li>

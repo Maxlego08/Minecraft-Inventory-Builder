@@ -10,6 +10,7 @@ import './gift'
 import './tippy'
 import './discord_webhook'
 import './conversations'
+import './like'
 
 import "@melloware/coloris/dist/coloris.css";
 import Coloris from "@melloware/coloris";

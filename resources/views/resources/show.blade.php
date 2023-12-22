@@ -58,6 +58,7 @@
         <div class="pt-3 mb-0 resource-content">
             {!! $resource->toHTML() !!}
         </div>
+        @include('elements.likeable', ['likeable' => $resource, 'url' => route('like.resource', $resource)])
     </div>
 
     <div class="bg-blue-800 p-4 show active mt-3">

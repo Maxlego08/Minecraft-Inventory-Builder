@@ -24,7 +24,7 @@
                 <div class="d-flex flex-column">
                     <span class="name h5 mb-0">{!! $user->displayNameAndLink(false) !!}</span>
                     <div class="pt-2 pb-2">
-                        {!! $user->role->getRoleIcon() !!}
+                        {!! $user->cache('role')->getRoleIcon() !!}
                     </div>
                     <span class="join-info">{{ __('tooltip.join_at') }}{{ simple_date($user->created_at) }}</span>
                 </div>

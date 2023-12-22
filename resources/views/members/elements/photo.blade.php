@@ -15,7 +15,7 @@
                     <form method="POST" action="{{ route('profile.picture.update') }}" class="w-100"
                           enctype="multipart/form-data">
                         @csrf
-                        <input type="file" onchange="this.form.submit()" name="image" @if(user()->role->isPro()) accept=".jpg,.jpeg,.png,.gif" @else accept=".jpg,.jpeg,.png" @endif
+                        <input type="file" onchange="this.form.submit()" name="image" @if(user()->cache('role')->isPro()) accept=".jpg,.jpeg,.png,.gif" @else accept=".jpg,.jpeg,.png" @endif
                                class="form-control btn btn-primary btn-sm d-block px-4 w-100 my-2 rounded-1 @error('image') is-invalid @enderror"/>
                         @error('image')
                         <div id="image-error" class="invalid-feedback">{{ $message }}</div>
@@ -26,7 +26,7 @@
             <div class="col-6">
                 <div class="d-flex justify-content-between">
                     <h2>{{ __('profiles.banner.name') }}</h2>
-                    @if(user()->role->isPro())
+                    @if(user()->cache('role')->isPro())
                         <form method="POST" action="{{ route('profile.banner.destroy') }}">
                             @csrf
                             <button type="submit" class="btn btn-danger btn-sm d-block px-4 w-100 my-2 rounded-1">
@@ -36,7 +36,7 @@
                     @endif
                 </div>
                 <div class="members-picture">
-                    @if(user()->role->isPro())
+                    @if(user()->cache('role')->isPro())
                         <form method="POST" action="{{ route('profile.banner.update') }}" class="w-100"
                               enctype="multipart/form-data">
                             @csrf

@@ -52,5 +52,8 @@ return [
     ],
     'login' => 'Login',
     'register' => 'Register',
-    'update_at' => 'Updated at'
+    'update_at' => 'Updated at',
+    'like' => 'Like',
+    'unlike' => 'Unlike',
+    'report' => 'Report',
 ];

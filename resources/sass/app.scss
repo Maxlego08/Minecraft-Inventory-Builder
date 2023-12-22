@@ -34,3 +34,11 @@ $font-path: './fonts/';
     cursor: not-allowed !important;
     pointer-events: unset !important;
 }
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.cursor-load {
+    cursor: progress;
+}

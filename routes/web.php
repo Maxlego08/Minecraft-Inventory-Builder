@@ -4,6 +4,7 @@ use App\Http\Controllers\AlertController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\NameChangeController;
 use App\Http\Controllers\NameController;
 use App\Http\Controllers\PaymentController;
@@ -199,4 +200,12 @@ Route::prefix('resources')->name('resources.')->group(function () {
     Route::get('/{slug}.{resource}', [ResourceViewController::class, 'index'])->name('view');
     Route::get('/{resource}', [ResourceViewController::class, 'indexById'])->name('view.id');
 
+});
+
+
+Route::middleware('auth')->group(function () {
+    Route::prefix('like')->name('like.')->group(function () {
+        Route::post('/resource/{resource}', [LikeController::class, 'toggleResourceLike'])->name('resource');
+        Route::post('/version/{version}', [LikeController::class, 'toggleVersionLike'])->name('version');
+    });
 });

@@ -11,11 +11,13 @@ use App\Models\Payment\Payment;
 use App\Models\Resource\Access;
 use App\Models\Resource\Notification;
 use App\Models\Resource\Resource;
+use App\Models\Resource\Version;
 use App\Models\User\NameChangeHistory;
 use App\Models\User\NameColor;
 use App\Models\User\NameColorAccess;
 use App\Models\User\UserPaymentInfo;
 use App\Traits\HasProfilePhoto;
+use App\Utils\Likeable;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Collection;
@@ -271,6 +273,16 @@ class User extends Authenticate implements MustVerifyEmail
     }
 
     /**
+     * Like de l'utilisateur
+     *
+     * @return HasMany
+     */
+    public function likes(): HasMany
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    /**
      * Permet de retourner le lien d'authentification discord de l'utilisateur
      *
      * @return string
@@ -423,7 +435,7 @@ class User extends Authenticate implements MustVerifyEmail
 
     public function isAdmin(): bool
     {
-        return $this->role->power == UserRole::ADMIN;
+        return $this->cache('role')->power == UserRole::ADMIN;
     }
 
     function countResources(): int
@@ -506,6 +518,47 @@ class User extends Authenticate implements MustVerifyEmail
     {
         $names = $this->nameChangeHistories->pluck('old_name')->toArray();
         return implode(',', $names);
+    }
+
+    /**
+     * Vérifie si l'utilisateur à liker un contenu spécifique.
+     * Met en cache le résultat pendant 86400 secondes (1 jour).
+     *
+     * @param Likeable $likeable
+     * @return bool Vrai si l'utilisateur a liké la ressource, sinon faux.
+     */
+    public function hasLiked(Likeable $likeable): bool
+    {
+        $type = match (true) {
+            $likeable instanceof Resource => Resource::class,
+            $likeable instanceof Version => Version::class,
+            default => null
+        };
+
+        $cacheKey = "user_{$this->id}_{$likeable->getCacheName()}";
+
+        return Cache::remember($cacheKey, 86400, function () use ($likeable, $type) {
+            return $this->likes()
+                ->where('likeable_id', $likeable->id)
+                ->where('likeable_type', $type)
+                ->exists();
+        });
+    }
+
+
+    /**
+     * Vérifier si l'utilisateur peut liker un contenu
+     *
+     * @param Likeable $likeable
+     * @return bool
+     */
+    public function canLike(Likeable $likeable): bool
+    {
+        return match (true) {
+            $likeable instanceof Resource => $likeable->user_id,
+            $likeable instanceof Version => $likeable->resource->user_id,
+            default => null
+        } != user()->id;
     }
 
 

@@ -8,7 +8,7 @@
         <a href="{{ $message->user->authorPage() }}"
            class="conversation-user-name">{!! $message->user->displayName()  !!}</a>
         <div class="mt-1">
-            {!! $message->user->role->getRoleIcon() !!}
+            {!! $message->user->cache('role')->getRoleIcon() !!}
         </div>
     </div>
     <div class="conversation-content">

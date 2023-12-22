@@ -29,10 +29,9 @@
           rel="stylesheet">
 
     <!-- Styles // Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @vite(['resources/sass/app.scss', 'resources/js/app.js', 'node_modules/bootstrap-icons/font/bootstrap-icons.css'])
     @stack('scripts')
 
-    <link href="{{ asset('build/assets/bootstrap-icons.eea6c7b3.css') }}" rel="stylesheet">
     @stack('styles')
 </head>
 
@@ -47,7 +46,7 @@
     @include('layouts.footer')
 </div>
 
-<script type="module" src="{{asset('build/assets/bootstrap.bundle.4ad8486b.js')}}" defer></script>
+@vite(['node_modules/bootstrap/dist/js/bootstrap.bundle.js'])
 @stack('footer-scripts')
 
 @if(isset($toast))

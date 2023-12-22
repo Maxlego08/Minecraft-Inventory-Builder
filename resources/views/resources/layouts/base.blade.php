@@ -22,7 +22,7 @@
                                 </div>
                             </div>
                             @auth()
-                                @if(user()->role->id == UserRole::BANNED)
+                                @if(user()->cache('role')->id == UserRole::BANNED)
                                     <div class="col-lg-3 col-xl-2 offset-lg-1">
                                         <div class="btn btn-primary w-100 rounded-1 cursor-disabled"
                                              title="{{ __('resources.download.access') }}">{{ $resource->price }}€

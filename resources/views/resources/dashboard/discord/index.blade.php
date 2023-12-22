@@ -9,7 +9,7 @@
         <div class="card-body">
             <div class="d-flex justify-content-between">
                 <h3>{{ __('resources.dashboard.discord.title') }}</h3>
-                @if(!user()->role->isMember())
+                @if(!user()->cache('role')->isMember())
                     <a class="h3 text-success" href="{{ route('resources.dashboard.discord.create') }}"
                        title="{{ __('resources.dashboard.discord.table.create') }}"><i
                             class="bi bi-plus-circle"></i></a>
