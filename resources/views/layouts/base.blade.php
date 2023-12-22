@@ -29,7 +29,7 @@
           rel="stylesheet">
 
     <!-- Styles // Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js', 'node_modules/bootstrap-icons/font/bootstrap-icons.css'])
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @stack('scripts')
 
     @stack('styles')
@@ -46,7 +46,6 @@
     @include('layouts.footer')
 </div>
 
-@vite(['node_modules/bootstrap/dist/js/bootstrap.bundle.js'])
 @stack('footer-scripts')
 
 @if(isset($toast))
