@@ -9,6 +9,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\ValidationException;
 
@@ -61,6 +62,8 @@ class NameChangeController extends Controller
                 'old_name' => $oldName,
                 'new_name' => $newName,
             ]);
+
+            $user->clear('user.name_change');
 
             userLog("Changement du pseudo de $oldName à $newName ($nameChangeHistory->id)", UserLog::COLOR_SUCCESS, UserLog::ICON_EDIT);
 

@@ -32,7 +32,6 @@ Route::prefix('/v1')->name('v1.')->group(function () {
         return json_encode(['status' => true]);
     });
 
-    Route::get('tooltip/{user}', [TooltipController::class, 'tooltip'])->name('tooltip');
     Route::get('tooltip/{user}/test', [TooltipController::class, 'test'])->name('tooltip.test');
 
     // Allows you to create a token

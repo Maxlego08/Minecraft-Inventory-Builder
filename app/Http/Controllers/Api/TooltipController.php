@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
 
 class TooltipController extends Controller
 {
@@ -20,10 +21,12 @@ class TooltipController extends Controller
         $userJoinDate = htmlspecialchars(simple_date($user->created_at));
         $userResources = htmlspecialchars($user->getTooltipInformations()['resources'] ?? '');
         $userPayments = htmlspecialchars($user->getTooltipInformations()['payments'] ?? '');
+        $followers = htmlspecialchars($user->getTooltipInformations()['followers'] ?? 0);
         $tooltipJoinAt = htmlspecialchars(__('tooltip.join_at'));
         $tooltipResources = htmlspecialchars(__('tooltip.resources'));
         $tooltipPayments = htmlspecialchars(__('tooltip.payments'));
         $tooltipReactions = htmlspecialchars(__('tooltip.reactions'));
+        $tooltipFollowers = htmlspecialchars(__('tooltip.followers'));
         $tooltipCss = $user->hasTooltipInformations() ? '' : ' pt-3';
         $totalLikes = $user->totalReceivedLikes();
 
@@ -46,6 +49,23 @@ class TooltipController extends Controller
     HTML;
         }
 
+        // Vérification pour le follow
+        if (Auth::check() && $user->id != user()->id) {
+
+            $isFollowing = user()->cache('followings')->where('id', $user->id)->count() == 0;
+            $action = $isFollowing ? route('profile.follow', $user) : route('profile.unfollow', $user);
+            $buttonText = $isFollowing ? __('messages.follow.follow') : __('messages.follow.unfollow');
+            $token = csrf_token();
+
+            $htmlContentButton .= <<<HTML
+                <form action="$action" method="POST" class="ms-2">
+                    <input type="hidden" name="_token" value="$token">
+                    <button class="conversation-button rounded-1">$buttonText</button>
+                </form>
+            HTML;
+        }
+        // Fin vérification pour le follow
+
         $tooltipInformations = '';
         if ($user->hasTooltipInformations()) {
             $tooltipInformations = <<<HTML
@@ -61,6 +81,10 @@ class TooltipController extends Controller
                         <div class="d-flex flex-column">
                             <span>{$tooltipReactions}</span>
                             <span class="text-center">{$totalLikes}</span>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <span>{$tooltipFollowers}</span>
+                            <span class="text-center">{$followers}</span>
                         </div>
                     </div>
                     <hr>

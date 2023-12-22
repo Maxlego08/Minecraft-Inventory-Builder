@@ -16,7 +16,7 @@
 
 .user-tooltip {
 
-    width: 350px;
+    width: 375px;
     border: 1px solid #3f3f58;
 
     &-header {
@@ -35,7 +35,7 @@
         background: #161628;
 
         hr {
-            margin: 5px 0 15px 0;
+            margin: 5px 0 5px 0;
         }
 
         &-informations {
@@ -47,13 +47,16 @@
         }
 
         &-buttons {
-            padding-bottom: 15px;
+            display: flex;
+            padding-bottom: 5px;
         }
     }
 
 }
 
 .conversation-button {
+
+    border: none;
     background: #6f6f6f;
     transition: 0.2s ease-in-out;
     color: whitesmoke;

@@ -23,7 +23,9 @@ class ResourceAuthorController extends Controller
      */
     public function index(string $slug, User $user): View|\Illuminate\Foundation\Application|Factory|Application
     {
-        $resources = ResourcePagination::paginateAuthor($user);
+        $resources = Cache::remember("user.author_page::$user->id", 300, function () use ($user) {
+            return ResourcePagination::paginateAuthor($user);
+        });
         return view('resources.pages.author', [
             'user' => $user,
             'resources_count' => $resources->total(),

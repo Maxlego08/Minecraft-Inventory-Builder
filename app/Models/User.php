@@ -23,6 +23,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticate;
@@ -64,6 +65,8 @@ use Laravel\Sanctum\HasApiTokens;
  * @property DiscordNotification[] $webhooks
  * @property Payment[] $payments
  * @property NameChangeHistory[] $nameChangeHistories
+ * @property User[] $followers
+ * @property User[] $followings
  * @property NameColorAccess $names
  * @method static User find(int $id)
  * @method string getProfilePhotoUrlAttribute()
@@ -263,6 +266,18 @@ class User extends Authenticate implements MustVerifyEmail
         return $this->hasMany(ConversationNotification::class);
     }
 
+    // Les utilisateurs qui suivent cet utilisateur
+    public function followers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'user_follows', 'followed_id', 'follower_id');
+    }
+
+    // Les utilisateurs que cet utilisateur suit
+    public function followings(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'user_follows', 'follower_id', 'followed_id');
+    }
+
     /**
      * User role
      *
@@ -375,6 +390,10 @@ class User extends Authenticate implements MustVerifyEmail
             return match ($key) {
                 'role' => $this->role,
                 'color' => $this->nameColor,
+                'name_change' => $this->nameChangeHistories,
+                'currency' => $this->paymentInfo?->currency->currency ?? 'eur',
+                'followers' => $this->followers,
+                'followings' => $this->followings,
                 default => ""
             };
         });
@@ -401,6 +420,10 @@ class User extends Authenticate implements MustVerifyEmail
      * user.resource_count
      * user.resource_access
      * user.color
+     * user.name_change
+     * user.currency
+     * user.followings
+     * user.followers
      *
      * @param string $key
      * @return void
@@ -466,7 +489,7 @@ class User extends Authenticate implements MustVerifyEmail
     function displayName(bool $tooltip = true, ?string $customId = null, ?string $customCss = null): string
     {
         $tooltipCss = $tooltip ? 'username-tooltip' : '';
-        $url = route('api.v1.tooltip', $this);
+        $url = route('tooltip', $this);
         $idElement = $customId == null ? '' : "id='$customId'";
         $css = $customCss == null ? '' : $customCss;
 
@@ -493,7 +516,7 @@ class User extends Authenticate implements MustVerifyEmail
     function hasTooltipInformations(): bool
     {
         $tooltipInformations = $this->getTooltipInformations();
-        return $tooltipInformations['resources'] > 0 || $tooltipInformations['payments'] > 0 || $tooltipInformations['reactions'] > 0;
+        return $tooltipInformations['resources'] > 0 || $tooltipInformations['payments'] > 0 || $tooltipInformations['reactions'] > 0 || $tooltipInformations['followers'] > 0;
     }
 
     function getTooltipInformations(): array
@@ -503,6 +526,7 @@ class User extends Authenticate implements MustVerifyEmail
                 'resources' => $this->resources->count(),
                 'payments' => $this->payments->where('status', Payment::STATUS_PAID)->count(),
                 'reactions' => $this->totalReceivedLikes(),
+                'followers' => $this->cache('followers')->count(),
             ];
         });
     }
@@ -521,7 +545,7 @@ class User extends Authenticate implements MustVerifyEmail
 
     public function getNameHistory(): string
     {
-        $names = $this->nameChangeHistories->pluck('old_name')->toArray();
+        $names = $this->cache('name_change')->pluck('old_name')->toArray();
         return implode(',', $names);
     }
 

@@ -22,8 +22,9 @@
                     <div class="ms-2 d-flex flex-column">
                         <div class="h3 d-flex align-items-center">
                             {!! $user->displayName(false) !!}
-                            @if ($user->nameChangeHistories->count() > 0)
-                                <i id="username-history" data-names="{{ $user->getNameHistory() }}" data-title="{{ __('profiles.change.previous') }}"
+                            @if ($user->cache('name_change')->count() > 0)
+                                <i id="username-history" data-names="{{ $user->getNameHistory() }}"
+                                   data-title="{{ __('profiles.change.previous') }}"
                                    class="bi bi-clock-history ms-1" title="{{ __('profiles.change.history') }}"
                                    style="font-size: 18px"></i>
                             @endif
@@ -50,11 +51,32 @@
                             <span>{{ __('tooltip.reactions') }}</span>
                             <span class="text-center">{{ $user->getTooltipInformations()['reactions'] }}</span>
                         </div>
+                        <div class="d-flex flex-column">
+                            <span>{{ __('tooltip.followers') }}</span>
+                            <span class="text-center">{{ $user->getTooltipInformations()['followers'] }}</span>
+                        </div>
                     </div>
                     <hr>
                     <div class="user-tooltip-content-buttons">
                         <a class="conversation-button rounded-1"
                            href="{{ $user->createConversation() }}">{{ __('tooltip.conversation') }}</a>
+                        @auth()
+                            @if (user()->id != $user->id)
+                                @if(user()->cache('followings')->where('id', $user->id)->count() == 0)
+                                    <form action="{{ route('profile.follow', $user) }}" method="POST" class="ms-2">
+                                        @csrf
+                                        <button
+                                            class="conversation-button rounded-1">{{ __('messages.follow.follow') }}</button>
+                                    </form>
+                                @else
+                                    <form action="{{ route('profile.unfollow', $user) }}" method="POST" class="ms-2">
+                                        @csrf
+                                        <button
+                                            class="conversation-button rounded-1">{{ __('messages.follow.unfollow') }}</button>
+                                    </form>
+                                @endif
+                            @endif
+                        @endauth
                     </div>
                 </div>
             </div>

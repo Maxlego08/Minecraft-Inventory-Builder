@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\AlertController;
+use App\Http\Controllers\Api\TooltipController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\FollowController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\NameChangeController;
@@ -38,6 +40,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [IndexController::class, 'index'])->name('home');
+
+Route::get('/tooltip/{user}', [TooltipController::class, 'tooltip'])->name('tooltip');
 
 Route::prefix('/profile')->name('profile.')->middleware('auth')->group(function () {
 
@@ -104,6 +108,9 @@ Route::prefix('/profile')->name('profile.')->middleware('auth')->group(function 
         Route::get('', [NameChangeController::class, 'index'])->name('index');
         Route::post('', [NameChangeController::class, 'updateName'])->name('store');
     });
+
+    Route::post('/follow/{user}', [FollowController::class, 'follow'])->name('follow');
+    Route::post('/unfollow/{user}', [FollowController::class, 'unfollow'])->name('unfollow');
 });
 
 Route::prefix('resources')->name('resources.')->group(function () {

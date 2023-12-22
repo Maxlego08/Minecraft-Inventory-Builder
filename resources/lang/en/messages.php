@@ -56,4 +56,18 @@ return [
     'like' => 'Like',
     'unlike' => 'Unlike',
     'report' => 'Report',
+    'follow' => [
+        'follow' => 'Follow',
+        'unfollow' => 'Unfollow',
+        'success' => [
+            'follow' => [
+                'title' => 'Success !',
+                'description' => 'You start following :name'
+            ],
+            'unfollow' => [
+                'title' => 'Success !',
+                'description' => 'You no longer follow :name'
+            ],
+        ],
+    ],
 ];
