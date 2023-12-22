@@ -21,7 +21,7 @@
                     <p class="mt-1 mb-1 fs-7">{{ $review->review }}</p>
                     <div class="d-flex justify-content-between">
                         <span class="text-muted fs-8 fw-light">{{ format_date($review->created_at) }}</span>
-                        @auth
+                        @auth()
                             @if ($review->isModerator())
                                 <form action="{{ route('resources.review.delete', ['review' => $review]) }}"
                                       method="post">
@@ -51,17 +51,19 @@
                         <div class="badge bg-warning ms-2"> {{ __('resources.reviews.author') }}</div>
                     </a>
                     <p class="mt-1 mb-1 fs-7">{{ $review->response }}</p>
-                    @if($resource->isModerator())
-                        <div class="d-flex justify-content-end me-2">
-                            <form method="post"
-                                  action="{{ route('resources.review.response', ['review' => $review]) }}">
-                                @csrf
-                                <button type="submit" class="btn btn-outline-danger btn-sm"><i
-                                        class="bi bi-trash"></i>
-                                </button>
-                            </form>
-                        </div>
-                    @endif
+                    @auth()
+                        @if($resource->isModerator())
+                            <div class="d-flex justify-content-end me-2">
+                                <form method="post"
+                                      action="{{ route('resources.review.response', ['review' => $review]) }}">
+                                    @csrf
+                                    <button type="submit" class="btn btn-outline-danger btn-sm"><i
+                                            class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        @endif
+                    @endauth
                 </div>
             </div>
         @else
