@@ -11,6 +11,7 @@ use App\Http\Controllers\NameChangeController;
 use App\Http\Controllers\NameController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\Resource\DashboardController;
 use App\Http\Controllers\Resource\DashboardDiscordController;
 use App\Http\Controllers\Resource\DashboardGiftController;
@@ -211,8 +212,13 @@ Route::prefix('resources')->name('resources.')->group(function () {
 
 
 Route::middleware('auth')->group(function () {
+
     Route::prefix('like')->name('like.')->group(function () {
         Route::post('/resource/{resource}', [LikeController::class, 'toggleResourceLike'])->name('resource');
         Route::post('/version/{version}', [LikeController::class, 'toggleVersionLike'])->name('version');
+    });
+
+    Route::prefix('report')->name('report.')->group(function () {
+        Route::post('/resource/{resource}', [ReportController::class, 'reportResource'])->name('resource');
     });
 });

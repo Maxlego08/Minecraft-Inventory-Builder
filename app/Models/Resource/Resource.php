@@ -6,6 +6,7 @@ use App\Code\BBCode;
 use App\Models\File;
 use App\Models\Like;
 use App\Models\MinecraftVersion;
+use App\Models\Report;
 use App\Models\User;
 use App\Traits\ReviewStarts;
 use App\Utils\Likeable;
@@ -125,6 +126,10 @@ class Resource extends Model implements Likeable
         return $this->morphMany(Like::class, 'likeable');
     }
 
+    public function reports(): MorphMany
+    {
+        return $this->morphMany(Report::class, 'reportable');
+    }
 
     /**
      * Display the rating stars

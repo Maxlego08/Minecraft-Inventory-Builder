@@ -2,7 +2,7 @@
 <div class="d-flex flex-column">
     <div class="footer-section mb-1">
         <div class="footer-section-report">
-            <span id="report" class="text-warning cursor-pointer"><i class="bi bi-exclamation-triangle"></i> {{ __('messages.report') }}</span>
+            <span id="report" class="text-warning cursor-pointer" type="button" data-bs-toggle="modal" data-bs-target="#reportModal{{ $likeable->id }}"><i class="bi bi-exclamation-triangle"></i> {{ __('messages.report') }}</span>
         </div>
         <div class="footer-section-like">
             @if(user()->canLike($likeable))

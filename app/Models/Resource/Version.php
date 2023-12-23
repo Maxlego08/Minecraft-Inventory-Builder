@@ -4,6 +4,7 @@ namespace App\Models\Resource;
 
 use App\Models\File;
 use App\Models\Like;
+use App\Models\Report;
 use App\Traits\ReviewStarts;
 use App\Utils\Likeable;
 use Carbon\Carbon;
@@ -59,6 +60,11 @@ class Version extends Model implements Likeable
     public function likes(): MorphMany
     {
         return $this->morphMany(Like::class, 'likeable');
+    }
+
+    public function reports(): MorphMany
+    {
+        return $this->morphMany(Report::class, 'reportable');
     }
 
     /**

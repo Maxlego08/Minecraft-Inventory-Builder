@@ -28,7 +28,7 @@ class FollowController extends Controller
         user()->clear('user.followings');
         $user->clear('user.followers');
         $user->clear('user.followersTable');
-        $user->clear('likes.total');
+        $user->clear('user.tooltip');
 
         userLog("Commence à suivre $user->name.$user->id", UserLog::COLOR_SUCCESS, UserLog::ICON_USER_PLUS);
         createUniqueAlert($user->id, '', AlertUser::ICON_LIKE, AlertUser::SUCCESS, 'alerts.alerts.follow', null, user()->id);
@@ -48,7 +48,7 @@ class FollowController extends Controller
         user()->clear('user.followings');
         $user->clear('user.followers');
         $user->clear('user.followersTable');
-        $user->clear('likes.total');
+        $user->clear('user.tooltip');
 
         userLog("Vient d'arrêter de suivre $user->name.$user->id", UserLog::COLOR_DANGER, UserLog::ICON_USER_MINUS);
 
