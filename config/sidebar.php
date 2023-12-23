@@ -40,6 +40,12 @@ return [
                     'icon' => 'fas fa-comments',
                     'power' => UserRole::MODERATOR
                 ],
+                'reports' => [
+                    'name' => "Signalement",
+                    'route' => 'admin.reports.index',
+                    'icon' => 'fas fa-exclamation-triangle',
+                    'power' => UserRole::MODERATOR
+                ],
             ],
 
         ],

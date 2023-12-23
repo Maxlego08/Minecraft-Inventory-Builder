@@ -6,7 +6,7 @@
         <div class="card shadow mb-4 rounded-0">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table table-striped">
                         <thead>
                         <tr>
                             <th>Signalés par</th>

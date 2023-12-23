@@ -46,6 +46,9 @@ Route::middleware('admin')->group(function () {
         Route::post('/{user}/store', [UserController::class, 'store'])->name('store');
         Route::post('/{user}/icon', [UserController::class, 'deleteIcon'])->name('delete.icon');
         Route::post('/{user}/banner', [UserController::class, 'deleteBanner'])->name('delete.banner');
+        Route::post('/{user}/discord', [UserController::class, 'deleteDiscord'])->name('delete.discord');
+        Route::post('/{user}/2fa', [UserController::class, 'deleteDoubleAuth'])->name('delete.2fa');
+        Route::post('/{user}/payment', [UserController::class, 'updatePayment'])->name('payment');
     });
 
     Route::prefix('/payments')->name('payments.')->group(function () {

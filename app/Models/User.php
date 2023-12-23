@@ -68,6 +68,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property NameChangeHistory[] $nameChangeHistories
  * @property User[] $followers
  * @property User[] $followings
+ * @property NameColorAccess[] $nameColorAccesses
  * @property NameColorAccess $names
  * @method static User find(int $id)
  * @method string getProfilePhotoUrlAttribute()
@@ -106,6 +107,16 @@ class User extends Authenticate implements MustVerifyEmail
     public function logs(): HasMany
     {
         return $this->hasMany(UserLog::class);
+    }
+
+    /**
+     * Retourne la liste des couleurs que le joueur à accès
+     *
+     * @return HasMany
+     */
+    public function nameColorAccesses(): HasMany
+    {
+        return $this->hasMany(NameColorAccess::class);
     }
 
     /**

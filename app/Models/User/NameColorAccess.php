@@ -2,6 +2,7 @@
 
 namespace App\Models\User;
 
+use App\Models\Payment\Payment;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @property User $user
  * @property NameColor $color
+ * @property Payment $payment
  */
 class NameColorAccess extends Model
 {
@@ -37,5 +39,14 @@ class NameColorAccess extends Model
     function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+    /**
+     * Retourne le payment
+     *
+     * @return BelongsTo
+     */
+    function payment(): BelongsTo
+    {
+        return $this->belongsTo(Payment::class);
     }
 }

@@ -144,6 +144,8 @@ class ProfileController extends Controller
         $discord = $user->discord;
         if ($discord->revokeAccess()) {
 
+            userLog('Suppression du compte discord', UserLog::COLOR_DANGER, UserLog::ICON_REMOVE);
+
             $discord->delete();
             return Redirect::route('profile.index')
                 ->with('toast', createToast('success', __('profiles.discord.discord'), __('profiles.discord.removed')));

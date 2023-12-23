@@ -13,8 +13,8 @@ return new class extends Migration {
         Schema::create('payment_payments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('gift_id')->nullable();
-            $table->foreignId('currency_id')->nullable('payment_currencies');
+            $table->foreignId('gift_id')->nullable()->constrained();
+            $table->foreignId('currency_id')->constrained('payment_currencies');
             $table->string('external_id')->nullable();
             $table->string('payment_id');
             $table->string('content_id');

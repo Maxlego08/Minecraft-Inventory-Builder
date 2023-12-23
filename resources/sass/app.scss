@@ -42,3 +42,8 @@ $font-path: './fonts/';
 .cursor-load {
     cursor: progress;
 }
+
+.text-muted {
+    --bs-text-opacity: 1;
+    color: #8a8a8a!important;
+}

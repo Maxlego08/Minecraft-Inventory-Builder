@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Payment\Currency;
 use App\Models\User;
 use App\Models\UserLog;
 use App\Models\UserRole;
@@ -59,6 +60,8 @@ class UserController extends Controller
             'roles' => $roles,
             'logs' => $logs,
             'colors' => $colors,
+            'currencies' => Currency::all(),
+            'nameColorAccesses' => $user->nameColorAccesses,
         ]);
     }
 
@@ -145,6 +148,64 @@ class UserController extends Controller
 
         return Redirect::route('admin.users.show', ['user' => $user])->with('toast',
             createToast('success', 'Succès', "Suppression de la bannière l'utilisateur " . $user->name));
+    }
+
+    /**
+     * Supprimer la photo de profile d'un utilisateur
+     *
+     * @param User $user
+     * @return RedirectResponse
+     */
+    public
+    function deleteDiscord(User $user): RedirectResponse
+    {
+
+        $discord = $user->discord;
+        if ($discord->revokeAccess()) {
+            $discord->delete();
+        }
+
+        userLog("Suppression du compte discord de $user->name.$user->id", UserLog::COLOR_DANGER, UserLog::ICON_REMOVE);
+
+        return Redirect::route('admin.users.show', ['user' => $user])->with('toast',
+            createToast('success', 'Succès', "Suppression du compte discord de " . $user->name));
+    }
+
+    /**
+     * Supprimer la double authentification d'une personne
+     *
+     * @param User $user
+     * @return RedirectResponse
+     */
+    public
+    function deleteDoubleAuth(User $user): RedirectResponse
+    {
+        $user->two_factor_secret = null;
+        $user->two_factor_recovery_codes = null;
+        $user->two_factor_confirmed_at = null;
+        $user->save();
+
+        userLog("Suppression de la double authentification de $user->name.$user->id", UserLog::COLOR_DANGER, UserLog::ICON_REMOVE);
+
+        return Redirect::route('admin.users.show', ['user' => $user])->with('toast',
+            createToast('success', 'Succès', "Suppression de la double authentification de $user->name"));
+    }
+
+    /**
+     * Modification des informations de paiement
+     *
+     * @param User $user
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public
+    function updatePayment(User $user, Request $request): RedirectResponse
+    {
+        $user->paymentInfo->update($request->all());
+        userLog("Modification des informations de paiement de $user->name.$user->id", UserLog::COLOR_DANGER, UserLog::ICON_REMOVE);
+
+        return Redirect::route('admin.users.show', ['user' => $user])->with('toast',
+            createToast('success', 'Succès', "Modification des informations de paiement de $user->name"));
     }
 
 }

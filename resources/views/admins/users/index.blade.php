@@ -29,7 +29,7 @@
         <div class="card shadow mb-4">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table table-striped">
                         <thead>
                         <tr>
                             <th scope="col" style="width: 100px">#</th>
@@ -38,6 +38,7 @@
                             <th scope="col" style="width: 200px">Email</th>
                             <th scope="col" style="width: 132px; text-align: center">Email vérifié</th>
                             <th scope="col">Role</th>
+                            <th scope="col">Discord</th>
                             <th scope="col">Inscrit le</th>
                             <th scope="col">Action</th>
                         </tr>
@@ -86,6 +87,7 @@
                                     </div>
                                 </th>
                                 <td @if($user->role->isBanned())style="color: rgba(0, 0, 0, 0.2)"@endif> {{ $user->role->name }} </td>
+                                <td @if($user->role->isBanned())style="color: rgba(0, 0, 0, 0.2)"@endif> {{ $user->discord?->username ?? '' }} </td>
                                 <td @if($user->role->isBanned())style="color: rgba(0, 0, 0, 0.2)"@endif>
                                     {{ format_date($user->created_at) }}
                                 </td>

@@ -14,7 +14,8 @@
             <div class="col-md-12">
                 <div class="card shadow mb-4">
                     <div class="card-body">
-                        <form action="{{ route('admin.users.store', ['user' => $user]) }}" method="POST" autocomplete="one-time-code">
+                        <form action="{{ route('admin.users.store', ['user' => $user]) }}" method="POST"
+                              autocomplete="one-time-code">
                             @csrf
                             <div class="row">
                                 <div class="col-md-4">
@@ -48,7 +49,8 @@
                                         <label for="passwordInput">Mot de passe</label>
                                         <input type="password"
                                                class="form-control @error('password') is-invalid @enderror"
-                                               id="passwordInput" name="new-password" placeholder="**********" autocomplete="one-time-code" value=""
+                                               id="passwordInput" name="new-password" placeholder="**********"
+                                               autocomplete="one-time-code" value=""
                                         >
                                         @error('password')
                                         <span class="invalid-feedback"
@@ -98,10 +100,19 @@
 
                             </div>
 
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-primary btn-sm">
                                 <i class="fas fa-save"></i> Sauvegarder
                             </button>
                         </form>
+                        <div class="mt-2">
+                            @if($user->enable_conversation)
+                                <span class="text-success"><i class="fas fa-check"></i> Les messages privés sont activés</span>
+                            @else
+                                <span class="text-danger"><i class="fas fa-times"></i> Les messages privés sont désactives</span>
+                            @endif
+                            <a class="btn btn-primary btn-sm" style="margin-left: 5px"
+                               href="{{ route('profile.conversations.create', $user) }}">Créer une conversation</a>
+                        </div>
                     </div>
                     <div class="card-body row">
                         <div class="col-md-4 d-flex justify-content-between align-items-center">
@@ -115,7 +126,8 @@
                             <form action="{{ route('admin.users.delete.icon', ['user' => $user]) }}"
                                   method="POST">
                                 @csrf
-                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Supprimer
+                                <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i>
+                                    Supprimer
                                 </button>
                             </form>
 
@@ -133,10 +145,23 @@
                                 <form action="{{ route('admin.users.delete.banner', ['user' => $user]) }}"
                                       method="POST">
                                     @csrf
-                                    <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Supprimer
+                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i>
+                                        Supprimer
                                     </button>
                                 </form>
                             </div>
+                        @endif
+                    </div>
+                    <div class="card-body">
+                        @if($user->two_factor_secret)
+                            <span>Double authentification crée
+                                le {{ format_date(\Carbon\Carbon::parse($user->two_factor_confirmed_at), true) }}</span>
+                            <form action="{{ route('admin.users.delete.2fa', $user) }}" method="POST">
+                                @csrf
+                                <button class="btn btn-danger btn-sm" type="submit">Supprimer la double
+                                    authentification
+                                </button>
+                            </form>
                         @endif
                     </div>
                 </div>
@@ -144,7 +169,12 @@
         </div>
     </div>
 
+    @include('admins.users.elements.discord')
     @include('admins.users.elements.resources')
     @include('admins.users.elements.logs')
+    @if($user->paymentInfo)
+        @include('admins.users.elements.payment')
+    @endif
+    @include('admins.users.elements.colors')
 
 @endsection
