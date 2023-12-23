@@ -404,5 +404,12 @@ return [
             'details' => 'Details',
             'transaction_details' => 'Transaction details'
         ]
+    ],
+    'author' => [
+        'follow' => [
+            'title' => 'Followers',
+            'user' => 'User',
+            'date' => 'Followed on'
+        ],
     ]
 ];

@@ -53,7 +53,43 @@
                         </div>
                         <div class="d-flex flex-column">
                             <span>{{ __('tooltip.followers') }}</span>
-                            <span class="text-center">{{ $user->getTooltipInformations()['followers'] }}</span>
+                            <span type="button" class="text-center" data-bs-toggle="modal"
+                                  data-bs-target="#followModal">{{ $user->getTooltipInformations()['followers'] }}</span>
+                            <div class="modal fade" id="followModal" tabindex="-1"
+                                 aria-labelledby="followModalLabel"
+                                 aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"
+                                                id="exampleModalLabel">{{ __('resources.author.follow.title') }}</h5>
+                                            <button type="button" class="btn-close btn-close-white"
+                                                    data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>{{ __('resources.author.follow.user') }}</th>
+                                                        <th>{{ __('resources.author.follow.date') }}</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    @foreach($user->cache('followersTable') as $follower)
+                                                        <tr>
+                                                            <td>{!! $follower->follower->displayNameAndLink() !!}</td>
+                                                            <td>{{ format_date($follower->created_at) }}</td>
+                                                        </tr>
+                                                    @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <hr>

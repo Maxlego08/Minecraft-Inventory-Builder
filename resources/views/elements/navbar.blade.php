@@ -41,7 +41,8 @@
                         {!! user()->displayName(false, customCss: 'd-none d-lg-block ms-2') !!}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" data-bs-popper="none">
-                        <li><a class="dropdown-item" href="{{ route('profile.index') }}">Profile</a></li>
+                        <li><a class="dropdown-item" href="{{ route('resources.author', ['slug' => user()->slug(), 'user' => user()->id]) }}">{{ __('messages.profile') }}</a></li>
+                        <li><a class="dropdown-item" href="{{ route('profile.index') }}">{{ __('messages.details') }}</a></li>
                         @if (user()->cache('role')->isModerator())
                         <li><a class="dropdown-item" href="{{ route('admin.index') }}">Admin</a></li>
                         @endif

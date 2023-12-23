@@ -56,6 +56,8 @@ return [
     'like' => 'Like',
     'unlike' => 'Unlike',
     'report' => 'Report',
+    'profile' => 'Your Profile Page',
+    'details' => 'Personal Details',
     'follow' => [
         'follow' => 'Follow',
         'unfollow' => 'Unfollow',

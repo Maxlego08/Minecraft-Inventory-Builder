@@ -20,6 +20,7 @@ return [
         'name_color' => [
             'purchased' => 'You just received the name color :content'
         ],
+        'follow' => ':user begins to follow you.',
         'messages' => ':user answered in the conversation :conversation'
     ],
 

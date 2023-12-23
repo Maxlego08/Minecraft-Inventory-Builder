@@ -12,6 +12,7 @@ use App\Models\Resource\Access;
 use App\Models\Resource\Notification;
 use App\Models\Resource\Resource;
 use App\Models\Resource\Version;
+use App\Models\User\Follow;
 use App\Models\User\NameChangeHistory;
 use App\Models\User\NameColor;
 use App\Models\User\NameColorAccess;
@@ -272,6 +273,11 @@ class User extends Authenticate implements MustVerifyEmail
         return $this->belongsToMany(User::class, 'user_follows', 'followed_id', 'follower_id');
     }
 
+    public function followersTable(): Collection|array
+    {
+        return Follow::with('follower')->where('followed_id', $this->id)->orderBy('created_at', 'DESC')->get();
+    }
+
     // Les utilisateurs que cet utilisateur suit
     public function followings(): BelongsToMany
     {
@@ -394,6 +400,7 @@ class User extends Authenticate implements MustVerifyEmail
                 'currency' => $this->paymentInfo?->currency->currency ?? 'eur',
                 'followers' => $this->followers,
                 'followings' => $this->followings,
+                'followersTable' => $this->followersTable(),
                 default => ""
             };
         });
@@ -424,6 +431,7 @@ class User extends Authenticate implements MustVerifyEmail
      * user.currency
      * user.followings
      * user.followers
+     * likes.total
      *
      * @param string $key
      * @return void
