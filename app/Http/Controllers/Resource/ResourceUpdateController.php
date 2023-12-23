@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Resource;
 
 use App\Http\Controllers\Controller;
 use App\Models\Resource\Resource;
+use App\Models\Resource\Version;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -65,4 +66,16 @@ class ResourceUpdateController extends Controller
 
         return view('resources.update', ['resource' => $resource]);
     }
+
+    /**
+     * Redirect to resources
+     *
+     * @param Version $version
+     * @return RedirectResponse
+     */
+    public function indexUpdateById(Version $version): RedirectResponse
+    {
+        return Redirect::route('resources.update', ['slug' => $version->resource->slug(), 'resource' => $version->resource, 'version' => $version]);
+    }
+
 }

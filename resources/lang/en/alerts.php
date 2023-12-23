@@ -21,6 +21,7 @@ return [
             'purchased' => 'You just received the name color :content'
         ],
         'follow' => ':user begins to follow you.',
+        'report' => 'Information about your report: :content',
         'messages' => ':user answered in the conversation :conversation'
     ],
 

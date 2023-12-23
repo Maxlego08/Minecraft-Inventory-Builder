@@ -17,6 +17,7 @@
                         <div>{!! $version->resource->cache('user')->displayNameAndLink() !!}</div>
                         , {{ format_date($version->created_at, true) }}</div>
                     @include('elements.likeable', ['likeable' => $version, 'url' => route('like.version', $version)])
+                    @include('elements.report', ['contentId' => $version->id, 'contentUrl' => route('report.version', $version), 'contentTitle' => $version->title])
                 </div>
             </div>
         @endforeach

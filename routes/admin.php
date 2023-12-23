@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\ConversationController;
 use App\Http\Controllers\Admin\IndexController;
 use App\Http\Controllers\Admin\LogController;
 use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\ResourceController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,14 @@ Route::prefix('logs/')->name('logs.')->group(function () {
 Route::prefix('conversations/')->name('conversations.')->group(function () {
     Route::get('/', [ConversationController::class, 'index'])->name('index');
     Route::post('/delete/{conversation}', [ConversationController::class, 'delete'])->middleware('admin')->name('delete');
+});
+
+
+Route::prefix('reports/')->name('reports.')->group(function () {
+    Route::get('/', [ReportController::class, 'index'])->name('index');
+    Route::get('/pending', [ReportController::class, 'pending'])->name('pending');
+    Route::get('/{report}', [ReportController::class, 'view'])->name('view');
+    Route::post('/resolve/{report}', [ReportController::class, 'resolve'])->name('resolve');
 });
 
 // Admin access

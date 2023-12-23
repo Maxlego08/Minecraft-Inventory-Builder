@@ -32,10 +32,11 @@ return [
     // Autres messages d'erreur
     'generic_error' => 'An error occurred. Please try again later.',
 
-    'modal_title' => 'Report Resource',
+    'modal_title' => 'Report :content',
     'modal_button_trigger' => 'Report Resource',
     'modal_reason_label' => 'Reason for Report',
     'modal_reason_placeholder' => 'Describe the reason for your report...',
     'modal_close_button' => 'Close',
     'modal_submit_button' => 'Submit Report',
+    'abuse_warning' => 'Please note that submitting reports without a valid reason may result in sanctions. Use the report feature responsibly.',
 ];

@@ -199,6 +199,9 @@ Route::prefix('resources')->name('resources.')->group(function () {
     Route::get('/{slug}.{resource}/updates', [ResourceUpdateController::class, 'index'])->name('updates');
     Route::get('/{resource}/updates', [ResourceUpdateController::class, 'indexById'])->name('updates.id');
 
+    Route::get('/{slug}.{resource}/updates/{version}', [ResourceUpdateController::class, 'indexUpdate'])->name('update');
+    Route::get('/update/{version}', [ResourceUpdateController::class, 'indexUpdateById'])->name('update.id');
+
     Route::get('/{slug}.{resource}/reviews', [ResourceReviewController::class, 'index'])->name('reviews');
     Route::get('/{resource}/reviews', [ResourceReviewController::class, 'indexById'])->name('reviews.id');
 
@@ -220,5 +223,6 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('report')->name('report.')->group(function () {
         Route::post('/resource/{resource}', [ReportController::class, 'reportResource'])->name('resource');
+        Route::post('/version/{version}', [ReportController::class, 'reportVersion'])->name('version');
     });
 });
