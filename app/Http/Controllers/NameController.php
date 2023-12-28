@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Payment\Gift;
 use App\Models\Payment\Payment;
-use App\Models\Resource\Resource;
 use App\Models\User\NameColor;
 use App\Models\User\UserPaymentInfo;
 use App\Models\UserLog;
@@ -15,7 +14,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class NameController extends Controller
@@ -103,7 +101,9 @@ class NameController extends Controller
             'currency' => 'eur',
             'confirmUrl' => route('profile.colors.purchase', $nameColor),
             'name' => "Name Color : <span class='$nameColor->code'>$name</span>",
-            'enableGift' => false,
+            'enableGift' => true,
+            'contentType' => NameColor::class,
+            'contentId' => $nameColor->id,
         ]);
     }
 
@@ -122,7 +122,12 @@ class NameController extends Controller
         $user = user();
         $payment = Payment::makeDefault($user, $nameColor->getPrice(), Payment::TYPE_NAME_COLOR, $nameColor->id, env('CURRENCY_ADMIN_ID'), 'stripe');
 
-        return paymentManager()->startPaymentInterne($request, $nameColor->getPrice(), $payment);
+        $gift = null;
+        if (isset($request['gift'])) {
+            $gift = Gift::where('code', $request['gift'])->first();
+        }
+
+        return paymentManager()->startPaymentInterne($request, $nameColor->getPrice(), $payment, $gift, NameColor::class);
     }
 
 }

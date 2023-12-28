@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Payment\Gift;
 use App\Models\Payment\Payment;
 use App\Models\User\UserPaymentInfo;
 use App\Models\UserRole;
@@ -53,7 +54,9 @@ class PremiumController extends Controller
             'currency' => 'eur',
             'confirmUrl' => route('premium.purchase', $userRole),
             'name' => $name,
-            'enableGift' => false,
+            'enableGift' => true,
+            'contentType' => UserRole::class,
+            'contentId' => $userRole->id,
         ]);
     }
 
@@ -72,7 +75,12 @@ class PremiumController extends Controller
         $user = user();
         $payment = Payment::makeDefault($user, $userRole->price, Payment::TYPE_ACCOUNT_UPGRADE, $userRole->id, env('CURRENCY_ADMIN_ID'), 'stripe');
 
-        return paymentManager()->startPaymentInterne($request, $userRole->price, $payment);
+        $gift = null;
+        if (isset($request['gift'])) {
+            $gift = Gift::where('code', $request['gift'])->first();
+        }
+
+        return paymentManager()->startPaymentInterne($request, $userRole->price, $payment, $gift, UserRole::class);
 
     }
 }

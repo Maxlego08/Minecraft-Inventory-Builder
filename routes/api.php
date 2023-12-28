@@ -50,6 +50,6 @@ Route::prefix('/v1')->name('v1.')->group(function () {
     });
 
     Route::post('{payment}/notification/{id?}', [PaymentController::class, 'notification'])->name('notification');
-    Route::get('gift/verify/{code}/{resource}/{user}', [GiftController::class, 'verify'])->name('gift');
+    Route::get('gift/verify/{code}/{contentType}/{contentId}/{user}', [GiftController::class, 'verify'])->name('gift');
 
 });

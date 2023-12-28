@@ -46,6 +46,12 @@ return [
                     'icon' => 'fas fa-exclamation-triangle',
                     'power' => UserRole::MODERATOR
                 ],
+                'gifts' => [
+                    'name' => "Codes cadeaux",
+                    'route' => 'admin.gift.index',
+                    'icon' => 'fas fa-gifts',
+                    'power' => UserRole::ADMIN
+                ],
             ],
 
         ],

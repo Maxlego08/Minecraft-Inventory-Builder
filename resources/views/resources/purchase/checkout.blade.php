@@ -112,7 +112,7 @@
                                     <div>
                                         <label for="giftCode" class="form-label">{{ __('payment.gift.title') }}</label>
                                         <input type="text" class="form-control rounded-1" id="giftCode" name="gift"
-                                               data-url="{{ route('api.v1.gift', ['code' => '%code%', 'resource' => $resource->id, 'user' => user()->id]) }}"
+                                               data-url="{{ route('api.v1.gift', ['code' => '%code%', 'contentId' => $contentId, 'contentType' => $contentType, 'user' => user()->id]) }}"
                                                placeholder="{{ __('payment.gift.placeholder') }}">
                                         <div class="invalid-feedback">
                                             {{ __('payment.gift.error') }}

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ConversationController;
+use App\Http\Controllers\Admin\GiftController;
 use App\Http\Controllers\Admin\IndexController;
 use App\Http\Controllers\Admin\LogController;
 use App\Http\Controllers\Admin\PaymentController;
@@ -57,5 +58,14 @@ Route::middleware('admin')->group(function () {
         Route::get('/create', [PaymentController::class, 'create'])->name('create');
         Route::post('/store', [PaymentController::class, 'store'])->name('store');
         Route::get('/show/{payment}', [PaymentController::class, 'show'])->name('show');
+    });
+
+    Route::prefix('/gift')->name('gift.')->group(function () {
+        Route::get('/', [GiftController::class, 'index'])->name('index');
+        Route::get('/delete/{gift}', [GiftController::class, 'delete'])->name('delete');
+        Route::get('/create', [GiftController::class, 'create'])->name('create');
+        Route::post('/store', [GiftController::class, 'store'])->name('store');
+        Route::get('/edit/{gift}', [GiftController::class, 'edit'])->name('edit');
+        Route::post('/update/{gift}', [GiftController::class, 'update'])->name('update');
     });
 });

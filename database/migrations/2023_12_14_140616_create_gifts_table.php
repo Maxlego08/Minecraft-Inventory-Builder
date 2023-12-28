@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('gifts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('resource_id')->constrained('resource_resources');
+            $table->foreignId('user_id')->constrained();
+            $table->morphs('giftable');
             $table->string('code')->unique();
             $table->double('reduction');
             $table->boolean('active')->default(true);

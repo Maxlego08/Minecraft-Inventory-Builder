@@ -68,8 +68,8 @@ class PaymentManager
         $user = $request->user();
         $price = $resource->price;
 
-        // Si le gift.js est valide, alors on va l'utiliser et modifier le prix
-        if ($this->isValid($resource, $gift)) {
+        // Si le gift est valide, alors on va l'utiliser et modifier le prix
+        if ($this->isValid(Resource::class, $resource->id, $gift)) {
             $price = $resource->price - (($resource->price * $gift->reduction) / 100);
             $payment->update(['price' => $price]);
         }
@@ -85,9 +85,11 @@ class PaymentManager
      * @param Request $request
      * @param float $price
      * @param Payment $payment
+     * @param Gift|null $gift
+     * @param string|null $contentType
      * @return mixed
      */
-    public function startPaymentInterne(Request $request, float $price, Payment $payment): mixed
+    public function startPaymentInterne(Request $request, float $price, Payment $payment, Gift $gift = null, string $contentType = null): mixed
     {
 
         $method = $this->getMethodOrFail('stripe');
@@ -95,11 +97,14 @@ class PaymentManager
         $paymentInfo = UserPaymentInfo::where('id', env('PAYMENT_INFO_ADMIN_ID'))->first();
         $user = $request->user();
 
-        // Update price with gift code later
+        if (isset($gift) && isset($contentType) && $this->isValid($contentType, $payment->content_id, $gift)) {
+            $price -= (($price * $gift->reduction) / 100);
+            $payment->update(['price' => $price]);
+        }
 
         event(new PaymentCreate($payment));
 
-        return $method->startPayment($user, $paymentInfo, $payment, $price);
+        return $method->startPayment($user, $paymentInfo, $payment, $price, $gift);
     }
 
     /**
@@ -113,13 +118,14 @@ class PaymentManager
     }
 
     /**
-     * Vérifier si un gift.js est bien valide
+     * Vérifier si un gift est bien valide
      *
-     * @param Resource $resource
+     * @param string $contentType
+     * @param int $contentId
      * @param Gift|null $gift
      * @return bool
      */
-    public function isValid(Resource $resource, Gift $gift = null): bool
+    public function isValid(string $contentType, int $contentId, Gift $gift = null): bool
     {
         // Si le gift.js est null, on ne fait rien
         if ($gift === null) return false;
@@ -128,7 +134,10 @@ class PaymentManager
         if (!$gift->active) return false;
 
         // Si la resource n'est pas la bonne, on ne fait rien
-        if ($gift->resource_id != $resource->id) return false;
+        if ($gift->giftable_id != $contentId) return false;
+
+        // Si le type n'est pas le bon, alors on ne fait rien
+        if ($gift->giftable_type != $contentType) return false;
 
         // Si le nombre d'utilisations a été atteint, on ne fait rien
         if ($gift->used >= $gift->max_use) return false;
