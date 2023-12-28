@@ -9,6 +9,9 @@ return [
     'already' => 'You already have this rank',
     'content_free' => 'Contenu',
 
+    'pro' => 'Account Upgrade : Pro',
+    'premium' => 'Account Upgrade : Premium',
+
     'roles' => [
         'creator_dashboard' => 'Access to the Creator Dashboard',
         'resource_fee' => 'No tax on your sales',

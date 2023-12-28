@@ -40,6 +40,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @package App\Models
  * @property int $id
  * @property int $name_color_id
+ * @property int $user_role_id
  * @property string $email
  * @property string $name
  * @property string $link

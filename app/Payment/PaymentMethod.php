@@ -9,6 +9,7 @@ use App\Models\Payment\Payment;
 use App\Models\Resource\Access;
 use App\Models\User;
 use App\Models\UserLog;
+use App\Models\UserRole;
 use App\Payment\Events\PaymentPaid;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -67,6 +68,22 @@ abstract class PaymentMethod
             case Payment::TYPE_ACCOUNT_UPGRADE :
             {
 
+                $user = $payment->user;
+                $user->update([
+                    'user_role_id' => $payment->content_id,
+                ]);
+
+                createAlert($payment->user_id, $payment->role->name, AlertUser::ICON_SUCCESS, AlertUser::SUCCESS, 'alerts.alerts.role.purchased', route('premium.index'));
+
+                userLogOffline($payment->user_id, "Grade acheté {$payment->role->name}.$payment->content_id", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
+
+                Cache::forget('resources:mostResources');
+                foreach ($payment->user->resources as $resource) {
+                    $resource->clear('resource.user');
+                }
+                $user->clear('user.color');
+                $user->clear('user.role');
+
             }
             case Payment::TYPE_NAME_COLOR :
             {
@@ -111,6 +128,17 @@ abstract class PaymentMethod
             }
             case Payment::TYPE_ACCOUNT_UPGRADE :
             {
+                $user->update([
+                    'user_role_id' => UserRole::where('power', UserRole::FREE)->first()->id,
+                ]);
+
+                Cache::forget('resources:mostResources');
+                foreach ($user->resources as $resource) {
+                    $resource->clear('resource.user');
+                }
+                $user->clear('user.color');
+                $user->clear('user.role');
+
                 break;
             }
             case Payment::TYPE_NAME_COLOR :

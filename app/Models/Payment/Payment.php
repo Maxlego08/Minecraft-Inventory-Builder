@@ -4,6 +4,7 @@ namespace App\Models\Payment;
 
 use App\Models\Resource\Resource;
 use App\Models\User;
+use App\Models\UserRole;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -24,6 +25,7 @@ use Illuminate\Support\Str;
  * @property User $user
  * @property Carbon $created_at
  * @property Resource $resource
+ * @property UserRole $role
  * @property User\NameColor $nameColor
  * @property Gift $gift
  * @property Currency $currency
@@ -91,6 +93,14 @@ class Payment extends Model
     public function resource(): BelongsTo
     {
         return $this->belongsTo(Resource::class, 'content_id');
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(UserRole::class, 'content_id');
     }
 
     /**
@@ -186,7 +196,7 @@ class Payment extends Model
     {
         return match ($this->type) {
             Payment::TYPE_RESOURCE => "Minecraft Inventory Builder - Resource {$this->resource->name}.$this->content_id",
-            Payment::TYPE_ACCOUNT_UPGRADE => "Minecraft Inventory Builder - Account Upgrade.$this->content_id",
+            Payment::TYPE_ACCOUNT_UPGRADE => "Minecraft Inventory Builder - Account Upgrade {$this->role->name}.$this->content_id",
             Payment::TYPE_NAME_COLOR => "Minecraft Inventory Builder - Name color {$this->nameColor->translation()}.{$this->nameColor->id}",
         };
     }
@@ -204,7 +214,7 @@ class Payment extends Model
     {
         return match ($this->type) {
             Payment::TYPE_RESOURCE => "Purchase Resource {$this->resource->name}.$this->content_id",
-            Payment::TYPE_ACCOUNT_UPGRADE => "Account Upgrade $this->content_id",
+            Payment::TYPE_ACCOUNT_UPGRADE => "Account Upgrade {$this->role->name}.$this->content_id",
             Payment::TYPE_NAME_COLOR => "Name color {$this->nameColor->translation()}.{$this->nameColor->id}",
         };
     }
@@ -213,7 +223,7 @@ class Payment extends Model
     {
         return match ($this->type) {
             Payment::TYPE_RESOURCE => "Purchase Resource {$this->resource->name}.$this->content_id",
-            Payment::TYPE_ACCOUNT_UPGRADE => "Account Upgrade $this->content_id",
+            Payment::TYPE_ACCOUNT_UPGRADE => "Account Upgrade {$this->role->name}.$this->content_id",
             Payment::TYPE_NAME_COLOR => "Name color {$this->nameColor->translation()}.{$this->nameColor->id}",
         };
     }
@@ -222,7 +232,7 @@ class Payment extends Model
     {
         return match ($this->type) {
             Payment::TYPE_RESOURCE => $this->resource->name,
-            Payment::TYPE_ACCOUNT_UPGRADE => $this->content_id,
+            Payment::TYPE_ACCOUNT_UPGRADE => $this->role->name,
             Payment::TYPE_NAME_COLOR => $this->nameColor->translation(),
         };
     }
@@ -231,7 +241,7 @@ class Payment extends Model
     {
         return match ($this->type) {
             Payment::TYPE_RESOURCE => "<a href='{$this->resource->link('description')}'>{$this->resource->name}</a>",
-            Payment::TYPE_ACCOUNT_UPGRADE => $this->content_id,
+            Payment::TYPE_ACCOUNT_UPGRADE => $this->role->name,
             Payment::TYPE_NAME_COLOR => "<span class='{$this->nameColor->code}'>{$this->nameColor->translation()}</span>",
         };
     }
@@ -240,7 +250,7 @@ class Payment extends Model
     {
         return match ($this->type) {
             Payment::TYPE_RESOURCE => "<a href='{$this->resource->link('description')}'>" . Str::limit($this->resource->name, 50) . "</a>",
-            Payment::TYPE_ACCOUNT_UPGRADE => $this->content_id,
+            Payment::TYPE_ACCOUNT_UPGRADE => $this->role->name,
             Payment::TYPE_NAME_COLOR => "<span class='{$this->nameColor->code}'>{$this->nameColor->translation()}</span>",
         };
     }

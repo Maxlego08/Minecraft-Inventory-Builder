@@ -20,6 +20,9 @@ return [
         'name_color' => [
             'purchased' => 'You just received the name color :content'
         ],
+        'role' => [
+            'purchased' => 'You just upgrade your account to :content'
+        ],
         'follow' => ':user begins to follow you.',
         'report' => 'Information about your report: :content',
         'messages' => ':user answered in the conversation :conversation'

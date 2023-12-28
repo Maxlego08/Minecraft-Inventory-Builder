@@ -24,6 +24,7 @@ return new class extends Migration {
             $table->integer('power');
             $table->integer('max_discord_webhook');
             $table->boolean('is_banned');
+            $table->boolean('price')->default(0.0);
             $table->timestamps();
         });
 
@@ -68,6 +69,7 @@ return new class extends Migration {
             'max_folders' => 100,
             'max_discord_webhook' => 5,
             'is_banned' => false,
+            'price' => 14.99
         ]);
 
         UserRole::create([
@@ -82,6 +84,7 @@ return new class extends Migration {
             'max_folders' => 1000,
             'max_discord_webhook' => 20,
             'is_banned' => false,
+            'price' => 49.99
         ]);
 
         UserRole::create([

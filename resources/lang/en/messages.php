@@ -27,6 +27,7 @@ return [
     'delete' => 'Delete',
     'resources' => 'Resources',
     'documentation' => 'Documentations',
+    'account-upgrade' => 'Upgrade your account !',
     'premium' => 'Premium',
     'inventory-builder' => 'Inventory Builder',
     'home' => 'Home',

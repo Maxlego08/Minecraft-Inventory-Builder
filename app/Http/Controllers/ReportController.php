@@ -70,6 +70,7 @@ class ReportController extends Controller
         $version->reports()->create(['user_id' => $user->id, 'reason' => $request['reason']]);
 
         userLog("Vient de report la version $version->title.$version->id", UserLog::COLOR_SUCCESS, UserLog::ICON_HEART_BREAK);
+        Cache::forget('pending_report');
 
         return Redirect::route('resources.view', ['resource' => $resource, 'slug' => $resource->slug()])->with('toast', createToast('success', __('reports.report_submitted.title'), __('reports.report_submitted.description'), 5000));
     }

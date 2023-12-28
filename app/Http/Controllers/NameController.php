@@ -117,12 +117,12 @@ class NameController extends Controller
      */
     public function purchase(Request $request, NameColor $nameColor): mixed
     {
-        $this->validate($request, ['terms' => ['accepted'],]);
+        $this->validate($request, ['terms' => ['accepted']]);
 
         $user = user();
         $payment = Payment::makeDefault($user, $nameColor->getPrice(), Payment::TYPE_NAME_COLOR, $nameColor->id, env('CURRENCY_ADMIN_ID'), 'stripe');
 
-        return paymentManager()->startPaymentNameColor($request, $nameColor, $payment);
+        return paymentManager()->startPaymentInterne($request, $nameColor->getPrice(), $payment);
     }
 
 }

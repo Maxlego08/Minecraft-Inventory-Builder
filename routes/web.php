@@ -10,6 +10,7 @@ use App\Http\Controllers\LikeController;
 use App\Http\Controllers\NameChangeController;
 use App\Http\Controllers\NameController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PremiumController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\Resource\DashboardController;
@@ -43,6 +44,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [IndexController::class, 'index'])->name('home');
 
 Route::get('/tooltip/{user}', [TooltipController::class, 'tooltip'])->name('tooltip');
+
+Route::prefix('/account-upgrade')->name('premium.')->group(function () {
+    Route::get('/', [PremiumController::class, 'index'])->name('index');
+    Route::get('/checkout/{userRole:power}', [PremiumController::class, 'checkout'])->name('checkout');
+    Route::post('/purchase/{userRole:power}', [PremiumController::class, 'purchase'])->name('purchase');
+});
 
 Route::prefix('/profile')->name('profile.')->middleware('auth')->group(function () {
 

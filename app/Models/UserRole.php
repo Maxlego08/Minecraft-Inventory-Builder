@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $power
  * @property int $max_resources
  * @property int $max_discord_webhook
+ * @property double $price
  * @property boolean $is_banned
  * @property boolean $premium_resources
  * @property string $allow_files
@@ -37,7 +38,7 @@ class UserRole extends Model
     const ICON_MODERATOR = "bi bi-hammer";
     const ICON_ADMIN = "bi bi-code-slash";
 
-    protected $fillable = ['name', 'total_size', 'size', 'allow_files', 'max_resources', 'premium_resources', 'power', 'is_banned', 'max_inventories', 'max_folders', 'max_discord_webhook'];
+    protected $fillable = ['name', 'total_size', 'size', 'allow_files', 'max_resources', 'premium_resources', 'power', 'is_banned', 'max_inventories', 'max_folders', 'max_discord_webhook', 'price'];
 
 
     /**

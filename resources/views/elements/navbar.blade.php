@@ -65,23 +65,24 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 py-2 rounded-4">
                 <li class="nav-item">
                     <a class="nav-link py-2 me-2 {{ Route::currentRouteNamed('home') ? "active fw-bold" : ""}}"
-                       {{Route::currentRouteNamed(('home')) ?"aria-current='page''" : ""}} href="{{route('home')}}">{{ __('messages.home') }}</a>
+                       {{Route::currentRouteNamed(('home')) ?"aria-current='page''" : ""}} href="{{ route('home') }}">{{ __('messages.home') }}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link  py-2 me-2" href="#">{{ __('messages.inventory-builder') }}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link  py-2 me-2 {{ Route::currentRouteNamed('resources.*') ? "active fw-bold" : ""}}"
-                       {{Route::currentRouteNamed(('resources.*')) ?"aria-current='page''" : ""}} href="{{route('resources.index')}}">{{ __('messages.resources') }}</a>
+                       {{Route::currentRouteNamed(('resources.*')) ?"aria-current='page''" : ""}} href="{{ route('resources.index') }}">{{ __('messages.resources') }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link py-2 me-2 {{ Route::currentRouteNamed('premium.*') ? "active fw-bold" : ""}}"
+                       {{Route::currentRouteNamed(('premium.*')) ?"aria-current='page''" : ""}} href="{{ route('premium.index') }}" title="{{ __('messages.account-upgrade') }}">{{ __('messages.premium') }}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link py-2 me-2" href="https://docs.zmenu.dev/" target="_blank" title="{{ __('messages.documentation') }}">{{ __('messages.documentation') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link py-2 me-2" href="#">{{ __('messages.premium') }}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link py-2 me-2" href="https://discord.groupez.dev/" target="_blank" title="Discord">Discord</a>
+                    <a class="nav-link py-2 me-2" href="https://discord.groupez.dev/" target="_blank" title="GroupeZ Discord">Discord</a>
                 </li>
             </ul>
         </div>

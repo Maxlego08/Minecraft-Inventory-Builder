@@ -80,21 +80,22 @@ class PaymentManager
     }
 
     /**
-     * Permet de commencer un paiement pour une couleur
+     * Permet de commencer un paiement
      *
      * @param Request $request
-     * @param NameColor $nameColor
+     * @param float $price
      * @param Payment $payment
      * @return mixed
      */
-    public function startPaymentNameColor(Request $request, NameColor $nameColor, Payment $payment): mixed
+    public function startPaymentInterne(Request $request, float $price, Payment $payment): mixed
     {
 
         $method = $this->getMethodOrFail('stripe');
 
         $paymentInfo = UserPaymentInfo::where('id', env('PAYMENT_INFO_ADMIN_ID'))->first();
         $user = $request->user();
-        $price = $nameColor->price;
+
+        // Update price with gift code later
 
         event(new PaymentCreate($payment));
 

@@ -1,0 +1,70 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Payment\Payment;
+use App\Models\User\UserPaymentInfo;
+use App\Models\UserRole;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+
+class PremiumController extends Controller
+{
+    /**
+     * Afficher la page d'achat
+     *
+     * @return View|\Illuminate\Foundation\Application|Factory|Application
+     */
+    public function index(): View|\Illuminate\Foundation\Application|Factory|Application
+    {
+        return view('members.premium');
+    }
+
+    /**
+     * Permet d'afficher la page d'achat de rôle
+     *
+     * @param UserRole $userRole
+     * @return View|\Illuminate\Foundation\Application|Factory|RedirectResponse|Application
+     */
+    public function checkout(UserRole $userRole): View|\Illuminate\Foundation\Application|Factory|RedirectResponse|Application
+    {
+
+        // Si l'utilisateur à déjà le role
+        if ($userRole->power >= user()->role->power && !user()->isAdmin()) {
+            return Redirect::route('premium.index');
+        }
+
+        if ($userRole->power != UserRole::PREMIUM && $userRole->power != UserRole::PRO) {
+            return Redirect::route('premium.index')->with('toast', createToast('error', 'Huummmmm', "You can't purchase this, sad :'("));
+        }
+
+        $paymentInfo = UserPaymentInfo::where('id', env('PAYMENT_INFO_ADMIN_ID'))->first();
+        $name = $userRole->power == UserRole::PRO ? __("upgrade.pro") : __("upgrade.premium");
+
+        // Sinon, on affiche la page d'achat
+        return view('resources.purchase.checkout', [
+            'paymentInfo' => $paymentInfo,
+            'price' => $userRole->price,
+            'currency' => 'eur',
+            'confirmUrl' => route('premium.purchase', $userRole),
+            'name' => $name,
+            'enableGift' => false,
+        ]);
+    }
+
+    public function purchase(Request $request, UserRole $userRole)
+    {
+
+        $this->validate($request, ['terms' => ['accepted']]);
+
+        $user = user();
+        $payment = Payment::makeDefault($user, $userRole->price, Payment::TYPE_ACCOUNT_UPGRADE, $userRole->id, env('CURRENCY_ADMIN_ID'), 'stripe');
+
+        return paymentManager()->startPaymentInterne($request, $userRole->price, $payment);
+
+    }
+}
