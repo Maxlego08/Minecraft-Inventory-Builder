@@ -64,6 +64,7 @@ abstract class PaymentMethod
                 createAlert($payment->user_id, $resource->name, AlertUser::ICON_SUCCESS, AlertUser::SUCCESS, 'alerts.alerts.resources.purchased', $resource->link('description'));
 
                 userLogOffline($payment->user_id, "Ressource achetée $resource->name.$resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
+                break;
             }
             case Payment::TYPE_ACCOUNT_UPGRADE :
             {
@@ -83,7 +84,7 @@ abstract class PaymentMethod
                 }
                 $user->clear('user.color');
                 $user->clear('user.role');
-
+                break;
             }
             case Payment::TYPE_NAME_COLOR :
             {
@@ -93,6 +94,7 @@ abstract class PaymentMethod
                 createAlert($payment->user_id, $nameColor->translation(), AlertUser::ICON_SUCCESS, AlertUser::SUCCESS, 'alerts.alerts.name_color.purchased', route('profile.colors.index'));
 
                 userLogOffline($payment->user_id, "Couleur achetée {$nameColor->translation()}.$nameColor->id", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
+                break;
             }
         }
 

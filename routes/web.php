@@ -47,8 +47,10 @@ Route::get('/tooltip/{user}', [TooltipController::class, 'tooltip'])->name('tool
 
 Route::prefix('/account-upgrade')->name('premium.')->group(function () {
     Route::get('/', [PremiumController::class, 'index'])->name('index');
-    Route::get('/checkout/{userRole:power}', [PremiumController::class, 'checkout'])->name('checkout');
-    Route::post('/purchase/{userRole:power}', [PremiumController::class, 'purchase'])->name('purchase');
+    Route::middleware('auth')->group(function () {
+        Route::get('/checkout/{userRole:power}', [PremiumController::class, 'checkout'])->name('checkout');
+        Route::post('/purchase/{userRole:power}', [PremiumController::class, 'purchase'])->name('purchase');
+    });
 });
 
 Route::prefix('/profile')->name('profile.')->middleware('auth')->group(function () {
