@@ -11,6 +11,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\ValidationException;
 
 class PremiumController extends Controller
 {
@@ -34,7 +35,7 @@ class PremiumController extends Controller
     {
 
         // Si l'utilisateur à déjà le role
-        if ($userRole->power >= user()->role->power && !user()->isAdmin()) {
+        if (user()->role->power >= $userRole->power && !user()->isAdmin()) {
             return Redirect::route('premium.index');
         }
 
@@ -56,9 +57,16 @@ class PremiumController extends Controller
         ]);
     }
 
-    public function purchase(Request $request, UserRole $userRole)
+    /**
+     * Acheter un role
+     *
+     * @param Request $request
+     * @param UserRole $userRole
+     * @return mixed
+     * @throws ValidationException
+     */
+    public function purchase(Request $request, UserRole $userRole): mixed
     {
-
         $this->validate($request, ['terms' => ['accepted']]);
 
         $user = user();

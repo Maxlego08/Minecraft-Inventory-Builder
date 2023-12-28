@@ -49,7 +49,7 @@
                                                     class="bi bi-palette"></i> {{ __('profiles.nav.color') }}</a>
                                         </li>
                                         <li class="list-group-item mb-2">
-                                            <a href=""><i class="bi bi-arrow-up-right"></i>{{ __('profiles.nav.upgrade') }}</a>
+                                            <a href="{{ route('premium.index') }}"><i class="bi bi-arrow-up-right"></i>{{ __('profiles.nav.upgrade') }}</a>
                                         </li>
                                         <li class="list-group-item mb-2">
                                             <a href="{{ route('profile.name.index') }}"><i class="bi bi-person-badge"></i> {{ __('profiles.nav.change_name') }}</a>
