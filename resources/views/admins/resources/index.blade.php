@@ -43,7 +43,7 @@
                             <th style="width: 100px;">Téléchargements</th>
                             <th style="width: 175px;">Date de publication</th>
                             <th style="width: 125px;">Status</th>
-                            <th style="width: 100px;"></th>
+                            <th style="width: 100px;">Actions</th>
                         </tr>
                         </thead>
                         <tbody>

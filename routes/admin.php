@@ -15,7 +15,7 @@ Route::get('/', [IndexController::class, 'index'])->name('index');
 
 Route::prefix('resources/')->name('resources.')->group(function () {
     Route::get('/', [ResourceController::class, 'index'])->name('index');
-    Route::get('/edit/{resource}', [ResourceController::class, 'edit'])->name('edit');
+    Route::get('/edit/{resource}', [ResourceController::class, 'show'])->name('edit');
     Route::get('/pending', [ResourceController::class, 'pending'])->name('pending');
     Route::post('/accept/{resource}', [ResourceController::class, 'accept'])->name('accept');
     Route::post('/refuse/{resource}', [ResourceController::class, 'refuse'])->name('refuse');

@@ -47,6 +47,8 @@ class ResourcePurchaseController extends Controller
             'name' => $resource->name,
             'enableGift' => true,
             'resource' => $resource,
+            'contentId' => $resource->id,
+            'contentType' => Resource::class,
         ]);
     }
 

@@ -119,5 +119,18 @@ class ResourceController extends Controller
         return Redirect::route('admin.resources.pending')->with('toast', createToast('success', 'Ressource refusée !', 'Vous venez de refuser la ressource ' . $resource->name . '.' . $resource->id, 5000));
     }
 
+    /**
+     * Afficher les informations sur une resources
+     *
+     * @param Resource $resource
+     * @return View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+     */
+    public function show(Resource $resource): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    {
+        return view('admins.resources.view', [
+            'resource' => $resource,
+        ]);
+    }
+
 
 }
