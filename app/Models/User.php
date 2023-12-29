@@ -290,6 +290,11 @@ class User extends Authenticate implements MustVerifyEmail
         return Follow::with('follower')->where('followed_id', $this->id)->orderBy('created_at', 'DESC')->get();
     }
 
+    public function followingsTable(): Collection|array
+    {
+        return Follow::with('following')->where('follower_id', $this->id)->orderBy('created_at', 'DESC')->get();
+    }
+
     // Les utilisateurs que cet utilisateur suit
     public function followings(): BelongsToMany
     {

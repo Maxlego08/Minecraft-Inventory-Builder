@@ -176,5 +176,6 @@
         @include('admins.users.elements.payment')
     @endif
     @include('admins.users.elements.colors')
+    @include('admins.users.elements.follows')
 
 @endsection
