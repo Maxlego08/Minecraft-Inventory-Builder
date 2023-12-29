@@ -45,6 +45,7 @@ use Illuminate\Support\Str;
  * @property String $versions;
  * @property Access[] $buyers;
  * @property Review[] $reviews;
+ * @property Notification[] $notifications;
  * @method static Resource find(int $id)
  * @method static Resource findOrFail(int $id)
  * @method static Resource create(array $values)
@@ -89,6 +90,16 @@ class Resource extends Model implements Likeable
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Retourne la liste des utilisateurs qui ont activé les notifications pour le plugin
+     *
+     * @return HasMany
+     */
+    public function notifications(): HasMany
+    {
+        return $this->hasMany(Notification::class);
     }
 
     /**

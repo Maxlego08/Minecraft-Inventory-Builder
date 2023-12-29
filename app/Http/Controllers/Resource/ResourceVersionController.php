@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Resource;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\ResourceNotificationJob;
 use App\Models\Resource\Resource;
 use App\Models\Resource\Version;
 use App\Models\UserLog;
@@ -90,14 +91,13 @@ class ResourceVersionController extends Controller
 
         $resource->clearVersionUpdate();
 
-        // TODO
-        // Ajouter les notifications
+        ResourceNotificationJob::dispatch($resource->id);
 
         event(new ResourceUpdate($resource, $user));
 
         userLog("Mise à jour de la resource $resource->name.$resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_FILE);
 
-        return Redirect::route('resources.view', ['resource' => $resource, 'slug' => $resource->slug()])->with('toast', createToast('success', __('resources.updates.success.title'), __('resources.updates.success.content'), 5000));
+        return Redirect::route('resources.view', ['resource' => $resource, 'slug' => $resource->slug()])->with('toast', createToast('success', __('resources.update.success.title'), __('resources.update.success.content'), 5000));
     }
 
 }

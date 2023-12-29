@@ -5,6 +5,11 @@ namespace App\Models\Resource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int $user_id
+ * @property bool $enable_alert
+ * @property bool $enable_email
+ */
 class Notification extends Model
 {
     use HasFactory;
