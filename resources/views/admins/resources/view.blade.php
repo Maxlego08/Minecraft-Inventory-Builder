@@ -78,6 +78,23 @@
                             <th>Date de Mise à Jour</th>
                             <td>{{ format_date($resource->updated_at, true) }}</td>
                         </tr>
+
+                        <tr><th>Affichage</th><td>{{ $resource->is_display ? 'Oui' : 'Non' }}</td></tr>
+                        <tr><th>En Attente</th><td>{{ $resource->is_pending ? 'Oui' : 'Non' }}</td></tr>
+                        <tr><th>Lien du Code Source</th><td>{{ $resource->source_code_link }}</td></tr>
+                        <tr><th>Supprimé</th><td>{{ $resource->is_deleted ? 'Oui' : 'Non' }}</td></tr>
+                        <tr><th>Lien de Donation</th><td>{{ $resource->donation_link }}</td></tr>
+                        <tr><th>ID du Serveur Discord</th><td>{{ $resource->discord_server_id }}</td></tr>
+                        <tr><th>ID BStats</th><td>{{ $resource->bstats_id }}</td></tr>
+                        <tr><th>Contributeurs</th><td>{{ $resource->contributors }}</td></tr>
+                        <tr><th>Dépendances Requises</th><td>{{ $resource->required_dependencies }}</td></tr>
+                        <tr><th>Dépendances Optionnelles</th><td>{{ $resource->optional_dependencies }}</td></tr>
+                        <tr><th>Informations de Lien</th><td>{{ $resource->link_information }}</td></tr>
+                        <tr><th>Lien de Support</th><td>{{ $resource->link_support }}</td></tr>
+                        <tr><th>Versions</th><td>{{ $resource->versions }}</td></tr>
+                        <tr><th>Version Base MC</th><td>{{ $resource->version_base_mc }}</td></tr>
+                        <tr><th>Support Langues</th><td>{{ $resource->lang_support }}</td></tr>
+
                         </tbody>
                     </table>
                 </div>
