@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\Jobs\DiscordWebhookNotification;
+use App\Models\Discord\DiscordNotification;
 use App\Models\Resource\Category;
 use App\Models\Resource\Resource;
 use App\Models\User;
+use App\Utils\Discord\DiscordWebhook;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -125,6 +128,22 @@ class ResourcePagination
             ->where('resource_resources.is_display', true)
             ->orderBy('resource_versions.created_at', 'DESC')
             ->paginate();
+    }
+
+    /**
+     * Send a discord webhook
+     *
+     * @param Resource $resource
+     * @param User $user
+     * @param string $event
+     * @return void
+     */
+    public static function sendDiscordWebhook(Resource $resource, User $user, string $event): void
+    {
+        $webhooks = DiscordNotification::where('event', $event)->where('user_id', $resource->user_id)->where('is_valid', true)->get();
+        foreach ($webhooks as $webhook) {
+            DiscordWebhookNotification::dispatch(DiscordWebhook::build($webhook, $user, null, $resource, $resource->version), $webhook->url);
+        }
     }
 
 

@@ -2,11 +2,14 @@
 
 namespace App\Listeners;
 
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Http\Controllers\Resource\ResourcePagination;
+use App\Payment\utils\Resources\ResourceCreate;
 
 class ResourceCreateNotification
 {
+
+    const EVENT = 'event.resource.created';
+
     /**
      * Create the event listener.
      */
@@ -18,8 +21,8 @@ class ResourceCreateNotification
     /**
      * Handle the event.
      */
-    public function handle(object $event): void
+    public function handle(ResourceCreate $event): void
     {
-        //
+        ResourcePagination::sendDiscordWebhook($event->resource, $event->user, self::EVENT);
     }
 }

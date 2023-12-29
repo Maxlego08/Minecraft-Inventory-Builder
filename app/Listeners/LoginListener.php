@@ -18,7 +18,7 @@ class LoginListener
     public function handle(Login $event): void
     {
         if ($event->user instanceof User) {
-            userLogOffline($event->user->id, "Vient de se connecter", UserLog::COLOR_CONNEXION, UserLog::ICON_USER_LOGIN);
+            userLog("Vient de se connecter", UserLog::COLOR_CONNEXION, UserLog::ICON_USER_LOGIN);
         }
     }
 }

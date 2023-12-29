@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Resource\Resource;
 use App\Models\Resource\Version;
 use App\Models\UserLog;
+use App\Payment\utils\Resources\ResourceUpdate;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -91,6 +92,8 @@ class ResourceVersionController extends Controller
 
         // TODO
         // Ajouter les notifications
+
+        event(new ResourceUpdate($resource, $user));
 
         userLog("Mise à jour de la resource $resource->name.$resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_FILE);
 
