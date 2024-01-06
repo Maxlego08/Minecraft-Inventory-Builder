@@ -6,6 +6,7 @@ use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\Builder\BuilderIndexController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\NameChangeController;
 use App\Http\Controllers\NameController;
@@ -51,6 +52,10 @@ Route::prefix('/account-upgrade')->name('premium.')->group(function () {
         Route::get('/checkout/{userRole:power}', [PremiumController::class, 'checkout'])->name('checkout');
         Route::post('/purchase/{userRole:power}', [PremiumController::class, 'purchase'])->name('purchase');
     });
+});
+
+Route::prefix('/builder')->name('builder.')->middleware('auth')->group(function () {
+    Route::get('/', [BuilderIndexController::class, 'index'])->name('index');
 });
 
 Route::prefix('/profile')->name('profile.')->middleware('auth')->group(function () {

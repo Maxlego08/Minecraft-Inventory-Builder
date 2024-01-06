@@ -52,7 +52,7 @@ class StripeWebhook
                 'charge.dispute.created',
                 'charge.refunded',
             ],
-            'description' => 'Webhook for minecraft-inventory-builder.com'
+            'description' => 'Webhook for minecraft-builder-builder.com'
         ]);
 
         $this->usePaymentInfo->update(['endpoint_secret' => $response->secret]);
