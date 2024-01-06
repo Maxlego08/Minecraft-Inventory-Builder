@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\FileController;
 use App\Http\Controllers\Api\GiftController;
 use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\ResourceUserController;
@@ -51,5 +52,8 @@ Route::prefix('/v1')->name('v1.')->group(function () {
 
     Route::post('{payment}/notification/{id?}', [PaymentController::class, 'notification'])->name('notification');
     Route::get('gift/verify/{code}/{contentType}/{contentId}/{user}', [GiftController::class, 'verify'])->name('gift');
+
+    Route::get('file/analyse', [FileController::class, 'index'])->name('file');
+    Route::post('file/analyse/store', [FileController::class, 'store'])->name('file.store');
 
 });
