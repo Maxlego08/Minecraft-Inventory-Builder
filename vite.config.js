@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
     plugins: [
@@ -9,6 +10,7 @@ export default defineConfig({
                 'resources/sass/admins/admin.scss',
                 'resources/sass/editor/theme.scss',
                 'resources/js/app.js',
+                'resources/js/builder/builder.js',
                 'resources/js/admins/admin.js',
                 'resources/js/editor/editor.js',
                 'resources/js/userautocomplete.js',
@@ -17,5 +19,6 @@ export default defineConfig({
             ],
             refresh: true,
         }),
+        react(),
     ],
 });

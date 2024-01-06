@@ -38,7 +38,7 @@
                         </tr>
                         <tr>
                             <th>Catégorie</th>
-                            <td>{{ $resource->category->name }}</td>
+                            <td>{{ $resource->name->name }}</td>
                         </tr>
                         <tr>
                             <th>Description</th>
