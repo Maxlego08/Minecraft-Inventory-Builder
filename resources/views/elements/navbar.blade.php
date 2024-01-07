@@ -68,7 +68,8 @@
                        {{Route::currentRouteNamed(('home')) ?"aria-current='page''" : ""}} href="{{ route('home') }}">{{ __('messages.home') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link  py-2 me-2" href="#">{{ __('messages.builder-builder') }}</a>
+                    <a class="nav-link  py-2 me-2 {{ Route::currentRouteNamed('builder.index') ? "active fw-bold" : ""}}"
+                       {{Route::currentRouteNamed(('builder.index')) ?"aria-current='page''" : ""}} href="{{ route('builder.index') }}">{{ __('messages.builder-builder') }}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link  py-2 me-2 {{ Route::currentRouteNamed('resources.*') ? "active fw-bold" : ""}}"
