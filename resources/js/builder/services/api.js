@@ -19,13 +19,18 @@ const apiClient = axios.create({
     }
 });
 
-const fetchFolders = (serverId = null) => {
-    return apiClient.get(serverId ? `/folders/${serverId}` : '/folders');
+const fetchFolders = (folderId = null) => {
+    return apiClient.get(folderId ? `/folders/${folderId}` : '/folders');
+};
+
+const deleteFolder = (folderId = null) => {
+    return apiClient.post(`/folders/${folderId}/delete`);
 };
 
 // Dans api.js
 const apiFunctions = {
-    fetchFolders
+    fetchFolders,
+    deleteFolder
 };
 
 export default apiFunctions;

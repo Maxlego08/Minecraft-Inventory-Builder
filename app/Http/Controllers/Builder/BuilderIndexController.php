@@ -71,17 +71,16 @@ class BuilderIndexController extends Controller
         if ($folder->user_id != $user->id && !$user->isAdmin()){
             return json_encode([
                 'result' => 'error',
-                'message' => 'No permission'
+                'toast' => createToast('error', 'Error', 'Cannot delete the folder.', 5000)
             ]);
         }
 
         $folder->delete();
-
         userLog("Vient de supprimer le dossier $folder->id", UserLog::COLOR_DANGER, UserLog::ICON_TRASH);
 
         return json_encode([
-            'result' => 'Success',
-            'message' => 'Folder as been deleted'
+            'result' => 'success',
+            'toast' => createToast('success', 'Success', 'Folder as been deleted.', 5000)
         ]);
     }
 

@@ -62,9 +62,17 @@ const Builder = () => {
     const handleDeleteFolder = (folderId) => {
         console.log("Deleting folder", folderId);
 
-        let newFolder = { ...folder };
-        newFolder.children = newFolder.children.filter(item => item.id !== folderId);
-        setFolder(newFolder);
+        api.deleteFolder(folderId).then(response => {
+            let result = response.data.result
+            let toast = response.data.toast
+            window.toast(toast.type, toast.title, toast.description, toast.duration)
+
+            if (result === 'success') {
+                let newFolder = {...folder};
+                newFolder.children = newFolder.children.filter(item => item.id !== folderId);
+                setFolder(newFolder);
+            }
+        })
     };
 
     return (
