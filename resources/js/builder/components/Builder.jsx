@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import api from '../services/api';
 import Folder from './folder/Folder';
 import Breadcrumb from './folder/Breadcrumb';
+import FolderHeader from "./folder/FolderHeader";
 
 const Builder = () => {
 
@@ -59,9 +60,9 @@ const Builder = () => {
         else handleFolderClick();
     };
 
-    const handleHomeClick = () => {
-        handleFolderClick();
-    };
+    const handleDeleteFolder = (folderId) => {
+        console.log("Deleting folder", folderId)
+    }
 
     return (
         <div className={'builder'}>
@@ -70,46 +71,21 @@ const Builder = () => {
                 <div className={'folders'}>
                     {folder ? (
                         <div>
-                            <div className={'folders-header'}>
-                                {/*{parentFolder ? (
-                                    <div>
-                                        <button className={'btn btn-sm btn-success'} onClick={handleParentFolderClick}>
-                                            <i className="bi bi-arrow-90deg-left"></i></button>
-                                    </div>
-                                ) : (
-                                    <div>
-                                        <button className={'btn btn-sm btn-success disabled'}><i
-                                            className="bi bi-arrow-90deg-left"></i></button>
-                                    </div>
-                                )}*/}
-                                <div className={'action'}>
-                                    <i className="bi bi-plus-lg"></i>
-                                </div>
-                                {parentFolder ? (
-                                    <div className={'action'} onClick={handleParentFolderClick}>
-                                        <i className="bi bi-arrow-90deg-left"></i>
-                                    </div>
-                                ) : (
-                                    <div className={'action action-disable'}>
-                                        <i className="bi bi-arrow-90deg-left"></i>
-                                    </div>
-                                )}
-                            </div>
+                            <FolderHeader handleParentFolderClick={handleParentFolderClick} parentFolder={parentFolder}  />
                             <div className={'folders-content'}>
                                 {folder.children?.map((f, index) => (
                                     <Folder key={index} folderId={f.id} folderName={f.name}
-                                            onFolderClick={handleFolderClick}/>
+                                            onFolderClick={handleFolderClick} handleDeleteFolder={handleDeleteFolder}/>
                                 ))}
                             </div>
                         </div>
                     ) : (
+                        /* Ajouter une animation de chargement */
                         <div>En attente</div>
                     )}
                 </div>
                 <div className={'builder-inventories'}>
-                    <div>
-                        <span>d</span>
-                    </div>
+                    {/* TODO */}
                 </div>
             </div>
         </div>
