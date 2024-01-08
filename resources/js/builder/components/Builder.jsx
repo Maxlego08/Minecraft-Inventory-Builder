@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import api from '../services/api';
 import Folder from './folder/Folder';
+import Breadcrumb from './folder/Breadcrumb';
 
 const Builder = () => {
 
@@ -42,8 +43,6 @@ const Builder = () => {
                     expiry: new Date().getTime() + 1000 * 2, // 10 secondes
                 }));
 
-                console.log(parentHierarchy)
-
                 setFolder(folder);
                 setParentFolder(parentFolder);
                 setParentHierarchy(parentHierarchy);
@@ -66,26 +65,7 @@ const Builder = () => {
 
     return (
         <div className={'builder'}>
-            <div className={'builder-breadcrumb'}>
-                <nav aria-label="breadcrumb">
-                    <ol className="breadcrumb">
-                        <li className="breadcrumb-item can-click"><span onClick={handleHomeClick}><i className="bi bi-house"></i> Home</span>
-                        </li>
-                        {parentHierarchy && parentHierarchy?.map((info, index) => (
-                            <li key={index}
-                                className={`breadcrumb-item ${info.name === folder.name ? 'active' : 'can-click'}`}
-                                aria-current={info.name === folder.name ? "page" : undefined}>
-                                {info.name === folder.name ? (
-                                    <span>{info.name}</span>
-                                ) : (
-                                    <span onClick={() => handleFolderClick(info.id)}>{info.name}</span>
-                                )}
-                            </li>
-                        ))}
-
-                    </ol>
-                </nav>
-            </div>
+            <Breadcrumb key={1} parent={parentHierarchy ?? []} folder={folder} onFolderClick={handleFolderClick} />
             <div className={'builder-content'}>
 
                 {folder ? (
