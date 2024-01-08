@@ -1,4 +1,15 @@
+import React, {useState} from 'react';
+import CreateFolderModal from '../modals/CreateFolderModal';
+
 const FolderHeader = ({handleParentFolder, parent}) => {
+
+    const [modalShow, setModalShow] = useState(false);
+
+    const handleCreateFolder = (folderName) => {
+        console.log('Creating folder:', folderName);
+        // Logique pour créer le dossier ici
+        setModalShow(false);
+    };
 
     const handleParentFolderClick = () => {
         handleParentFolder()
@@ -6,8 +17,13 @@ const FolderHeader = ({handleParentFolder, parent}) => {
 
     return (
         <div className={'folders-header'}>
-            <div className={'action'}>
+            <div className={'action'} onClick={() => setModalShow(true)}>
                 <i className="bi bi-plus-lg"></i>
+                <CreateFolderModal
+                    show={modalShow}
+                    onHide={() => setModalShow(false)}
+                    onCreate={handleCreateFolder}
+                />
             </div>
             {parent ? (
                 <div className={'action'} onClick={handleParentFolderClick}>

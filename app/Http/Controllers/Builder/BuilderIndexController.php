@@ -9,6 +9,7 @@ use App\Models\UserRole;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 
 class BuilderIndexController extends Controller
 {
@@ -64,7 +65,7 @@ class BuilderIndexController extends Controller
         }
     }
 
-    public function delete(Folder $folder)
+    public function delete(Folder $folder): bool|string
     {
 
         $user = user();
@@ -82,6 +83,19 @@ class BuilderIndexController extends Controller
             'result' => 'success',
             'toast' => createToast('success', 'Success', 'Folder as been deleted.', 5000)
         ]);
+    }
+
+    public function create(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $validatedData = $request->validate([
+            'folderName' => 'required|regex:/^[a-zA-Z0-9 ]{3,30}$/'
+        ]);
+
+        $folder = new Folder();
+        $folder->name = $validatedData['folderName'];
+        $folder->save();
+
+        return response()->json(['success' => 'Dossier créé avec succès.']);
     }
 
 }

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import DeleteConfirmationModal from "@/builder/components/modals/DeleteConfirmationModal.jsx";
+import DeleteConfirmationModal from '../modals/DeleteConfirmationModal';
 
 const Folder = ({folderId, folderName, onFolderClick, handleDeleteFolder}) => {
 
