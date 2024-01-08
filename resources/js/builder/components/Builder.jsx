@@ -65,36 +65,47 @@ const Builder = () => {
 
     return (
         <div className={'builder'}>
-            <Breadcrumb key={1} parent={parentHierarchy ?? []} folder={folder} onFolderClick={handleFolderClick} />
+            <Breadcrumb key={1} parent={parentHierarchy ?? []} folder={folder} onFolderClick={handleFolderClick}/>
             <div className={'builder-content'}>
-
-                {folder ? (
-                    <div className={'folders'}>
-                        <div className={'folders-header'}>
-                            <span>{folder.name}.{folder.id}</span>
-                            {parentFolder ? (
-                                <div>
-                                    <button className={'btn btn-sm btn-success'} onClick={handleParentFolderClick}><i
-                                        className="bi bi-arrow-90deg-left"></i></button>
+                <div className={'folders'}>
+                    {folder ? (
+                        <div>
+                            <div className={'folders-header'}>
+                                {/*{parentFolder ? (
+                                    <div>
+                                        <button className={'btn btn-sm btn-success'} onClick={handleParentFolderClick}>
+                                            <i className="bi bi-arrow-90deg-left"></i></button>
+                                    </div>
+                                ) : (
+                                    <div>
+                                        <button className={'btn btn-sm btn-success disabled'}><i
+                                            className="bi bi-arrow-90deg-left"></i></button>
+                                    </div>
+                                )}*/}
+                                <div className={'action'}>
+                                    <i className="bi bi-plus-lg"></i>
                                 </div>
-                            ) : (
-                                <div>
-                                    <button className={'btn btn-sm btn-success disabled'}><i
-                                        className="bi bi-arrow-90deg-left"></i></button>
-                                </div>
-                            )}
+                                {parentFolder ? (
+                                    <div className={'action'} onClick={handleParentFolderClick}>
+                                        <i className="bi bi-arrow-90deg-left"></i>
+                                    </div>
+                                ) : (
+                                    <div className={'action action-disable'}>
+                                        <i className="bi bi-arrow-90deg-left"></i>
+                                    </div>
+                                )}
+                            </div>
+                            <div className={'folders-content'}>
+                                {folder.children?.map((f, index) => (
+                                    <Folder key={index} folderId={f.id} folderName={f.name}
+                                            onFolderClick={handleFolderClick}/>
+                                ))}
+                            </div>
                         </div>
-                        <div className={'folders-content'}>
-                            {folder.children?.map((f, index) => (
-                                <Folder key={index} folderId={f.id} folderName={f.name}
-                                        onFolderClick={handleFolderClick}/>
-                            ))}
-                        </div>
-                    </div>
-                ) : (
-                    <div>En attente</div>
-                )}
-
+                    ) : (
+                        <div>En attente</div>
+                    )}
+                </div>
                 <div className={'builder-inventories'}>
                     <div>
                         <span>d</span>
