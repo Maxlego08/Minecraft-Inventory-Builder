@@ -11,11 +11,11 @@ const DeleteConfirmationModal = ({ show, handleClose, handleConfirm, itemToDelet
                 Are you sure you want to delete {itemToDelete}?
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
+                <Button variant="secondary" size="sm" onClick={handleClose}>
                     Cancel
                 </Button>
-                <Button variant="danger" onClick={handleConfirm}>
-                    Delete
+                <Button variant="danger" size="sm" onClick={handleConfirm}>
+                    <i className="bi bi-trash"></i> Delete
                 </Button>
             </Modal.Footer>
         </Modal>

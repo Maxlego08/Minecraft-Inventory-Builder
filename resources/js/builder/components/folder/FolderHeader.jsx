@@ -1,7 +1,7 @@
-const FolderHeader = (parentFolder, handleParentFolderClick) => {
+const FolderHeader = ({handleParentFolder, parent}) => {
 
-    const handleParentFolder = () => {
-        handleParentFolderClick()
+    const handleParentFolderClick = () => {
+        handleParentFolder()
     }
 
     return (
@@ -9,8 +9,8 @@ const FolderHeader = (parentFolder, handleParentFolderClick) => {
             <div className={'action'}>
                 <i className="bi bi-plus-lg"></i>
             </div>
-            {parentFolder ? (
-                <div className={'action'} onClick={handleParentFolder}>
+            {parent ? (
+                <div className={'action'} onClick={handleParentFolderClick}>
                     <i className="bi bi-arrow-90deg-left"></i>
                 </div>
             ) : (

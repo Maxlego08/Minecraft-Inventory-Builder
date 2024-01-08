@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Builder;
 
 use App\Http\Controllers\Controller;
 use App\Models\Builder\Folder;
+use App\Models\UserLog;
+use App\Models\UserRole;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -60,6 +62,27 @@ class BuilderIndexController extends Controller
                 'message' => "Folder $folder was not found"
             ]);
         }
+    }
+
+    public function delete(Folder $folder)
+    {
+
+        $user = user();
+        if ($folder->user_id != $user->id && !$user->isAdmin()){
+            return json_encode([
+                'result' => 'error',
+                'message' => 'No permission'
+            ]);
+        }
+
+        $folder->delete();
+
+        userLog("Vient de supprimer le dossier $folder->id", UserLog::COLOR_DANGER, UserLog::ICON_TRASH);
+
+        return json_encode([
+            'result' => 'Success',
+            'message' => 'Folder as been deleted'
+        ]);
     }
 
 }

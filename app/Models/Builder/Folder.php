@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
+ * @property int $user_id
  * @property string $name
  * @property Folder $parent
  * @property Folder[] $children

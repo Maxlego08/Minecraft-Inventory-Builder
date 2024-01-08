@@ -55,6 +55,7 @@ class UserLog extends Model
     public const TYPE_ADMIN = 6;
     public const TYPE_DISCORD = 7;
     public const TYPE_DEVELOPER = 8;
+    public const TYPE_BUILDER = 9;
 
     protected $fillable = [
         'user_id',

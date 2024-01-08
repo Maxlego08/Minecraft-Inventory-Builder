@@ -37,7 +37,7 @@ const Folder = ({folderId, folderName, onFolderClick, handleDeleteFolder}) => {
     };
 
     return (
-        <div className={'folder'}>
+        <div className={'folder'} id={`folder-${folderId}`}>
             <div className={'folder-name'} onClick={handleClick}>
                 <i className="bi bi-folder me-2"></i> {folderName}
             </div>

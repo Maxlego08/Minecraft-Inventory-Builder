@@ -22,7 +22,6 @@ const Builder = () => {
             const data = JSON.parse(cachedData);
             const now = new Date();
             if (data.expiry > now.getTime()) {
-                console.log(data.parentHierarchy)
                 setFolder(data.folder);
                 setParentFolder(data.parentFolder);
                 setParentHierarchy(data.parentHierarchy);
@@ -61,8 +60,12 @@ const Builder = () => {
     };
 
     const handleDeleteFolder = (folderId) => {
-        console.log("Deleting folder", folderId)
-    }
+        console.log("Deleting folder", folderId);
+
+        let newFolder = { ...folder };
+        newFolder.children = newFolder.children.filter(item => item.id !== folderId);
+        setFolder(newFolder);
+    };
 
     return (
         <div className={'builder'}>
@@ -71,7 +74,7 @@ const Builder = () => {
                 <div className={'folders'}>
                     {folder ? (
                         <div>
-                            <FolderHeader handleParentFolderClick={handleParentFolderClick} parentFolder={parentFolder}  />
+                            <FolderHeader handleParentFolder={handleParentFolderClick} parent={parentFolder}/>
                             <div className={'folders-content'}>
                                 {folder.children?.map((f, index) => (
                                     <Folder key={index} folderId={f.id} folderName={f.name}
