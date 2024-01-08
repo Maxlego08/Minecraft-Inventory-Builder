@@ -1,0 +1,28 @@
+.builder {
+
+    display: flex;
+    flex-direction: column;
+
+    &-breadcrumb {
+        margin: 5px;
+
+        .can-click {
+            cursor: pointer;
+        }
+
+        ol {
+            margin-bottom: 0!important;
+        }
+    }
+
+    &-content {
+        display: flex;
+        background: gray;
+    }
+
+    &-inventories {
+        display: flex;
+        background: #2615be;
+    }
+
+}

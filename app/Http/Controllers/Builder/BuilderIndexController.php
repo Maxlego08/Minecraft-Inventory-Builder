@@ -34,17 +34,8 @@ class BuilderIndexController extends Controller
         if ($folder) {
             $folders = Folder::whereNotNull('parent_id')->where('id', $folder)->where('user_id', $user->id)->with('children')->first();
             if ($folders) {
-                $currentFolder = $folders;
                 $parentFolder = $folders->parent;
-                $currentParent = $parentFolder;
-
-                if ($parentFolder) {
-                    // Remplir la hiérarchie des parents
-                    while ($currentParent) {
-                        array_unshift($parentHierarchy, ['id' => $currentParent->id, 'name' => $currentParent->name]);
-                        $currentParent = $currentParent->parent;
-                    }
-                }
+                $parentHierarchy = $folders->getBreadcrumbHierarchy();
             } else {
                 // Permet de récupérer le dossier et ses enfants, doit uniquement avoir un seul dossier
                 $folders = Folder::whereNull('parent_id')->where('user_id', $user->id)->with('children')->first();

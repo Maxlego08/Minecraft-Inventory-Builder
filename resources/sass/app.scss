@@ -14,6 +14,9 @@ $font-path: './fonts/';
 @import "components/content-components";
 @import "editor/editor";
 
+@import "builder/builder";
+@import "builder/folders";
+
 
 .nav-tabs .nav-item a {
     background-color: #13132a;

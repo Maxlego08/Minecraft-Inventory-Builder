@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from 'react-dom/client'
-import FolderList from './components/folder/FolderList.jsx'
+import Builder from './components/Builder'
 
 const container = document.getElementById('builder')
 const root = ReactDOM.createRoot(container)
-root.render(<FolderList />)
+root.render(<Builder />)

@@ -1,0 +1,20 @@
+.folders {
+
+    width: 300px;
+    background: red;
+
+    &-header {
+
+        padding: 10px;
+        background: green;
+
+    }
+
+    &-content {
+
+        padding: 10px;
+        background: #0a230a;
+
+    }
+
+}
