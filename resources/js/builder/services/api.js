@@ -61,12 +61,18 @@ const updateFolder = (formData, folderId) => {
     return apiClient.post(`/folders/update/${folderId}`, formData);
 };
 
+const displayToast = (response) => {
+    let toast = response.data.toast
+    if (toast) window.toast(toast.type, toast.title, toast.description, toast.duration)
+}
+
 // Dans api.js
 const apiFunctions = {
     fetchFolders,
     deleteFolder,
     createFolder,
-    updateFolder
+    updateFolder,
+    displayToast
 };
 
 export default apiFunctions;

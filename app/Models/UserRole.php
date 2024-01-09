@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $size
  * @property int $power
  * @property int $max_resources
+ * @property int $max_folders
  * @property int $max_discord_webhook
  * @property double $price
  * @property boolean $is_banned

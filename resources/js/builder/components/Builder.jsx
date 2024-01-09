@@ -40,14 +40,12 @@ const Builder = () => {
                     folder: folder,
                     parentFolder: parentFolder,
                     parentHierarchy: parentHierarchy,
-                    expiry: new Date().getTime() + (import.meta.env.VITE_APP_ENV ?? 'prod' === 'local' ? 1000 * 5 : 1000 * 60),
+                    expiry: new Date().getTime() + (import.meta.env.VITE_APP_ENV ?? 'prod' === 'local' ? 1000 * 5 : 1000 * 60 * 5), // Cache de 5 minutes en production
                 }));
 
                 setFolder(folder);
                 setParentFolder(parentFolder);
                 setParentHierarchy(parentHierarchy);
-            } else {
-                console.log('Error !');
             }
         }).catch(error => {
             console.log(error);
@@ -60,17 +58,15 @@ const Builder = () => {
     };
 
     const handleDeleteFolder = (folderId) => {
-        console.log("Deleting folder", folderId);
-
         api.deleteFolder(folderId).then(response => {
-            let result = response.data.result
-            let toast = response.data.toast
-            window.toast(toast.type, toast.title, toast.description, toast.duration)
+            api.displayToast(response)
 
-            if (result === 'success') {
+            if (response.data.result === 'success') {
                 let newFolder = {...folder};
                 newFolder.children = newFolder.children.filter(item => item.id !== folderId);
                 setFolder(newFolder);
+
+                localStorage.clear();
             }
         })
     };
@@ -81,40 +77,45 @@ const Builder = () => {
         formatData.append('folderName', folderName)
 
         api.updateFolder(formatData, folderId).then(response => {
-            let toast = response.data.toast
-            window.toast(toast.type, toast.title, toast.description, toast.duration)
+            api.displayToast(response)
 
             if (response.data.result === 'success') {
                 let newFolder = {...folder};
                 let updatedFolder = response.data.folder
-                // newFolder.children = newFolder.children.filter(item => item.id !== folderId);
                 newFolder.children.forEach(value => {
-                    console.log(`${value.id} => ${updatedFolder.id}`)
                     if (value.id === updatedFolder.id) {
                         value.name = updatedFolder.name
                     }
                 })
                 setFolder(newFolder);
+
+                localStorage.clear();
             }
         })
     }
 
-    const createFolder = (folderName) => {
+    const createFolder = async (folderName) => {
+        try {
+            const formData = new FormData();
+            formData.append('folderName', folderName);
 
-        let formatData = new FormData()
-        formatData.append('folderName', folderName)
+            const response = await api.createFolder(formData, folder.id);
+            api.displayToast(response)
 
-        api.createFolder(formatData, folder.id).then(response => {
-            let toast = response.data.toast
-            window.toast(toast.type, toast.title, toast.description, toast.duration)
+            const {result, folder: newFolderData} = response.data;
 
-            if (response.data.result === 'success') {
-                let newFolder = {...folder};
-                newFolder.children.push(response.data.folder)
-                setFolder(newFolder);
+            if (result === 'success') {
+                setFolder(prevFolder => ({
+                    ...prevFolder,
+                    children: [...prevFolder.children, newFolderData]
+                }));
             }
-        })
-    }
+        } catch (error) {
+            console.error("Error creating folder:", error);
+            window.toast('error', 'Error !', `Error creating folder: ${error}`, 5000)
+        }
+    };
+
 
     return (
         <div className={'builder'}>

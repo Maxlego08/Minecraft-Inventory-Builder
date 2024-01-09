@@ -44,11 +44,11 @@ const CreateFolderModal = ({show, handleClose, onCreate}) => {
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant='primary' type='submit' size='sm'>
-                        Create
-                    </Button>
                     <Button variant="secondary" size="sm" onClick={handleClose}>
                         Cancel
+                    </Button>
+                    <Button variant='primary' type='submit' size='sm'>
+                        Create
                     </Button>
                 </Modal.Footer>
             </Form>

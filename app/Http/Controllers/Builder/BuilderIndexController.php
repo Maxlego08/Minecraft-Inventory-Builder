@@ -111,6 +111,14 @@ class BuilderIndexController extends Controller
             ]);
         }
 
+        $counts = Folder::where('user_id', $user->id)->whereNotNull('parent_id')->count() + 1;
+        if ($counts >= $user->role->max_folders){
+            return json_encode([
+                'result' => 'error',
+                'toast' => createToast('error', 'Error', 'You cannot create a new file, please upgrade your account.', 5000)
+            ]);
+        }
+
         $folder = Folder::create([
             'name' => $validatedData['folderName'],
             'user_id' => $user->id,
