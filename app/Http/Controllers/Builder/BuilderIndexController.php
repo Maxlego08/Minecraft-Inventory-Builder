@@ -104,7 +104,7 @@ class BuilderIndexController extends Controller
         ]);
 
         $user = user();
-        if ($folderParent->user_id != $user->id) {
+        if ($folderParent->user_id != $user->id && !$user->isAdmin()) {
             return json_encode([
                 'result' => 'error',
                 'toast' => createToast('error', 'Error', 'Cannot create folder, please try again', 5000)
@@ -123,6 +123,40 @@ class BuilderIndexController extends Controller
             'result' => 'success',
             'folder' => $folder,
             'toast' => createToast('success', 'Success', 'You have just created a folder', 5000)
+        ]);
+    }
+
+    /**
+     * Permet de modifier un dossier
+     *
+     * @param Request $request
+     * @param Folder $folder
+     * @return bool|string
+     */
+    public function update(Request $request, Folder $folder): bool|string
+    {
+        $validatedData = $request->validate([
+            'folderName' => 'required|regex:/^[a-zA-Z0-9 ]{3,30}$/'
+        ]);
+
+        $user = user();
+        if ($folder->user_id != $user->id && !$user->isAdmin()) {
+            return json_encode([
+                'result' => 'error',
+                'toast' => createToast('error', 'Error', 'Cannot create folder, please try again', 5000)
+            ]);
+        }
+
+        $folder->update([
+            'name' => $validatedData['folderName'],
+        ]);
+
+        userLog("Vient de modifier le dossier $folder->name.$folder->id", UserLog::COLOR_SUCCESS, UserLog::ICON_EDIT);
+
+        return json_encode([
+            'result' => 'success',
+            'toast' => createToast('success', 'Success', "You just changed the folder name to $folder->name", 5000),
+            'folder' => $folder,
         ]);
     }
 

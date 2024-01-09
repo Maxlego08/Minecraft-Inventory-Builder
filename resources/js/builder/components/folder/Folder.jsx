@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import DeleteConfirmationModal from '../modals/DeleteConfirmationModal';
+import EditFolderModal from "../modals/EditFolderModal";
 
-const Folder = ({folderId, folderName, onFolderClick, handleDeleteFolder}) => {
+const Folder = ({folderId, folderName, onFolderClick, handleDeleteFolder, handleEditFolder}) => {
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
 
     const handleClick = () => {
         onFolderClick(folderId);
@@ -11,49 +13,52 @@ const Folder = ({folderId, folderName, onFolderClick, handleDeleteFolder}) => {
 
     const handleGearClick = (event) => {
         // event.stopPropagation()
-        console.log("JE CLICK ICI !")
     }
 
     const handleRename = (event) => {
         event.stopPropagation()
-        console.log("JE RENAME")
+        setShowEditModal(true)
     }
 
     const handleDelete = (event) => {
         event.stopPropagation()
-
         setShowDeleteModal(true);
     }
 
-    const handleCloseModal = () => {
+    const handleConfirmDelete = () => {
         setShowDeleteModal(false);
+        handleDeleteFolder(folderId)
     };
 
-    const handleConfirmDelete = () => {
-        console.log("Deleting:", folderId);
-        setShowDeleteModal(false);
-
-        handleDeleteFolder(folderId)
+    const handleEditName = (newName) => {
+        setShowEditModal(false);
+        handleEditFolder(folderId, newName)
     };
 
     return (
         <div className={'folder'} id={`folder-${folderId}`}>
             <div className={'folder-name'} onClick={handleClick}>
-                <i className="bi bi-folder me-2"></i> {folderName}
+                <i className="bi bi-folder me-2"/> {folderName}
             </div>
             <div className="dropdown">
                 <div className={'folder-action ps-2 pe-2'} onClick={handleGearClick} type="button"
                      data-bs-toggle="dropdown" aria-expanded="false">
-                    <i className="bi bi-gear"></i>
+                    <i className="bi bi-gear"/>
                 </div>
                 <ul className="dropdown-menu">
                     <li onClick={handleRename}><span className="dropdown-item">Rename</span></li>
                     <li onClick={handleDelete}><span className="dropdown-item">Delete</span></li>
                     <DeleteConfirmationModal
                         show={showDeleteModal}
-                        handleClose={handleCloseModal}
+                        handleClose={() => setShowDeleteModal(false)}
                         handleConfirm={handleConfirmDelete}
                         itemToDelete={folderName}
+                    />
+                    <EditFolderModal
+                        show={showEditModal}
+                        handleClose={() => setShowEditModal(false)}
+                        onSave={handleEditName}
+                        folder={folderName}
                     />
                 </ul>
             </div>

@@ -61,6 +61,7 @@ Route::prefix('/builder')->name('builder.')->middleware('auth')->group(function 
         Route::get('/folders/{folder?}', [BuilderIndexController::class, 'folders'])->name('folders');
         Route::post('/folders/{folder}/delete', [BuilderIndexController::class, 'delete'])->name('delete');
         Route::post('/folders/create/{folderParent}', [BuilderIndexController::class, 'create'])->name('create');
+        Route::post('/folders/update/{folder}', [BuilderIndexController::class, 'update'])->name('update');
     });
 });
 

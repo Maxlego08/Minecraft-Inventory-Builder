@@ -1,9 +1,15 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Form, Modal} from 'react-bootstrap';
 
-const CreateFolderModal = ({show, handleClose, onCreate}) => {
+const EditFolderModal = ({show, handleClose, onSave, folder}) => {
     const [folderName, setFolderName] = useState('');
     const [error, setError] = useState('');
+
+    useEffect(() => {
+        if (folder) {
+            setFolderName(folder);
+        }
+    }, [folder]);
 
     const validateName = (name) => /^[a-zA-Z0-9 ]{3,30}$/.test(name);
 
@@ -14,15 +20,14 @@ const CreateFolderModal = ({show, handleClose, onCreate}) => {
             return;
         }
         setError('');
-        onCreate(folderName);
-        setFolderName('');
-        handleClose(); // Fermer le modal après la création
+        onSave(folderName);
+        handleClose(); // Fermer le modal après la sauvegarde
     };
 
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-                <Modal.Title>Create a new folder</Modal.Title>
+                <Modal.Title>Edit the folder name</Modal.Title>
             </Modal.Header>
             <Form onSubmit={handleSubmit}>
                 <Modal.Body>
@@ -44,11 +49,11 @@ const CreateFolderModal = ({show, handleClose, onCreate}) => {
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant='primary' type='submit' size='sm'>
-                        Create
-                    </Button>
                     <Button variant="secondary" size="sm" onClick={handleClose}>
                         Cancel
+                    </Button>
+                    <Button variant="primary" type="submit" size="sm">
+                        <i className="bi bi-floppy"/> Save
                     </Button>
                 </Modal.Footer>
             </Form>
@@ -56,4 +61,4 @@ const CreateFolderModal = ({show, handleClose, onCreate}) => {
     );
 };
 
-export default CreateFolderModal
+export default EditFolderModal

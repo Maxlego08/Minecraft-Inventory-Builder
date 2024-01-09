@@ -75,6 +75,30 @@ const Builder = () => {
         })
     };
 
+    const handleEditFolder = (folderId, folderName) => {
+
+        let formatData = new FormData()
+        formatData.append('folderName', folderName)
+
+        api.updateFolder(formatData, folderId).then(response => {
+            let toast = response.data.toast
+            window.toast(toast.type, toast.title, toast.description, toast.duration)
+
+            if (response.data.result === 'success') {
+                let newFolder = {...folder};
+                let updatedFolder = response.data.folder
+                // newFolder.children = newFolder.children.filter(item => item.id !== folderId);
+                newFolder.children.forEach(value => {
+                    console.log(`${value.id} => ${updatedFolder.id}`)
+                    if (value.id === updatedFolder.id) {
+                        value.name = updatedFolder.name
+                    }
+                })
+                setFolder(newFolder);
+            }
+        })
+    }
+
     const createFolder = (folderName) => {
 
         let formatData = new FormData()
@@ -86,12 +110,10 @@ const Builder = () => {
 
             if (response.data.result === 'success') {
                 let newFolder = {...folder};
-                console.log(newFolder.children)
                 newFolder.children.push(response.data.folder)
                 setFolder(newFolder);
             }
         })
-
     }
 
     return (
@@ -101,11 +123,13 @@ const Builder = () => {
                 <div className={'folders'}>
                     {folder ? (
                         <div>
-                            <FolderHeader handleParentFolder={handleParentFolderClick} parent={parentFolder} createFolder={createFolder}/>
+                            <FolderHeader handleParentFolder={handleParentFolderClick} parent={parentFolder}
+                                          createFolder={createFolder}/>
                             <div className={'folders-content'}>
                                 {folder.children?.map((f, index) => (
                                     <Folder key={index} folderId={f.id} folderName={f.name}
-                                            onFolderClick={handleFolderClick} handleDeleteFolder={handleDeleteFolder}/>
+                                            onFolderClick={handleFolderClick} handleDeleteFolder={handleDeleteFolder}
+                                            handleEditFolder={handleEditFolder}/>
                                 ))}
                             </div>
                         </div>

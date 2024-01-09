@@ -15,7 +15,7 @@ const DeleteConfirmationModal = ({ show, handleClose, handleConfirm, itemToDelet
                     Cancel
                 </Button>
                 <Button variant="danger" size="sm" onClick={handleConfirm}>
-                    <i className="bi bi-trash"></i> Delete
+                    <i className="bi bi-trash"/> Delete
                 </Button>
             </Modal.Footer>
         </Modal>
