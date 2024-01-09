@@ -14,6 +14,11 @@ const Builder = () => {
         handleFolderClick();
     }, []);
 
+    /**
+     * Permet de récupérer le contenu d'un dossier
+     *
+     * @param folderId
+     */
     const handleFolderClick = (folderId = null) => {
         const cacheKey = `folders_${folderId || 'root'}`;
         const cachedData = localStorage.getItem(cacheKey);
@@ -52,48 +57,82 @@ const Builder = () => {
         });
     };
 
+    /**
+     * Permet d'effectuer le clic sur le dossier parent, si le dossier parent n'existe pas alors effectuer le clic pour aller au fichier home
+     */
     const handleParentFolderClick = () => {
         if (parentFolder) handleFolderClick(parentFolder.id);
         else handleFolderClick();
     };
 
-    const handleDeleteFolder = (folderId) => {
-        api.deleteFolder(folderId).then(response => {
-            api.displayToast(response)
+    /**
+     * Permet de supprimer un dossier
+     *
+     * @param folderId
+     * @returns {Promise<void>}
+     */
+    const handleDeleteFolder = async (folderId) => {
+        try {
+            const response = await api.deleteFolder(folderId);
+            api.displayToast(response);
 
             if (response.data.result === 'success') {
-                let newFolder = {...folder};
-                newFolder.children = newFolder.children.filter(item => item.id !== folderId);
-                setFolder(newFolder);
+                setFolder(prevFolder => ({
+                    ...prevFolder,
+                    children: prevFolder.children.filter(item => item.id !== folderId)
+                }));
 
                 localStorage.clear();
             }
-        })
+        } catch (error) {
+            console.error("Error deleting folder:", error);
+            window.toast('error', 'Error !', `Error deleting folder: ${error}`, 5000)
+        }
     };
 
-    const handleEditFolder = (folderId, folderName) => {
 
-        let formatData = new FormData()
-        formatData.append('folderName', folderName)
+    /**
+     * Permet d'éditer le nom d'un dossier
+     *
+     * @param folderId
+     * @param folderName
+     * @returns {Promise<void>}
+     */
+    const handleEditFolder = async (folderId, folderName) => {
+        try {
+            const formData = new FormData();
+            formData.append('folderName', folderName);
 
-        api.updateFolder(formatData, folderId).then(response => {
-            api.displayToast(response)
+            const response = await api.updateFolder(formData, folderId);
+            api.displayToast(response);
 
             if (response.data.result === 'success') {
-                let newFolder = {...folder};
-                let updatedFolder = response.data.folder
-                newFolder.children.forEach(value => {
-                    if (value.id === updatedFolder.id) {
-                        value.name = updatedFolder.name
-                    }
-                })
-                setFolder(newFolder);
+                const updatedFolder = response.data.folder;
+
+                setFolder(prevFolder => ({
+                    ...prevFolder,
+                    children: prevFolder.children.map(child =>
+                        child.id === updatedFolder.id
+                            ? { ...child, name: updatedFolder.name }
+                            : child
+                    )
+                }));
 
                 localStorage.clear();
             }
-        })
-    }
+        } catch (error) {
+            console.error("Error updating folder:", error);
+            window.toast('error', 'Error !', `Error updating folder: ${error}`, 5000)
+        }
+    };
 
+
+    /**
+     * Permet de créer un nouveau dossier
+     *
+     * @param folderName
+     * @returns {Promise<void>}
+     */
     const createFolder = async (folderName) => {
         try {
             const formData = new FormData();
