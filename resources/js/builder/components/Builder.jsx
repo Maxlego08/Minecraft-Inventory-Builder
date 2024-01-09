@@ -11,7 +11,9 @@ const Builder = () => {
     const [parentHierarchy, setParentHierarchy] = useState();
 
     useEffect(() => {
-        handleFolderClick();
+        setTimeout(() => {
+            handleFolderClick();
+        }, 5000)
     }, []);
 
     /**
@@ -113,7 +115,7 @@ const Builder = () => {
                     ...prevFolder,
                     children: prevFolder.children.map(child =>
                         child.id === updatedFolder.id
-                            ? { ...child, name: updatedFolder.name }
+                            ? {...child, name: updatedFolder.name}
                             : child
                     )
                 }));
@@ -174,8 +176,15 @@ const Builder = () => {
                             </div>
                         </div>
                     ) : (
-                        /* Ajouter une animation de chargement */
-                        <div>En attente</div>
+                        <div className="d-flex justify-content-center mt-5">
+                            <div className="spinner-folder">
+                                <div className="rect1"/>
+                                <div className="rect2"/>
+                                <div className="rect3"/>
+                                <div className="rect4"/>
+                                <div className="rect5"/>
+                            </div>
+                        </div>
                     )}
                 </div>
                 <div className={'builder-inventories'}>
