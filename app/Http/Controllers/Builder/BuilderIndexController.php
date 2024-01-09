@@ -111,7 +111,7 @@ class BuilderIndexController extends Controller
             ]);
         }
 
-        $counts = Folder::where('user_id', $user->id)->whereNotNull('parent_id')->count() + 1;
+        $counts = Folder::where('user_id', $user->id)->whereNotNull('parent_id')->count();
         if ($counts >= $user->role->max_folders){
             return json_encode([
                 'result' => 'error',

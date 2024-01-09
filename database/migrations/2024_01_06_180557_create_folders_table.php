@@ -1,11 +1,12 @@
 <?php
 
+use App\Models\Builder\Folder;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -18,6 +19,14 @@ return new class extends Migration
             $table->foreignId('parent_id')->nullable()->constrained('folders')->onDelete('cascade');
             $table->timestamps();
         });
+
+        $users = User::all();
+        foreach ($users as $user){
+            Folder::create([
+                'user_id' => $user->id,
+                'name' => 'home'
+            ]);
+        }
 
     }
 

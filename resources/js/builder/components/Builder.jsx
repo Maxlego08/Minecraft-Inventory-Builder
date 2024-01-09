@@ -11,9 +11,7 @@ const Builder = () => {
     const [parentHierarchy, setParentHierarchy] = useState();
 
     useEffect(() => {
-        setTimeout(() => {
-            handleFolderClick();
-        }, 5000)
+        handleFolderClick();
     }, []);
 
     /**

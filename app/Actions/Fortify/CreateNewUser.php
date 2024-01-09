@@ -2,6 +2,7 @@
 
 namespace App\Actions\Fortify;
 
+use App\Models\Builder\Folder;
 use App\Models\User;
 use App\Models\UserLog;
 use Illuminate\Support\Facades\Hash;
@@ -43,6 +44,11 @@ class CreateNewUser implements CreatesNewUsers
         ]);
 
         UserLog::make($user, 'Création du compte', UserLog::COLOR_REGISTER, UserLog::ICON_ADD, UserLog::TYPE_CONNEXION);
+
+        Folder::create([
+            'user_id' => $user->id,
+            'name' => 'home'
+        ]);
 
         return $user;
     }
