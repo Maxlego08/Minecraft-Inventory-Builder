@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
+import React, {useState} from 'react';
+import {Button, Form, Modal} from 'react-bootstrap';
 
-const CreateFolderModal = ({ show, onHide, onCreate }) => {
+const CreateFolderModal = ({show, handleClose, onCreate}) => {
     const [folderName, setFolderName] = useState('');
     const [error, setError] = useState('');
 
@@ -16,16 +16,16 @@ const CreateFolderModal = ({ show, onHide, onCreate }) => {
         setError('');
         onCreate(folderName);
         setFolderName('');
-        onHide(); // Fermer le modal après la création
+        handleClose(); // Fermer le modal après la création
     };
 
     return (
-        <Modal show={show} onHide={onHide}>
+        <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
                 <Modal.Title>Create a new folder</Modal.Title>
             </Modal.Header>
-            <Modal.Body>
-                <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit}>
+                <Modal.Body>
                     {error && <p className="text-danger">{error}</p>}
                     <Form.Group className="mb-3">
                         <Form.Label>Folder name</Form.Label>
@@ -42,11 +42,16 @@ const CreateFolderModal = ({ show, onHide, onCreate }) => {
                             {error}
                         </Form.Control.Feedback>
                     </Form.Group>
+                </Modal.Body>
+                <Modal.Footer>
                     <Button variant='primary' type='submit' size='sm'>
                         Create
                     </Button>
-                </Form>
-            </Modal.Body>
+                    <Button variant="secondary" size="sm" onClick={handleClose}>
+                        Cancel
+                    </Button>
+                </Modal.Footer>
+            </Form>
         </Modal>
     );
 };

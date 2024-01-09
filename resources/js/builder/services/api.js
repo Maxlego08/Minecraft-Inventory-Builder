@@ -27,10 +27,15 @@ const deleteFolder = (folderId = null) => {
     return apiClient.post(`/folders/${folderId}/delete`);
 };
 
+const createFolder = (formData, folderId) => {
+    return apiClient.post(`/folders/create/${folderId}`, formData);
+};
+
 // Dans api.js
 const apiFunctions = {
     fetchFolders,
-    deleteFolder
+    deleteFolder,
+    createFolder
 };
 
 export default apiFunctions;

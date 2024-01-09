@@ -40,7 +40,7 @@ const Builder = () => {
                     folder: folder,
                     parentFolder: parentFolder,
                     parentHierarchy: parentHierarchy,
-                    expiry: new Date().getTime() + 1000 * 2, // 10 secondes
+                    expiry: new Date().getTime() + (import.meta.env.VITE_APP_ENV ?? 'prod' === 'local' ? 1000 * 5 : 1000 * 60),
                 }));
 
                 setFolder(folder);
@@ -75,6 +75,25 @@ const Builder = () => {
         })
     };
 
+    const createFolder = (folderName) => {
+
+        let formatData = new FormData()
+        formatData.append('folderName', folderName)
+
+        api.createFolder(formatData, folder.id).then(response => {
+            let toast = response.data.toast
+            window.toast(toast.type, toast.title, toast.description, toast.duration)
+
+            if (response.data.result === 'success') {
+                let newFolder = {...folder};
+                console.log(newFolder.children)
+                newFolder.children.push(response.data.folder)
+                setFolder(newFolder);
+            }
+        })
+
+    }
+
     return (
         <div className={'builder'}>
             <Breadcrumb key={1} parent={parentHierarchy ?? []} folder={folder} onFolderClick={handleFolderClick}/>
@@ -82,7 +101,7 @@ const Builder = () => {
                 <div className={'folders'}>
                     {folder ? (
                         <div>
-                            <FolderHeader handleParentFolder={handleParentFolderClick} parent={parentFolder}/>
+                            <FolderHeader handleParentFolder={handleParentFolderClick} parent={parentFolder} createFolder={createFolder}/>
                             <div className={'folders-content'}>
                                 {folder.children?.map((f, index) => (
                                     <Folder key={index} folderId={f.id} folderName={f.name}

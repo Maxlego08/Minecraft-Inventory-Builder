@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Builder;
 use App\Http\Controllers\Controller;
 use App\Models\Builder\Folder;
 use App\Models\UserLog;
-use App\Models\UserRole;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -65,11 +64,17 @@ class BuilderIndexController extends Controller
         }
     }
 
+    /**
+     * Supprimer un dossier
+     *
+     * @param Folder $folder
+     * @return bool|string
+     */
     public function delete(Folder $folder): bool|string
     {
 
         $user = user();
-        if ($folder->user_id != $user->id && !$user->isAdmin()){
+        if ($folder->user_id != $user->id && !$user->isAdmin()) {
             return json_encode([
                 'result' => 'error',
                 'toast' => createToast('error', 'Error', 'Cannot delete the folder.', 5000)
@@ -77,7 +82,7 @@ class BuilderIndexController extends Controller
         }
 
         $folder->delete();
-        userLog("Vient de supprimer le dossier $folder->id", UserLog::COLOR_DANGER, UserLog::ICON_TRASH);
+        userLog("Vient de supprimer le dossier $folder->name.$folder->id", UserLog::COLOR_DANGER, UserLog::ICON_TRASH);
 
         return json_encode([
             'result' => 'success',
@@ -85,17 +90,40 @@ class BuilderIndexController extends Controller
         ]);
     }
 
-    public function create(Request $request): \Illuminate\Http\JsonResponse
+    /**
+     * Permet de créer un dossier
+     *
+     * @param Request $request
+     * @param Folder $folderParent
+     * @return bool|string
+     */
+    public function create(Request $request, Folder $folderParent): bool|string
     {
         $validatedData = $request->validate([
-            'folderName' => 'required|regex:/^[a-zA-Z0-9 ]{3,30}$/'
+            'folderName' => 'required|regex:/^[a-zA-Z0-9 ]{3,30}$/',
         ]);
 
-        $folder = new Folder();
-        $folder->name = $validatedData['folderName'];
-        $folder->save();
+        $user = user();
+        if ($folderParent->user_id != $user->id) {
+            return json_encode([
+                'result' => 'error',
+                'toast' => createToast('error', 'Error', 'Cannot create folder, please try again', 5000)
+            ]);
+        }
 
-        return response()->json(['success' => 'Dossier créé avec succès.']);
+        $folder = Folder::create([
+            'name' => $validatedData['folderName'],
+            'user_id' => $user->id,
+            'parent_id' => $folderParent->id,
+        ]);
+
+        userLog("Vient de créer le dossier $folder->name.$folder->id", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
+
+        return json_encode([
+            'result' => 'success',
+            'folder' => $folder,
+            'toast' => createToast('success', 'Success', 'You have just created a folder', 5000)
+        ]);
     }
 
 }

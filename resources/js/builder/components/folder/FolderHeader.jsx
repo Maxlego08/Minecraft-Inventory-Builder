@@ -1,30 +1,39 @@
 import React, {useState} from 'react';
 import CreateFolderModal from '../modals/CreateFolderModal';
 
-const FolderHeader = ({handleParentFolder, parent}) => {
+const FolderHeader = ({handleParentFolder, parent, createFolder}) => {
 
     const [modalShow, setModalShow] = useState(false);
 
     const handleCreateFolder = (folderName) => {
-        console.log('Creating folder:', folderName);
-        // Logique pour créer le dossier ici
         setModalShow(false);
+        createFolder(folderName)
     };
 
     const handleParentFolderClick = () => {
         handleParentFolder()
     }
 
+    const handleCloseModal = () => {
+        console.log("CLOSE CREATE")
+        setModalShow(false)
+    }
+
+    const handleOpenModal = () => {
+        console.log("OPEN CREATE")
+        setModalShow(true)
+    }
+
     return (
         <div className={'folders-header'}>
-            <div className={'action'} onClick={() => setModalShow(true)}>
-                <i className="bi bi-plus-lg"></i>
-                <CreateFolderModal
-                    show={modalShow}
-                    onHide={() => setModalShow(false)}
-                    onCreate={handleCreateFolder}
-                />
+            <div className={'action'} onClick={handleOpenModal}>
+                <i className="bi bi-plus-lg"/>
             </div>
+            <CreateFolderModal
+                show={modalShow}
+                handleClose={handleCloseModal}
+                onCreate={handleCreateFolder}
+            />
             {parent ? (
                 <div className={'action'} onClick={handleParentFolderClick}>
                     <i className="bi bi-arrow-90deg-left"></i>
