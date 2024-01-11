@@ -1,7 +1,7 @@
 import {useState} from "react";
 import CreateInventoryModal from "../modals/CreateInventoryModal";
 
-const InventoryHeader = () => {
+const InventoryHeader = ({createInventory}) => {
 
     const [modalShow, setModalShow] = useState(false);
 
@@ -11,6 +11,15 @@ const InventoryHeader = () => {
     const handleSaveInventory = (inventoryData) => {
         console.log('Saving inventory:', inventoryData);
         handleModalClose();
+
+        const formData = new FormData();
+        formData.append('name', inventoryData.name)
+        formData.append('size', inventoryData.size)
+        formData.append('file_name', inventoryData.fileName)
+        formData.append('update_interval', inventoryData.updateInterval)
+        formData.append('clear_inventory', inventoryData.clearInventory)
+
+        createInventory(formData)
     };
 
     return (

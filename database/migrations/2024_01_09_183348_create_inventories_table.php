@@ -15,10 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('folder_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('name');
+            $table->string('file_name');
+            $table->string('name')->nullable();
             $table->integer('size');
-            $table->integer('updateInterval');
-            $table->boolean('clearInventory');
+            $table->integer('update_interval');
+            $table->boolean('clear_inventory');
             $table->timestamps();
         });
     }

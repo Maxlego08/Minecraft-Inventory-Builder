@@ -4,6 +4,7 @@ import Folder from './folder/Folder';
 import Breadcrumb from './folder/Breadcrumb';
 import FolderHeader from "./folder/FolderHeader";
 import InventoryList from "./inventory/InventoryList";
+import Loader from "../components/utils/Loader";
 
 const Builder = () => {
 
@@ -175,19 +176,15 @@ const Builder = () => {
                             </div>
                         </div>
                     ) : (
-                        <div className="d-flex justify-content-center mt-5">
-                            <div className="spinner-folder">
-                                <div className="rect1"/>
-                                <div className="rect2"/>
-                                <div className="rect3"/>
-                                <div className="rect4"/>
-                                <div className="rect5"/>
-                            </div>
-                        </div>
+                        <Loader/>
                     )}
                 </div>
                 <div className={'builder-inventories'}>
-                    <InventoryList />
+                    {folder ? (
+                        <InventoryList folder={folder}/>
+                    ) : (
+                        <InventoryList/>
+                    )}
                 </div>
             </div>
         </div>

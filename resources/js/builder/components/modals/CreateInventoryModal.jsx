@@ -7,8 +7,12 @@ const CreateInventoryModal = ({show, handleClose, handleSave}) => {
         name: '',
         size: '9',
         updateInterval: '0',
-        clearInventory: false
+        clearInventory: false,
+        fileName: 'example'
     });
+    const [error, setError] = useState('');
+
+    const validateName = (name) => /^[a-zA-Z0-9-_]{3,100}$/.test(name);
 
     const handleChange = (e) => {
         const {name, value, type, checked} = e.target;
@@ -16,12 +20,22 @@ const CreateInventoryModal = ({show, handleClose, handleSave}) => {
             ...prevData,
             [name]: type === 'checkbox' ? checked : value
         }));
+
+        if (!validateName(inventoryData.fileName)) {
+            setError('Le nom du dossier doit contenir entre 3 et 100 caractères et ne peut pas contenir de caractères spéciaux.');
+        } else setError('');
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        if (!validateName(inventoryData.fileName)) {
+            setError('Le nom du dossier doit contenir entre 3 et 100 caractères et ne peut pas contenir de caractères spéciaux.');
+            return;
+        }
+        setError('');
+
         handleSave(inventoryData);
-        handleClose();
     };
 
     return (
@@ -31,6 +45,21 @@ const CreateInventoryModal = ({show, handleClose, handleSave}) => {
             </Modal.Header>
             <Form onSubmit={handleSubmit}>
                 <Modal.Body>
+                    <Form.Group className="mb-3">
+                        <Form.Label>File name</Form.Label>
+                        <Form.Control
+                            type="text"
+                            name="fileName"
+                            value={inventoryData.fileName}
+                            onChange={handleChange}
+                            className={'rounded-1'}
+                            placeholder={'Inventory'}
+                            isInvalid={!!error}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                            {error}
+                        </Form.Control.Feedback>
+                    </Form.Group>
                     <Inventory inventoryName={inventoryData.name} inventorySize={inventoryData.size}/>
                     <Form.Group className="mb-3">
                         <Form.Label>Name</Form.Label>
@@ -40,7 +69,7 @@ const CreateInventoryModal = ({show, handleClose, handleSave}) => {
                             value={inventoryData.name}
                             onChange={handleChange}
                             className={'rounded-1'}
-                            placeHolder={'Inventory'}
+                            placeholder={'Inventory'}
                         />
                         <small className="form-text text-muted">
                             The name of the inventory that will be displayed. Please note that depending on your version

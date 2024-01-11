@@ -61,6 +61,14 @@ const updateFolder = (formData, folderId) => {
     return apiClient.post(`/folders/update/${folderId}`, formData);
 };
 
+const createInventory = (formData, folderId) => {
+    return apiClient.post(`/inventories/${folderId}/create`, formData);
+};
+
+const fetchInventories = (folderId) => {
+    return apiClient.get(`/inventories/${folderId}`);
+};
+
 const displayToast = (response) => {
     let toast = response.data.toast
     if (toast) window.toast(toast.type, toast.title, toast.description, toast.duration)
@@ -72,7 +80,9 @@ const apiFunctions = {
     deleteFolder,
     createFolder,
     updateFolder,
-    displayToast
+    displayToast,
+    createInventory,
+    fetchInventories
 };
 
 export default apiFunctions;

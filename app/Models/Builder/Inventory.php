@@ -9,13 +9,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property string $name
+ * @property string $file_name
  * @property int $size
  */
 class Inventory extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'size', 'user_id', 'updateInterval', 'clearInventory'];
+    protected $fillable = ['file_name', 'name', 'size', 'user_id', 'update_interval', 'clear_inventory', 'folder_id'];
 
     public function user(): BelongsTo
     {

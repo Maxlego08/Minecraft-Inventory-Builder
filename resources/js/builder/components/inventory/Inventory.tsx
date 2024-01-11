@@ -5,21 +5,20 @@ const Inventory = ({inventoryName, inventorySize}) => {
 
     const processedName = inventoryName ? DOMPurify.sanitize(minecraftColor.processMinecraftColorCodes(inventoryName)) : 'Inventory';
 
+    const slots = [];
+    for (let index = 0; index < inventorySize; index++) {
+        slots.push(<div key={index} id={`slot-${index}`} className="slot"></div>)
+    }
+
     return (
         <div className="inventory">
             <div className="inventory-content">
                 <div className="inventory-content-header">
-                    <span className="inventory-name" id="inventory-display-name" dangerouslySetInnerHTML={{ __html: processedName }}></span>
-                    <div className="inventory-content-header-actions">
-                        <i className="fas fa-save" id="inventory-save"></i>
-                        <i className="fas fa-trash" id="inventory-clear"
-                           title="{{ __('inventory.configurations.inventory.delete-info') }}"></i>
-                    </div>
+                    <span className="inventory-name" id="inventory-display-name"
+                          dangerouslySetInnerHTML={{__html: processedName}}></span>
                 </div>
                 <div className="slotSpace" id="slots">
-                    {Array.from({ length: inventorySize }, (_, index) => (
-                        <div key={index} id={`slot-${index}`} className="slot"></div>
-                    ))}
+                    {slots}
                 </div>
             </div>
         </div>

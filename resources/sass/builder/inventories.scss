@@ -19,6 +19,39 @@
 
     &-list {
 
+        display: flex;
+        flex-wrap: wrap;
+        margin: 5px;
+
+        .inventory-card {
+
+            width: 250px;
+
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            background: $color-tertiary;
+            padding: 5px;
+            margin: 5px 0 0 5px;
+
+            &-header {
+                text-align: center;
+                font-size: 20px;
+                margin-bottom: 5px;
+            }
+
+            &-actions {
+                display: flex;
+                justify-content: space-evenly;
+
+                &-element {
+
+                    cursor: pointer;
+                    padding: 0 10px;
+                }
+
+            }
+
+        }
+
     }
 
 }

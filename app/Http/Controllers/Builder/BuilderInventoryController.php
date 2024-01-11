@@ -3,28 +3,85 @@
 namespace App\Http\Controllers\Builder;
 
 use App\Http\Controllers\Controller;
+use App\Models\Builder\Folder;
 use App\Models\Builder\Inventory;
-use Illuminate\Http\JsonResponse;
+use App\Models\UserLog;
 use Illuminate\Http\Request;
 
 class BuilderInventoryController extends Controller
 {
 
     /**
-     * @param Request $request
-     * @return JsonResponse
+     * Récupérer la liste des inventaires d'un dossier
+     *
+     * @param Folder $folder
+     * @return bool|string
      */
-    public function create(Request $request): JsonResponse
+    public function inventories(Folder $folder): bool|string
+    {
+
+        $user = user();
+        if ($folder->user_id != $user->id && !$user->isAdmin()) {
+            return json_encode([
+                'result' => 'error',
+                'toast' => createToast('error', 'Error', 'Cannot use this folder.', 5000)
+            ]);
+        }
+
+        $inventories = Inventory::where('folder_id', $folder->id)->get();
+        return json_encode([
+            'result' => 'success',
+            'inventories' => $inventories,
+        ]);
+    }
+
+    /**
+     * Permet de créer un inventaire
+     *
+     * @param Request $request
+     * @param Folder $folder
+     * @return string
+     */
+    public function create(Request $request, Folder $folder): string
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'nullable|string|max:500|min:0',
+            'file_name' => 'required|string|max:32',
             'size' => 'required|integer',
-            'updateInterval' => 'required|integer',
-            'clearInventory' => 'required|boolean'
+            'update_interval' => 'required|integer',
+            'clear_inventory' => 'required'
         ]);
 
-        $inventory = Inventory::create($validatedData);
+        $user = user();
+        if ($folder->user_id != $user->id && !$user->isAdmin()) {
+            return json_encode([
+                'result' => 'error',
+                'toast' => createToast('error', 'Error', 'Cannot use this folder.', 5000)
+            ]);
+        }
 
-        return response()->json(['success' => 'Inventory created successfully', 'inventory' => $inventory]);
+        if ($validatedData['size'] % 9 != 0) {
+            return json_encode([
+                'result' => 'error',
+                'toast' => createToast('error', 'Error', 'Error with your inventory size.', 5000)
+            ]);
+        }
+
+        $inventory = Inventory::create([
+            'name' => $validatedData['name'],
+            'file_name' => $validatedData['file_name'],
+            'size' => $validatedData['size'],
+            'update_interval' => $validatedData['update_interval'],
+            'clear_inventory' => $validatedData['name'] === 'true',
+            'user_id' => $user->id,
+            'folder_id' => $folder->id,
+        ]);
+        userLog("Vient de créer l'inventaire $inventory->fileName.$inventory->id", UserLog::COLOR_DANGER, UserLog::ICON_TRASH);
+
+        return json_encode([
+            'result' => 'success',
+            'inventory' => $inventory,
+            'toast' => createToast('success', 'Success', 'Folder as been deleted.', 5000)
+        ]);
     }
 }

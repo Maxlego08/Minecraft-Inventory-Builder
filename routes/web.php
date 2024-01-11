@@ -3,6 +3,7 @@
 use App\Http\Controllers\AlertController;
 use App\Http\Controllers\Api\TooltipController;
 use App\Http\Controllers\Builder\BuilderIndexController;
+use App\Http\Controllers\Builder\BuilderInventoryController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\FollowController;
@@ -58,10 +59,16 @@ Route::prefix('/builder')->name('builder.')->middleware('auth')->group(function 
     Route::get('/', [BuilderIndexController::class, 'index'])->name('index');
 
     Route::prefix('/api')->name('api.')->middleware('auth')->group(function () {
-        Route::get('/folders/{folder?}', [BuilderIndexController::class, 'folders'])->name('folders');
-        Route::post('/folders/{folder}/delete', [BuilderIndexController::class, 'delete'])->name('delete');
-        Route::post('/folders/create/{folderParent}', [BuilderIndexController::class, 'create'])->name('create');
-        Route::post('/folders/update/{folder}', [BuilderIndexController::class, 'update'])->name('update');
+        Route::prefix('/folders')->name('folder.')->group(function () {
+            Route::get('/{folder?}', [BuilderIndexController::class, 'folders'])->name('get');
+            Route::post('/{folder}/delete', [BuilderIndexController::class, 'delete'])->name('delete');
+            Route::post('/create/{folderParent}', [BuilderIndexController::class, 'create'])->name('create');
+            Route::post('/update/{folder}', [BuilderIndexController::class, 'update'])->name('update');
+        });
+        Route::prefix('/inventories')->name('inventories.')->group(function () {
+            Route::get('/{folder}', [BuilderInventoryController::class, 'inventories'])->name('get');
+            Route::post('/{folder}/create', [BuilderInventoryController::class, 'create'])->name('create');
+        });
     });
 });
 
