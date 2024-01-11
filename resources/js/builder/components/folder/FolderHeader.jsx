@@ -15,12 +15,10 @@ const FolderHeader = ({handleParentFolder, parent, createFolder}) => {
     }
 
     const handleCloseModal = () => {
-        console.log("CLOSE CREATE")
         setModalShow(false)
     }
 
     const handleOpenModal = () => {
-        console.log("OPEN CREATE")
         setModalShow(true)
     }
 

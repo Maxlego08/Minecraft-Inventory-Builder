@@ -11,7 +11,7 @@
         }
 
         ol {
-            margin-bottom: 0!important;
+            margin-bottom: 0 !important;
         }
     }
 
@@ -21,9 +21,9 @@
     }
 
     &-inventories {
-       flex: 1;
+        flex: 1;
         display: flex;
-        background: #a09dac;
+        background: $color-primary;
     }
 
 }

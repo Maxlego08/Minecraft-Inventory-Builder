@@ -3,6 +3,7 @@ import api from '../services/api';
 import Folder from './folder/Folder';
 import Breadcrumb from './folder/Breadcrumb';
 import FolderHeader from "./folder/FolderHeader";
+import InventoryList from "./inventory/InventoryList";
 
 const Builder = () => {
 
@@ -186,7 +187,7 @@ const Builder = () => {
                     )}
                 </div>
                 <div className={'builder-inventories'}>
-                    {/* TODO */}
+                    <InventoryList />
                 </div>
             </div>
         </div>

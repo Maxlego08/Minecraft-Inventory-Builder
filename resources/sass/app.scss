@@ -16,6 +16,8 @@ $font-path: './fonts/';
 
 @import "builder/builder";
 @import "builder/folders";
+@import "builder/inventories";
+@import "builder/inventory";
 
 
 .nav-tabs .nav-item a {
