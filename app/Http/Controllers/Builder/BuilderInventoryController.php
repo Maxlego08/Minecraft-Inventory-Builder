@@ -46,7 +46,7 @@ class BuilderInventoryController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'nullable|string|max:500|min:0',
-            'file_name' => 'required|string|max:32',
+            'file_name' => 'required|string|max:100|min:3',
             'size' => 'required|integer',
             'update_interval' => 'required|integer',
             'clear_inventory' => 'required'
@@ -76,12 +76,44 @@ class BuilderInventoryController extends Controller
             'user_id' => $user->id,
             'folder_id' => $folder->id,
         ]);
-        userLog("Vient de créer l'inventaire $inventory->fileName.$inventory->id", UserLog::COLOR_DANGER, UserLog::ICON_TRASH);
+        userLog("Vient de créer l'inventaire $inventory->file_name.$inventory->id", UserLog::COLOR_DANGER, UserLog::ICON_TRASH);
 
         return json_encode([
             'result' => 'success',
             'inventory' => $inventory,
-            'toast' => createToast('success', 'Success', 'Folder as been deleted.', 5000)
+            'toast' => createToast('success', 'Success', 'Inventory successfully created.', 5000)
         ]);
     }
+
+    /**
+     * Permet de renommer un inventaire
+     *
+     * @param Request $request
+     * @param Inventory $inventory
+     * @return bool|string
+     */
+    public function rename(Request $request, Inventory $inventory): bool|string
+    {
+
+        $validatedData = $request->validate([
+            'file_name' => 'required|string|max:100|min:3',
+        ]);
+
+        $user = user();
+        if ($inventory->user_id != $user->id && !$user->isAdmin()) {
+            return json_encode([
+                'result' => 'error',
+                'toast' => createToast('error', 'Error', 'Cannot use this folder.', 5000)
+            ]);
+        }
+
+        userLog("Vient de créer de renommer l'inventaire $inventory->file_name.$inventory->id", UserLog::COLOR_DANGER, UserLog::ICON_TRASH);
+
+        return json_encode([
+            'result' => 'success',
+            'toast' => createToast('success', 'Success', 'Inventory successfully renamed.', 5000)
+        ]);
+
+    }
+
 }

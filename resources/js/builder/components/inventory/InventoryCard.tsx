@@ -1,4 +1,5 @@
 import {useState} from "react";
+import api from "../../services/api"
 
 const InventoryCard = ({inventory}) => {
 
@@ -16,14 +17,17 @@ const InventoryCard = ({inventory}) => {
 
     const handleFinishEdit = () => {
         setIsEditing(false);
-        console.log("Finish edit name:", editedName)
-        console.log("Old Name:", inventory.file_name)
 
-        setInventoryName(editedName)
+        api.renameInventory(inventory.id, editedName).then(response => {
+            api.displayToast(response)
+            if (response.data.result === 'success') {
+                setInventoryName(editedName)
+            }
+        })
     };
 
     return (
-        <div className={'inventory-card'}>
+        <div className={'inventory-card rounded-1'}>
             <div className={'inventory-card-header'}>
                 {isEditing ? (
                     <input

@@ -69,6 +69,12 @@ const fetchInventories = (folderId) => {
     return apiClient.get(`/inventories/${folderId}`);
 };
 
+const renameInventory = (inventoryId, fileName) => {
+    const formData = new FormData()
+    formData.append('file_name', fileName)
+    return apiClient.post(`/inventories/${inventoryId}/rename`, formData);
+};
+
 const displayToast = (response) => {
     let toast = response.data.toast
     if (toast) window.toast(toast.type, toast.title, toast.description, toast.duration)
@@ -82,7 +88,8 @@ const apiFunctions = {
     updateFolder,
     displayToast,
     createInventory,
-    fetchInventories
+    fetchInventories,
+    renameInventory
 };
 
 export default apiFunctions;
