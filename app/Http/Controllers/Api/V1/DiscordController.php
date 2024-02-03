@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Models\DiscordUser;
+use App\Models\UserRole;
 use Exception;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Cache;
 
 class DiscordController extends Controller
@@ -33,4 +34,16 @@ class DiscordController extends Controller
             }
         });
     }
+
+    public function getUsingInformation($discordUserId): bool|string
+    {
+
+        $discordUser = DiscordUser::where('discord_id', $discordUserId)->firstOrFail();
+        $user = $discordUser->user;
+
+        return json_encode([
+            'can_open' => $user->role->power >= UserRole::PREMIUM,
+        ]);
+    }
+
 }
