@@ -38,6 +38,7 @@ Route::prefix('/v1')->name('v1.')->group(function () {
     // Allows you to create a token
     Route::post('/auth/login', [AuthController::class, "login"]);
     Route::get('/discord/authentication', [DiscordAuthController::class, 'authentication'])->name('discord');
+    Route::get('/discord/user/{discordUserId}', [DiscordController::class, 'getUsingInformation'])->name('discord.user');
     Route::get('/discord/{server_id}', [DiscordController::class, 'getDiscordInformation'])->name('discord.information');
     Route::post('/preview', [PreviewController::class, 'preview'])->name('preview');
 
@@ -53,7 +54,7 @@ Route::prefix('/v1')->name('v1.')->group(function () {
     Route::post('{payment}/notification/{id?}', [PaymentController::class, 'notification'])->name('notification');
     Route::get('gift/verify/{code}/{contentType}/{contentId}/{user}', [GiftController::class, 'verify'])->name('gift');
 
-    Route::get('file/analyse', [FileController::class, 'index'])->name('file');
-    Route::post('file/analyse/store', [FileController::class, 'store'])->name('file.store');
+    // Route::get('file/analyse', [FileController::class, 'index'])->name('file');
+    // Route::post('file/analyse/store', [FileController::class, 'store'])->name('file.store');
 
 });
