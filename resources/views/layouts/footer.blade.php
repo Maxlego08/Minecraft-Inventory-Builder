@@ -30,12 +30,12 @@
             <div class="col-xs-6 col-xl-2">
                 <h2 class="text-primary fw-bold fs-4 text-uppercase">{{ __('messages.links.title') }}</h2>
                 <ul class="list-unstyled">
-                    <li><a class="link-light text-decoration-none" href="#">Créer une ressource</a></li>
-                    <li><a class="link-light text-decoration-none" href="#">Serveur minecraft</a></li>
-                    <li><a class="link-light text-decoration-none" href="#">Conditions d’utilisation</a></li>
-                    <li><a class="link-light text-decoration-none" href="#">Règlement</a></li>
+                    <li><a class="link-light text-decoration-none" href="{{ route('resources.create.index') }}">Create a resource</a></li>
+                    <li><a class="link-light text-decoration-none" href="#">Terms</a></li>
+                    <li><a class="link-light text-decoration-none" href="#">Rule</a></li>
                     <li><a class="link-light text-decoration-none" href="https://discord.groupez.dev/" target="_blank">Discord</a></li>
-                    <li><a class="link-light text-decoration-none" href="#">Nous contacter</a></li>
+                    <li><a class="link-light text-decoration-none" href="https://discord.groupez.dev/" target="_blank">Contact us</a></li>
+                    <li><a class="link-light text-decoration-none" href="https://serveur-minecraft-vote.fr/" target="_blank">Serveur minecraft Vote</a></li>
                 </ul>
             </div>
             <div class="col-xs-6 col-xl-2">
