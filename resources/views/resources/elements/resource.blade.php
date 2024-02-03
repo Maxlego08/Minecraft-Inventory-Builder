@@ -23,7 +23,7 @@
                 <div>
                     <a class="text-danger text-decoration-none" href="{{ $resource->user->authorPage() }}">{!! $resource->cache('user')->displayName() !!}</a>
                 </div>
-                , {{ format_date($resource->created_at) }}, <span>{{ $resource->cache('category')->name }}</span>
+                , {{ format_date($resource->created_at) }}, <span>{{ $resource->cache('name') }}</span>
             </div>
             <p class="mt-1 mb-0 fs-7">{{ $resource->tag }}</p>
         </div>

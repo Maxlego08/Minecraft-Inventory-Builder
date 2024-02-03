@@ -29,7 +29,7 @@ return [
     'documentation' => 'Documentations',
     'account-upgrade' => 'Upgrade your account !',
     'premium' => 'Premium',
-    'inventory-builder' => 'Inventory Builder',
+    'builder-builder' => 'Inventory Builder',
     'home' => 'Home',
     'save_changes' => 'Save changes',
     'save_update' => 'Save update',
@@ -38,7 +38,7 @@ return [
     'average_rating' => 'Average Rating',
     'about' => [
         'title' => 'About',
-        'content' => 'Minecraft Inventory Builder is a site dedicated to the zMenu plugin. zMenu is a minecraft plugin dedicated to inventory creation. The site includes a marketplace for selling and downloading resource related to zMenu. It also includes an inventory editor.'
+        'content' => 'Minecraft Inventory Builder is a site dedicated to the zMenu plugin. zMenu is a minecraft plugin dedicated to builder creation. The site includes a marketplace for selling and downloading resource related to zMenu. It also includes an builder editor.'
     ],
     'links' => [
         'title' => 'links',
