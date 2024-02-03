@@ -9,46 +9,48 @@
             <div class="home_background_text">
                 <h1 class="display-5 fw-semibold">Minecraft Inventory Builder</h1>
                 <p class="fs-7">{{ __('about.description') }}</p>
-                <p class="fs-1 text-danger"><i class="bi bi-exclamation"></i> IN DEVELOPMENT <i
-                        class="bi bi-exclamation"></i></p>
             </div>
             <a href="#home_marketplace" class="home_arrow_scroll text-white"><i class="bi bi-arrow-down fs-2"></i></a>
         </article>
         <article class="home_marketplace pb-5" id="home_marketplace">
             <div class="container">
                 <div class="row px-4 px-lg-0">
-                    <div class="col-lg-4">
-                        <img class="d-none d-lg-block img-fluid w-100 pe-5" src="https://via.placeholder.com/300"
-                             alt="">
+                    <div class="p-2 col-lg-4 d-flex justify-content-center align-items-center">
+                        <div style="height: 300px; width:300px; backdrop-filter: blur(5px)!important; background-image: url('{{ asset('images/spoiler.png') }}'); background-position: center;background-repeat: no-repeat; background-size: cover; filter: blur(8px);-webkit-filter: blur(8px);"></div>
                     </div>
                     <div class="col-lg-8">
-                        <h2 class="mt-2">Le Marketplace GroupeZ, c’est quoi ?</h2>
+                        <h2 class="mt-2">What is the Minecraft-Inventory-Builder ?</h2>
                         <img class="d-block d-lg-none img-fluid rounded-4 my-4 w-100"
                              src="https://via.placeholder.com/360" alt="">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas egestas nibh at ante luctus
-                            convallis. Cras eget placerat felis, eu fringilla enim. Vestibulum ante ipsum primis in
-                            faucibus
-                            orci luctus et ultrices posuere cubilia curae; Sed vulputate, odio nec dapibus blandit,
-                            libero
-                            leo facilisis leo, sed interdum turpis diam a arcu. Integer at elementum est. Etiam
-                            vulputate
-                            lacus ut est posuere, vitae feugiat orci tempus. Morbi id elementum eros, quis viverra
-                            felis.
-                            Maecenas dignissim ligula quis orci tincidunt tincidunt.
-
-                            Nulla in purus nec purus gravida rhoncus. Proin vulputate euismod purus, sed iaculis neque
-                            fermentum non. Fusce at lacus mollis massa sollicitudin hendrerit. Suspendisse purus sem,
-                            lobortis sed euismod sagittis, dignissim eu ex. Fusce eget mauris pellentesque, maximus
-                            risus
-                            faucibus, fermentum ex. Pellentesque pretium laoreet nisi et dignissim. Praesent vel
-                            faucibus
-                            ligula. Curabitur ut tincidunt ante. Cras finibus hendrerit libero, non commodo nisi.
-
-                            Integer at elementum est. Etiam vulputate lacus ut est posuere, vitae feugiat orci tempus.
-                            Morbi
-                            id elementum eros, quis viverra felis. Maecenas dignissim ligula quis orci tincidunt
-                            tincidunt.</p>
-                        <div class="row row-cols-lg-3 flex-column flex-sm-row bg-blue-800 text-center rounded-1 justify-content-evenly
+                        <p>Welcome to the official website for zMenu. Our platform is more than just a website; it's a
+                            comprehensive ecosystem designed to enhance your zMenu experience.</p>
+                        <p>
+                            At the heart of our service is the Marketplace, a one-stop destination where you can buy and
+                            download exclusive content tailored for zMenu. Whether you're looking for custom
+                            configurations, unique items, or inventive mods, our Marketplace has it all. It's a vibrant
+                            community hub where creators share their masterpieces, allowing you to elevate your
+                            Minecraft adventures to new heights.
+                        </p>
+                        <!--<p>
+                            But we're more than just a marketplace. We understand the importance of community and
+                            support, which is why we've integrated a dedicated Forum into our platform. Here, you can
+                            share insights, ask for advice, and connect with fellow zMenu enthusiasts. Whether you're
+                            troubleshooting an issue or seeking inspiration for your next project, our forum is your
+                            go-to resource for all things zMenu.
+                        </p>-->
+                        <p>
+                            And for those looking to fine-tune their zMenu setup, our Online Inventory Editor is a
+                            game-changer. This intuitive tool allows you to easily modify zMenu configurations directly
+                            from your browser. No more wrestling with complex files or coding – our editor simplifies
+                            the process, enabling you to customize your experience with just a few clicks.
+                        </p>
+                        <p>
+                            Our website is designed with you in mind, offering a seamless interface that makes
+                            navigating, downloading, and interacting with the zMenu community a breeze. Whether you're a
+                            seasoned Minecraft veteran or new to the world of zMenu, our site is your gateway to
+                            unlocking the full potential of this incredible plugin.
+                        </p>
+                        <!--<div class="row row-cols-lg-3 flex-column flex-sm-row bg-blue-800 text-center rounded-1 justify-content-evenly
                         align-items-center py-2 mt-4 home_marketplace_block">
                             <div class="mb-3 mb-lg-0">
                                 <i class="bi bi-percent fs-2"></i>
@@ -66,7 +68,7 @@
                                 <h3 class="fs-5">Sécurisé</h3>
                                 <p class="fs-7">La vente de vos ressources est entièrement sécurisée et automatique.</p>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
             </div>
@@ -103,30 +105,20 @@
                 <div class="px-3 px-lg-0">
                     <div class="text-center block_title pt-5 mb-5">
                         <h2>Ressources</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas egestas nibh at ante luctus
-                            convallis. Cras eget placerat felis.</p>
                     </div>
                     <div class="row align-items-center">
                         <div class="col-lg-5">
                             <div class="bg-blue-800 rounded-1 p-4 me-lg-5 mb-4 text-center">
-                                <h3 class="fs-5">Notre système de ressource</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas egestas nibh at
-                                    ante
-                                    luctus convallis. Cras eget placerat felis. Maecenas egestas nibh at ante luctus
-                                    convallis. Cras eget placerat felis. Maecenas egestas nibh at ante luctus convallis.
-                                    Cras eget placerat felis. </p>
+                                <h3 class="fs-5">Our resource system</h3>
+                                <p>Want to share your creations or sell them ? Then the marketplace is for you. In just
+                                    a few minutes creates a new resource to share with the community </p>
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="text-center">
-                                <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
-                                    egestas nibh at
-                                    ante luctus convallis. Cras eget placerat felis. Maecenas egestas nibh at ante
-                                    luctus convallis. Cras eget placerat felis. Maecenas egestas nibh at ante luctus
-                                    convallis. Cras eget placerat felis.</p>
+                            <div class="d-flex align-items-center justify-content-center">
                                 <a href="{{route('resources.create.index')}}"
                                    class="home_ressources_add btn btn-primary rounded-1 d-flex align-items-center justify-content-center"><i
-                                        class="bi bi-plus-lg me-2 fs-4"></i>AJOUTER UNE RESSOURCE</a>
+                                        class="bi bi-plus-lg me-2 fs-4"></i>Add a resource</a>
                             </div>
                         </div>
                     </div>

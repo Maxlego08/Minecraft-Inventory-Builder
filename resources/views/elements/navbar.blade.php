@@ -5,9 +5,8 @@
                 aria-controls="navbarheader" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand  me-0 flex-grow-1 text-center text-lg-start" href="/">
-            <img
-                src="{{asset('images/logo.svg')}}" alt="Logo du site">
+        <a class="navbar-brand me-0 flex-grow-1 text-center text-lg-start" href="/">
+            <span class="text-white h3">Minecraft Inventory Builder</span>
         </a>
         <form class="ms-auto me-0 flex-grow-1 d-none d-lg-flex header_search" id="header_search" role="search">
             <input class="form-control me-2 border-0 rounded-1 bg-blue-700" type="text" placeholder="{{ __('resources.search') }}"
