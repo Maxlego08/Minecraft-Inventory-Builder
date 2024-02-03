@@ -24,7 +24,7 @@ return new class extends Migration {
             $table->integer('power');
             $table->integer('max_discord_webhook');
             $table->boolean('is_banned');
-            $table->boolean('price')->default(0.0);
+            $table->double('price')->default(0.0);
             $table->timestamps();
         });
 
