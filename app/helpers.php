@@ -5,7 +5,9 @@ use App\Models\Resource\Resource;
 use App\Models\User;
 use App\Models\UserLog;
 use App\Payment\PaymentManager;
+use App\Utils\Likeable;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 if (!function_exists('user')) {
     function user(): User
@@ -189,6 +191,21 @@ if (!function_exists('createAlert')) {
     }
 }
 
+if (!function_exists('createUniqueAlert')) {
+    function createUniqueAlert(int $user_id, string $content, string $icon, string $level, string $translation_key = null, string $link = null, int $target_id = null): AlertUser
+    {
+        return AlertUser::firstOrCreate([
+            'user_id' => $user_id,
+            'level' => $level,
+            'content' => $content,
+            'link' => $link,
+            'icon' => $icon,
+            'translation_key' => $translation_key,
+            'target_id' => $target_id
+        ]);
+    }
+}
+
 /*
  * Payment Manager
  * */
@@ -205,7 +222,7 @@ if (!function_exists('paymentManager')) {
 if (!function_exists('resourcePrice')) {
     function resourcePrice(Resource $resource): string
     {
-        return formatPrice($resource->price, $resource->user->paymentInfo?->currency->currency ?: 'eur');
+        return formatPrice($resource->price, $resource->cache('user')->cache('currency') ?? 'eur');
     }
 }
 
@@ -275,4 +292,37 @@ if (!function_exists('formatPriceWithId')) {
             default => $formattedPrice . ' ' . strtoupper($currency),
         };
     }
+}
+
+/*
+ * Price format
+ * */
+if (!function_exists('formatLikedBy')) {
+    /**
+     * Renvoie une chaîne formatée des pseudos des utilisateurs qui ont liké.
+     *
+     * @param Likeable $likeable
+     * @return string
+     */
+    function formatLikedBy(Likeable $likeable): string
+    {
+        return Cache::remember("likes.{$likeable->getCacheName()}", 86400, function () use ($likeable) {
+            $likes = $likeable->likes()->with('user');
+            $totalLikes = $likes->count();
+            $usernames = $likes->join('users', 'users.id', '=', 'likes.user_id')->get()->map(function ($like) {
+                return $like->user->displayName(customCss: 'cursor-pointer');
+            })->all();
+
+            if ($totalLikes == 0) return "";
+
+            if ($totalLikes > 3) {
+                $firstTwo = array_slice($usernames, 0, 2);
+                $othersCount = $totalLikes - 2;
+                return implode(', ', $firstTwo) . " and $othersCount others like this.";
+            } else {
+                return implode(', ', $usernames) . ' like this.';
+            }
+        });
+    }
+
 }

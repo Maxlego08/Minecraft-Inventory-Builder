@@ -7,6 +7,9 @@
         </a>
         <a href="{{ $message->user->authorPage() }}"
            class="conversation-user-name">{!! $message->user->displayName()  !!}</a>
+        <div class="mt-1">
+            {!! $message->user->cache('role')->getRoleIcon() !!}
+        </div>
     </div>
     <div class="conversation-content">
         <div class="conversation-content-text">
@@ -14,7 +17,12 @@
         </div>
         <div class="conversation-content-footer">
             <a href="{{ $message->user->authorPage() }}"
-               class="conversation-user-name">{{ $message->user->name }}</a>, {{ format($message->created_at) }}
+               class="conversation-user-name">{{ $message->user->name }}</a>,
+            @if ($message->is_automatic)
+                {{ format($message->created_at) }}, <i class="bi bi-robot"></i> {{ __('conversations.auto.info') }}
+            @else
+                {{ format($message->created_at) }}
+            @endif
         </div>
     </div>
 </div>

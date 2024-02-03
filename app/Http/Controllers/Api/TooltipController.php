@@ -4,45 +4,126 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
 
 class TooltipController extends Controller
 {
     public function tooltip(User $user): string
     {
-        $userProfilePhotoUrl = $user->getProfilePhotoUrlAttribute(); // Récupérer l'URL de la photo de profil
-        $userDisplayName = $user->displayNameAndLink(false); // Récupérer le nom d'affichage
-        $userCreatedAt = simple_date($user->created_at); // Récupérer la date de création et la formater
-        $conversationLink = $user->createConversation(); // Récupérer le lien pour créer une conversation
-        $tooltipJoinAt = __('tooltip.join_at'); // Localiser le texte
-        $tooltipConversation = __('tooltip.conversation'); // Localiser le texte
+        $userBannerStyle = '';
+        $userProfilePhotoUrl = htmlspecialchars($user->getProfilePhotoLargeUrlAttribute());
+        $userName = htmlspecialchars($user->name);
+        $userDisplayNameAndLink = $user->displayNameAndLink(false); // Assurez-vous que cette méthode échappe à son contenu interne
+        $userRoleIcon = $user->role->getRoleIcon(); // Assurez-vous que cette méthode échappe à son contenu interne
+        $userJoinDate = htmlspecialchars(simple_date($user->created_at));
+        $userResources = htmlspecialchars($user->getTooltipInformations()['resources'] ?? '');
+        $userPayments = htmlspecialchars($user->getTooltipInformations()['payments'] ?? '');
+        $followers = htmlspecialchars($user->getTooltipInformations()['followers'] ?? 0);
+        $tooltipJoinAt = htmlspecialchars(__('tooltip.join_at'));
+        $tooltipResources = htmlspecialchars(__('tooltip.resources'));
+        $tooltipPayments = htmlspecialchars(__('tooltip.payments'));
+        $tooltipReactions = htmlspecialchars(__('tooltip.reactions'));
+        $tooltipFollowers = htmlspecialchars(__('tooltip.followers'));
+        $tooltipCss = $user->hasTooltipInformations() ? '' : ' pt-3';
+        $totalLikes = $user->totalReceivedLikes();
 
-        $htmlContent = <<<HTML
-    <div class='user-tooltip'>
+        if (isset($user->banner_photo_path)) {
+            $userBannerUrl = htmlspecialchars($user->getBannerUrlAttribute());
+            $userBannerStyle = "style=\"background-image: url('$userBannerUrl'); background-repeat: no-repeat; background-size: cover; background-position: 0 0;\"";
+        }
 
-        <div class="user-tooltip-header d-flex">
-            <div class="me-2">
-                <img src="{$userProfilePhotoUrl}" height="50" width="50"
-                     alt="{$user->name}" class="rounded-2">
-            </div>
-            <div class="d-flex flex-column">
-                <span class="name">{$userDisplayName}</span>
-                <span class="join-info">{$tooltipJoinAt}{$userCreatedAt}</span>
-            </div>
-        </div>
-        <div class="user-tooltip-content">
-            <a class="conversation-button rounded-1" href="{$conversationLink}">{$tooltipConversation}</a>
-        </div>
+        $userEnableConversation = $user->enable_conversation;
+        $conversationTooltip = __('tooltip.conversation');
+        $createConversationUrl = $user->createConversation();
 
-    </div>
+        if (!$userEnableConversation) {
+            $htmlContentButton = <<<HTML
+        <span class="conversation-button rounded-1 disabled cursor-disabled">{$conversationTooltip}</span>
+    HTML;
+        } else {
+            $htmlContentButton = <<<HTML
+        <a class="conversation-button rounded-1" href="{$createConversationUrl}">{$conversationTooltip}</a>
+    HTML;
+        }
+
+        // Vérification pour le follow
+        if (Auth::check() && $user->id != user()->id) {
+
+            $isFollowing = user()->cache('followings')->where('id', $user->id)->count() == 0;
+            $action = $isFollowing ? route('profile.follow', $user) : route('profile.unfollow', $user);
+            $buttonText = $isFollowing ? __('messages.follow.follow') : __('messages.follow.unfollow');
+            $token = csrf_token();
+
+            $htmlContentButton .= <<<HTML
+                <form action="$action" method="POST" class="ms-2">
+                    <input type="hidden" name="_token" value="$token">
+                    <button class="conversation-button rounded-1">$buttonText</button>
+                </form>
+            HTML;
+        }
+        // Fin vérification pour le follow
+
+        $tooltipInformations = '';
+        if ($user->hasTooltipInformations()) {
+            $tooltipInformations = <<<HTML
+                    <div class="d-flex justify-content-evenly user-tooltip-content-informations">
+                        <div class="d-flex flex-column">
+                            <span>{$tooltipResources}</span>
+                            <span class="text-center">{$userResources}</span>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <span>{$tooltipPayments}</span>
+                            <span class="text-center">{$userPayments}</span>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <span>{$tooltipReactions}</span>
+                            <span class="text-center">{$totalLikes}</span>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <span>{$tooltipFollowers}</span>
+                            <span class="text-center">{$followers}</span>
+                        </div>
+                    </div>
+                    <hr>
 HTML;
-        return $htmlContent;
+        }
+
+        return <<<HTML
+        <div class='user-tooltip'>
+            <div class="user-tooltip-header d-flex" {$userBannerStyle}>
+                <div class="me-2">
+                    <img src="{$userProfilePhotoUrl}" height="75" width="75" alt="{$userName}" class="rounded-2">
+                </div>
+                <div class="d-flex flex-column">
+                    <span class="name h5 mb-0">{$userDisplayNameAndLink}</span>
+                    <div class="pt-2 pb-2">
+                    {$userRoleIcon}
+                    </div>
+                    <span class="join-info">{$tooltipJoinAt}{$userJoinDate}</span>
+                </div>
+            </div>
+            <div class="user-tooltip-content">
+                {$tooltipInformations}
+                <div class="user-tooltip-content-buttons$tooltipCss">
+                    {$htmlContentButton}
+                </div>
+            </div>
+        </div>
+HTML;
     }
 
-    public function test(User $user)
+    /**
+     * Test du tooltip sur une page static
+     *
+     * @param User $user
+     * @return View|\Illuminate\Foundation\Application|Factory|Application
+     */
+    public function test(User $user): View|\Illuminate\Foundation\Application|Factory|Application
     {
-        return view('members.tooltip', [
-            'user' => $user,
-        ]);
+        return view('members.tooltip', ['user' => $user,]);
     }
 
 }

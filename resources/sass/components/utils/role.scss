@@ -1,0 +1,607 @@
+.btn-role {
+    font-size: 14px;
+    padding: 5px 10px;
+    font-weight: bold;
+    animation: shiftBackground 6s ease-in-out infinite;
+}
+
+.btn-admin {
+    background: linear-gradient(25deg, #3d1212, #ff2b00, #4f1c10);
+    background-size: 200% 100%;
+}
+
+.btn-moderator {
+    background: linear-gradient(25deg, #104f18, #19e55a, #104f18);
+    background-size: 200% 100%;
+}
+
+.btn-pro {
+    background: linear-gradient(25deg, #0b5f4e, #16e6bf, #0b5f4e);
+    background-size: 200% 100%;
+}
+
+.btn-premium {
+    background: linear-gradient(25deg, #a650de, #9a0fea, #a650de);
+    background-size: 200% 100%;
+}
+
+.btn-member {
+    background: linear-gradient(25deg, #535353, #898989, #535353);
+    background-size: 200% 100%;
+}
+
+.btn-banned {
+    background: linear-gradient(25deg, #000000, #454545, #000000);
+    background-size: 200% 100%;
+}
+
+@keyframes shiftBackground {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.username-color-blue-violet {
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-orange-pink {
+    background: linear-gradient(to right, #ff4e50, #f9d423);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-turquoise-blue {
+    background: linear-gradient(to right, #26a0da, #314755);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-green-blue {
+    background: linear-gradient(to right, #134e5e, #71b280);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-purple-pink {
+    background: linear-gradient(to right, #ff758c, #ff7eb3);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-red-orange {
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-lightblue-darkblue {
+    background: linear-gradient(to right, #00c6ff, #0072ff);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-pink-purple {
+    background: linear-gradient(to right, #ee0979, #ff6a00);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-blue-aqua {
+    background: linear-gradient(to right, #00708a, #25c6af);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-teal-magenta {
+    background: linear-gradient(to right, #1e3c72, #2a5298);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-sunset {
+    background: linear-gradient(to right, #0b486b, #f56217);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-royal-blue {
+    background: linear-gradient(to right, #141e30, #243b55);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-neon-life {
+    background: linear-gradient(to right, #12c2e9, #c471ed, #f64f59);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-flare {
+    background: linear-gradient(to right, #f12711, #f5af19);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-lush {
+    background: linear-gradient(to right, #56ab2f, #a8e063);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-frost {
+    background: linear-gradient(to right, #000428, #004e92);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-mauve {
+    background: linear-gradient(to right, #42275a, #734b6d);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-aqua-splash {
+    background: linear-gradient(to right, #13547a, #80d0c7);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-berry-bliss {
+    background: linear-gradient(to right, #6a3093, #a044ff);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-sunny-morning {
+    background: linear-gradient(to right, #f6d365, #fda085);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-azure-lane {
+    background: linear-gradient(to right, #7f7fd5, #86a8e7, #91eae4);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-pink-passion {
+    background: linear-gradient(to right, #ff0844, #ffb199);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-sunset-beach {
+    background: linear-gradient(to right, #ff5f6d, #ffc371);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-crimson-tide {
+    background: linear-gradient(to right, #642b73, #c6426e);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-forest-hues {
+    background: linear-gradient(to right, #11998e, #38ef7d);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-ocean-wave {
+    background: linear-gradient(to right, #43c6ac, #191654);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-lavender-blush {
+    background: linear-gradient(to right, #fffcdc, #d9a7c7);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-fiery-fuchsia {
+    background: linear-gradient(to right, #ed213a, #93291e);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-citrus-peel {
+    background: linear-gradient(to right, #fdc830, #f37335);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-winter-neva {
+    background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-velvet-sun {
+    background: linear-gradient(to right, #e1eec3, #f05053);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-plum-plate {
+    background: linear-gradient(to right, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-summer-breeze {
+    background: linear-gradient(to right, #fdbb2d, #22c1c3, #fdbb2d);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-mystic-sunset {
+    background: linear-gradient(to right, #ff5f6d, #ffc371, #ff5f6d);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-dreamy-rainbow {
+    background: linear-gradient(to right, #6dd5ed, #ff758c, #6dd5ed);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-cosmic-dance {
+    background: linear-gradient(to right, #fc466b, #3f5efb, #fc466b);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-aurora-sky {
+    background: linear-gradient(to right, #8e2de2, #4a00e0, #8e2de2);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-ocean-mirage {
+    background: linear-gradient(to right, #373b44, #4286f4, #373b44);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-tropical-fade {
+    background: linear-gradient(to right, #ff9966, #ff5e62, #ff9966);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-orchid-bliss {
+    background: linear-gradient(to right, #9d50bb, #6e48aa, #9d50bb);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-spring-awakening {
+    background: linear-gradient(to right, #f3904f, #3b4371, #f3904f);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-moonlit-asteroid {
+    background: linear-gradient(to right, #0f2027, #203a43, #0f2027);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-pink-serenade {
+    background: linear-gradient(to right, #de6262, #ffb88c, #de6262);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-sunset-glow {
+    background: linear-gradient(to right, #e96443, #904e95, #e96443);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-magic-meadow {
+    background: linear-gradient(to right, #16bffd, #cb3066, #16bffd);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-icy-mint {
+    background: linear-gradient(to right, #a8ff78, #78ffd6, #a8ff78);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-blazing-sunset {
+    background: linear-gradient(to right, #ff416c, #ff4b2b, #ff416c);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-ocean-breeze {
+    background: linear-gradient(to right, #2193b0, #6dd5ed);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-sunset-dream {
+    background: linear-gradient(to right, #ff758c, #ff7eb3);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-emerald-light {
+    background: linear-gradient(to right, #2af598, #009efd);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-lavender-field {
+    background: linear-gradient(to right, #6a85b6, #bac8e0);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-fiery-rose {
+    background: linear-gradient(to right, #ff0844, #ffb199);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-autumn-hues {
+    background: linear-gradient(to right, #d99156, #bf4a30);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-mint-freshness {
+    background: linear-gradient(to right, #006400, #98fb98);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-twilight-spark {
+    background: linear-gradient(to right, #654ea3, #eaafc8);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-berry-blend {
+    background: linear-gradient(to right, #8e44ad, #c0392b);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-citrus-sunlight {
+    background: linear-gradient(to right, #f2994a, #f2c94c);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-spring-morning {
+    background: linear-gradient(to right, #f6d365, #fda085, #f6d365, #fda085);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-coral-reef {
+    background: linear-gradient(to right, #ff9966, #ff5e62, #ff9966);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-aurora-gleam {
+    background: linear-gradient(to right, #8e2de2, #4a00e0, #8e2de2, #4a00e0, #8e2de2);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-forest-dew {
+    background: linear-gradient(to right, #4cb8c4, #3cd3ad, #4cb8c4);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-summer-twilight {
+    background: linear-gradient(to right, #0ba360, #3cba92, #30cfd0, #330867);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-winter-whisper {
+    background: linear-gradient(to right, #83a4d4, #b6fbff, #83a4d4, #b6fbff);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-desert-dusk {
+    background: linear-gradient(to right, #e96443, #904e95, #e96443, #904e95);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-midnight-flame {
+    background: linear-gradient(to right, #232526, #414345, #232526, #414345);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-sunset-serenade {
+    background: linear-gradient(to right, #e1eec3, #f05053, #e1eec3, #f05053);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-color-rainbow-bliss {
+    background: linear-gradient(to right, #ff5f6d, #ffc371, #ff5f6d, #ffc371, #ff5f6d);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* 1. Twilight Haze */
+.username-color-twilight-haze {
+    background: linear-gradient(to right, #654ea3, #eaafc8, #654ea3, #eaafc8, #654ea3);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* 2. Serene Sea */
+.username-color-serene-sea {
+    background: linear-gradient(to right, #22c1c3, #fdbb2d, #22c1c3, #fdbb2d, #22c1c3, #fdbb2d);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* 3. Burning Sky */
+.username-color-burning-sky {
+    background: linear-gradient(to right, #ff416c, #ff4b2b, #ff416c, #ff4b2b);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* 4. Mystic Forest */
+.username-color-mystic-forest {
+    background: linear-gradient(to right, #0052d4, #4364f7, #6fb1fc, #0052d4, #4364f7, #6fb1fc);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* 5. Autumn Blaze */
+.username-color-autumn-blaze {
+    background: linear-gradient(to right, #d35400, #e67e22, #e74c3c, #d35400);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* 6. Polar Lights */
+.username-color-polar-lights {
+    background: linear-gradient(to right, #8e44ad, #3498db, #8e44ad, #3498db);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* 7. Dreamy Pink */
+.username-color-dreamy-pink {
+    background: linear-gradient(to right, #ffcccc, #f7e1d7, #ffcccc, #f7e1d7);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* 8. Sunset Glow */
+.username-color-sunset-glow2 {
+    background: linear-gradient(to right, #ff5f6d, #ffc371, #ff5f6d, #ffc371, #ff5f6d);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* 9. Arctic Dawn */
+.username-color-arctic-dawn {
+    background: linear-gradient(to right, #accbee, #e7f0fd, #accbee, #e7f0fd);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* 10. Lush Garden */
+.username-color-lush-garden {
+    background: linear-gradient(to right, #16a085, #f4d03f, #16a085, #f4d03f, #16a085);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* 11. Berry Fusion */
+.username-color-berry-fusion {
+    background: linear-gradient(to right, #8e44ad, #c0392b, #8e44ad, #c0392b);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* 12. Neon Breeze */
+.username-color-neon-breeze {
+    background: linear-gradient(to right, #a8ff78, #78ffd6, #a8ff78, #78ffd6);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* 13. Oceanic Depth */
+.username-color-oceanic-depth {
+    background: linear-gradient(to right, #2c3e50, #4ca1af, #2c3e50, #4ca1af);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* 14. Citrus Rush */
+.username-color-citrus-rush {
+    background: linear-gradient(to right, #f39c12, #f1c40f, #f39c12, #f1c40f);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* 15. Cherry Blossom */
+.username-color-cherry-blossom {
+    background: linear-gradient(to right, #ff6a5b, #ee0979, #ff6a5b, #ee0979);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* 16. Frosted Mint */
+.username-color-frosted-mint {
+    background: linear-gradient(to right, #00b09b, #96c93d, #00b09b, #96c93d);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* 17. Vintage Rose */
+.username-color-vintage-rose {
+    background: linear-gradient(to right, #e6b980, #eacda3, #e6b980, #eacda3);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* 18. Glacial Stream */
+.username-color-glacial-stream {
+    background: linear-gradient(to right, #76b852, #8dc26f, #76b852, #8dc26f);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* 19. Golden Sunset */
+.username-color-golden-sunset {
+    background: linear-gradient(to right, #ffce00, #ffa500, #ffce00, #ffa500);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* 20. Moonlit Night */
+.username-color-moonlit-night {
+    background: linear-gradient(to right, #232526, #414345, #232526, #414345, #232526);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.username-card {
+    padding: 4px;
+    margin: 1px;
+    width: 250px;
+    text-align: center;
+}
+
+.username-card-content {
+    cursor: pointer;
+}
+
+.username-tippy {
+    width: 250px;
+    background: $color-primary;
+    border: 1px solid rgba(162, 162, 162, 0.5);
+}

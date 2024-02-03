@@ -31,6 +31,11 @@ class UserLog extends Model
     public const ICON_EDIT = "fas fa-edit";
     public const ICON_DOLLAR = "fas fa-dollar-sign";
     public const ICON_STRIPE = "fab fa-stripe-s";
+    public const ICON_DISCORD = "fab fa-discord";
+    public const ICON_LIKE = "fas fa-thumbs-up";
+    public const ICON_DISLIKE = "fas fa-thumbs-down";
+    public const ICON_USER_PLUS = "fas fa-user-plus";
+    public const ICON_USER_MINUS = "fas fa-user-minus";
 
     public const COLOR_SUCCESS = "#3CB371";
     public const COLOR_REGISTER = "#0b5037";
@@ -50,6 +55,7 @@ class UserLog extends Model
     public const TYPE_ADMIN = 6;
     public const TYPE_DISCORD = 7;
     public const TYPE_DEVELOPER = 8;
+    public const TYPE_BUILDER = 9;
 
     protected $fillable = [
         'user_id',

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('user_payment_infos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('currency_id')->nullable('payment_currencies')->default(1);
+            $table->foreignId('currency_id')->default(1)->constrained('payment_currencies');
             $table->longText('pk_live')->nullable();
             $table->longText('sk_live')->nullable();
             $table->longText('endpoint_secret')->nullable();

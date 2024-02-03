@@ -7,6 +7,7 @@ use App\Models\Resource\Download;
 use App\Models\Resource\Resource;
 use App\Models\Resource\Version;
 use App\Models\UserLog;
+use App\Payment\utils\Resources\ResourceDownload;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -66,6 +67,8 @@ class ResourceDownloadController extends Controller
 
             userLog("Téléchargement de la resource $resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_FILE);
             $user->enableNotification($resource);
+
+            event(new ResourceDownload($resource, $user));
 
             return Storage::disk('plugins')->download($path, "{$version->file_name}.{$version->file->file_extension}");
         } catch (Exception) {

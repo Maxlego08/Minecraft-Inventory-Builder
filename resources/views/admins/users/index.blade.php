@@ -16,7 +16,7 @@
 
                 <div class="input-group">
                     <input type="text" class="form-control" id="searchInput" name="search" value="{{ $search ?? '' }}"
-                           placeholder="Rechercer">
+                           placeholder="Rechercher">
 
                     <div class="input-group-append">
                         <button type="submit" class="btn btn-primary">
@@ -29,15 +29,16 @@
         <div class="card shadow mb-4">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table table-striped">
                         <thead>
                         <tr>
                             <th scope="col" style="width: 100px">#</th>
-                            <th scope="col" style="width: 118px; text-align: center">Double auth</th>
                             <th scope="col" style="width: 200px">Pseudo</th>
+                            <th scope="col" style="width: 118px; text-align: center">Double auth</th>
                             <th scope="col" style="width: 200px">Email</th>
                             <th scope="col" style="width: 132px; text-align: center">Email vérifié</th>
                             <th scope="col">Role</th>
+                            <th scope="col">Discord</th>
                             <th scope="col">Inscrit le</th>
                             <th scope="col">Action</th>
                         </tr>
@@ -63,6 +64,9 @@
                                            title="L'utilisateur est bannis du site" data-toggle="tooltip"></i>
                                     @endif
                                 </th>
+                                <td @if($user->role->isBanned())style="color: rgba(0, 0, 0, 0.2)"@endif>
+                                    {!! $user->displayName(false)!!}
+                                </td>
                                 <th>
                                     <div class="d-flex justify-content-center">
                                         @if ($user->two_factor_confirmed_at)
@@ -72,9 +76,6 @@
                                         @endif
                                     </div>
                                 </th>
-                                <td @if($user->role->isBanned())style="color: rgba(0, 0, 0, 0.2)"@endif>
-                                    {{ $user->name }}
-                                </td>
                                 <td @if($user->role->isBanned())style="color: rgba(0, 0, 0, 0.2)"@endif> {{ $user->email }} </td>
                                 <th>
                                     <div class="d-flex justify-content-center">
@@ -86,6 +87,7 @@
                                     </div>
                                 </th>
                                 <td @if($user->role->isBanned())style="color: rgba(0, 0, 0, 0.2)"@endif> {{ $user->role->name }} </td>
+                                <td @if($user->role->isBanned())style="color: rgba(0, 0, 0, 0.2)"@endif> {{ $user->discord?->username ?? '' }} </td>
                                 <td @if($user->role->isBanned())style="color: rgba(0, 0, 0, 0.2)"@endif>
                                     {{ format_date($user->created_at) }}
                                 </td>
@@ -101,7 +103,7 @@
                     </table>
                 </div>
 
-                {{ $users->withQueryString()->links() }}
+                {{ $users->withQueryString()->links('vendor.pagination.bootstrap-4') }}
             </div>
         </div>
     </div>

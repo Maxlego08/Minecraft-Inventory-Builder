@@ -22,7 +22,7 @@
                                 </div>
                             </div>
                             @auth()
-                                @if(user()->role->id == UserRole::BANNED)
+                                @if(user()->cache('role')->id == UserRole::BANNED)
                                     <div class="col-lg-3 col-xl-2 offset-lg-1">
                                         <div class="btn btn-primary w-100 rounded-1 cursor-disabled"
                                              title="{{ __('resources.download.access') }}">{{ $resource->price }}€
@@ -229,8 +229,8 @@
                                         <span>{{ format($resource->cache('version')->created_at) }}</span>
                                     </li>
                                     <li class="d-flex justify-content-between align-items-center">
-                                        {{ __('messages.category') }}
-                                        <span>{{ $resource->cache('category')->name }}</span>
+                                        {{ __('messages.name') }}
+                                        <span>{{ $resource->cache('name')->name }}</span>
                                     </li>
 
                                     <li class="d-flex justify-content-between align-items-center mt-4">

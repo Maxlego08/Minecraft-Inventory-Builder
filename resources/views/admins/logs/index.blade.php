@@ -29,11 +29,10 @@
         <div class="card shadow mb-4">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th scope="col" style="width: 25px">#</th>
-                            <th scope="col">Utilisateur</th>
+                            <th scope="col" style="width: 200px">Utilisateur</th>
                             <th scope="col">Action</th>
                             <th scope="col">Ip V4</th>
                             <th scope="col">Date</th>
@@ -44,13 +43,8 @@
                         @foreach($logs as $log)
                             <tr>
                                 <th scope="row">
-                                    <a href="{{ route('admin.users.show', ['user' => $log->user]) }}">
-                                        <img style="width: 30px; height: 30px; border-radius: 3px"
-                                             src="{{ $log->user->getProfilePhotoUrlAttribute() }}"
-                                             alt="Image de profile de l'utilisateur {{ $log->user->name }}">
-                                    </a>
+                                    @include('admins.elements.user', ['currentUser' => $log->user])
                                 </th>
-                                <td>{{ $log->user->name }}</td>
                                 <td>
                                     <i style="color: {{ $log->color }}" class="{{ $log->icon }}"></i>
                                     {{ $log->action }}
@@ -64,7 +58,7 @@
                     </table>
                 </div>
 
-                {{ $logs->withQueryString()->links() }}
+                {{ $logs->withQueryString()->links('vendor.pagination.bootstrap-4') }}
             </div>
         </div>
     </div>

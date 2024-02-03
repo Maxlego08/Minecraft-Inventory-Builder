@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('title', 'GroupeZ')
+@section('title', 'Home')
 
 @section('app')
     <div class="content_home pb-5">
@@ -8,8 +8,7 @@
             <img class="img-fluid" src="{{asset('images/newfondavril.png')}}" alt="">
             <div class="home_background_text">
                 <h1 class="display-5 fw-semibold">Minecraft Inventory Builder</h1>
-                <p class="fs-7">Description du projet GroupeZ MarketPlace ainsi que ses objectifs
-                    et les envies de l’administration.</p>
+                <p class="fs-7">{{ __('about.description') }}</p>
                 <p class="fs-1 text-danger"><i class="bi bi-exclamation"></i> IN DEVELOPMENT <i
                         class="bi bi-exclamation"></i></p>
             </div>
@@ -81,156 +80,14 @@
         <article class="home_abonnement bg-blue-800">
             <div class="container">
                 <div class="text-center block_title">
-                    <h2>Abonnement</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas egestas nibh at ante luctus
-                        convallis. Cras eget placerat felis.</p>
+                    <h2>{{ __('upgrade.title') }}</h2>
+                    <p>{{ __('upgrade.description') }}</p>
                 </div>
                 <div class="px-3 px-lg-0">
                     <div class="row g-5 row-cols-lg-3">
-                        <div>
-                            <div class="p-4 rounded-1 bg-blue-700">
-                                <h3 class="fw-normal fs-5 mb-0">Compte gratuie</h3>
-                                <span class="home_abonnement_price fw-bold fs-2">0.00€</span>
-                                <p class="home_abonnement_description mt-4">Plan gratuit pour tous les utilisateurs:</p>
-                                <ul class="nav">
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Accès
-                                        au
-                                        marketplace
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Créer
-                                        jusqu’à 10 ressources à la vente
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Aucune
-                                        taxe, commission et aucun pourcentage sur vos ventes
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>5%
-                                        de
-                                        réduction sur votre premier achat
-                                    </li>
-                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>Mise en
-                                        avant
-                                        de votre ressource pendant 2 jours
-                                    </li>
-                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>Accès à
-                                        l’utilisation de notre API
-                                    </li>
-                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>Badge
-                                        exclusif
-                                        sur votre profil de vendeur
-                                    </li>
-                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>Aucune
-                                        limite
-                                        de vente mensuelle sur vos ressources
-                                    </li>
-                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>Support
-                                        Premium 7j/7 24h/24
-                                    </li>
-                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>Accès aux
-                                        salons promotionnels sur notre serveur discord.
-                                    </li>
-                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>Accès à
-                                        l’étiquette “Ressource premium” sur vos ressources en vente.
-                                    </li>
-                                </ul>
-                                <a href="#" class="btn btn-secondary w-100 rounded-1 mt-4">Vous possédez déjà ce
-                                    plan</a>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="p-4 rounded-1 bg-blue-700">
-                                <h3 class="fw-normal fs-5 mb-0">Compte pro</h3>
-                                <span class="home_abonnement_price fw-bold fs-2">4.99€</span>
-                                <p class="home_abonnement_description mt-4">Plan gratuit pour tous les utilisateurs:</p>
-                                <ul class="nav">
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Accès
-                                        au
-                                        marketplace
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Créer
-                                        jusqu’à 5 ressources à la vente
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Aucune
-                                        taxe, commission et aucun pourcentage sur vos ventes
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>5%
-                                        de
-                                        réduction sur votre premier achat
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Mise
-                                        en
-                                        avant de votre ressource pendant 2 jours
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Accès
-                                        à
-                                        l’utilisation de notre API
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Badge
-                                        exclusif sur votre profil de vendeur
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Aucune
-                                        limite de vente mensuelle sur vos ressources
-                                    </li>
-                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>Support
-                                        Premium 7j/7 24h/24
-                                    </li>
-                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>Accès aux
-                                        salons promotionnels sur notre serveur discord.
-                                    </li>
-                                    <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>Accès à
-                                        l’étiquette “Ressource premium” sur vos ressources en vente.
-                                    </li>
-                                </ul>
-                                <a href="#" class="btn btn-success w-100 rounded-1 mt-4">S'abonner</a>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="p-4 rounded-1 bg-blue-700">
-                                <h3 class="fw-normal fs-5 mb-0">Compte premium</h3>
-                                <span class="home_abonnement_price fw-bold fs-2">7.99€</span>
-                                <p class="home_abonnement_description mt-4">Plan gratuit pour tous les utilisateurs:</p>
-                                <ul class="nav">
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Accès
-                                        au
-                                        marketplace
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Créer
-                                        jusqu’à 5 ressources à la vente
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Aucune
-                                        taxe, commission et aucun pourcentage sur vos ventes
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>5%
-                                        de
-                                        réduction sur votre premier achat
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Mise
-                                        en
-                                        avant de votre ressource pendant 2 jours
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Accès
-                                        à
-                                        l’utilisation de notre API
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Badge
-                                        exclusif sur votre profil de vendeur
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Aucune
-                                        limite de vente mensuelle sur vos ressources
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Support
-                                        Premium 7j/7 24h/24
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Accès
-                                        aux salons promotionnels sur notre serveur discord.
-                                    </li>
-                                    <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>Accès
-                                        à
-                                        l’étiquette “Ressource premium” sur vos ressources en vente.
-                                    </li>
-                                </ul>
-                                <a href="#" class="btn btn-success w-100 rounded-1 mt-4">S'abonner</a>
-                            </div>
-                        </div>
+                        @include('members.elements.premium.member')
+                        @include('members.elements.premium.premium')
+                        @include('members.elements.premium.pro')
                     </div>
                 </div>
             </div>

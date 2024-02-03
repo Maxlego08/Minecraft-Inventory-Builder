@@ -4,9 +4,11 @@ return [
     'title' => 'Conversations',
     'list' => [
         'title' => 'See the conversation',
-        'start' => 'Started by :name :date',
-        'last' => "Last <a class='conversation-link' href=':link' title='View last message'>message</a> by :name :date",
+        'start' => "<span class='me-1'>Started by</span> :name<span class='me-1'>,</span> :date",
+        'last' => "<span class='me-1'>Last</span> <a class='conversation-link me-1' href=':link' title='View last message'>message</a> <span class='me-1'>by</span> :name<span class='me-1'>,</span> :date",
     ],
+    'empty' => 'You have no conversations.',
+    'enable' => 'Enable conversations.',
     'show' => [
         'title' => ':title',
     ],
@@ -15,6 +17,10 @@ return [
         'title' => 'New conversation - :user',
         'button' => 'Start a conversation',
         'subject' => 'Conversation title'
+    ],
+    'error_disable' => [
+        'title' => 'Error',
+        'description' => 'You cannot create a conversation with :name.'
     ],
     'error_access' => [
         'title' => 'Error',
@@ -43,5 +49,15 @@ return [
     'send_success' => [
         'title' => 'New reply',
         'description' => 'You have just sent a reply'
+    ],
+    'auto' => [
+        'title' => 'Auto Response',
+        'permission' => 'You do not have permission to use automatic answers. You must have the role :role. Click <a href="">here</a> to upgrade your account.',
+        'success' => [
+            'title' => 'Update Auto Response',
+            'description' => 'Update your auto response.'
+        ],
+        'enable' => 'Activate the auto response.',
+        'info' => 'auto-reply',
     ],
 ];

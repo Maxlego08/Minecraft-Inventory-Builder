@@ -28,6 +28,30 @@ return [
                     'icon' => 'fas fa-pause-circle',
                     'power' => UserRole::MODERATOR
                 ],
+                'payments' => [
+                    'name' => 'Payments',
+                    'route' => 'admin.payments.index',
+                    'icon' => 'fas fa-dollar-sign fa-chart-area',
+                    'power' => UserRole::ADMIN
+                ],
+                'conversations' => [
+                    'name' => "Conversations",
+                    'route' => 'admin.conversations.index',
+                    'icon' => 'fas fa-comments',
+                    'power' => UserRole::MODERATOR
+                ],
+                'reports' => [
+                    'name' => "Signalement",
+                    'route' => 'admin.reports.index',
+                    'icon' => 'fas fa-exclamation-triangle',
+                    'power' => UserRole::MODERATOR
+                ],
+                'gifts' => [
+                    'name' => "Codes cadeaux",
+                    'route' => 'admin.gift.index',
+                    'icon' => 'fas fa-gifts',
+                    'power' => UserRole::ADMIN
+                ],
             ],
 
         ],
@@ -55,7 +79,7 @@ return [
                     'name' => 'Logs',
                     'route' => 'admin.logs.index',
                     'icon' => 'fas fa-fw fa-history',
-                    'power' => UserRole::ADMIN
+                    'power' => UserRole::MODERATOR
                 ],
             ],
 

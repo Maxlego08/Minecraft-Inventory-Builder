@@ -37,8 +37,9 @@ class StripeWebhook
      */
     public function make(): void
     {
-        if ($this->endpointIsAlreadyCreate())
-            return;
+        if ($this->endpointIsAlreadyCreate() && $this->usePaymentInfo->endpoint_secret != null)  {
+        return;
+    }
 
         $this->deleteEndPointIfAlreadyExist();
 
@@ -51,7 +52,7 @@ class StripeWebhook
                 'charge.dispute.created',
                 'charge.refunded',
             ],
-            'description' => 'Webhook for minecraft-inventory-builder.com'
+            'description' => 'Webhook for minecraft-builder-builder.com'
         ]);
 
         $this->usePaymentInfo->update(['endpoint_secret' => $response->secret]);

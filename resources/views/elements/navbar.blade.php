@@ -19,10 +19,10 @@
             @guest()
                 <li class="nav-item">
                     <a class="nav-link py-2 me-2" href="{{route('register')}}"><i class="bi bi-person-plus"></i>
-                        Inscription</a>
+                        {{ __('messages.register') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link py-2 me-2" href="{{route('login')}}"><i class="bi bi-person"></i> Connexion</a>
+                    <a class="nav-link py-2 me-2" href="{{route('login')}}"><i class="bi bi-person"></i> {{ __('messages.login') }}</a>
                 </li>
             @endguest
             @auth()
@@ -38,11 +38,12 @@
                        data-bs-toggle="dropdown"
                        aria-expanded="false" data-bs-display="static">
                         <img src="{{ user()->getProfilePhotoUrlAttribute() }}" height="30" width="30" alt="{{ user()->name }}" class="rounded-circle">
-                        <span class=" d-none d-lg-block ms-2">{{ user()->name }}</span>
+                        {!! user()->displayName(false, customCss: 'd-none d-lg-block ms-2') !!}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" data-bs-popper="none">
-                        <li><a class="dropdown-item" href="{{ route('profile.index') }}">Profile</a></li>
-                        @if (user()->role->isModerator())
+                        <li><a class="dropdown-item" href="{{ route('resources.author', ['slug' => user()->slug(), 'user' => user()->id]) }}">{{ __('messages.profile') }}</a></li>
+                        <li><a class="dropdown-item" href="{{ route('profile.index') }}">{{ __('messages.details') }}</a></li>
+                        @if (user()->cache('role')->isModerator())
                         <li><a class="dropdown-item" href="{{ route('admin.index') }}">Admin</a></li>
                         @endif
                         <li>
@@ -64,23 +65,25 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 py-2 rounded-4">
                 <li class="nav-item">
                     <a class="nav-link py-2 me-2 {{ Route::currentRouteNamed('home') ? "active fw-bold" : ""}}"
-                       {{Route::currentRouteNamed(('home')) ?"aria-current='page''" : ""}} href="{{route('home')}}">{{ __('messages.home') }}</a>
+                       {{Route::currentRouteNamed(('home')) ?"aria-current='page''" : ""}} href="{{ route('home') }}">{{ __('messages.home') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link  py-2 me-2" href="#">{{ __('messages.inventory-builder') }}</a>
+                    <a class="nav-link  py-2 me-2 {{ Route::currentRouteNamed('builder.index') ? "active fw-bold" : ""}}"
+                       {{Route::currentRouteNamed(('builder.index')) ?"aria-current='page''" : ""}} href="{{ route('builder.index') }}">{{ __('messages.builder-builder') }}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link  py-2 me-2 {{ Route::currentRouteNamed('resources.*') ? "active fw-bold" : ""}}"
-                       {{Route::currentRouteNamed(('resources.*')) ?"aria-current='page''" : ""}} href="{{route('resources.index')}}">{{ __('messages.resources') }}</a>
+                       {{Route::currentRouteNamed(('resources.*')) ?"aria-current='page''" : ""}} href="{{ route('resources.index') }}">{{ __('messages.resources') }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link py-2 me-2 {{ Route::currentRouteNamed('premium.*') ? "active fw-bold" : ""}}"
+                       {{Route::currentRouteNamed(('premium.*')) ?"aria-current='page''" : ""}} href="{{ route('premium.index') }}" title="{{ __('messages.account-upgrade') }}">{{ __('messages.premium') }}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link py-2 me-2" href="https://docs.zmenu.dev/" target="_blank" title="{{ __('messages.documentation') }}">{{ __('messages.documentation') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link py-2 me-2" href="#">{{ __('messages.premium') }}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link py-2 me-2" href="https://discord.groupez.dev/" target="_blank" title="Discord">Discord</a>
+                    <a class="nav-link py-2 me-2" href="https://discord.groupez.dev/" target="_blank" title="GroupeZ Discord">Discord</a>
                 </li>
             </ul>
         </div>

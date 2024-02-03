@@ -13,9 +13,11 @@
                         <span class="fs-6 ms-2">{{ $version->version }}</span>
                     </span>
                     <p class="fs-6">{{ Str::limit($version->description, 500) }}</p>
-                    <div class="fs-7 d-flex">
-                        <div>{!! $version->resource->user->displayNameAndLink() !!}</div>
+                    <div class="fs-7 d-flex mb-2">
+                        <div>{!! $version->resource->cache('user')->displayNameAndLink() !!}</div>
                         , {{ format_date($version->created_at, true) }}</div>
+                    @include('elements.likeable', ['likeable' => $version, 'url' => route('like.version', $version)])
+                    @include('elements.report', ['contentId' => $version->id, 'contentUrl' => route('report.version', $version), 'contentTitle' => $version->title])
                 </div>
             </div>
         @endforeach

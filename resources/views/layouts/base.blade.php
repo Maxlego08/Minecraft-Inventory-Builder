@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="@yield('description', 'description')">
     <meta name="theme-color" content="#1A1A2E">
-    <meta name="author" content="GroupeZ">
+    <meta name="author" content="Minecraft Inventory Builder">
 
-    <meta property="og:title" content="@yield('title')">
+    <meta property="og:title" content="@yield('title') | Minecraft Inventory Builder">
     <meta property="og:type" content="@yield('type', 'website')">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:image" content="">
-    <meta property="og:description" content="@yield('description', 'description'))">
-    <meta property="og:site_name" content="GroupeZ">
+    <meta property="og:description" content="@yield('description', 'description')">
+    <meta property="og:site_name" content="Minecraft Inventory Builder">
     @stack('meta')
 
 <!-- CSRF Token -->
@@ -32,7 +32,6 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @stack('scripts')
 
-    <link href="{{ asset('build/assets/bootstrap-icons.eea6c7b3.css') }}" rel="stylesheet">
     @stack('styles')
 </head>
 
@@ -47,7 +46,6 @@
     @include('layouts.footer')
 </div>
 
-<script type="module" src="{{asset('build/assets/bootstrap.bundle.4ad8486b.js')}}" defer></script>
 @stack('footer-scripts')
 
 @if(isset($toast))

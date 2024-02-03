@@ -16,6 +16,11 @@ Thing to develop to open the site
 * [ ] Changing the home page
 * [ ] Addition of static pages (terms, conditions etc.)
 * [ ] Improve the user page. Add more information, change the style to have a few more complete things
+* [ ] Management of users who will create a dispute or be refunded a payment (remove access)
+* [ ] Add an ad system. A div will be displayed with a cross to delete the message, and the display information will be stored in a table. So when the player clicks to delete the ad, it will be deleted and added to the database.
+* [ ] Add a full log system on review, review response, and resource update changes
+* [x] Add a system to allow you to close your private messages.
+* [x] Add a system to automatically reply to the first message sent in private message
 
 # How do I contribute?
 
@@ -34,6 +39,8 @@ Don’t forget to make the orders to install everything:
 
 Content to add in your . env
 ````dotenv
+PAYMENT_INFO_ADMIN_ID=1
+
 TOKEN_NAME="API RESOURCE"
 ABILITY_RESOURCE="resources:list"
 VERSION="beta-0.1"

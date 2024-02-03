@@ -3,11 +3,13 @@
 
 namespace App\Payment;
 
+use App\Models\Alert\AlertUser;
 use App\Models\Payment\Gift;
 use App\Models\Payment\Payment;
 use App\Models\Resource\Access;
 use App\Models\User;
 use App\Models\UserLog;
+use App\Models\UserRole;
 use App\Payment\Events\PaymentPaid;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -47,23 +49,53 @@ abstract class PaymentMethod
      */
     protected function postProcessPayment(Request $request, Payment $payment): string
     {
-
         // On va mettre à jour le status du paiement
         $payment->update(['status' => Payment::STATUS_PAID,]);
         // On va utiliser le code cadeau
         $payment->updateGiftCode();
+        // Gestion des accès lié au paiement
+        switch ($payment->type) {
+            case Payment::TYPE_RESOURCE :
+            {
+                $resource = $payment->resource;
+                Access::create(['user_id' => $payment->user_id, 'resource_id' => $payment->content_id, 'payment_id' => $payment->id]);
+                Cache::forget("user.access::$payment->user_id");
 
-        if ($payment->type == Payment::TYPE_RESOURCE) {
+                createAlert($payment->user_id, $resource->name, AlertUser::ICON_SUCCESS, AlertUser::SUCCESS, 'alerts.alerts.resources.purchased', $resource->link('description'));
 
-            $resource = $payment->resource;
-            Access::create([
-                'user_id' => $payment->user_id,
-                'resource_id' => $payment->content_id,
-                'payment_id' => $payment->id
-            ]);
-            Cache::forget("user.access::$payment->user_id");
+                userLogOffline($payment->user_id, "Ressource achetée $resource->name.$resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
+                break;
+            }
+            case Payment::TYPE_ACCOUNT_UPGRADE :
+            {
 
-            userLogOffline($payment->user_id, "Ressource acheté $resource->name.$resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
+                $user = $payment->user;
+                $user->update([
+                    'user_role_id' => $payment->content_id,
+                ]);
+
+                createAlert($payment->user_id, $payment->role->name, AlertUser::ICON_SUCCESS, AlertUser::SUCCESS, 'alerts.alerts.role.purchased', route('premium.index'));
+
+                userLogOffline($payment->user_id, "Grade acheté {$payment->role->name}.$payment->content_id", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
+
+                Cache::forget('resources:mostResources');
+                foreach ($payment->user->resources as $resource) {
+                    $resource->clear('resource.user');
+                }
+                $user->clear('user.color');
+                $user->clear('user.role');
+                break;
+            }
+            case Payment::TYPE_NAME_COLOR :
+            {
+                $nameColor = $payment->nameColor;
+                User\NameColorAccess::create(['user_id' => $payment->user_id, 'color_id' => $payment->content_id, 'payment_id' => $payment->id]);
+
+                createAlert($payment->user_id, $nameColor->translation(), AlertUser::ICON_SUCCESS, AlertUser::SUCCESS, 'alerts.alerts.name_color.purchased', route('profile.colors.index'));
+
+                userLogOffline($payment->user_id, "Couleur achetée {$nameColor->translation()}.$nameColor->id", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
+                break;
+            }
         }
 
         // TODO
@@ -77,16 +109,50 @@ abstract class PaymentMethod
         return json_encode(['status' => 'true']);
     }
 
-    protected function removeAccess(Payment $payment)
+    /**
+     * Retirer l'accès à un contenu lié au paiement
+     *
+     * @param Payment $payment
+     * @return void
+     */
+    protected function removeAccess(Payment $payment): void
     {
 
-        if ($payment->type == Payment::TYPE_RESOURCE) {
-            $access = Access::where('user_id', $payment->user_id, 'resource_id', $payment->content_id);
-            if (isset($access)) {
-                $access->delete();
+        $user = $payment->user;
+        switch ($payment->type) {
+            case Payment::TYPE_RESOURCE :
+            {
+                $access = Access::where('user_id', $payment->user_id)->where('resource_id', $payment->content_id)->first();
+                $access?->delete();
+
+                $user->clear('user.resource_access');
+                break;
+            }
+            case Payment::TYPE_ACCOUNT_UPGRADE :
+            {
+                $user->update([
+                    'user_role_id' => UserRole::where('power', UserRole::FREE)->first()->id,
+                ]);
+
+                Cache::forget('resources:mostResources');
+                foreach ($user->resources as $resource) {
+                    $resource->clear('resource.user');
+                }
+                $user->clear('user.color');
+                $user->clear('user.role');
+
+                break;
+            }
+            case Payment::TYPE_NAME_COLOR :
+            {
+                $access = User\NameColorAccess::where('user_id', $payment->user_id)->where('color_id', $payment->content_id)->first();
+                $access?->delete();
+
+                $user->update(['name_color_id' => null]);
+                $user->clear('user.clear');
+                break;
             }
         }
-
     }
 
 }

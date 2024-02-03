@@ -2,8 +2,8 @@
 
 namespace App\Http\View\Composers;
 
-use App\Models\Alert\AlertUser;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
 
 class MessageComposer
@@ -15,10 +15,13 @@ class MessageComposer
      * @param View $view
      * @return void
      */
-    public function compose(View $view)
+    public function compose(View $view): void
     {
         if (!Auth::guest() && !$view->offsetExists('messageCount')) {
-            $messages = user()->conversationNotifications()->count();
+            $user = user();
+            $messages = Cache::remember("conversations::{$user->id}", 86400, function () {
+                return user()->conversationNotifications()->count();
+            });
             $view->with('messageCount', $messages);
         }
     }

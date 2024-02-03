@@ -185,6 +185,7 @@ class PaymentController extends Controller
             ]);
         }
 
+        user()->clear('user.currency');
         userLog("Mise à jour de la devise, $oldCurrency vers $currencyIcon", UserLog::COLOR_SUCCESS, UserLog::ICON_EURO);
 
         return Redirect::route('profile.payment.index')->with('toast', createToast('success', __('payment.currency.success.title'), __('payment.currency.success.description'), 5000));

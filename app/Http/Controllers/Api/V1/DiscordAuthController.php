@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DiscordUser;
 use App\Models\Log;
 use App\Models\User;
+use App\Models\UserLog;
 use Carbon\Carbon;
 use Exception;
 use GuzzleHttp\Client;
@@ -88,6 +89,8 @@ class DiscordAuthController extends Controller
             'expired_at' => $expired_at,
             'is_valid' => true,
         ]);
+
+        userLogOffline($user->id, 'Ajout du compte discord', UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
 
         return Redirect::route('profile.index')
             ->with('toast', createToast('success', __('profiles.discord.discord'), __('profiles.discord.linked')));

@@ -7,13 +7,17 @@ return [
 
     'nav' => [
         'account' => 'Your Account',
+        'details' => 'Account details',
         'alerts' => 'Your Alerts',
-        'conversations' => 'View Conversations',
+        'conversations' => 'Conversations',
         'images' => 'Your Images',
         'resources' => [
             'your' => 'Your Resources',
             'add' => 'Add Resource',
-        ]
+        ],
+        'color' => 'Change name color',
+        'upgrade' => 'Account upgrades',
+        'change_name' => 'Change username'
     ],
 
     'avatar' => [
@@ -21,6 +25,14 @@ return [
         'delete' => 'Delete your avatar',
         'deleted' => 'You have just deleted your avatar',
         'added' => "You have just added an avatar",
+    ],
+
+    'banner' => [
+        'name' => 'Banner',
+        'delete' => 'Delete your banner',
+        'deleted' => 'You have just deleted your banner',
+        'added' => "You have just added a banner",
+        'permission' => 'You must be pro to add a banner',
     ],
 
     'email' => [
@@ -84,5 +96,30 @@ return [
         'description' => 'Allows you to link your account to the zMenu plugin on your server.',
         'info' => 'Click to display the command you will have to do in game. Attention, if you click you will have to reconnect the plugin.'
     ],
+
+    'change' => [
+        'history' => 'Username changed',
+        'title' => 'Change username',
+        'previous' => 'Previous usernames',
+        'info' => "Please note that you're about to change your username. Once changed, your old username will become available for anyone else to use. Additionally, you'll be able to change your username again in 30 days.",
+        'new_name' => 'New username',
+        'old_name' => 'Old username',
+        'success' => [
+            'title' => 'Success !',
+            'description' => 'You just changed your username.',
+        ],
+        'error' => [
+            'title' => 'Error !',
+            'description' => "You can't change your username for now.",
+        ],
+        'error_time' => [
+            'title' => 'Error !',
+            'description' => "You must wait 30 days between each change.",
+        ],
+        'error_permission' => [
+            'title' => 'Error !',
+            'description' => "You must be Pro to change username.",
+        ],
+    ]
 
 ];

@@ -122,7 +122,7 @@ return [
             'name' => 'Price',
             'description' => '<b>Read Me</b>: It appears that you are submitting a premium resource. Please take a moment to read the approval guidelines listed here. Not following them and our rules will lead to your resource getting rejected! Make sure that you save a copy of your description and other info locally, you will not be able to access that if rejected!',
             'permission' => 'You do not have permission to put a price on a resource. Click <a href="" target="_blank">here</a> to improve your account.',
-            'payment' => 'You forgot to add a payment method to your account, we advise you to do it now <a href="https://minecraft-inventory-builder.com/profile/payment" target="_blank">here</a> !'
+            'payment' => 'You forgot to add a payment method to your account, we advise you to do it now <a href="https://minecraft-builder-builder.com/profile/payment" target="_blank">here</a> !'
         ],
         'discord' => [
             'name' => 'Discord ID',
@@ -307,6 +307,92 @@ return [
         ],
         'discord' => [
             'title' => 'Discord Webhook',
+            'create' => 'Create Discord Webhook',
+            'url' => 'Discord Webhook URL',
+            'event' => 'Event',
+            'username' => 'Username',
+            'avatar_url' => 'Avatar URL',
+            'url_errors' => 'The url is not the right format.',
+            'permission' => 'You do not have permission to create a discord. You must have the role :role. Click <a href="">here</a> to upgrade your account.',
+            'embed' => [
+                'add' => 'Add Embed',
+                'title' => 'Embed Title',
+                'url' => 'Embed URL',
+                'color' => 'Embed Color',
+                'description' => 'Embed Description',
+                'thumbnail' => 'Embed Thumbnail',
+                'footer' => 'Embed Footer'
+            ],
+            'errors' => [
+                'limit' => [
+                    'title' => 'Limit reached',
+                    'description' => 'You have just reached the webhook discord limit. You cannot create a new one.',
+                ],
+            ],
+            'error_permission' => [
+                'title' => 'No permission',
+                'description' => 'You don’t have permission to create a webhook discord',
+            ],
+            'success' => [
+                'title' => 'New Discord Webhook',
+                'description' => 'You just created a discord webhook.',
+            ],
+            'update' => [
+                'title' => 'Update Discord Webhook',
+                'description' => 'You just updated a discord webhook.',
+            ],
+            'delete' => [
+                'title' => 'Delete Discord Webhook',
+                'description' => 'You just deleted a discord webhook.',
+            ],
+            'test' => [
+                'title' => 'Test Discord Webhook',
+                'description' => 'You just send a test for your discord webhook.',
+            ],
+            'table' => [
+                'event' => 'Event',
+                'url' => 'URL',
+                'actions' => 'Actions',
+                'send' => 'Send a test',
+                'delete' => 'Delete this webhook',
+                'create' => 'Create a new webhook',
+                'edit' => 'Edit this webhook'
+            ],
+            'documentation' => [
+                'events' => 'Events',
+                'title' => 'Documentation',
+                'variable' => 'Variables',
+                'description' => 'Description',
+                'client_id' => 'The unique identifier of the user',
+                'client_name' => 'The name of the user',
+                'client_email' => 'The email address of the user',
+                'payment_price' => 'The price of the payment',
+                'payment_currency' => 'The currency used for the payment',
+                'payment_id' => 'The external identifier of the payment',
+                'payment_content_name' => 'The name of the content associated with the payment',
+                'payment_content_id' => 'The identifier of the content associated with the payment',
+                'resource_name' => 'The name of the resource',
+                'resource_tag' => 'The tag associated with the resource',
+                'resource_id' => 'The unique identifier of the resource',
+                'resource_price' => 'The price of the resource',
+                'resource_logo' => 'The path to the logo of the resource',
+                'resource_download' => 'The number of downloads of the resource',
+                'resource_link' => 'The link to the description of the resource',
+                'resource_currency' => 'The currency associated with the resource',
+                'author_name' => 'The name of the resource\'s author',
+                'author_id' => 'The identifier of the resource\'s author',
+                'resource_version' => 'The version of the resource',
+                'resource_version_name' => 'The name of the resource version',
+                'resource_version_download' => 'The download link for the resource version',
+                'color_random' => 'A randomly generated color',
+                'event_payment_completed' => 'Occurs when a payment is successfully completed',
+                'event_payment_refunded' => 'Occurs when a payment is refunded',
+                'event_payment_created' => 'Occurs when a new payment is created',
+                'event_payment_canceled' => 'Occurs when a payment is canceled',
+                'event_payment_dispute_created' => 'Occurs when a dispute is created for a payment',
+                'event_resource_created' => 'Occurs when a new resource is created',
+                'event_resource_updated' => 'Occurs when an existing resource is updated',
+            ],
         ],
         'payments' => [
             'title' => 'Transactions',
@@ -318,5 +404,12 @@ return [
             'details' => 'Details',
             'transaction_details' => 'Transaction details'
         ]
+    ],
+    'author' => [
+        'follow' => [
+            'title' => 'Followers',
+            'user' => 'User',
+            'date' => 'Followed on'
+        ],
     ]
 ];

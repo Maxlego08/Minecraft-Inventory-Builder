@@ -64,9 +64,9 @@ class ProfileController extends Controller
      */
     public function uploadProfile(Request $request): RedirectResponse
     {
-        $this->validate($request, ['image' => 'required|image|mimes:jpeg,png,jpg|max:1024']);
-
         $user = user();
+        $this->validate($request, ['image' => $user->role->getImageValidatorProfil()]);
+
         $user->updateProfilePhoto($request->file('image'));
         userLog('Création de la photo de profil', UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
 
@@ -144,6 +144,8 @@ class ProfileController extends Controller
         $discord = $user->discord;
         if ($discord->revokeAccess()) {
 
+            userLog('Suppression du compte discord', UserLog::COLOR_DANGER, UserLog::ICON_REMOVE);
+
             $discord->delete();
             return Redirect::route('profile.index')
                 ->with('toast', createToast('success', __('profiles.discord.discord'), __('profiles.discord.removed')));
@@ -198,6 +200,41 @@ class ProfileController extends Controller
         userLog('Création de la commande', UserLog::COLOR_SUCCESS, UserLog::ICON_CODE);
 
         return $user->createToken(env('TOKEN_NAME'), [env('ABILITY_RESOURCE')])->plainTextToken;
+    }
+
+    /**
+     * Permet d'upload une image de profil
+     *
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws ValidationException
+     */
+    public function uploadProfileBanner(Request $request): RedirectResponse
+    {
+        $user = user();
+        $this->validate($request, ['image' => $user->role->getImageValidatorBanner()]);
+
+        $user->updateBannerPhoto($request->file('image'));
+        userLog('Création de la bannière', UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
+
+        return Redirect::route('profile.index')
+            ->with('toast', createToast('success', __('profiles.banner.name'), __('profiles.banner.added')));
+    }
+
+    /**
+     * Permet de supprimer son image de profile
+     *
+     * @return RedirectResponse
+     */
+    public function destroyProfileBanner(): RedirectResponse
+    {
+        $user = user();
+        $user->deleteBannerPhoto();
+
+        userLog('Suppression de la bannière', UserLog::COLOR_DANGER, UserLog::ICON_REMOVE);
+
+        return Redirect::route('profile.index')
+            ->with('toast', createToast('success', __('profiles.banner.name'), __('profiles.banner.deleted')));
     }
 
 }

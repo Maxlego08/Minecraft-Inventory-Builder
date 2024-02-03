@@ -33,12 +33,22 @@
             </div>
         </li>
 
-        <li class="nav-item dropdown no-arrow mx-1">
+        <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="{{ route('admin.resources.pending') }}">
                 <i class="fas fa-bell fa-fw"></i>
                 @if($pending_resources > 0)
                     <span class="badge badge-danger badge-counter"
                           id="notificationsCounter">{{ $pending_resources }}</span>
+                @endif
+            </a>
+        </li>
+
+        <li class="nav-item dropdown no-arrow">
+            <a class="nav-link dropdown-toggle" href="{{ route('admin.reports.pending') }}">
+                <i class="fas fa-exclamation-triangle"></i>
+                @if($pending_reports > 0)
+                    <span class="badge badge-danger badge-counter"
+                          id="notificationsCounter">{{ $pending_reports }}</span>
                 @endif
             </a>
         </li>

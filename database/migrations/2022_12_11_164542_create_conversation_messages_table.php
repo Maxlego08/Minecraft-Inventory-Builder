@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('conversation_id')->constrained('conversation_conversations');
             $table->foreignId('user_id')->constrained();
             $table->longText('content');
+            $table->boolean('is_automatic')->default(false);
             $table->timestamps();
         });
     }

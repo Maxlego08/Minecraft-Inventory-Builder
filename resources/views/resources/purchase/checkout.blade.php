@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('title', "Purchase")
+@section('title', "Checkout")
 
 @section('app')
 
@@ -16,7 +16,7 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('resources.purchase.session', ['resource' => $resource->id]) }}">
+        <form method="POST" action="{{ $confirmUrl }}">
             <div class="card rounded-1 mb-3">
                 <div class="card-body">
                     <div class="row">
@@ -35,9 +35,10 @@
                             </div>
                             <div class="mb-4">
                                 <label class="form-label">{{ __('payment.how') }}</label>
-                                @if(isset($resource->user->paymentInfo->sk_live))
+                                @if(isset($paymentInfo->sk_live))
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="paymentMethod[]" id="stripe" value="stripe"
+                                        <input class="form-check-input" type="radio" name="paymentMethod[]" id="stripe"
+                                               value="stripe"
                                                checked>
                                         <label class="form-check-label" for="stripe">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -48,9 +49,10 @@
                                             Stripe (Credit/Debit Card)</label>
                                     </div>
                                 @endif
-                                @if(isset($resource->user->paymentInfo->paypal_email))
+                                @if(isset($paymentInfo->paypal_email))
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="paymentMethod[]" id="paypal" value="paypal"
+                                        <input class="form-check-input" type="radio" name="paymentMethod[]" id="paypal"
+                                               value="paypal"
                                                @if(!isset($resource->user->paymentInfo->sk_live)) checked @endif>
                                         <label class="form-check-label" for="paypal"><i class="bi bi-paypal"></i>
                                             Paypal</label>
@@ -84,41 +86,43 @@
                                     </thead>
                                     <tbody>
                                     <tr class="t-12">
-                                        <td>{{ $resource->name }}</td>
-                                        <td>{{ resourcePrice($resource) }}</td>
+                                        <td>{!! $name !!}</td>
+                                        <td>{{ formatPrice($price, $currency) }}</td>
                                         <th>1</th>
-                                        <td>{{ resourcePrice($resource) }}</td>
+                                        <td>{{ formatPrice($price, $currency) }}</td>
                                     </tr>
                                     <tr class="t-14">
                                         <td></td>
                                         <td></td>
                                         <th>{{ __('payment.subtotal') }}</th>
-                                        <td>{{ resourcePrice($resource) }}</td>
+                                        <td>{{ formatPrice($price, $currency) }}</td>
                                     </tr>
                                     <tr class="t-14" id="giftTable" style="display: none">
                                         <td class="w-50"></td>
                                         <td></td>
                                         <th>{{ __('payment.gift.title') }}</th>
                                         <td>-<span
-                                                id="gift">0</span>{{ currency($resource->user->paymentInfo->currency->currency) }}
+                                                id="gift">0</span>{{ currency($currency) }}
                                         </td>
                                     </tr>
                                     </tbody>
                                 </table>
-                                <hr>
-                                <div>
-                                    <label for="giftCode" class="form-label">{{ __('payment.gift.title') }}</label>
-                                    <input type="text" class="form-control rounded-1" id="giftCode" name="gift"
-                                           data-url="{{ route('api.v1.gift', ['code' => '%code%', 'resource' => $resource->id, 'user' => user()->id]) }}"
-                                           placeholder="{{ __('payment.gift.placeholder') }}">
-                                    <div class="invalid-feedback">
-                                        {{ __('payment.gift.error') }}
+                                @if($enableGift)
+                                    <hr>
+                                    <div>
+                                        <label for="giftCode" class="form-label">{{ __('payment.gift.title') }}</label>
+                                        <input type="text" class="form-control rounded-1" id="giftCode" name="gift"
+                                               data-url="{{ route('api.v1.gift', ['code' => '%code%', 'contentId' => $contentId, 'contentType' => $contentType, 'user' => user()->id]) }}"
+                                               placeholder="{{ __('payment.gift.placeholder') }}">
+                                        <div class="invalid-feedback">
+                                            {{ __('payment.gift.error') }}
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
                                 <hr>
                                 <div class="d-flex justify-content-end">
                                     <h4>{{ __('payment.total_end') }}</h4>
-                                    <p class="ms-3 h4 text-info">{!! formatPriceWithId($resource->price, $resource->user->paymentInfo->currency->currency) !!}</p>
+                                    <p class="ms-3 h4 text-info">{!! formatPriceWithId($price, $currency) !!}</p>
                                 </div>
                             </div>
                         </div>

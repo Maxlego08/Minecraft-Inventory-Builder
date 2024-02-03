@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Conversation\Conversation;
+use App\Models\Conversation\ConversationAutoResponse;
 use App\Models\User;
 use App\Models\UserLog;
 use Illuminate\Contracts\Foundation\Application;
@@ -50,6 +51,11 @@ class ConversationController extends Controller
                 ->with('toast', createToast('error', __('conversations.error_create_self.title'), __('conversations.error_create_self.description')));
         }
 
+        if (!$user->enable_conversation && !user()->role->isModerator()) {
+            return Redirect::route('profile.conversations.index')
+                ->with('toast', createToast('error', __('conversations.error_disable.title'), __('conversations.error_disable.description', ['name' => $user->name])));
+        }
+
         return view('members.conversations.create', [
             'target' => $user,
         ]);
@@ -75,8 +81,22 @@ class ConversationController extends Controller
 
         RateLimiter::hit($key, 30);
 
+        if ($user->id == user()->id) {
+            return Redirect::route('profile.conversations.index')
+                ->with('toast', createToast('error', __('conversations.error_create_self.title'), __('conversations.error_create_self.description')));
+        }
+
+        if (!$user->enable_conversation && !user()->role->isModerator()) {
+            return Redirect::route('profile.conversations.index')
+                ->with('toast', createToast('error', __('conversations.error_disable.title'), __('conversations.error_disable.description', ['name' => $user->name])));
+        }
+
         $conversation = Conversation::createNewConversation(user(), $request['subject'], $request['description']);
         $conversation->addParticipant($user);
+
+        if ($user->autoResponse) {
+            $conversation->createMessage($user, $user->autoResponse->content, true);
+        }
 
         userLog("Création de la conversation avec $user->name ($conversation->id)", UserLog::COLOR_SUCCESS, UserLog::ICON_SMS);
 
@@ -169,4 +189,57 @@ class ConversationController extends Controller
         if ($user->role->isModerator()) return true;
         return $conversation->participants()->where('user_id', $user->id)->count() == 1;
     }
+
+    /**
+     * Permet de réponse automatiquement à un message
+     *
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws ValidationException
+     */
+    public function autoResponse(Request $request): RedirectResponse
+    {
+
+        $this->validate($request, [
+            'description' => 'required|max:2000'
+        ]);
+
+        // Mise à jour ou création de l'auto-réponse
+        $autoResponse = ConversationAutoResponse::updateOrCreate(
+            [
+                'user_id' => user()->id
+            ],
+            [
+                'content' => $request['description'],
+                'is_enable' => $request['is_enable'] === 'on',
+            ]
+        );
+
+        userLog("Mise à jour de sa réponse automatique ($autoResponse->id)", UserLog::COLOR_SUCCESS, UserLog::ICON_EDIT);
+
+        return Redirect::route('profile.conversations.index')
+            ->with('toast', createToast('success', __('conversations.auto.success.title'), __('conversations.auto.success.description')));
+    }
+
+    /**
+     * Permet d'activer ou désactiver les conversations
+     *
+     * @param Request $request
+     * @return false|string
+     * @throws ValidationException
+     */
+    public function toggle(Request $request): bool|string
+    {
+        $this->validate($request, [
+            'is_enable' => ['required'],
+        ]);
+        user()->update(['enable_conversation' => $request['is_enable'] === 'true']);
+        if (user()->enable_conversation){
+            userLog("Vient d'activer les messages privés", UserLog::COLOR_SUCCESS, UserLog::ICON_SMS);
+        } else {
+            userLog("Vient de désactiver les messages privés", UserLog::COLOR_DANGER, UserLog::ICON_SMS);
+        }
+        return json_encode(['message' => 'success']);
+    }
+
 }

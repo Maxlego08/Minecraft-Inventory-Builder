@@ -1,1 +1,83 @@
+@import "../vars";
 @import "../components/utils/tata";
+@import "../components/utils/role";
+
+.conversation-user {
+    margin-right: 5px;
+}
+
+.discord {
+    background: #1e1f22;
+    color: white;
+
+    .discord-profil {
+
+        display: flex;
+        margin: 15px 0;
+
+        @media screen and (max-width: 400px) {
+            flex-direction: column;
+        }
+
+        &-avatar {
+            img {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                border: 1px solid #787878;
+                background: #313338;
+            }
+        }
+
+        &-user {
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin: 0 15px;
+
+            line-height: 16px;
+            font-size: 14px;
+            font-weight: 500;
+            box-sizing: border-box;
+
+            &-name {
+                font-size: 20px;
+                margin-bottom: 5px;
+            }
+
+            &-id {
+                font-size: 10px;
+            }
+        }
+    }
+
+
+}
+
+.discord-unlink {
+    margin: 5px 0;
+
+    form {
+        button {
+            background: #ed4245;
+            padding: 8px 25px;
+            border: none;
+            text-align: center;
+            word-break: break-word;
+            line-height: 16px;
+            font-size: 16px;
+            font-weight: 500;
+            box-sizing: border-box;
+            font-family: Whitney, "Helvetica Neue", Helvetica, Arial, sans-serif;
+            border-radius: 3px;
+            color: white;
+            transition: 0.5s;
+            cursor: pointer;
+
+            &:hover {
+                background: darken(#ed4245, 8);
+            }
+        }
+    }
+}

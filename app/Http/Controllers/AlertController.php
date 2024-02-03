@@ -77,7 +77,9 @@ class AlertController extends Controller
                 $link = $alert->link ?? "#";
                 $targetName = isset($alert->target_id) ? $alert->target->name : '';
                 $targetUrl = isset($alert->target_id) ? $alert->target->getProfileUrl() : '';
-                $divAlert .= __($alert->translation_key, ['user' => "<a href='$targetUrl'>{$targetName}</a>", 'content' => "<a href='{$link}'>{$alert->content}</a>"]);
+                $divAlert .= __($alert->translation_key, ['user' => "<a href='$targetUrl'>{$targetName}</a>", 'content' =>
+                    $alert->link ? "<a href='{$link}'>{$alert->content}</a>" : $alert->content
+                ]);
             } else {
                 $divAlert .= $alert->content;
             }

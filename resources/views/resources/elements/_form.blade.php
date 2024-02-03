@@ -65,16 +65,16 @@
             <hr>
 
             <div class="mb-3">
-                <label class="form-check-label" for="category">{{ __('resources.create.category.name') }}</label>
-                <select class="form-control rounded-1 mt-2 @error('category') is-invalid @enderror" aria-label=""
-                        name="category" id="category">
+                <label class="form-check-label" for="name">{{ __('resources.create.name.name') }}</label>
+                <select class="form-control rounded-1 mt-2 @error('name') is-invalid @enderror" aria-label=""
+                        name="name" id="name">
                     @foreach($categories as $c)
                         <option value="{{ $c->id }}"
-                                @if(old('category') === $c->id) selected @endif>{{ $c->name }}</option>
+                                @if(old('name') === $c->id) selected @endif>{{ $c->name }}</option>
                     @endforeach
                 </select>
-                <small>{{ __('resources.create.category.description') }}</small>
-                @error('category')
+                <small>{{ __('resources.create.name.description') }}</small>
+                @error('name')
                 <div id="category_error" class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>

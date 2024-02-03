@@ -4,6 +4,7 @@ namespace App\Models\Payment;
 
 use App\Models\Resource\Resource;
 use App\Models\User;
+use App\Models\UserRole;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -24,6 +25,8 @@ use Illuminate\Support\Str;
  * @property User $user
  * @property Carbon $created_at
  * @property Resource $resource
+ * @property UserRole $role
+ * @property User\NameColor $nameColor
  * @property Gift $gift
  * @property Currency $currency
  */
@@ -40,22 +43,11 @@ class Payment extends Model
 
     public const TYPE_RESOURCE = 0;
     public const TYPE_ACCOUNT_UPGRADE = 1;
+    public const TYPE_NAME_COLOR = 2;
 
     protected $table = "payment_payments";
 
-    protected $fillable = [
-        'id',
-        'user_id',
-        'gift_id',
-        'external_id',
-        'payment_id',
-        'content_id',
-        'currency_id',
-        'price',
-        'status',
-        'type',
-        'gateway'
-    ];
+    protected $fillable = ['id', 'user_id', 'gift_id', 'external_id', 'payment_id', 'content_id', 'currency_id', 'price', 'status', 'type', 'gateway'];
 
     /**
      * Permet de créer un paiement par défaut
@@ -72,17 +64,7 @@ class Payment extends Model
     public static function makeDefault(User $user, float $price, int $type, int $contentId, int $currencyId, string $gateway, $giftId = null): Payment
     {
         $payment_id = "mib_" . Str::random(10);
-        return Payment::create([
-            'payment_id' => $payment_id,
-            'user_id' => $user->id,
-            'currency_id' => $currencyId,
-            'content_id' => $contentId,
-            'gift_id' => $giftId,
-            'price' => $price,
-            'type' => $type,
-            'status' => self::STATUS_UNPAID,
-            'gateway' => $gateway
-        ]);
+        return Payment::create(['payment_id' => $payment_id, 'user_id' => $user->id, 'currency_id' => $currencyId, 'content_id' => $contentId, 'gift_id' => $giftId, 'price' => $price, 'type' => $type, 'status' => self::STATUS_UNPAID, 'gateway' => $gateway]);
     }
 
     /**
@@ -111,6 +93,22 @@ class Payment extends Model
     public function resource(): BelongsTo
     {
         return $this->belongsTo(Resource::class, 'content_id');
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(UserRole::class, 'content_id');
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function nameColor(): BelongsTo
+    {
+        return $this->belongsTo(User\NameColor::class, 'content_id');
     }
 
     /**
@@ -189,14 +187,98 @@ class Payment extends Model
 
         if ($this->gift_id == null) return;
 
-        $this->gift->update([
-            'used' => $this->gift->used + 1
-        ]);
+        $this->gift->update(['used' => $this->gift->used + 1]);
 
-        GiftHistory::create([
-            'user_id' => $this->user_id,
-            'gift_id' => $this->gift_id
-        ]);
+        GiftHistory::create(['user_id' => $this->user_id, 'gift_id' => $this->gift_id]);
+    }
+
+    public function getPaymentType(): string
+    {
+        return match ($this->type) {
+            Payment::TYPE_RESOURCE => "Minecraft Inventory Builder - Resource {$this->resource->name}.$this->content_id",
+            Payment::TYPE_ACCOUNT_UPGRADE => "Minecraft Inventory Builder - Account Upgrade {$this->role->name}.$this->content_id",
+            Payment::TYPE_NAME_COLOR => "Minecraft Inventory Builder - Name color {$this->nameColor->translation()}.{$this->nameColor->id}",
+        };
+    }
+
+    public function getPaymentTypeName(): string
+    {
+        return match ($this->type) {
+            Payment::TYPE_RESOURCE => 'Resource',
+            Payment::TYPE_ACCOUNT_UPGRADE => 'Account Upgrade',
+            Payment::TYPE_NAME_COLOR => 'Name color',
+        };
+    }
+
+    public function getPaymentDescription(): string
+    {
+        return match ($this->type) {
+            Payment::TYPE_RESOURCE => "Purchase Resource {$this->resource->name}.$this->content_id",
+            Payment::TYPE_ACCOUNT_UPGRADE => "Account Upgrade {$this->role->name}.$this->content_id",
+            Payment::TYPE_NAME_COLOR => "Name color {$this->nameColor->translation()}.{$this->nameColor->id}",
+        };
+    }
+
+    public function getPaymentContent(): string
+    {
+        return match ($this->type) {
+            Payment::TYPE_RESOURCE => "Purchase Resource {$this->resource->name}.$this->content_id",
+            Payment::TYPE_ACCOUNT_UPGRADE => "Account Upgrade {$this->role->name}.$this->content_id",
+            Payment::TYPE_NAME_COLOR => "Name color {$this->nameColor->translation()}.{$this->nameColor->id}",
+        };
+    }
+
+    public function getPaymentContentName(): string
+    {
+        return match ($this->type) {
+            Payment::TYPE_RESOURCE => $this->resource->name,
+            Payment::TYPE_ACCOUNT_UPGRADE => $this->role->name,
+            Payment::TYPE_NAME_COLOR => $this->nameColor->translation(),
+        };
+    }
+
+    public function getPaymentContentNameFormatted(): string
+    {
+        return match ($this->type) {
+            Payment::TYPE_RESOURCE => "<a href='{$this->resource->link('description')}'>{$this->resource->name}</a>",
+            Payment::TYPE_ACCOUNT_UPGRADE => $this->role->name,
+            Payment::TYPE_NAME_COLOR => "<span class='{$this->nameColor->code}'>{$this->nameColor->translation()}</span>",
+        };
+    }
+
+    public function getPaymentContentNameFormattedLimited(): string
+    {
+        return match ($this->type) {
+            Payment::TYPE_RESOURCE => "<a href='{$this->resource->link('description')}'>" . Str::limit($this->resource->name, 50) . "</a>",
+            Payment::TYPE_ACCOUNT_UPGRADE => $this->role->name,
+            Payment::TYPE_NAME_COLOR => "<span class='{$this->nameColor->code}'>{$this->nameColor->translation()}</span>",
+        };
+    }
+
+    public function getPaymentLogo(): string
+    {
+        return match ($this->type) {
+            Payment::TYPE_RESOURCE => $this->resource->getIconPath(),
+            default => 'todo',
+        };
+    }
+
+    /**
+     * Retourne une couleur basée sur le statut du paiement.
+     *
+     * @return string
+     */
+    public function getColorForStatus(): string
+    {
+        return match ($this->status) {
+            self::STATUS_PAID => '#028a00',
+            self::STATUS_UNPAID => '#33b8ff',
+            self::STATUS_REFUND => '#4877b5',
+            self::STATUS_DISPUTE => '#db341a',
+            self::STATUS_PENDING => '#2adea5',
+            self::STATUS_CANCEL => '#ed1111',
+            default => 'black',
+        };
     }
 
 }

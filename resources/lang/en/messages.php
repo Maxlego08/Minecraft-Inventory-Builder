@@ -27,8 +27,9 @@ return [
     'delete' => 'Delete',
     'resources' => 'Resources',
     'documentation' => 'Documentations',
+    'account-upgrade' => 'Upgrade your account !',
     'premium' => 'Premium',
-    'inventory-builder' => 'Inventory Builder',
+    'builder-builder' => 'Inventory Builder',
     'home' => 'Home',
     'save_changes' => 'Save changes',
     'save_update' => 'Save update',
@@ -37,7 +38,7 @@ return [
     'average_rating' => 'Average Rating',
     'about' => [
         'title' => 'About',
-        'content' => 'Minecraft Inventory Builder is a site dedicated to the zMenu plugin. zMenu is a minecraft plugin dedicated to inventory creation. The site includes a marketplace for selling and downloading resource related to zMenu. It also includes an inventory editor.'
+        'content' => 'Minecraft Inventory Builder is a site dedicated to the zMenu plugin. zMenu is a minecraft plugin dedicated to builder creation. The site includes a marketplace for selling and downloading resource related to zMenu. It also includes an builder editor.'
     ],
     'links' => [
         'title' => 'links',
@@ -49,5 +50,27 @@ return [
         'players' => 'Current servers',
         'servers' => 'Current players',
         'more' => 'Show more on <a href="" target="_blank" id="bstats-url" data-url=":url">bStats</a>'
+    ],
+    'login' => 'Login',
+    'register' => 'Register',
+    'update_at' => 'Updated at',
+    'like' => 'Like',
+    'unlike' => 'Unlike',
+    'report' => 'Report',
+    'profile' => 'Your Profile Page',
+    'details' => 'Personal Details',
+    'follow' => [
+        'follow' => 'Follow',
+        'unfollow' => 'Unfollow',
+        'success' => [
+            'follow' => [
+                'title' => 'Success !',
+                'description' => 'You start following :name'
+            ],
+            'unfollow' => [
+                'title' => 'Success !',
+                'description' => 'You no longer follow :name'
+            ],
+        ],
     ],
 ];

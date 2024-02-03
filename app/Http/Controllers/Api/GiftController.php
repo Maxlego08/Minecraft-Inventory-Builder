@@ -15,10 +15,12 @@ class GiftController extends Controller
      * Vérifier si le code est valide
      *
      * @param string $code
-     * @param Resource $resource
+     * @param string $contentType
+     * @param int $contentId
+     * @param User $user
      * @return string
      */
-    public function verify(string $code, Resource $resource, User $user)
+    public function verify(string $code, string $contentType, int $contentId, User $user)
     {
 
         $gift = Gift::where('code', $code)->first();
@@ -26,12 +28,14 @@ class GiftController extends Controller
         // Si le gift.js est null, on ne fait rien
         if ($gift === null) abort(404, 'Gift not found');
 
-
         // Si le gift.js n'est pas actif, on ne fait rien
         if (!$gift->active) abort(404, 'Gift is not active');
 
         // Si la resource n'est pas la bonne, on ne fait rien
-        if ($gift->resource_id != $resource->id) abort(404, 'Gift is not for this resource');
+        if ($gift->giftable_id != $contentId) abort(404, 'Gift is not for this content');
+
+        // Si le type n'est pas le bon, alors on ne fait rien
+        if ($gift->giftable_type != $contentType) abort(404, 'Gift is not for this type');
 
         // Si le nombre d'utilisations a été atteint, on ne fait rien
         if ($gift->used >= $gift->max_use) abort(404, 'Gift is already used');

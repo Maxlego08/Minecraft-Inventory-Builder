@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Resource;
 
 use App\Http\Controllers\Controller;
 use App\Models\Resource\Resource;
+use App\Models\Resource\Version;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
 
 class ResourceUpdateController extends Controller
@@ -33,7 +35,9 @@ class ResourceUpdateController extends Controller
 
         if ($slug != $resource->slug()) return Redirect::route('resources.updates', ['resource' => $resource->id, 'slug' => $resource->slug()]);
 
-        $versions = $resource->versions()->with('reviews')->orderBy('created_at', 'desc')->paginate(15);
+        $versions = Cache::remember("pages.updates.$resource->id", 300, function () use ($resource){
+            return $resource->versions()->with('resource')->with('reviews')->orderBy('created_at', 'desc')->paginate(15);
+        });
 
         return view('resources.pages.update', ['resource' => $resource, 'versions' => $versions]);
     }
@@ -62,4 +66,16 @@ class ResourceUpdateController extends Controller
 
         return view('resources.update', ['resource' => $resource]);
     }
+
+    /**
+     * Redirect to resources
+     *
+     * @param Version $version
+     * @return RedirectResponse
+     */
+    public function indexUpdateById(Version $version): RedirectResponse
+    {
+        return Redirect::route('resources.update', ['slug' => $version->resource->slug(), 'resource' => $version->resource, 'version' => $version]);
+    }
+
 }

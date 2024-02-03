@@ -7,12 +7,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * @property int $id
  * @property String $subject
  * @property ConversationMessage[] $messages
  * @property ConversationParticipant[] $participants
+ * @property ConversationNotification[] $notifications
  * @property User $user
  * @method static Conversation create(array $values)
  */
@@ -54,12 +56,21 @@ class Conversation extends Model
         return $this->hasMany(ConversationParticipant::class);
     }
 
-    public function createMessage(User $user, string $content)
+    /**
+     * @return HasMany
+     */
+    public function notifications(): HasMany
+    {
+        return $this->hasMany(ConversationNotification::class);
+    }
+
+    public function createMessage(User $user, string $content, bool $isAuto = false)
     {
         ConversationMessage::create([
             'conversation_id' => $this->id,
             'user_id' => $user->id,
             'content' => $content,
+            'is_automatic' => $isAuto,
         ]);
 
         $this->update(['last_message_at' => now()]);
@@ -96,6 +107,7 @@ class Conversation extends Model
                     ['user_id' => $participant->user_id],
                     ['conversation_id' => $this->id]
                 );
+                Cache::forget("conversations::{$user->id}");
             }
         }
     }
@@ -138,6 +150,8 @@ class Conversation extends Model
                 'user_id' => $user->id,
                 'conversation_id' => $this->id
             ]);
+
+            Cache::forget("conversations::{$user->id}");
         }
     }
 }

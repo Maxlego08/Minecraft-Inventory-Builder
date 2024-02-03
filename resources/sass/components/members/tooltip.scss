@@ -16,36 +16,73 @@
 
 .user-tooltip {
 
-    width: 300px;
+    width: 375px;
     border: 1px solid #3f3f58;
 
     &-header {
+
         padding: 5px;
         background: #26263f;
+        color: #dfdfdf;
 
         .join-info {
             font-size: 14px;
-            color: whitesmoke;
         }
     }
 
     &-content {
-        padding: 15px 5px;
+        padding: 0 5px;
         background: #161628;
 
-        .conversation-button {
-            background: #6f6f6f;
-            transition: 0.2s ease-in-out;
-            color: whitesmoke;
-            font-size: 14px;
-            padding: 8px;
-            margin: 5px 0;
-            text-decoration: none;
+        hr {
+            margin: 5px 0 5px 0;
+        }
 
-            &:hover {
-                background: #7b7b7b;
-            }
+        &-informations {
+
+            font-size: 13px;
+            color: #bebebe;
+            padding-top: 5px;
+
+        }
+
+        &-buttons {
+            display: flex;
+            padding-bottom: 5px;
         }
     }
 
+}
+
+.conversation-button {
+
+    border: none;
+    background: #6f6f6f;
+    transition: 0.2s ease-in-out;
+    color: whitesmoke;
+    font-size: 14px;
+    padding: 8px;
+    margin: 5px 0;
+    text-decoration: none;
+
+    &:hover {
+        color: whitesmoke;
+        background: #7b7b7b;
+    }
+}
+
+
+.username-history {
+    background: $color-primary;
+
+    &-title {
+        font-size: 18px;
+        border-bottom: 1px solid rgba(153, 153, 153, 0.5);
+    }
+
+    &-content {
+        color: #d5d5d5;
+        display: flex;
+        flex-direction: column;
+    }
 }

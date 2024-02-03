@@ -12,7 +12,7 @@
         <div class="card shadow mb-4">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table table-striped">
                         <thead>
                         <tr>
                             <th style="width: 10px"></th>
@@ -41,7 +41,7 @@
                                     <a href="{{ route('admin.users.show', ['user' => $resource->user ]) }}">{{ $resource->user->name }}</a>
                                 </th>
                                 <th>{{ $resource->version->version }}</th>
-                                <th>{{ $resource->category->name }}</th>
+                                <th>{{ $resource->name->name }}</th>
                                 <th style="@if(!$resource->price == 0) color: rgb(72, 187, 156); @else color: rgb(0, 0, 0); @endif">{{ $resource->price == 0 ? 'Gratuit' : $resource->price . "€" }}</th>
                                 <th>{{ format_date($resource->created_at, true) }}</th>
                                 <th style="color: {{ $resource->getStatus()['color'] }}">{{ strtoupper(__($resource->getStatus()['message'])) }}</th>

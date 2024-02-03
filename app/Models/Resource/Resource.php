@@ -4,14 +4,18 @@ namespace App\Models\Resource;
 
 use App\Code\BBCode;
 use App\Models\File;
+use App\Models\Like;
 use App\Models\MinecraftVersion;
+use App\Models\Report;
 use App\Models\User;
 use App\Traits\ReviewStarts;
+use App\Utils\Likeable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
@@ -41,11 +45,12 @@ use Illuminate\Support\Str;
  * @property String $versions;
  * @property Access[] $buyers;
  * @property Review[] $reviews;
+ * @property Notification[] $notifications;
  * @method static Resource find(int $id)
  * @method static Resource findOrFail(int $id)
  * @method static Resource create(array $values)
  */
-class Resource extends Model
+class Resource extends Model implements Likeable
 {
     use HasFactory, ReviewStarts;
 
@@ -88,6 +93,16 @@ class Resource extends Model
     }
 
     /**
+     * Retourne la liste des utilisateurs qui ont activé les notifications pour le plugin
+     *
+     * @return HasMany
+     */
+    public function notifications(): HasMany
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    /**
      * The category
      *
      * @return BelongsTo
@@ -110,6 +125,21 @@ class Resource extends Model
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
+    }
+
+    /**
+     * Like d'une resource
+     *
+     * @return MorphMany
+     */
+    public function likes(): MorphMany
+    {
+        return $this->morphMany(Like::class, 'likeable');
+    }
+
+    public function reports(): MorphMany
+    {
+        return $this->morphMany(Report::class, 'reportable');
     }
 
     /**
@@ -370,4 +400,14 @@ class Resource extends Model
         return $this->user->paymentInfo->sk_live != null || $this->user->paymentInfo->paypal_email != null;
     }
 
+    public function getContentName(): string
+    {
+        return "resource $this->name.$this->id";
+    }
+
+    public function getCacheName(): string
+    {
+        return "resource::$this->id";
+    }
 }
+

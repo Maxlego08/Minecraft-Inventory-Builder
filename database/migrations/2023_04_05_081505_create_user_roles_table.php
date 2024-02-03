@@ -18,9 +18,13 @@ return new class extends Migration {
             $table->bigInteger('size');
             $table->string('allow_files');
             $table->integer('max_resources');
+            $table->integer('max_inventories');
+            $table->integer('max_folders');
             $table->boolean('premium_resources');
             $table->integer('power');
+            $table->integer('max_discord_webhook');
             $table->boolean('is_banned');
+            $table->boolean('price')->default(0.0);
             $table->timestamps();
         });
 
@@ -32,61 +36,82 @@ return new class extends Migration {
             'max_resources' => 0,
             'premium_resources' => false,
             'power' => 0,
+            'max_inventories' => 0,
+            'max_folders' => 0,
+            'max_discord_webhook' => 0,
+
             'is_banned' => true,
         ]);
 
         UserRole::create([
-            'name' => 'Free',
-            'total_size' => 1024000 * 10, // 10 MO
+            'name' => 'Member',
+            'total_size' => 1024000 * 50, // 50 MO
             'size' => 1024000 * 2, // 2 MO
             'allow_files' => 'jpeg,png,jpg',
             'max_resources' => 10,
             'premium_resources' => false,
             'power' => 1,
+            'max_inventories' => 100,
+            'max_folders' => 10,
+            'max_discord_webhook' => 0,
             'is_banned' => false,
         ]);
 
         UserRole::create([
             'name' => 'Premium',
-            'total_size' => 1024000 * 100, // 100 MO
+            'total_size' => 1024000 * 500, // 500 MO
             'size' => 1024000 * 10, // 10 MO
             'allow_files' => 'jpeg,png,jpg,gif',
             'max_resources' => 50,
             'premium_resources' => true,
             'power' => 2,
+            'max_inventories' => 1000,
+            'max_folders' => 100,
+            'max_discord_webhook' => 5,
             'is_banned' => false,
+            'price' => 14.99
         ]);
 
         UserRole::create([
             'name' => 'Pro',
-            'total_size' => 1024000 * 500, // 500 MO
+            'total_size' => 1024000 * 1000 * 2, //2go
             'size' => 1024000 * 50, // 50 MO
             'allow_files' => 'jpeg,png,jpg,gif',
-            'max_resources' => 100,
+            'max_resources' => 1000,
             'premium_resources' => true,
             'power' => 3,
+            'max_inventories' => 10000,
+            'max_folders' => 1000,
+            'max_discord_webhook' => 20,
             'is_banned' => false,
+            'price' => 49.99
         ]);
 
         UserRole::create([
             'name' => 'Moderator',
-            'total_size' => 1024000 * 500, // 500 MO
+            'total_size' => 1024000 * 1000 * 2, // 2go
             'size' => 1024000 * 50, // 50 MO
             'allow_files' => 'jpeg,png,jpg,gif',
             'max_resources' => 1000,
             'premium_resources' => true,
             'power' => 50,
+            'max_inventories' => 10000,
+            'max_folders' => 1000,
+            'max_discord_webhook' => 20,
             'is_banned' => false,
         ]);
 
         UserRole::create([
             'name' => 'Admin',
-            'total_size' => 1024000 * 5000, // 500 MO
+            'total_size' => 1024000 * 1000 * 5, // 5go
             'size' => 1024000 * 50, // 50 MO
             'allow_files' => 'jpeg,png,jpg,gif',
             'max_resources' => 1000,
             'premium_resources' => true,
             'power' => 100,
+            'max_inventories' => 10000,
+            'max_folders' => 1000,
+            'max_discord_webhook' => 20,
             'is_banned' => false,
         ]);
     }

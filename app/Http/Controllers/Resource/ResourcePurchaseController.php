@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Payment\Gift;
 use App\Models\Payment\Payment;
 use App\Models\Resource\Resource;
+use App\Models\UserLog;
+use App\Payment\Events\PaymentCancel;
 use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -31,13 +33,23 @@ class ResourcePurchaseController extends Controller
             return Redirect::route('resources.view', ['slug' => Str::slug($resource->name), 'resource' => $resource->id]);
         }
 
-        $info = $resource->user->paymentInfo;
-        if ($info->sk_live == null && $info->paypal_email == null) {
+        $paymentInfo = $resource->user->paymentInfo;
+        if ($paymentInfo->sk_live == null && $paymentInfo->paypal_email == null) {
             return Redirect::route('resources.view', ['slug' => Str::slug($resource->name), 'resource' => $resource->id]);
         }
 
         // Sinon, on affiche la page d'achat
-        return view('resources.purchase.checkout', ['resource' => $resource]);
+        return view('resources.purchase.checkout', [
+            'paymentInfo' => $paymentInfo,
+            'price' => $resource->price,
+            'currency' => $paymentInfo->currency->currency,
+            'confirmUrl' => route('resources.purchase.session', ['resource' => $resource->id]),
+            'name' => $resource->name,
+            'enableGift' => true,
+            'resource' => $resource,
+            'contentId' => $resource->id,
+            'contentType' => Resource::class,
+        ]);
     }
 
     /**
@@ -78,23 +90,41 @@ class ResourcePurchaseController extends Controller
         return paymentManager()->startPayment($request, $resource, $paymentMethod, $payment, $gift);
     }
 
-    public function success(Payment $payment): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    /**
+     * Affiche la page de succès lors de l'achat
+     *
+     * @param Payment $payment
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|View|Application|RedirectResponse
+     */
+    public function success(Payment $payment): Application|View|Factory|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
-        if ($payment->status == Payment::STATUS_UNPAID) {
+
+        if (!$payment->isPaid()) {
+            if ($payment->status != Payment::STATUS_UNPAID) {
+                return Redirect::route('resources.index');
+            }
             $payment->update(['status' => Payment::STATUS_PENDING]);
         }
 
-        $currency = "eur";
-        $name = "";
+
         $gift = $payment->gift;
         $contentPrice = $payment->price;
         $price = $payment->price;
         $giftReduction = 0;
-        if ($payment->type == Payment::TYPE_RESOURCE) {
-            $resource = $payment->resource;
-            $contentPrice = $resource->price;
-            $currency = $payment->currency->currency;
-            $name = $resource->name;
+        $currency = $payment->currency->currency;
+        $name = $payment->getPaymentContentNameFormatted();
+
+        switch ($payment->type) {
+            case Payment::TYPE_RESOURCE:
+            {
+                $contentPrice = $payment->resource->price;
+                break;
+            }
+            case Payment::TYPE_NAME_COLOR:
+            {
+                $contentPrice = $payment->nameColor->price;
+                break;
+            }
         }
 
         if (isset($gift)) {
@@ -113,18 +143,26 @@ class ResourcePurchaseController extends Controller
         ]);
     }
 
+
     /**
-     * Quand un utilisateur annule un paiement
+     * Quand un paiement est annulé
      *
      * @param Payment $payment
-     * @return \Illuminate\Contracts\Foundation\Application|Factory|View|Application
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|View|Application|RedirectResponse
      */
-    public function cancel(Payment $payment): Application|View|Factory|\Illuminate\Contracts\Foundation\Application
+    public function cancel(Payment $payment): Application|View|Factory|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
 
-        if ($payment->status == Payment::STATUS_UNPAID) {
+        if (!$payment->isPaid()) {
+            if ($payment->status != Payment::STATUS_UNPAID) {
+                return Redirect::route('resources.index');
+            }
             $payment->update(['status' => Payment::STATUS_CANCEL]);
+            event(new PaymentCancel($payment));
         }
+
+        userLogOffline($payment->user_id, "Vient d'annuler le paiement $payment->payment_id.$payment->id", UserLog::COLOR_DANGER, UserLog::ICON_TRASH);
+
         return view('resources.purchase.cancel');
     }
 

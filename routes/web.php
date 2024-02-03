@@ -1,11 +1,20 @@
 <?php
 
 use App\Http\Controllers\AlertController;
+use App\Http\Controllers\Api\TooltipController;
+use App\Http\Controllers\Builder\BuilderIndexController;
+use App\Http\Controllers\Builder\BuilderInventoryController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\FollowController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\LikeController;
+use App\Http\Controllers\NameChangeController;
+use App\Http\Controllers\NameController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PremiumController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\Resource\DashboardController;
 use App\Http\Controllers\Resource\DashboardDiscordController;
 use App\Http\Controllers\Resource\DashboardGiftController;
@@ -36,12 +45,44 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [IndexController::class, 'index'])->name('home');
 
+Route::get('/tooltip/{user}', [TooltipController::class, 'tooltip'])->name('tooltip');
+
+Route::prefix('/account-upgrade')->name('premium.')->group(function () {
+    Route::get('/', [PremiumController::class, 'index'])->name('index');
+    Route::middleware('auth')->group(function () {
+        Route::get('/checkout/{userRole:power}', [PremiumController::class, 'checkout'])->name('checkout');
+        Route::post('/purchase/{userRole:power}', [PremiumController::class, 'purchase'])->name('purchase');
+    });
+});
+
+Route::prefix('/builder')->name('builder.')->middleware('auth')->group(function () {
+    Route::get('/', [BuilderIndexController::class, 'index'])->name('index');
+
+    Route::prefix('/api')->name('api.')->middleware('auth')->group(function () {
+        Route::prefix('/folders')->name('folder.')->group(function () {
+            Route::get('/{folder?}', [BuilderIndexController::class, 'folders'])->name('get');
+            Route::post('/{folder}/delete', [BuilderIndexController::class, 'delete'])->name('delete');
+            Route::post('/create/{folderParent}', [BuilderIndexController::class, 'create'])->name('create');
+            Route::post('/update/{folder}', [BuilderIndexController::class, 'update'])->name('update');
+        });
+        Route::prefix('/inventories')->name('inventories.')->group(function () {
+            Route::get('/{folder}', [BuilderInventoryController::class, 'inventories'])->name('get');
+            Route::post('/{folder}/create', [BuilderInventoryController::class, 'create'])->name('create');
+            Route::post('/{inventory}/rename', [BuilderInventoryController::class, 'rename'])->name('rename');
+        });
+    });
+});
+
 Route::prefix('/profile')->name('profile.')->middleware('auth')->group(function () {
 
     Route::get('/', [ProfileController::class, 'index'])->name('index');
     Route::prefix('/picture')->name('picture.')->group(function () {
         Route::post('/destroy', [ProfileController::class, 'destroyProfile'])->name('destroy');
         Route::post('/update', [ProfileController::class, 'uploadProfile'])->name('update');
+    });
+    Route::prefix('/banner')->name('banner.')->group(function () {
+        Route::post('/destroy', [ProfileController::class, 'destroyProfileBanner'])->name('destroy');
+        Route::post('/update', [ProfileController::class, 'uploadProfileBanner'])->name('update');
     });
 
     Route::post('/email', [ProfileController::class, 'changeEmail'])->name('email');
@@ -57,7 +98,9 @@ Route::prefix('/profile')->name('profile.')->middleware('auth')->group(function 
     Route::prefix('/conversations')->name('conversations.')->group(function () {
         Route::get('/', [ConversationController::class, 'index'])->name('index');
         Route::get('/create/{user}', [ConversationController::class, 'create'])->name('create');
+        Route::post('/toggle', [ConversationController::class, 'toggle'])->name('toggle');
         Route::post('/create/{user}', [ConversationController::class, 'store'])->name('store');
+        Route::post('/auto/response}', [ConversationController::class, 'autoResponse'])->name('auto');
         Route::get('/{conversation}', [ConversationController::class, 'show'])->name('show');
         Route::post('/{conversation}/post', [ConversationController::class, 'post'])->name('post');
     });
@@ -71,7 +114,7 @@ Route::prefix('/profile')->name('profile.')->middleware('auth')->group(function 
     });
 
     // Payment
-    Route::prefix('/payment')->name('payment.')->group(function () {
+    Route::prefix('/payment')->name('payment.')->middleware('verified')->group(function () {
         Route::get('', [PaymentController::class, 'index'])->name('index');
         Route::post('/store/stripe', [PaymentController::class, 'storeStripe'])->name('store.stripe');
         Route::post('/store/paypal', [PaymentController::class, 'storePaypal'])->name('store.paypal');
@@ -79,6 +122,25 @@ Route::prefix('/profile')->name('profile.')->middleware('auth')->group(function 
         Route::post('/delete/stripe', [PaymentController::class, 'deleteStripe'])->name('delete.stripe');
         Route::post('/delete/paypal', [PaymentController::class, 'deletePaypal'])->name('delete.paypal');
     });
+
+    // Colors
+    Route::prefix('/colors')->name('colors.')->middleware('verified')->group(function () {
+        Route::get('', [NameController::class, 'index'])->name('index');
+        Route::post('/checkout/{nameColor}', [NameController::class, 'checkout'])->name('checkout');
+        Route::post('/purchase/{nameColor}', [NameController::class, 'purchase'])->name('purchase');
+        Route::post('/disable', [NameController::class, 'disable'])->name('disable');
+        Route::post('/enable/{nameColor}', [NameController::class, 'active'])->name('store');
+    });
+
+
+    // Colors
+    Route::prefix('/update-name')->name('name.')->middleware('verified')->group(function () {
+        Route::get('', [NameChangeController::class, 'index'])->name('index');
+        Route::post('', [NameChangeController::class, 'updateName'])->name('store');
+    });
+
+    Route::post('/follow/{user}', [FollowController::class, 'follow'])->name('follow');
+    Route::post('/unfollow/{user}', [FollowController::class, 'unfollow'])->name('unfollow');
 });
 
 Route::prefix('resources')->name('resources.')->group(function () {
@@ -94,7 +156,7 @@ Route::prefix('resources')->name('resources.')->group(function () {
     Route::middleware('auth')->group(function () {
 
         // Create
-        Route::prefix('create')->name('create.')->group(function () {
+        Route::prefix('create')->middleware('verified')->name('create.')->group(function () {
             Route::get('/', [ResourceCreateController::class, 'index'])->name('index');
             Route::post('/store', [ResourceCreateController::class, 'store'])->name('store');
         });
@@ -133,30 +195,41 @@ Route::prefix('resources')->name('resources.')->group(function () {
         // icon
         Route::post('/{resource}/icon', [ResourceIconController::class, 'store'])->name('icon');
 
-        Route::get('/{resource}/purchase', [ResourcePurchaseController::class, 'index'])->name('purchase');
-        Route::post('/{resource}/purchase/create/session', [ResourcePurchaseController::class, 'store'])->name('purchase.session');
+        Route::middleware('verified')->group(function () {
 
-        Route::prefix('/dashboard/')->name('dashboard.')->group(function () {
-            Route::get('', [DashboardController::class, 'index'])->name('index');
-            Route::get('/payments', [DashboardController::class, 'payments'])->name('payments');
-            Route::get('/payments/{payment:payment_id}', [DashboardController::class, 'paymentDetails'])->name('payments.details');
-            Route::get('/resources', [DashboardController::class, 'resources'])->name('resources');
+            Route::get('/{resource}/purchase', [ResourcePurchaseController::class, 'index'])->name('purchase');
+            Route::post('/{resource}/purchase/create/session', [ResourcePurchaseController::class, 'store'])->name('purchase.session');
 
-            Route::prefix('/gift/')->name('gift.')->group(function () {
-                Route::get('', [DashboardGiftController::class, 'index'])->name('index');
+            Route::prefix('/dashboard/')->name('dashboard.')->group(function () {
+                Route::get('', [DashboardController::class, 'index'])->name('index');
+                Route::get('/payments', [DashboardController::class, 'payments'])->name('payments');
+                Route::get('/payments/{payment:payment_id}', [DashboardController::class, 'paymentDetails'])->name('payments.details');
+                Route::get('/resources', [DashboardController::class, 'resources'])->name('resources');
+
+                Route::prefix('/gift/')->name('gift.')->group(function () {
+                    Route::get('', [DashboardGiftController::class, 'index'])->name('index');
+
+                });
+
+                Route::prefix('/discord/')->name('discord.')->group(function () {
+                    Route::get('', [DashboardDiscordController::class, 'index'])->name('index');
+                    Route::get('/create', [DashboardDiscordController::class, 'create'])->name('create');
+                    Route::post('/store', [DashboardDiscordController::class, 'store'])->name('store');
+                    Route::post('/delete/{notification}', [DashboardDiscordController::class, 'delete'])->name('delete');
+                    Route::post('/test/{notification}', [DashboardDiscordController::class, 'test'])->name('test');
+                    Route::get('/edit/{notification}', [DashboardDiscordController::class, 'edit'])->name('edit');
+                    Route::post('/store/{notification}', [DashboardDiscordController::class, 'update'])->name('update');
+                });
 
             });
-
-            Route::prefix('/discord/')->name('discord.')->group(function () {
-                Route::get('', [DashboardDiscordController::class, 'index'])->name('index');
-
-            });
-
         });
     });
 
     Route::get('/{slug}.{resource}/updates', [ResourceUpdateController::class, 'index'])->name('updates');
     Route::get('/{resource}/updates', [ResourceUpdateController::class, 'indexById'])->name('updates.id');
+
+    Route::get('/{slug}.{resource}/updates/{version}', [ResourceUpdateController::class, 'indexUpdate'])->name('update');
+    Route::get('/update/{version}', [ResourceUpdateController::class, 'indexUpdateById'])->name('update.id');
 
     Route::get('/{slug}.{resource}/reviews', [ResourceReviewController::class, 'index'])->name('reviews');
     Route::get('/{resource}/reviews', [ResourceReviewController::class, 'indexById'])->name('reviews.id');
@@ -167,4 +240,18 @@ Route::prefix('resources')->name('resources.')->group(function () {
     Route::get('/{slug}.{resource}', [ResourceViewController::class, 'index'])->name('view');
     Route::get('/{resource}', [ResourceViewController::class, 'indexById'])->name('view.id');
 
+});
+
+
+Route::middleware('auth')->group(function () {
+
+    Route::prefix('like')->name('like.')->group(function () {
+        Route::post('/resource/{resource}', [LikeController::class, 'toggleResourceLike'])->name('resource');
+        Route::post('/version/{version}', [LikeController::class, 'toggleVersionLike'])->name('version');
+    });
+
+    Route::prefix('report')->name('report.')->group(function () {
+        Route::post('/resource/{resource}', [ReportController::class, 'reportResource'])->name('resource');
+        Route::post('/version/{version}', [ReportController::class, 'reportVersion'])->name('version');
+    });
 });

@@ -15,7 +15,7 @@ class IndexController extends Controller
      */
     public function index(): \Illuminate\Foundation\Application|View|Factory|Application
     {
-        $resource = Cache::remember('resource:index', 86400, function (){
+        $resource = Cache::remember('resource:index', 86400, function () {
             return Resource::first();
         });
         return view('home', [

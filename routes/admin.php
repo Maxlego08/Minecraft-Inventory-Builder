@@ -1,7 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\ConversationController;
+use App\Http\Controllers\Admin\GiftController;
 use App\Http\Controllers\Admin\IndexController;
 use App\Http\Controllers\Admin\LogController;
+use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\ResourceController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
@@ -11,9 +15,27 @@ Route::get('/', [IndexController::class, 'index'])->name('index');
 
 Route::prefix('resources/')->name('resources.')->group(function () {
     Route::get('/', [ResourceController::class, 'index'])->name('index');
+    Route::get('/edit/{resource}', [ResourceController::class, 'show'])->name('edit');
     Route::get('/pending', [ResourceController::class, 'pending'])->name('pending');
     Route::post('/accept/{resource}', [ResourceController::class, 'accept'])->name('accept');
     Route::post('/refuse/{resource}', [ResourceController::class, 'refuse'])->name('refuse');
+});
+
+Route::prefix('logs/')->name('logs.')->group(function () {
+    Route::get('/', [LogController::class, 'index'])->name('index');
+});
+
+Route::prefix('conversations/')->name('conversations.')->group(function () {
+    Route::get('/', [ConversationController::class, 'index'])->name('index');
+    Route::post('/delete/{conversation}', [ConversationController::class, 'delete'])->middleware('admin')->name('delete');
+});
+
+
+Route::prefix('reports/')->name('reports.')->group(function () {
+    Route::get('/', [ReportController::class, 'index'])->name('index');
+    Route::get('/pending', [ReportController::class, 'pending'])->name('pending');
+    Route::get('/{report}', [ReportController::class, 'view'])->name('view');
+    Route::post('/resolve/{report}', [ReportController::class, 'resolve'])->name('resolve');
 });
 
 // Admin access
@@ -23,9 +45,27 @@ Route::middleware('admin')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('index');
         Route::get('/{user}', [UserController::class, 'show'])->name('show');
         Route::post('/{user}/store', [UserController::class, 'store'])->name('store');
+        Route::post('/{user}/icon', [UserController::class, 'deleteIcon'])->name('delete.icon');
+        Route::post('/{user}/banner', [UserController::class, 'deleteBanner'])->name('delete.banner');
+        Route::post('/{user}/discord', [UserController::class, 'deleteDiscord'])->name('delete.discord');
+        Route::post('/{user}/2fa', [UserController::class, 'deleteDoubleAuth'])->name('delete.2fa');
+        Route::post('/{user}/payment', [UserController::class, 'updatePayment'])->name('payment');
     });
 
-    Route::prefix('logs/')->name('logs.')->group(function () {
-        Route::get('/', [LogController::class, 'index'])->name('index');
+    Route::prefix('/payments')->name('payments.')->group(function () {
+        Route::get('/', [PaymentController::class, 'index'])->name('index');
+        Route::get('/delete', [PaymentController::class, 'delete'])->name('delete');
+        Route::get('/create', [PaymentController::class, 'create'])->name('create');
+        Route::post('/store', [PaymentController::class, 'store'])->name('store');
+        Route::get('/show/{payment}', [PaymentController::class, 'show'])->name('show');
+    });
+
+    Route::prefix('/gift')->name('gift.')->group(function () {
+        Route::get('/', [GiftController::class, 'index'])->name('index');
+        Route::get('/delete/{gift}', [GiftController::class, 'delete'])->name('delete');
+        Route::get('/create', [GiftController::class, 'create'])->name('create');
+        Route::post('/store', [GiftController::class, 'store'])->name('store');
+        Route::get('/edit/{gift}', [GiftController::class, 'edit'])->name('edit');
+        Route::post('/update/{gift}', [GiftController::class, 'update'])->name('update');
     });
 });

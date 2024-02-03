@@ -3,12 +3,16 @@
 namespace App\Models\Resource;
 
 use App\Models\File;
+use App\Models\Like;
+use App\Models\Report;
 use App\Traits\ReviewStarts;
+use App\Utils\Likeable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Cache;
 
 /**
@@ -30,7 +34,7 @@ use Illuminate\Support\Facades\Cache;
  * @method static Version find(int $id)
  * @method static Version create(array $values)
  */
-class Version extends Model
+class Version extends Model implements Likeable
 {
     use HasFactory, ReviewStarts;
 
@@ -46,6 +50,21 @@ class Version extends Model
     public function resource(): BelongsTo
     {
         return $this->belongsTo(Resource::class);
+    }
+
+    /**
+     * Like sur la version
+     *
+     * @return MorphMany
+     */
+    public function likes(): MorphMany
+    {
+        return $this->morphMany(Like::class, 'likeable');
+    }
+
+    public function reports(): MorphMany
+    {
+        return $this->morphMany(Report::class, 'reportable');
     }
 
     /**
@@ -125,6 +144,16 @@ class Version extends Model
     public function download(): string
     {
         return route('resources.download', ['resource' => $this->resource_id, 'version' => $this->id]);
+    }
+
+    public function getContentName(): string
+    {
+        return "version $this->title.$this->id";
+    }
+
+    public function getCacheName(): string
+    {
+        return "version::$this->id";
     }
 
 }

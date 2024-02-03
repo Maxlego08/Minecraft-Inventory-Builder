@@ -4,21 +4,33 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Alert\AlertUser;
+use App\Models\Conversation\ConversationAutoResponse;
 use App\Models\Conversation\ConversationNotification;
+use App\Models\Discord\DiscordNotification;
+use App\Models\Payment\Payment;
 use App\Models\Resource\Access;
 use App\Models\Resource\Notification;
 use App\Models\Resource\Resource;
+use App\Models\Resource\Version;
+use App\Models\User\Follow;
+use App\Models\User\NameChangeHistory;
+use App\Models\User\NameColor;
+use App\Models\User\NameColorAccess;
 use App\Models\User\UserPaymentInfo;
 use App\Traits\HasProfilePhoto;
+use App\Utils\Likeable;
 use Carbon\Carbon;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticate;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
@@ -27,15 +39,20 @@ use Laravel\Sanctum\HasApiTokens;
  * Class User
  * @package App\Models
  * @property int $id
+ * @property int $name_color_id
+ * @property int $user_role_id
  * @property string $email
  * @property string $name
  * @property string $link
  * @property string $profile_photo_path
+ * @property string $profile_photo_path_large
+ * @property string $banner_photo_path
  * @property string $two_factor_secret
  * @property string $two_factor_recovery_codes
  * @property Carbon $created_at
  * @property Carbon $two_factor_confirmed_at
  * @property Carbon $updated_at
+ * @property boolean $enable_conversation
  * @property DiscordUser $discord
  * @property AlertUser[] $alerts
  * @property Resource[] $resources
@@ -44,10 +61,21 @@ use Laravel\Sanctum\HasApiTokens;
  * @property UserRole $role
  * @property Access $accesses
  * @property UserPaymentInfo $paymentInfo
+ * @property NameColor $nameColor
+ * @property ConversationAutoResponse $autoResponse
+ * @property File[] $files
+ * @property DiscordNotification[] $webhooks
+ * @property Payment[] $payments
+ * @property NameChangeHistory[] $nameChangeHistories
+ * @property User[] $followers
+ * @property User[] $followings
+ * @property NameColorAccess[] $nameColorAccesses
+ * @property NameColorAccess $names
  * @method static User find(int $id)
  * @method string getProfilePhotoUrlAttribute()
+ * @method string getProfilePhotoLargeUrlAttribute()
  */
-class User extends Authenticate
+class User extends Authenticate implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, TwoFactorAuthenticatable, HasProfilePhoto;
 
@@ -56,7 +84,7 @@ class User extends Authenticate
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'email', 'password', 'user_role_id'];
+    protected $fillable = ['name', 'email', 'password', 'user_role_id', 'name_color_id', 'enable_conversation'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -80,6 +108,26 @@ class User extends Authenticate
     public function logs(): HasMany
     {
         return $this->hasMany(UserLog::class);
+    }
+
+    /**
+     * Retourne la liste des couleurs que le joueur à accès
+     *
+     * @return HasMany
+     */
+    public function nameColorAccesses(): HasMany
+    {
+        return $this->hasMany(NameColorAccess::class);
+    }
+
+    /**
+     * Retourne la liste des webhook discords de l'utilisateur
+     *
+     * @return HasMany
+     */
+    public function webhooks(): HasMany
+    {
+        return $this->hasMany(DiscordNotification::class);
     }
 
     /**
@@ -110,6 +158,26 @@ class User extends Authenticate
     public function discord(): HasOne
     {
         return $this->hasOne(DiscordUser::class);
+    }
+
+    /**
+     * Permet de retourner la couleur de l'utilisateur
+     *
+     * @return BelongsTo
+     */
+    public function nameColor(): BelongsTo
+    {
+        return $this->belongsTo(NameColor::class);
+    }
+
+    /**
+     * Obtient l'historique des changements de nom de l'utilisateur.
+     *
+     * @return HasMany
+     */
+    public function nameChangeHistories(): HasMany
+    {
+        return $this->hasMany(NameChangeHistory::class);
     }
 
     /**
@@ -166,6 +234,26 @@ class User extends Authenticate
     }
 
     /**
+     * User payments
+     *
+     * @return HasMany
+     */
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    /**
+     * User names
+     *
+     * @return HasMany
+     */
+    public function names(): HasMany
+    {
+        return $this->hasMany(NameColorAccess::class);
+    }
+
+    /**
      * Retourne-les alerts
      *
      * @return HasMany
@@ -191,6 +279,28 @@ class User extends Authenticate
         return $this->hasMany(ConversationNotification::class);
     }
 
+    // Les utilisateurs qui suivent cet utilisateur
+    public function followers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'user_follows', 'followed_id', 'follower_id');
+    }
+
+    public function followersTable(): Collection|array
+    {
+        return Follow::with('follower')->where('followed_id', $this->id)->orderBy('created_at', 'DESC')->get();
+    }
+
+    public function followingsTable(): Collection|array
+    {
+        return Follow::with('following')->where('follower_id', $this->id)->orderBy('created_at', 'DESC')->get();
+    }
+
+    // Les utilisateurs que cet utilisateur suit
+    public function followings(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'user_follows', 'follower_id', 'followed_id');
+    }
+
     /**
      * User role
      *
@@ -199,6 +309,16 @@ class User extends Authenticate
     public function role(): BelongsTo
     {
         return $this->belongsTo(UserRole::class, 'user_role_id');
+    }
+
+    /**
+     * Like de l'utilisateur
+     *
+     * @return HasMany
+     */
+    public function likes(): HasMany
+    {
+        return $this->hasMany(Like::class);
     }
 
     /**
@@ -211,6 +331,16 @@ class User extends Authenticate
         $api = route('api.v1.discord');
         $client_id = env('DISCORD_CLIENT_ID');
         return 'https://discord.com/api/oauth2/authorize?client_id=' . $client_id . '&redirect_uri=' . urlencode($api) . '&response_type=code&scope=identify&state=' . $this->id;
+    }
+
+    /**
+     * User auto message
+     *
+     * @return HasOne
+     */
+    public function autoResponse(): HasOne
+    {
+        return $this->hasOne(ConversationAutoResponse::class);
     }
 
     public function createConversation(): string
@@ -281,7 +411,13 @@ class User extends Authenticate
     {
         return Cache::remember("user.$key::$this->id", 86400, function () use ($key) {
             return match ($key) {
-                "role" => $this->role,
+                'role' => $this->role,
+                'color' => $this->nameColor,
+                'name_change' => $this->nameChangeHistories,
+                'currency' => $this->paymentInfo?->currency->currency ?? 'eur',
+                'followers' => $this->followers,
+                'followings' => $this->followings,
+                'followersTable' => $this->followersTable(),
                 default => ""
             };
         });
@@ -307,6 +443,12 @@ class User extends Authenticate
      * user.access
      * user.resource_count
      * user.resource_access
+     * user.color
+     * user.name_change
+     * user.currency
+     * user.followings
+     * user.followers
+     * likes.total
      *
      * @param string $key
      * @return void
@@ -326,11 +468,7 @@ class User extends Authenticate
     {
         $isExist = $this->resourceNotifications()->where('resource_id', $resource->id)->exists();
         if (!$isExist) {
-            Notification::create([
-                'user_id' => $this->id,
-                'resource_id' => $resource->id,
-                'unsubscribe' => Str::random(64),
-            ]);
+            Notification::create(['user_id' => $this->id, 'resource_id' => $resource->id, 'unsubscribe' => Str::random(64),]);
         }
     }
 
@@ -346,7 +484,7 @@ class User extends Authenticate
 
     public function isAdmin(): bool
     {
-        return $this->role->power == UserRole::ADMIN;
+        return $this->cache('role')->power == UserRole::ADMIN;
     }
 
     function countResources(): int
@@ -363,9 +501,9 @@ class User extends Authenticate
         });
     }
 
-    function displayNameAndLink(bool $tooltip = true): string
+    function displayNameAndLink(bool $tooltip = true, ?string $customId = null): string
     {
-        return "<a href='{$this->getProfileUrl()}' class='text-decoration-none'>{$this->displayName($tooltip)}</a>";
+        return "<a href='{$this->getProfileUrl()}' class='text-decoration-none'>{$this->displayName($tooltip, $customId)}</a>";
     }
 
     public function getProfileUrl(): string
@@ -373,14 +511,135 @@ class User extends Authenticate
         return route('resources.author', ['user' => $this, 'slug' => $this->slug()]);
     }
 
-    function displayName(bool $tooltip = true): string
+    function displayName(bool $tooltip = true, ?string $customId = null, ?string $customCss = null): string
     {
         $tooltipCss = $tooltip ? 'username-tooltip' : '';
-        $url = route('api.v1.tooltip', $this);
-        return match ($this->role->power) {
-            UserRole::ADMIN => "<span class='username $tooltipCss username-admin' data-url='$url'>$this->name</span>",
-            default => "<span class='username $tooltipCss username-member' data-url='$url'>$this->name</span>"
+        $url = route('tooltip', $this);
+        $idElement = $customId == null ? '' : "id='$customId'";
+        $css = $customCss == null ? '' : $customCss;
+
+        if ($this->name_color_id) {
+            $color = $this->cache('color')->code;
+            return "<span $idElement class='username $tooltipCss $color $css' data-url='$url'>$this->name</span>";
+        }
+
+        return match ($this->cache('role')->power) {
+            UserRole::ADMIN => "<span $idElement class='username $tooltipCss username-admin $css' data-url='$url'>$this->name</span>",
+            UserRole::MODERATOR => "<span $idElement class='username $tooltipCss username-moderator $css' data-url='$url'>$this->name</span>",
+            UserRole::PREMIUM => "<span $idElement class='username $tooltipCss username-premium $css' data-url='$url'>$this->name</span>",
+            UserRole::PRO => "<span $idElement class='username $tooltipCss username-pro $css' data-url='$url'>$this->name</span>",
+            UserRole::BANNED => "<span $idElement class='username $tooltipCss username-banned $css' data-url='$url'>$this->name</span>",
+            default => "<span $idElement class='username $tooltipCss username-member $css' data-url='$url'>$this->name</span>"
         };
     }
+
+    /**
+     * Vérifier si l'utilisateur à des informations à afficher dans le tooltips
+     *
+     * @return bool
+     */
+    function hasTooltipInformations(): bool
+    {
+        $tooltipInformations = $this->getTooltipInformations();
+        return $tooltipInformations['resources'] > 0 || $tooltipInformations['payments'] > 0 || $tooltipInformations['reactions'] > 0 || $tooltipInformations['followers'] > 0;
+    }
+
+    function getTooltipInformations(): array
+    {
+        return Cache::remember("user.tooltip::$this->id", 300, function () {
+            return [
+                'resources' => $this->resources->count(),
+                'payments' => $this->payments->where('status', Payment::STATUS_PAID)->count(),
+                'reactions' => $this->totalReceivedLikes(),
+                'followers' => $this->cache('followers')->count(),
+            ];
+        });
+    }
+
+    /**
+     * Vérifier si le joueur à l'accès à la couleur
+     *
+     * @param NameColor $nameColor
+     * @return bool
+     */
+    function hasNameAccess(NameColor $nameColor): bool
+    {
+        if ($this->cache('role')->isModerator()) return true;
+        return $this->names->where('color_id', $nameColor->id)->count() > 0;
+    }
+
+    public function getNameHistory(): string
+    {
+        $names = $this->cache('name_change')->pluck('old_name')->toArray();
+        return implode(',', $names);
+    }
+
+    /**
+     * Vérifie si l'utilisateur à liker un contenu spécifique.
+     * Met en cache le résultat pendant 86400 secondes (1 jour).
+     *
+     * @param Likeable $likeable
+     * @return bool Vrai si l'utilisateur a liké la ressource, sinon faux.
+     */
+    public function hasLiked(Likeable $likeable): bool
+    {
+        $type = match (true) {
+            $likeable instanceof Resource => Resource::class,
+            $likeable instanceof Version => Version::class,
+            default => null
+        };
+
+        $cacheKey = "user_{$this->id}_{$likeable->getCacheName()}";
+
+        return Cache::remember($cacheKey, 86400, function () use ($likeable, $type) {
+            return $this->likes()
+                ->where('likeable_id', $likeable->id)
+                ->where('likeable_type', $type)
+                ->exists();
+        });
+    }
+
+
+    /**
+     * Vérifier si l'utilisateur peut liker un contenu
+     *
+     * @param Likeable $likeable
+     * @return bool
+     */
+    public function canLike(Likeable $likeable): bool
+    {
+        return match (true) {
+                $likeable instanceof Resource => $likeable->user_id,
+                $likeable instanceof Version => $likeable->resource->user_id,
+                default => null
+            } != $this->id || $this->cache('role')->isAdmin();
+    }
+
+
+    /**
+     * Obtient le total des likes reçus sur les ressources et les versions de l'utilisateur.
+     *
+     * @return int
+     */
+    public function totalReceivedLikes(): int
+    {
+        return Cache::remember("likes.total::$this->id", 86400, function () {
+            // Requête pour les likes sur les ressources
+            $resourceLikes = Like::whereHas('likeable', function ($query) {
+                $query->whereIn('id', $this->resources->pluck('id'))
+                    ->where('likeable_type', Resource::class);
+            });
+
+            // Requête pour les likes sur les versions des ressources
+            $versionLikes = Like::whereHasMorph('likeable', [Version::class], function ($query) {
+                $resourceIds = $this->resources->pluck('id');
+                $query->whereIn('resource_id', $resourceIds);
+            });
+
+            // Combine les deux requêtes en utilisant une union
+            return DB::query()->fromSub($resourceLikes->union($versionLikes), 'combined_likes')->count();
+        });
+    }
+
 
 }

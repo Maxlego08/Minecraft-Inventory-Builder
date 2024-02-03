@@ -5,27 +5,24 @@
     <div class="card shadow mb-4">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table">
+                <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th scope="col" style="width: 25px">#</th>
-                        <th scope="col">Nom</th>
-                        <th scope="col">Date</th>
+                        <th style="width: 10px"></th>
+                        <th style="width: 150px">Auteur</th>
+                        <th>Nom</th>
+                        <th style="width: 125px;">Version</th>
+                        <th style="width: 100px;">Prix</th>
+                        <th style="width: 130px;">Total des ventes</th>
+                        <th style="width: 100px;">Téléchargements</th>
+                        <th style="width: 175px;">Date de publication</th>
+                        <th style="width: 125px;">Status</th>
+                        <th style="width: 100px;"></th>
                     </tr>
                     </thead>
                     <tbody>
                         @foreach($resources as $resource)
-                            <tr>
-                                <th>
-                                    <a href="{{ route('resources.view', ['resource' => $resource, 'slug' => $resource->slug()]) }}">
-                                    <img style="border-radius: 3px" width="40" height="40"
-                                         src="{{ $resource->icon->getPath() }}"
-                                         alt="Icon de la resource {{ $resource->id }}">
-                                    </a>
-                                </th>
-                                <th>{{ $resource->name }}</th>
-                                <th>{{ format_date($resource->created_at) }}</th>
-                            </tr>
+                            @include('admins.elements.resources')
                         @endforeach
                     </tbody>
                 </table>

@@ -26,7 +26,7 @@
 
     <div class="card rounded-1 mt-3 mb-3">
         <div class="card-body">
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center justify-content-between">
                 <h4>{{ __('images.title') }}</h4>
                 <span>(<span
                         style="color: {{ user()->getDiskColor() }}">{{ human_filesize(user()->getDiskSize()) }}</span>/{{ human_filesize(user()->role->total_size) }})</span>
