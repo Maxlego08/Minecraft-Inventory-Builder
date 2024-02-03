@@ -229,8 +229,8 @@
                                         <span>{{ format($resource->cache('version')->created_at) }}</span>
                                     </li>
                                     <li class="d-flex justify-content-between align-items-center">
-                                        {{ __('messages.name') }}
-                                        <span>{{ $resource->cache('name')->name }}</span>
+                                        {{ __('messages.category') }}
+                                        <span>{{ $resource->cache('category')->name }}</span>
                                     </li>
 
                                     <li class="d-flex justify-content-between align-items-center mt-4">
