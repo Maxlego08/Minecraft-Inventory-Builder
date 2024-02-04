@@ -20,7 +20,7 @@
         <div class="image-upload-input mt-1">
             <span>{{ __('images.textarea.title') }}</span>
             <input type="file" id="image-upload" name="image-upload" class="form-control rounded-1 mt-2"
-                   accept=".jpg,.jpeg,.png">
+                   accept=".jpg,.jpeg,.png,.gif" multiple>
             <div class="progress mt-2" id="progress" style="display: none">
                 <div class="textarea-bar" style="width: 0;" id="bar">
                 </div>
