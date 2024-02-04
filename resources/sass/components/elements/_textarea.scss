@@ -24,16 +24,12 @@
 
 }
 
-iframe {
-    body {
-        background: red;
-        img {
-            width: 100%;
-        }
-    }
+#bbcodePreview {
+    background: $color-quaternary;
+    padding: 10px;
     img {
-        max-width: 100%;
         height: auto;
+        max-width: 100%;
     }
 }
 

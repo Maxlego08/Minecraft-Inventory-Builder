@@ -2,7 +2,7 @@
 
 namespace App\Models\Resource;
 
-use App\Code\BBCode;
+use App\Code\BBCodeUtils;
 use App\Models\File;
 use App\Models\Like;
 use App\Models\MinecraftVersion;
@@ -325,7 +325,7 @@ class Resource extends Model implements Likeable
      */
     public function toHTML(): string
     {
-        return BBCode::renderAndPurify($this->description);
+        return BBCodeUtils::renderAndPurify($this->description);
     }
 
     public function isModerator(): bool

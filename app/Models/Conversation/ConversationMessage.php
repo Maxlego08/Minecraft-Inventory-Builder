@@ -2,7 +2,7 @@
 
 namespace App\Models\Conversation;
 
-use App\Code\BBCode;
+use App\Code\BBCodeUtils;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -44,6 +44,6 @@ class ConversationMessage extends Model
      */
     public function toHTML(): string
     {
-        return BBCode::renderAndPurify($this->content);
+        return BBCodeUtils::renderAndPurify($this->content);
     }
 }

@@ -97,3 +97,9 @@ img {
     max-width: 100%;
     height: auto;
 }
+
+a {
+    transition: color 0.235s linear;
+    color: rgb(69, 190, 233);
+    text-decoration: underline;
+}
