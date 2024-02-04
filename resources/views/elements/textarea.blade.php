@@ -1,5 +1,19 @@
 <div class="mb-3">
 <div id="bbcodePreview"></div>
+    <pre><code class="yaml">
+info:
+  namespace: emots
+emotes:
+  atr:
+    id: atr
+    enabled: true
+    hide_equipment:
+      helmet: false
+      mainhand: true
+      offhand: false
+      in_air: false
+    can_player_move: false
+        </code></pre>
 </div>
 <div class="mb-3">
     @if (isset($description))

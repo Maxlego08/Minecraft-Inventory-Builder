@@ -52,6 +52,12 @@ class BBCodeParser
             'content' => '$3',
         ],
 
+        'code' => [
+            'pattern' => '/\[code\=([\'"]?)([a-zA-Z\s,]+)\1\](.*?)\[\/code\]/s',
+            'replace' => '<pre><code class="$2">$3</code></pre>',
+            'content' => '$3',
+        ],
+
         'center' => [
             'pattern' => '/\[center\](.*?)\[\/center\]/s',
             'replace' => '<div style="text-align:center;">$1</div>',
@@ -136,15 +142,21 @@ class BBCodeParser
             'content' => '$1',
         ],
 
-        'listitem' => [
-            'pattern' => '/\[\*\](.*)/',
-            'replace' => '<li>$1</li>',
+        'sub' => [
+            'pattern' => '/\[sub\](.*?)\[\/sub\]/s',
+            'replace' => '<sub>$1</sub>',
             'content' => '$1',
         ],
 
-        'code' => [
-            'pattern' => '/\[code\](.*?)\[\/code\]/s',
-            'replace' => '<code>$1</code>',
+        'sup' => [
+            'pattern' => '/\[sup\](.*?)\[\/sup\]/s',
+            'replace' => '<sup>$1</sup>',
+            'content' => '$1',
+        ],
+
+        'listitem' => [
+            'pattern' => '/\[\*\](.*)/',
+            'replace' => '<li>$1</li>',
             'content' => '$1',
         ],
 

@@ -154,7 +154,20 @@
             txtExec: ['[hr]']
         },
         code: {
-            txtExec: ['[code]', '[/code]']
+            txtExec: function (caller) {
+                var editor = this;
+
+                getEditorCommand('code')._dropDown(
+                    editor,
+                    caller,
+                    function (code) {
+                        editor.insertText(
+                            '[code=' + code + ']',
+                            '[/code]'
+                        );
+                    }
+                );
+            }
         },
         image: {
             txtExec: function (caller, selected) {
@@ -694,13 +707,20 @@
 
         // START_COMMAND: Code
         code: {
-            tags: {
-                code: null
-            },
             isInline: false,
             allowedChildren: ['#', '#newline'],
-            format: '[code]{0}[/code]',
-            html: '<code>{0}</code>'
+            tags: {
+                code: {
+                    code: null
+                },
+            },
+            quoteType: QuoteType.never,
+            format: function (element, content) {
+                let code = attr(element, 'code');
+                return '[code=' + _stripQuotes(code) + ']' +
+                    content + '[/code]';
+            },
+            html: '<code code="{defaultattr}">{0}</code>'
         },
         // END_COMMAND
 
@@ -1938,20 +1958,20 @@
                 isSelfClosing = bbcode && bbcode.isSelfClosing;
 
                 breakBefore = (isBlock && base.opts.breakBeforeBlock &&
-                    bbcode.breakBefore !== false) ||
+                        bbcode.breakBefore !== false) ||
                     (bbcode && bbcode.breakBefore);
 
                 breakStart = (isBlock && !isSelfClosing &&
-                    base.opts.breakStartBlock &&
-                    bbcode.breakStart !== false) ||
+                        base.opts.breakStartBlock &&
+                        bbcode.breakStart !== false) ||
                     (bbcode && bbcode.breakStart);
 
                 breakEnd = (isBlock && base.opts.breakEndBlock &&
-                    bbcode.breakEnd !== false) ||
+                        bbcode.breakEnd !== false) ||
                     (bbcode && bbcode.breakEnd);
 
                 breakAfter = (isBlock && base.opts.breakAfterBlock &&
-                    bbcode.breakAfter !== false) ||
+                        bbcode.breakAfter !== false) ||
                     (bbcode && bbcode.breakAfter);
 
                 quoteType = (bbcode ? bbcode.quoteType : null) ||

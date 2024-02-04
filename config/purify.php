@@ -44,7 +44,7 @@ return [
             'HTML.SafeIframe' => true,
             'URI.SafeIframeRegexp' => '%^(http://|https://|//)(www.youtube.com/embed/)%',
             'HTML.Doctype' => 'HTML 4.01 Transitional',
-            'HTML.Allowed' => 'h1,h2,h3,h4,h5,h6,b,del,strong,i,em,a[href|title],ul[style],ol,li[style],p[style],br,span[style],u,img[width|height|alt|src],div[style],font[size],iframe[width|height|src|srcdoc]',
+            'HTML.Allowed' => 'h1,h2,h3,h4,h5,h6,b,del,code[class],pre,sub,sup,strong,i,em,a[href|title],ul[style],ol,li[style],p[style],br,span[style],u,img[width|height|alt|src],div[style],font[size],iframe[width|height|src|srcdoc]',
             'HTML.ForbiddenElements' => '',
             'CSS.AllowedProperties' => 'font,font-size,font-weight,font-style,font-family,text-decoration,padding-left,color,background-color,text-align',
             'AutoFormat.AutoParagraph' => false,

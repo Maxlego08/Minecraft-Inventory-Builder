@@ -27,7 +27,7 @@ window.addEventListener('load', function () {
         resizeEnabled: false,
         style: `${assetUrl}css/theme.css`,
         // toolbar: 'bold,italic,underline|size,font,color|left,center,right|link,unlink,youtube|source,preview|image,code',
-        toolbar: 'bold,italic,underline,strike|size,font,color|bulletlist,orderedlist|left,center,right|link,unlink,youtube|source,preview',
+        toolbar: 'bold,italic,underline,strike,subscript,superscript|code|size,font,color|bulletlist,orderedlist|left,center,right|link,unlink,youtube|source,preview',
         // locale: 'fr-FR',
         plugins: 'undo',
     });

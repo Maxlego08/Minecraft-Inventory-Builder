@@ -62,6 +62,5 @@
         })
     </script>
 @endif
-
 </body>
 </html>

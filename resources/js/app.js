@@ -13,6 +13,12 @@ import './conversations'
 import './like'
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import hljs from 'highlight.js/lib/core';
+import javascript from 'highlight.js/lib/languages/javascript';
+import yaml from 'highlight.js/lib/languages/yaml';
+import java from 'highlight.js/lib/languages/java';
+
+// Then register the languages you need
 
 import "@melloware/coloris/dist/coloris.css";
 import Coloris from "@melloware/coloris";
@@ -24,3 +30,10 @@ Coloris({
     themeMode: 'dark',
     format: 'hex',
 });
+
+window.addEventListener('load', () => {
+    hljs.registerLanguage('javascript', javascript);
+    hljs.registerLanguage('yaml', yaml);
+    hljs.registerLanguage('java', java);
+    hljs.highlightAll()
+})
