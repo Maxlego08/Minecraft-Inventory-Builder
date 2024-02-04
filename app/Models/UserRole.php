@@ -113,4 +113,9 @@ class UserRole extends Model
         };
     }
 
+    public function getImageAcceptInput(): string
+    {
+        return "." . implode(",.", explode(",", $this->allow_files));
+    }
+
 }

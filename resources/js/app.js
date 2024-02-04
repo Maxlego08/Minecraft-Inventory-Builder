@@ -16,6 +16,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 import "@melloware/coloris/dist/coloris.css";
 import Coloris from "@melloware/coloris";
+
 Coloris.init();
 Coloris({
     el: "#coloris",

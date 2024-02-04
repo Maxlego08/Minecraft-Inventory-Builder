@@ -27,7 +27,7 @@ window.addEventListener('load', function () {
         resizeEnabled: false,
         style: `${assetUrl}css/theme.css`,
         // toolbar: 'bold,italic,underline|size,font,color|left,center,right|link,unlink,youtube|source,preview|image,code',
-        toolbar: 'bold,italic,underline|size,font,color|left,center,right|link,unlink,youtube|source,preview',
+        toolbar: 'bold,italic,underline|size,font,color|bulletlist,orderedlist|left,center,right|link,unlink,youtube|source,preview',
         // locale: 'fr-FR',
         plugins: 'undo',
     });
@@ -43,6 +43,9 @@ window.addEventListener('load', function () {
 
         let formData = new FormData();
         let files = event.target.files;
+
+        if (files.length === 0) return;
+
         for (let i = 0; i < files.length; i++) {
             formData.append("images[]", files[i]);
         }

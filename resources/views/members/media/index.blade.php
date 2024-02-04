@@ -12,7 +12,8 @@
 
                 <div class="mb-3">
                     <input type="file" class="form-control rounded-1 mt-2 @error('images') is-invalid @enderror"
-                           name="images[]" id="images" accept=".jpg,.jpeg,.png,.gif" multiple required>
+                           name="images[]" id="images" accept="{{ user()->role->getImageAcceptInput() }}" multiple
+                           required>
                     @error('images')
                     <div id="image_error" class="invalid-feedback">{{ $message }}</div>
                     @enderror

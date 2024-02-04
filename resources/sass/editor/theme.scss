@@ -62,11 +62,13 @@ code {
     text-align: left;
     margin: .25em 0;
     direction: ltr;
+    color: black;
 }
 
 blockquote {
     background: #fff7d9;
     margin: .25em 0;
+    color: black;
     border-left: .3em solid #f4e59f;
     padding: .5em .5em .5em .75em;
 }
@@ -88,4 +90,10 @@ h1, h2, h3, h4, h5, h6 {
 /* Prevent empty paragraphs from collapsing */
 div, p {
     min-height: 1.25em;
+}
+
+/* custom-style.css */
+img {
+    max-width: 100%;
+    height: auto;
 }
