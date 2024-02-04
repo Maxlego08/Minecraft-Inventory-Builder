@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Code\BBCode;
+use App\Code\BBCodeUtils;
 use App\Exceptions\FileExtensionException;
-use App\Exceptions\ServerIconException;
 use App\Exceptions\UserFileFullException;
-use App\Exceptions\UserMediaFullException;
 use App\Models\File;
-use App\Models\Media;
 use App\Models\MinecraftVersion;
 use App\Models\Resource\Category;
 use App\Models\Resource\Resource;
@@ -37,7 +34,7 @@ class Controller extends BaseController
      */
     protected function bbcode(string $bbcode): string
     {
-        return BBCode::renderAndPurify($bbcode);
+        return BBCodeUtils::renderAndPurify($bbcode);
     }
 
     /**

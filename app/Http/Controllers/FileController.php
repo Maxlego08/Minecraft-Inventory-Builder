@@ -43,17 +43,23 @@ class FileController extends Controller
         $user = user();
         $role = $user->role;
 
-        $this->validate($request, ['image' => $role->getImageValidator()]);
+        $this->validate($request, ['images.*' => $role->getImageValidator()]); // Validation pour chaque image
 
-        $file = $request->file('image');
-        $image = Image::make($file);
-        try {
-            $media = $this->storeImage($user, $file, $image, true, true);
-            userLog("Création de l'image $media->id", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
-            return json_encode(['toast' => createToast('success', 'New image', "You just create a new image", 2000), 'status' => 'success', 'element' => ['url' => $media->getPath(), 'name' => "$media->file_name.$media->file_extension"]]);
-        } catch (UserFileFullException) {
-            return json_encode(['toast' => createToast('error', 'Impossible to create an image', 'You dont have enough space for upload a new image.', 5000), 'status' => 'error']);
+        $files = $request->file('images');
+        $uploadedImages = []; // Stocker les informations des images téléchargées
+
+        foreach ($files as $file) {
+            $image = Image::make($file);
+            try {
+                $media = $this->storeImage($user, $file, $image, true, true);
+                userLog("Création de l'image $media->id (JS)", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
+                $uploadedImages[] = ['url' => $media->getPath(), 'name' => "$media->file_name.$media->file_extension"];
+            } catch (UserFileFullException) {
+                return json_encode(['toast' => createToast('error', 'Impossible to create an image', 'You dont have enough space for upload a new image.', 5000), 'status' => 'error']);
+            }
         }
+
+        return json_encode(['toast' => createToast('success', 'New images', "You just create new images", 2000), 'status' => 'success', 'elements' => $uploadedImages]);
     }
 
     /**
@@ -68,12 +74,14 @@ class FileController extends Controller
         $user = user();
         $role = $user->role;
 
-        $this->validate($request, ['image' => $role->getImageValidator()]);
+        $this->validate($request, ['images.*' => $role->getImageValidator()]);
 
-        $file = $request->file('image');
-        $image = Image::make($file);
-        $media = $this->storeImage($user, $file, $image, true, true);
-        userLog("Création de l'image $media->id (JS)", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
+        $files = $request->file('images');
+        foreach ($files as $file) {
+            $image = Image::make($file);
+            $media = $this->storeImage($user, $file, $image, true, true);
+            userLog("Création de l'image $media->id (FORM)", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
+        }
 
         return Redirect::back()->with('toast', createToast('success', __('images.upload.title'), __('images.upload.content'), 5000));
     }

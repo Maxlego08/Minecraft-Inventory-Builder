@@ -11,9 +11,10 @@
                 @csrf
 
                 <div class="mb-3">
-                    <input type="file" class="form-control rounded-1 mt-2 @error('image') is-invalid @enderror"
-                           name="image" id="image" accept=".jpg,.jpeg,.png,.gif" required>
-                    @error('image')
+                    <input type="file" class="form-control rounded-1 mt-2 @error('images') is-invalid @enderror"
+                           name="images[]" id="images" accept="{{ user()->role->getImageAcceptInput() }}" multiple
+                           required>
+                    @error('images')
                     <div id="image_error" class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
@@ -23,6 +24,7 @@
             </form>
         </div>
     </div>
+
 
     <div class="card rounded-1 mt-3 mb-3">
         <div class="card-body">

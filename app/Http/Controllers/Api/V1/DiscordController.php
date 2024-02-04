@@ -43,6 +43,7 @@ class DiscordController extends Controller
 
         return json_encode([
             'can_open' => $user->role->power >= UserRole::PREMIUM,
+            'power' => $user->role->power
         ]);
     }
 

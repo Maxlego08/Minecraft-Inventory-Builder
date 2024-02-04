@@ -1,8 +1,55 @@
 .textarea-images {
 
+
+    .images-element {
+
+        resize: vertical;
+        display: flex;
+        flex-wrap: wrap;
+        max-height: 500px;
+        min-height: 100px;
+        height: 150px;
+        overflow-y: scroll;
+        padding: 10px;
+        background: $color-quaternary;
+        justify-content: flex-start;
+        flex-direction: row;
+
+        img {
+            max-height: 50px;
+            cursor: pointer
+        }
+
+    }
+
+}
+
+#bbcodePreview {
+    background: $color-quaternary;
+    padding: 10px;
+    img {
+        height: auto;
+        max-width: 100%;
+    }
 }
 
 .textarea-bar {
     height: 100%;
     background: #45BEE9;
+}
+
+.resizable-div {
+    width: 100%; /* Largeur de la div */
+    min-height: 100px; /* Hauteur minimum de la div */
+    position: relative; /* Nécessaire pour positionner la poignée de redimensionnement */
+    border: 1px solid #ccc; /* Juste pour la visibilité */
+}
+
+.resize-handle {
+    width: 100%;
+    height: 10px;
+    background-color: #ccc;
+    position: absolute;
+    bottom: 0;
+    cursor: ns-resize; /* Change le curseur pour indiquer le redimensionnement */
 }

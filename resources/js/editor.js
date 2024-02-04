@@ -12,7 +12,7 @@ window.addImage = function (id) {
     instance.insert(bbcode);
 }
 
-window.addEventListener('load', function (){
+window.addEventListener('load', function () {
     let element = document.getElementById('description');
 
     if (element == null) return
@@ -27,7 +27,7 @@ window.addEventListener('load', function (){
         resizeEnabled: false,
         style: `${assetUrl}css/theme.css`,
         // toolbar: 'bold,italic,underline|size,font,color|left,center,right|link,unlink,youtube|source,preview|image,code',
-        toolbar: 'bold,italic,underline|size,font,color|left,center,right|link,unlink,youtube|source,preview',
+        toolbar: 'bold,italic,underline,strike,subscript,superscript|code|size,font,color|bulletlist,orderedlist|left,center,right|link,unlink,youtube|source,preview',
         // locale: 'fr-FR',
         plugins: 'undo',
     });
@@ -42,8 +42,13 @@ window.addEventListener('load', function (){
         progressElement.style.display = "block";
 
         let formData = new FormData();
-        let image = event.target.files[0];
-        formData.append("image", image);
+        let files = event.target.files;
+
+        if (files.length === 0) return;
+
+        for (let i = 0; i < files.length; i++) {
+            formData.append("images[]", files[i]);
+        }
         formData.append("_token", token);
         axios.post(import.meta.env.VITE_URL_UPLOAD_IMAGE, formData, {
             headers: {
@@ -58,16 +63,19 @@ window.addEventListener('load', function (){
         }).then(function (response) {
             resetAndSendToast(response.data.toast);
             if (response.data.status === 'success') {
-                let elementUrl = response.data.element.url;
-                let elementName = response.data.element.name;
-                let input = '<div class="p-1">';
-                input += `<img src='${elementUrl}' onclick="addImage('${elementName}')" height="50" style="max-height: 50px; cursor: pointer" alt="Image ${elementName}">`
-                input += '</div>';
+                let elements = response.data.elements;
+                elements.forEach(function (element) {
+                    let elementUrl = element.url;
+                    let elementName = element.name;
+                    let input = '<div class="p-1">';
+                    input += `<img src='${elementUrl}' onclick="addImage('${elementName}')" height="50" style="max-height: 50px; cursor: pointer" alt="Image ${elementName}">`
+                    input += '</div>';
 
-                const newElement = document.createElement('div');
-                newElement.innerHTML = input;
+                    const newElement = document.createElement('div');
+                    newElement.innerHTML = input;
 
-                contentElement.appendChild(newElement);
+                    contentElement.appendChild(newElement);
+                });
             }
         });
     });

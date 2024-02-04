@@ -794,7 +794,7 @@
         // List of empty HTML tags separated by bar (|) character.
         // Source: http://www.w3.org/TR/html4/index/elements.html
         // Source: http://www.w3.org/TR/html5/syntax.html#void-elements
-        return ('|iframe|area|base|basefont|br|col|frame|hr|img|input|wbr' +
+        return ('|iframe|area|base|basefont|br|col|frame|hr|img|input|wbr|code' +
             '|isindex|link|meta|param|command|embed|keygen|source|track|' +
             'object|').indexOf('|' + node.nodeName.toLowerCase() + '|') < 0;
     }
@@ -1138,6 +1138,13 @@
             'Sans-serif,Serif,Times New Roman,Trebuchet MS,Verdana',
 
         /**
+         * Comma separated list of fonts for the font selector
+         *
+         * @type {string}
+         */
+        code: 'Yaml,Java,Javascript',
+
+        /**
          * Colors should be comma separated and have a bar | to signal a new
          * column.
          *
@@ -1145,14 +1152,15 @@
          *
          * @type {string}
          */
-        colors: '#000000,#44B8FF,#1E92F7,#0074D9,#005DC2,#00369B,#b3d5f4|' +
-            '#444444,#C3FFFF,#9DF9FF,#7FDBFF,#68C4E8,#419DC1,#d9f4ff|' +
-            '#666666,#72FF84,#4CEA5E,#2ECC40,#17B529,#008E02,#c0f0c6|' +
-            '#888888,#FFFF44,#FFFA1E,#FFDC00,#E8C500,#C19E00,#fff5b3|' +
-            '#aaaaaa,#FFC95F,#FFA339,#FF851B,#E86E04,#C14700,#ffdbbb|' +
-            '#cccccc,#FF857A,#FF5F54,#FF4136,#E82A1F,#C10300,#ffc6c3|' +
-            '#eeeeee,#FF56FF,#FF30DC,#F012BE,#D900A7,#B20080,#fbb8ec|' +
-            '#ffffff,#F551FF,#CF2BE7,#B10DC9,#9A00B2,#9A00B2,#e8b6ef',
+        colors: '#000000,#243d5e,#487bBD,#1E92F7,#0074D9,#005DC2,#00479D,#00369B,#002761,#001A42,#000E21,#000610|' +
+            '#444444,#8796A5,#C3E0FF,#9DF9FF,#7EDBFF,#5EC7E8,#3FB3D1,#419DC1,#2E86B5,#1B6DA9,#0A549D,#003C91|' +
+            '#666666,#79D18D,#8CEBAA,#72FF84,#58EA70,#4CEA5E,#40D54C,#34C03A,#2ECC40,#28B836,#22A42C,#1C9012|' +
+            '#888888,#D2D255,#ECE41E,#FFFF44,#FFFA1E,#FFDC00,#F0C800,#E8C500,#E0B200,#D9A000,#D19000,#C98000|' +
+            '#aaaaaa,#FFD586,#FFCA75,#FFC95F,#FFA339,#FF9623,#FF851B,#F07716,#E86E04,#E06503,#D85C02,#D05301|' +
+            '#cccccc,#FF9587,#FF8F76,#FF857A,#FF7B6D,#FF715F,#FF5F54,#FF5349,#FF4136,#F0392D,#E82A1F,#E01C11|' +
+            '#eeeeee,#FF77FF,#FF66FF,#FF56FF,#FF46FF,#FF36FF,#FF30DC,#F022BE,#E018AF,#D900A7,#D2009F,#CB0087|' +
+            '#ffffff,#F6E0FF,#F4D1FF,#F2C2FF,#F0B3FF,#EEA4FF,#EC95FF,#EA86FF,#E877FF,#E668FF,#E459FF,#E34AFF',
+
 
         /**
          * The locale to use.
@@ -1600,6 +1608,9 @@
 
         fontOpt: '<a class="sceditor-font-option" href="#" ' +
             'data-font="{font}"><font face="{font}">{font}</font></a>',
+
+        codeOpt: '<a class="sceditor-font-option" href="#" ' +
+            'data-code="{code}"><code code="{code}">{code}</code></a>',
 
         sizeOpt: '<a class="sceditor-fontsize-option" data-size="{size}" ' +
             'href="#"><font size="{size}">{size}</font></a>',
@@ -2147,11 +2158,34 @@
 
         // START_COMMAND: Code
         code: {
-            exec: function () {
-                this.wysiwygEditorInsertHtml(
-                    '<code>',
-                    '<br /></code>'
-                );
+            _dropDown: function (editor, caller, callback) {
+                var content = createElement('div');
+
+                on(content, 'click', 'a', function (e) {
+                    callback(data(this, 'code'));
+                    editor.closeDropDown(true);
+                    e.preventDefault();
+                });
+
+                editor.opts.code.split(',').forEach(function (code) {
+                    appendChild(content, _tmpl('codeOpt', {
+                        code: code
+                    }, true));
+                });
+
+                editor.createDropDown(caller, 'code-picker', content);
+            },
+            exec: function (caller) {
+                const editor = this;
+                defaultCmds.code._dropDown(editor, caller, function (code) {
+                    // editor.execCommand('code', code);
+                    editor.wysiwygEditorInsertHtml(
+                        '<code code="' + code + '">',
+                        '<br /></code>',
+                        true
+                    )
+                    ;
+                });
             },
             tooltip: 'Code'
         },
@@ -4069,7 +4103,7 @@
 
     var text = freeze(['#text']);
 
-    var html$1 = freeze(['accept', 'action', 'align', 'alt', 'autocapitalize', 'autocomplete', 'autopictureinpicture', 'autoplay', 'background', 'bgcolor', 'border', 'capture', 'cellpadding', 'cellspacing', 'checked', 'cite', 'class', 'clear', 'color', 'cols', 'colspan', 'controls', 'controlslist', 'coords', 'crossorigin', 'datetime', 'decoding', 'default', 'dir', 'disabled', 'disablepictureinpicture', 'disableremoteplayback', 'download', 'draggable', 'enctype', 'enterkeyhint', 'face', 'for', 'headers', 'height', 'hidden', 'high', 'href', 'hreflang', 'id', 'inputmode', 'integrity', 'ismap', 'kind', 'label', 'lang', 'list', 'loading', 'loop', 'low', 'max', 'maxlength', 'media', 'method', 'min', 'minlength', 'multiple', 'muted', 'name', 'noshade', 'novalidate', 'nowrap', 'open', 'optimum', 'pattern', 'placeholder', 'playsinline', 'poster', 'preload', 'pubdate', 'radiogroup', 'readonly', 'rel', 'required', 'rev', 'reversed', 'role', 'rows', 'rowspan', 'spellcheck', 'scope', 'selected', 'shape', 'size', 'sizes', 'span', 'srclang', 'start', 'src', 'srcset', 'step', 'style', 'summary', 'tabindex', 'title', 'translate', 'type', 'usemap', 'valign', 'value', 'width', 'xmlns']);
+    var html$1 = freeze(['accept', 'action', 'align', 'alt', 'autocapitalize', 'autocomplete', 'autopictureinpicture', 'autoplay', 'background', 'bgcolor', 'border', 'capture', 'cellpadding', 'cellspacing', 'checked', 'cite', 'class', 'clear', 'color', 'cols', 'colspan', 'controls', 'controlslist', 'coords', 'crossorigin', 'datetime', 'decoding', 'default', 'dir', 'disabled', 'disablepictureinpicture', 'disableremoteplayback', 'download', 'draggable', 'enctype', 'enterkeyhint', 'face', 'code', 'for', 'headers', 'height', 'hidden', 'high', 'href', 'hreflang', 'id', 'inputmode', 'integrity', 'ismap', 'kind', 'label', 'lang', 'list', 'loading', 'loop', 'low', 'max', 'maxlength', 'media', 'method', 'min', 'minlength', 'multiple', 'muted', 'name', 'noshade', 'novalidate', 'nowrap', 'open', 'optimum', 'pattern', 'placeholder', 'playsinline', 'poster', 'preload', 'pubdate', 'radiogroup', 'readonly', 'rel', 'required', 'rev', 'reversed', 'role', 'rows', 'rowspan', 'spellcheck', 'scope', 'selected', 'shape', 'size', 'sizes', 'span', 'srclang', 'start', 'src', 'srcset', 'step', 'style', 'summary', 'tabindex', 'title', 'translate', 'type', 'usemap', 'valign', 'value', 'width', 'xmlns']);
 
     var svg$1 = freeze(['accent-height', 'accumulate', 'additive', 'alignment-baseline', 'ascent', 'attributename', 'attributetype', 'azimuth', 'basefrequency', 'baseline-shift', 'begin', 'bias', 'by', 'class', 'clip', 'clippathunits', 'clip-path', 'clip-rule', 'color', 'color-interpolation', 'color-interpolation-filters', 'color-profile', 'color-rendering', 'cx', 'cy', 'd', 'dx', 'dy', 'diffuseconstant', 'direction', 'display', 'divisor', 'dur', 'edgemode', 'elevation', 'end', 'fill', 'fill-opacity', 'fill-rule', 'filter', 'filterunits', 'flood-color', 'flood-opacity', 'font-family', 'font-size', 'font-size-adjust', 'font-stretch', 'font-style', 'font-variant', 'font-weight', 'fx', 'fy', 'g1', 'g2', 'glyph-name', 'glyphref', 'gradientunits', 'gradienttransform', 'height', 'href', 'id', 'image-rendering', 'in', 'in2', 'k', 'k1', 'k2', 'k3', 'k4', 'kerning', 'keypoints', 'keysplines', 'keytimes', 'lang', 'lengthadjust', 'letter-spacing', 'kernelmatrix', 'kernelunitlength', 'lighting-color', 'local', 'marker-end', 'marker-mid', 'marker-start', 'markerheight', 'markerunits', 'markerwidth', 'maskcontentunits', 'maskunits', 'max', 'mask', 'media', 'method', 'mode', 'min', 'name', 'numoctaves', 'offset', 'operator', 'opacity', 'order', 'orient', 'orientation', 'origin', 'overflow', 'paint-order', 'path', 'pathlength', 'patterncontentunits', 'patterntransform', 'patternunits', 'points', 'preservealpha', 'preserveaspectratio', 'primitiveunits', 'r', 'rx', 'ry', 'radius', 'refx', 'refy', 'repeatcount', 'repeatdur', 'restart', 'result', 'rotate', 'scale', 'seed', 'shape-rendering', 'specularconstant', 'specularexponent', 'spreadmethod', 'startoffset', 'stddeviation', 'stitchtiles', 'stop-color', 'stop-opacity', 'stroke-dasharray', 'stroke-dashoffset', 'stroke-linecap', 'stroke-linejoin', 'stroke-miterlimit', 'stroke-opacity', 'stroke', 'stroke-width', 'style', 'surfacescale', 'systemlanguage', 'tabindex', 'targetx', 'targety', 'transform', 'text-anchor', 'text-decoration', 'text-rendering', 'textlength', 'type', 'u1', 'u2', 'unicode', 'values', 'viewbox', 'visibility', 'version', 'vert-adv-y', 'vert-origin-x', 'vert-origin-y', 'width', 'word-spacing', 'wrap', 'writing-mode', 'xchannelselector', 'ychannelselector', 'x', 'x1', 'x2', 'xmlns', 'y', 'y1', 'y2', 'z', 'zoomandpan']);
 

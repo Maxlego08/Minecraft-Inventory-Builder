@@ -2,19 +2,9 @@
 
 namespace App\Code;
 
-use Closure;
 use Stevebauman\Purify\Facades\Purify;
 
-/*
- * Code to HTML converter
- *
- * Inspired by Kai Mallea (kmallea@gmail.com)
- *
- * Licensed under the MIT license:
- * http://www.opensource.org/licenses/mit-license.php
- */
-
-class BBCode
+class BBCodeUtils
 {
 
     /**
@@ -23,9 +13,10 @@ class BBCode
      */
     static function renderAndPurify(string $bbcode): string
     {
-        $renderer = new BBCode();
-        return Purify::clean($renderer->render($bbcode));
-        // return $renderer->render($bbcode);
+        // $renderer = new BBCode();
+        $bb = new BBCodeParser();
+        return Purify::clean($bb->parse($bbcode));
+        // return $bb->parse($bbcode);
     }
 
     /**
@@ -471,7 +462,7 @@ class BBCode
                     $current = $this->currentElement;
                     $height = $this->youTubeHeight;
                     $width = $this->youTubeWidth;
-                    $code = ' width="'.$width.'" height="'.$height.'" src="https://www.youtube.com/embed/' . $current . '&amp;autoplay=1" srcdoc="<style>*{padding:0;margin:0;overflow:hidden}html,body{max-height:'.$height.'}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=https://www.youtube.com/embed/' . $current . '?autoplay=1><img src=https://img.youtube.com/vi/' . $current . '/hqdefault.jpg alt=\'Trailer\'><span>▶</span></a>" frameborder="0" title="Trailer du serveur Hiveria" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>';
+                    $code = ' width="' . $width . '" height="' . $height . '" src="https://www.youtube.com/embed/' . $current . '&amp;autoplay=1" srcdoc="<style>*{padding:0;margin:0;overflow:hidden}html,body{max-height:' . $height . '}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=https://www.youtube.com/embed/' . $current . '?autoplay=1><img src=https://img.youtube.com/vi/' . $current . '/hqdefault.jpg alt=\'Trailer\'><span>▶</span></a>" frameborder="0" title="Trailer du serveur Hiveria" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>';
                 }
                 break;
             case self::TAG_NAME_FONT:
