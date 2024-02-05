@@ -126,7 +126,6 @@ class File extends Model
             Storage::put($cacheFileName, $imageContent);
         }
 
-        // Créer et retourner la réponse avec l'image
         $response = new Response($imageContent);
         $response->header('Content-Type', 'image/png');
 
