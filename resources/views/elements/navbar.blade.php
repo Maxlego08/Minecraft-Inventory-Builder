@@ -6,7 +6,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <a class="navbar-brand me-0 flex-grow-1 text-center text-lg-start" href="/">
-            <span class="text-white h3">Minecraft Inventory Builder</span>
+            <span class="text-white h3 text-header">Minecraft Inventory Builder</span>
         </a>
         <form class="ms-auto me-0 flex-grow-1 d-none d-lg-flex header_search" id="header_search" role="search">
             <input class="form-control me-2 border-0 rounded-1 bg-blue-700" type="text" placeholder="{{ __('resources.search') }}"
