@@ -55,10 +55,8 @@ window.addEventListener('load', function () {
                 'Content-Type': 'multipart/form-data'
             },
             onUploadProgress: function (progressEvent) {
-                if (progressEvent.lengthComputable) {
-                    let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                    barElement.style.width = percentCompleted + '%';
-                }
+                let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                barElement.style.width = percentCompleted + '%';
             }
         }).then(function (response) {
             resetAndSendToast(response.data.toast);

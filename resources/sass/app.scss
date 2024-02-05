@@ -51,5 +51,27 @@ $font-path: './fonts/';
 
 .text-muted {
     --bs-text-opacity: 1;
-    color: #8a8a8a!important;
+    color: #8a8a8a !important;
+}
+
+@media (max-width: 399px) {
+
+    .text-header {
+        font-size: 14px;
+
+    }
+
+    .container {
+        padding-right: 5px;
+        padding-left: 5px;
+    }
+
+    .px-3 {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .p-4 {
+        padding: 0.4rem !important;
+    }
 }

@@ -41,6 +41,7 @@
             <div class="col-xs-6 col-xl-2">
                 <h2 class="text-primary fw-bold fs-4 text-uppercase">{{ __('messages.developer.title') }}</h2>
                 <ul class="list-unstyled">
+                    <li><a class="link-light text-decoration-none" href="https://github.com/Maxlego08/Minecraft-Inventory-Builder" target="_blank" title="GroupeZ website">Github</a></li>
                     <li><a class="link-light text-decoration-none" href="https://groupez.dev/" target="_blank" title="GroupeZ website">GroupeZ</a></li>
                     <li><a class="link-light text-decoration-none" href="https://docs.zmenu.dev/" target="_blank" title="zMenu documentation">Documentation</a></li>
                     <li><a class="link-light text-decoration-none" href="https://serveur-minecraft-vote.fr/" target="_blank" title="Serveur Minecraft Vote website">Serveur Minecraft Vote</a></li>
