@@ -11,10 +11,13 @@
     <div class="mt-3 textarea-images pe-3 ps-3 pb-3">
         <div class="images-element rounded-1" id="images">
             @foreach(user()->images() as $image)
-                <div class="p-1">
-                    <img src="{{ route('image.preview', $image) }}"
-                         onclick="addImage('{{ "$image->file_name.$image->file_extension" }}')" height="50"
-                         alt="Image {{ $image->file_name }}">
+                <div class="p-1 d-flex flex-column justify-content-center align-content-center">
+                    <div class="d-flex justify-content-center">
+                        <img src="{{ route('image.preview', $image) }}"
+                             onclick="addImage('{{ "$image->file_name.$image->file_extension" }}')" height="50"
+                             alt="Image {{ $image->file_name }}">
+                    </div>
+                    <small>{{ \Illuminate\Support\Str::limit($image->file_upload_name, 15) }}</small>
                 </div>
             @endforeach
         </div>

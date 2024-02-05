@@ -67,8 +67,11 @@ window.addEventListener('load', function () {
                 elements.forEach(function (element) {
                     let elementUrl = element.url;
                     let elementName = element.name;
-                    let input = '<div class="p-1">';
+                    let input = '<div class="p-1 d-flex flex-column justify-content-center align-content-center">';
+                    input += '<div class="d-flex justify-content-center">';
                     input += `<img src='${elementUrl}' onclick="addImage('${elementName}')" height="50" style="max-height: 50px; cursor: pointer" alt="Image ${elementName}">`
+                    input += '</div>';
+                    input += `<small>${element.file_name}</small>`;
                     input += '</div>';
 
                     const newElement = document.createElement('div');
@@ -77,6 +80,8 @@ window.addEventListener('load', function () {
                     contentElement.appendChild(newElement);
                 });
             }
+        }).catch(function (error) {
+            resetAndSendToast(null)
         });
     });
 
@@ -87,7 +92,7 @@ window.addEventListener('load', function () {
     function resetAndSendToast(toast) {
         progressElement.style.display = "none";
         barElement.style.width = '0%';
-        window.toast(toast.type, toast.title, toast.description, toast.duration);
+        if (toast) window.toast(toast.type, toast.title, toast.description, toast.duration);
     }
 });
 
