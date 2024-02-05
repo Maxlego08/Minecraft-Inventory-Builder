@@ -104,6 +104,7 @@ class FileController extends Controller
         }
 
         Storage::disk('public')->delete("images/$file->file_name.$file->file_extension");
+        $file->deleteCache();
         $file->delete();
         userLog('Suppression du fichier ' . $file->id, UserLog::COLOR_DANGER, UserLog::ICON_REMOVE);
 
@@ -126,6 +127,7 @@ class FileController extends Controller
             if ($file->user_id != user()->id || !$file->is_deletable) continue;
 
             Storage::disk('public')->delete("images/$file->file_name.$file->file_extension");
+            $file->deleteCache();
             $file->delete();
             userLog('Suppression du fichier ' . $file->id, UserLog::COLOR_DANGER, UserLog::ICON_REMOVE);
         }

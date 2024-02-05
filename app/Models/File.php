@@ -63,12 +63,38 @@ class File extends Model
     }
 
     /**
+     * Get image path
+     *
+     * @return string
+     */
+    public function getPathCache(): string
+    {
+        if (!$this->isCache()) return route('image.preview', $this);
+        return url("storage/cache/images/{$this->file_name}_50.png");
+    }
+
+    public function isCache(): bool
+    {
+        $cacheFolder = 'public/cache/images';
+        $cacheFileName = $cacheFolder . '/' . $this->file_name . '_50.png';
+        return Storage::exists($cacheFileName);
+    }
+
+    public function deleteCache()
+    {
+        $cacheFolder = 'public/cache/images';
+        $cacheFileName = $cacheFolder . '/' . $this->file_name . '_50.png';
+        Storage::delete($cacheFileName);
+    }
+
+
+    /**
      * @throws ImagickException
      */
     public function getFirstImage(): Response
     {
         $cacheFolder = 'public/cache/images';
-        $cacheFileName = $cacheFolder . '/' . $this->file_name . '_50.png'; 
+        $cacheFileName = $cacheFolder . '/' . $this->file_name . '_50.png';
 
         if (Storage::exists($cacheFileName)) {
             $cachedImagePath = storage_path('app/' . $cacheFileName);
