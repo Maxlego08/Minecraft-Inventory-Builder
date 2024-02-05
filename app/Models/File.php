@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 use Imagick;
 use ImagickException;
 use Intervention\Image\Facades\Image;
@@ -66,35 +67,42 @@ class File extends Model
      */
     public function getFirstImage(): Response
     {
-        $path = storage_path("app/public/images/$this->file_name.$this->file_extension");
+        $cacheFolder = 'public/cache/images';
+        $cacheFileName = $cacheFolder . '/' . $this->file_name . '_50.png'; 
 
-        if ($this->file_extension === 'gif') {
-            $imagick = new Imagick($path);
-            $imagick->setIteratorIndex(0);
-            $imagick->setImageFormat('png');
+        if (Storage::exists($cacheFileName)) {
+            $cachedImagePath = storage_path('app/' . $cacheFileName);
+            $imageContent = file_get_contents($cachedImagePath);
+        } else {
+            $path = storage_path("app/public/images/$this->file_name.$this->file_extension");
 
-            $width = $imagick->getImageWidth();
-            $height = $imagick->getImageHeight();
-            $newHeight = 50;
-            $newWidth = ($width / $height) * $newHeight;
-            $imagick->resizeImage($newWidth, $newHeight, Imagick::FILTER_LANCZOS, 1);
+            if ($this->file_extension === 'gif') {
+                $imagick = new Imagick($path);
+                $imagick->setIteratorIndex(0);
+                $imagick->setImageFormat('png');
 
-            $response = new Response();
-            $response->header('Content-Type', 'image/png');
-            $response->setContent($imagick->getImageBlob());
+                $width = $imagick->getImageWidth();
+                $height = $imagick->getImageHeight();
+                $newHeight = 50;
+                $newWidth = ($width / $height) * $newHeight;
+                $imagick->resizeImage($newWidth, $newHeight, Imagick::FILTER_LANCZOS, 1);
 
-            return $response;
+                $imageContent = $imagick->getImageBlob();
+            } else {
+                $img = Image::make($path);
+                $img->resize(null, 50, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+
+                $imageContent = $img->encode('png')->getEncoded();
+            }
+
+            Storage::put($cacheFileName, $imageContent);
         }
 
-
-        $img = Image::make($path);
-        $img->resize(null, 50, function ($constraint) {
-            $constraint->aspectRatio();
-        });
-
-        $response = new Response();
+        // Créer et retourner la réponse avec l'image
+        $response = new Response($imageContent);
         $response->header('Content-Type', 'image/png');
-        $response->setContent($img->encode('png'));
 
         return $response;
     }
