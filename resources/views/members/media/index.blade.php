@@ -88,7 +88,7 @@
                                          title="{{ __('images.alt') }}">
                                 </a>
                             </th>
-                            <td>{{ $image->file_upload_name }}</td>
+                            <td>{{ \Illuminate\Support\Str::limit($image->file_upload_name, 50) }}</td>
                             <td>{{ human_filesize($image->file_size) }}</td>
                             <td>{{ format_date($image->created_at, true) }}</td>
                             <td>
