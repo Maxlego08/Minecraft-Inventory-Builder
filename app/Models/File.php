@@ -70,19 +70,19 @@ class File extends Model
     public function getPathCache(): string
     {
         if (!$this->isCache()) return route('image.preview', $this);
-        return url("storage/cache/images/{$this->file_name}_50.png");
+        return url("storage/images/cache/{$this->file_name}_50.png");
     }
 
     public function isCache(): bool
     {
-        $cacheFolder = 'public/cache/images';
+        $cacheFolder = 'public/images/cache';
         $cacheFileName = $cacheFolder . '/' . $this->file_name . '_50.png';
         return Storage::exists($cacheFileName);
     }
 
     public function deleteCache()
     {
-        $cacheFolder = 'public/cache/images';
+        $cacheFolder = 'public/images/cache';
         $cacheFileName = $cacheFolder . '/' . $this->file_name . '_50.png';
         Storage::delete($cacheFileName);
     }
@@ -93,7 +93,7 @@ class File extends Model
      */
     public function getFirstImage(): Response
     {
-        $cacheFolder = 'public/cache/images';
+        $cacheFolder = 'public/images/cache';
         $cacheFileName = $cacheFolder . '/' . $this->file_name . '_50.png';
 
         if (Storage::exists($cacheFileName)) {
