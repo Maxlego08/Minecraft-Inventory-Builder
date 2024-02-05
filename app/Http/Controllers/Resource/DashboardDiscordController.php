@@ -11,7 +11,6 @@ use App\Models\Resource\Resource;
 use App\Models\Resource\Version;
 use App\Models\User;
 use App\Models\UserLog;
-use App\Models\UserRole;
 use App\Utils\Discord\DiscordWebhook;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -92,7 +91,7 @@ class DashboardDiscordController extends Controller
             $message = str_replace('{resource_tag}', $resource->tag, $message);
             $message = str_replace('{resource_id}', $resource->id, $message);
             $message = str_replace('{resource_price}', $resource->price, $message);
-            $message = str_replace('{resource_logo}', $resource->icon?->getPath() ?? '', $message);
+            $message = str_replace('{resource_logo}', $resource->icon?->getPath() ?? 'https://img.groupez.dev/zmenu/logo.png', $message);
             $message = str_replace('{resource_download}', $resource->countDownload(), $message);
             $message = str_replace('{resource_link}', $resource->link('description'), $message);
 
@@ -162,7 +161,7 @@ class DashboardDiscordController extends Controller
             'avatar_url' => ['max:500'],
             'textarea' => ['max:2000'],
 
-            'color.*' => ['required', 'max:7', 'min:7'],
+            'color.*' => ['required', 'max:14', 'min:7'],
             'title.*' => ['max:300'],
             'footer.*' => ['max:300'],
             'thumbnail.*' => ['max:500'],
@@ -211,6 +210,50 @@ class DashboardDiscordController extends Controller
     private function urlIsValid($url): bool
     {
         return (str_starts_with($url, 'https://discord.com/api/webhooks/')) || (str_starts_with($url, 'https://discordapp.com/api/webhooks/'));
+    }
+
+    /**
+     * @param DiscordNotification $notification
+     */
+    private function checkUrl(DiscordNotification $notification)
+    {
+        $notification->update([
+            'is_valid' => false,
+        ]);
+
+        rescue(function () use ($notification) {
+            $user = new User();
+            $user->id = 99999;
+            $user->name = "AccountTest";
+            $user->email = "test@zmenu.dev";
+
+            $payment = new Payment();
+            $payment->currency = 1;
+            $payment->content_id = -1;
+            $payment->gateway = 'stripe';
+            $payment->price = 10;
+            $payment->id = 88888;
+            $payment->external_id = "pi_xxxxxxxxxxxxxxxx";
+
+            $plugin = new Resource();
+            $plugin->name = "zTest";
+            $plugin->price = 10;
+            $plugin->id = 77777;
+            $plugin->user_id = 1;
+
+            $version = new Version();
+            $version->download = 99;
+            $version->version = "1.0.1";
+            $version->title = "Test version";
+
+            $discord = DiscordWebhook::build($notification, $user, $payment, $plugin, $version);
+            $url = $notification->url;
+            CheckDiscordWebhook::dispatch($notification->id, $discord, $url);
+        }, function () use ($notification) {
+            $notification->update([
+                'is_valid' => false,
+            ]);
+        });
     }
 
     /**
@@ -328,49 +371,5 @@ class DashboardDiscordController extends Controller
         $this->checkUrl($notification);
 
         return Redirect::route('resources.dashboard.discord.index')->with('toast', createToast('success', __('resources.dashboard.discord.update.title'), __('resources.dashboard.discord.update.description')));
-    }
-
-    /**
-     * @param DiscordNotification $notification
-     */
-    private function checkUrl(DiscordNotification $notification)
-    {
-        $notification->update([
-            'is_valid' => false,
-        ]);
-
-        rescue(function () use ($notification) {
-            $user = new User();
-            $user->id = 99999;
-            $user->name = "AccountTest";
-            $user->email = "test@zmenu.dev";
-
-            $payment = new Payment();
-            $payment->currency = 1;
-            $payment->content_id = -1;
-            $payment->gateway = 'stripe';
-            $payment->price = 10;
-            $payment->id = 88888;
-            $payment->external_id = "pi_xxxxxxxxxxxxxxxx";
-
-            $plugin = new Resource();
-            $plugin->name = "zTest";
-            $plugin->price = 10;
-            $plugin->id = 77777;
-            $plugin->user_id = 1;
-
-            $version = new Version();
-            $version->download = 99;
-            $version->version = "3.0.0.1";
-            $version->title = "Test version";
-
-            $discord = DiscordWebhook::build($notification, $user, $payment, $plugin, $version);
-            $url = $notification->url;
-            CheckDiscordWebhook::dispatch($notification->id, $discord, $url);
-        }, function () use ($notification) {
-            $notification->update([
-                'is_valid' => false,
-            ]);
-        });
     }
 }

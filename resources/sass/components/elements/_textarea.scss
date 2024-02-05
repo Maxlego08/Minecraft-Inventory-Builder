@@ -14,10 +14,16 @@
         background: $color-quaternary;
         justify-content: flex-start;
         flex-direction: row;
+        align-content: flex-start;
 
         img {
             max-height: 50px;
             cursor: pointer
+        }
+
+        small {
+            font-size: 10px;
+            text-align: center;
         }
 
     }
@@ -27,6 +33,7 @@
 #bbcodePreview {
     background: $color-quaternary;
     padding: 10px;
+
     img {
         height: auto;
         max-width: 100%;

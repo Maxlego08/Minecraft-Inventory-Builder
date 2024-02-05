@@ -45,6 +45,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [IndexController::class, 'index'])->name('home');
 
+Route::get('storage/images/preview/{file:file_name}.png', [FileController::class, 'preview'])->name('image.preview');
 Route::get('/tooltip/{user}', [TooltipController::class, 'tooltip'])->name('tooltip');
 
 Route::prefix('/account-upgrade')->name('premium.')->group(function () {
@@ -110,7 +111,8 @@ Route::prefix('/profile')->name('profile.')->middleware('auth')->group(function 
         Route::get('', [FileController::class, 'index'])->name('index');
         Route::post('store', [FileController::class, 'uploadImage'])->name('store');
         Route::post('store/redirect', [FileController::class, 'uploadImageForm'])->name('store.redirect');
-        Route::post('delete/{file}', [FileController::class, 'delete'])->name('delete');
+        Route::post('delete/multiple', [FileController::class, 'deleteAll'])->name('delete.all');
+        Route::post('delete/single/{file}', [FileController::class, 'delete'])->name('delete');
     });
 
     // Payment

@@ -188,7 +188,7 @@ class Controller extends BaseController
 
         $size = $disk->size($file);
 
-        return File::create(['user_id' => $user->id, 'file_extension' => $extension, 'file_size' => $size, 'file_name' => $fileName, 'is_deletable' => $isDeletable,]);
+        return File::create(['user_id' => $user->id, 'file_extension' => $extension, 'file_size' => $size, 'file_name' => $fileName, 'is_deletable' => $isDeletable, 'file_upload_name' => $uploadedFile->getClientOriginalName()]);
     }
 
     /**

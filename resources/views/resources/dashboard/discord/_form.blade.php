@@ -85,7 +85,7 @@
                     <div class="col-6 mb-3">
                         <label class="form-check-label"
                                for="url_embed">{{ __('resources.dashboard.discord.embed.url') }}</label>
-                        <input type="text" class="form-control rounded-1" id="url_embed" value="{{ $embed->url }}"
+                        <input type="text" class="form-control rounded-1" id="url_embed" value="{{ $embed->url_embed }}"
                                name="url_embed[]">
                     </div>
                 </div>

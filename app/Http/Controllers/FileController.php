@@ -13,6 +13,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Intervention\Image\Facades\Image;
 
@@ -53,7 +54,7 @@ class FileController extends Controller
             try {
                 $media = $this->storeImage($user, $file, $image, true, true);
                 userLog("Création de l'image $media->id (JS)", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
-                $uploadedImages[] = ['url' => $media->getPath(), 'name' => "$media->file_name.$media->file_extension"];
+                $uploadedImages[] = ['url' => $media->getPath(), 'name' => "$media->file_name.$media->file_extension", 'file_name' => Str::limit("$media->file_name.$media->file_extension", 15)];
             } catch (UserFileFullException) {
                 return json_encode(['toast' => createToast('error', 'Impossible to create an image', 'You dont have enough space for upload a new image.', 5000), 'status' => 'error']);
             }
@@ -107,5 +108,36 @@ class FileController extends Controller
         userLog('Suppression du fichier ' . $file->id, UserLog::COLOR_DANGER, UserLog::ICON_REMOVE);
 
         return Redirect::back()->with('toast', createToast('success', __('images.delete.success.title'), __('images.delete.success.content'), 5000));
+    }
+
+    /**
+     * Delete files
+     *
+     * @param Request $request
+     * @return bool|string
+     */
+    public function deleteAll(Request $request): bool|string
+    {
+
+        $selectedImages = $request->input('images', []);
+        foreach ($selectedImages as $selectedImage) {
+            $file = File::find($selectedImage);
+
+            if ($file->user_id != user()->id || !$file->is_deletable) continue;
+
+            Storage::disk('public')->delete("images/$file->file_name.$file->file_extension");
+            $file->delete();
+            userLog('Suppression du fichier ' . $file->id, UserLog::COLOR_DANGER, UserLog::ICON_REMOVE);
+        }
+
+        return json_encode([
+            'toast' =>  createToast('success', __('images.delete.success.title'), __('images.delete.success.content'), 5000)
+        ]);
+    }
+
+
+    public function preview(File $file)
+    {
+        return $file->getFirstImage();
     }
 }
