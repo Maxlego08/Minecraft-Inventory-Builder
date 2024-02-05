@@ -7,13 +7,16 @@ use App\Exceptions\UserFileFullException;
 use App\Models\File;
 use App\Models\UserLog;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
+use ImagickException;
 use Intervention\Image\Facades\Image;
 
 class FileController extends Controller
@@ -107,5 +110,11 @@ class FileController extends Controller
         userLog('Suppression du fichier ' . $file->id, UserLog::COLOR_DANGER, UserLog::ICON_REMOVE);
 
         return Redirect::back()->with('toast', createToast('success', __('images.delete.success.title'), __('images.delete.success.content'), 5000));
+    }
+
+
+    public function preview(File $file)
+    {
+        return $file->getFirstImage();
     }
 }

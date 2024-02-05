@@ -45,6 +45,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [IndexController::class, 'index'])->name('home');
 
+Route::get('storage/images/preview/{file:file_name}.png', [FileController::class, 'preview'])->name('image.preview');
 Route::get('/tooltip/{user}', [TooltipController::class, 'tooltip'])->name('tooltip');
 
 Route::prefix('/account-upgrade')->name('premium.')->group(function () {

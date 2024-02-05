@@ -9,6 +9,7 @@ return [
         'content' => 'You just upload a new image',
     ],
     'table' => [
+        'name' => 'File name',
         'size' => 'Image size',
         'action' => 'Action',
         'delete' => 'Delete',

@@ -37,7 +37,8 @@
                 <table class="table image-table">
                     <thead>
                     <tr>
-                        <th scope="col" style="width: 50%">#</th>
+                        <th scope="col">#</th>
+                        <th scope="col">{{ __('images.table.name') }}</th>
                         <th scope="col">{{ __('images.table.size') }}</th>
                         <th scope="col">{{ __('messages.created_at') }}</th>
                         <th scope="col" style="width: 10%">{{ __('images.table.action') }}</th>
@@ -48,23 +49,20 @@
                         <tr>
                             <th scope="row">
                                 <a href="{{ $image->getPath() }}" target="_blank">
-                                    <img src="{{ $image->getPath() }}" alt="Image #{{ $image->id }}"
+                                    <img src="{{ route('image.preview', $image) }}" alt="Image #{{ $image->id }}"
                                          title="{{ __('images.alt') }}">
                                 </a>
                             </th>
-                            <td>
-                                {{ human_filesize($image->file_size) }}
-                            </td>
-                            <td>
-                                {{ format_date($image->created_at, true) }}
-                            </td>
+                            <td>{{ $image->file_upload_name }}</td>
+                            <td>{{ human_filesize($image->file_size) }}</td>
+                            <td>{{ format_date($image->created_at, true) }}</td>
                             <td>
                                 @if($image->is_deletable)
                                     <button type="button"
                                             class="btn btn-danger btn-sm rounded-1 d-flex align-items-center justify-content-center"
                                             data-bs-toggle="modal"
                                             data-bs-target="#deleteModal{{ $image->id }}">
-                                        {{ __('images.table.delete') }}
+                                        <i class="bi bi-trash"></i>
                                     </button>
 
                                     <div class="modal fade" id="deleteModal{{ $image->id }}" tabindex="-1"
