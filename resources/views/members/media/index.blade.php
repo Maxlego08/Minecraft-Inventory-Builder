@@ -84,7 +84,7 @@
                         <tr id="image-{{ $image->id }}">
                             <th scope="row">
                                 <a href="{{ $image->getPath() }}" target="_blank">
-                                    <img src="{{ route('image.preview', $image) }}" alt="Image #{{ $image->id }}"
+                                    <img src="{{ $image->getPathCache() }}" alt="Image #{{ $image->id }}"
                                          title="{{ __('images.alt') }}">
                                 </a>
                             </th>
