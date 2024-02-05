@@ -43,6 +43,7 @@
 .textarea-bar {
     height: 100%;
     background: #45BEE9;
+    transition: width 0.2s ease-in-out;
 }
 
 .resizable-div {
