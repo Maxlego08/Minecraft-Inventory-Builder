@@ -64,7 +64,7 @@ class File extends Model
     /**
      * @throws ImagickException
      */
-    public function getFirstImage()
+    public function getFirstImage(): Response
     {
         $path = storage_path("app/public/images/$this->file_name.$this->file_extension");
 

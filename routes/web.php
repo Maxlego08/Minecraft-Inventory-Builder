@@ -111,7 +111,8 @@ Route::prefix('/profile')->name('profile.')->middleware('auth')->group(function 
         Route::get('', [FileController::class, 'index'])->name('index');
         Route::post('store', [FileController::class, 'uploadImage'])->name('store');
         Route::post('store/redirect', [FileController::class, 'uploadImageForm'])->name('store.redirect');
-        Route::post('delete/{file}', [FileController::class, 'delete'])->name('delete');
+        Route::post('delete/multiple', [FileController::class, 'deleteAll'])->name('delete.all');
+        Route::post('delete/single/{file}', [FileController::class, 'delete'])->name('delete');
     });
 
     // Payment

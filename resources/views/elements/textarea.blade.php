@@ -12,7 +12,7 @@
         <div class="images-element rounded-1" id="images">
             @foreach(user()->images() as $image)
                 <div class="p-1">
-                    <img src="{{ $image->getPath() }}"
+                    <img src="{{ route('image.preview', $image) }}"
                          onclick="addImage('{{ "$image->file_name.$image->file_extension" }}')" height="50"
                          alt="Image {{ $image->file_name }}">
                 </div>

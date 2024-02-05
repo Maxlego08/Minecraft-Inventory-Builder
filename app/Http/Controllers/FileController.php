@@ -7,16 +7,13 @@ use App\Exceptions\UserFileFullException;
 use App\Models\File;
 use App\Models\UserLog;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
-use ImagickException;
 use Intervention\Image\Facades\Image;
 
 class FileController extends Controller
@@ -110,6 +107,31 @@ class FileController extends Controller
         userLog('Suppression du fichier ' . $file->id, UserLog::COLOR_DANGER, UserLog::ICON_REMOVE);
 
         return Redirect::back()->with('toast', createToast('success', __('images.delete.success.title'), __('images.delete.success.content'), 5000));
+    }
+
+    /**
+     * Delete files
+     *
+     * @param Request $request
+     * @return bool|string
+     */
+    public function deleteAll(Request $request): bool|string
+    {
+
+        $selectedImages = $request->input('images', []);
+        foreach ($selectedImages as $selectedImage) {
+            $file = File::find($selectedImage);
+
+            if ($file->user_id != user()->id || !$file->is_deletable) continue;
+
+            Storage::disk('public')->delete("images/$file->file_name.$file->file_extension");
+            $file->delete();
+            userLog('Suppression du fichier ' . $file->id, UserLog::COLOR_DANGER, UserLog::ICON_REMOVE);
+        }
+
+        return json_encode([
+            'toast' =>  createToast('success', __('images.delete.success.title'), __('images.delete.success.content'), 5000)
+        ]);
     }
 
 

@@ -9,6 +9,7 @@ return [
         'content' => 'You just upload a new image',
     ],
     'table' => [
+        'delete_all' => 'Delete the selected images',
         'name' => 'File name',
         'size' => 'Image size',
         'action' => 'Action',
@@ -17,6 +18,7 @@ return [
     'modal' => [
         'title' =>'Confirmation',
         'content' => 'You really want to remove this image.',
+        'content_all' => 'Do you really want to delete these images ?',
     ],
     'delete' => [
         'errors' => [

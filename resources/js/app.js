@@ -11,6 +11,7 @@ import './tippy'
 import './discord_webhook'
 import './conversations'
 import './like'
+import './ImageDeleteAll.js'
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import hljs from 'highlight.js/lib/core';

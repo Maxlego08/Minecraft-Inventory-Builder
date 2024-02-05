@@ -34,6 +34,41 @@
                         style="color: {{ user()->getDiskColor() }}">{{ human_filesize(user()->getDiskSize()) }}</span>/{{ human_filesize(user()->role->total_size) }})</span>
             </div>
             <div class="table-responsive">
+                <div id="deleteSelectedButton" style="display: none">
+                    <div class="d-flex justify-content-center">
+                        <button type="button"
+                                data-bs-toggle="modal"
+                                data-bs-target="#deleteModalAll"
+                                class="btn btn-danger btn-sm rounded-1 d-flex align-items-center justify-content-center">
+                            {{ __('images.table.delete_all') }} <i class="bi bi-trash ms-1"></i>
+                        </button>
+                    </div>
+                    <div class="modal fade" id="deleteModalAll" tabindex="-1"
+                         aria-labelledby="deleteModalLabelAll" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content rounded-1">
+                                <div class="modal-header">
+                                    <h5 class="modal-title text-white"
+                                        id="deleteModalLabel">{{ __('images.modal.title') }}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body text-white">
+                                    {{ __('images.modal.content_all') }}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button"
+                                            class="btn btn-secondary btn-sm rounded-1 d-flex align-items-center justify-content-center"
+                                            data-bs-dismiss="modal"> {{ __('messages.close') }}</button>
+                                    <button type="submit" id="confirmDeleteAll"
+                                            data-url="{{ route('profile.images.delete.all') }}"
+                                            data-token="{{ csrf_token() }}"
+                                            class="btn btn-danger btn-sm rounded-1 d-flex align-items-center justify-content-center"> {{ __('images.table.delete') }}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <table class="table image-table">
                     <thead>
                     <tr>
@@ -46,7 +81,7 @@
                     </thead>
                     <tbody class="table-striped">
                     @foreach($images as $image)
-                        <tr>
+                        <tr id="image-{{ $image->id }}">
                             <th scope="row">
                                 <a href="{{ $image->getPath() }}" target="_blank">
                                     <img src="{{ route('image.preview', $image) }}" alt="Image #{{ $image->id }}"
@@ -58,39 +93,44 @@
                             <td>{{ format_date($image->created_at, true) }}</td>
                             <td>
                                 @if($image->is_deletable)
-                                    <button type="button"
-                                            class="btn btn-danger btn-sm rounded-1 d-flex align-items-center justify-content-center"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#deleteModal{{ $image->id }}">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
+                                    <div class="d-flex justify-content-evenly">
+                                        <button type="button"
+                                                class="btn btn-danger btn-sm rounded-1 d-flex align-items-center justify-content-center"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#deleteModal{{ $image->id }}">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
 
-                                    <div class="modal fade" id="deleteModal{{ $image->id }}" tabindex="-1"
-                                         aria-labelledby="deleteModalLabel{{ $image->id }}" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content rounded-1">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title text-white"
-                                                        id="deleteModalLabel">{{ __('images.modal.title') }}</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body text-white">
-                                                    {{ __('images.modal.content') }}
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button"
-                                                            class="btn btn-secondary btn-sm rounded-1 d-flex align-items-center justify-content-center"
-                                                            data-bs-dismiss="modal"> {{ __('messages.close') }}</button>
-                                                    <form method="post"
-                                                          action="{{ route('profile.images.delete', ['file' => $image]) }}">
-                                                        @csrf
-                                                        <button type="submit"
-                                                                class="btn btn-danger btn-sm rounded-1 d-flex align-items-center justify-content-center"> {{ __('images.table.delete') }}</button>
-                                                    </form>
+                                        <div class="modal fade" id="deleteModal{{ $image->id }}" tabindex="-1"
+                                             aria-labelledby="deleteModalLabel{{ $image->id }}" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content rounded-1">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title text-white"
+                                                            id="deleteModalLabel">{{ __('images.modal.title') }}</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body text-white">
+                                                        {{ __('images.modal.content') }}
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button"
+                                                                class="btn btn-secondary btn-sm rounded-1 d-flex align-items-center justify-content-center"
+                                                                data-bs-dismiss="modal"> {{ __('messages.close') }}</button>
+                                                        <form method="post"
+                                                              action="{{ route('profile.images.delete', ['file' => $image]) }}">
+                                                            @csrf
+                                                            <button type="submit"
+                                                                    class="btn btn-danger btn-sm rounded-1 d-flex align-items-center justify-content-center"> {{ __('images.table.delete') }}</button>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <input type="checkbox" class="image-checkbox" name="images[]" data-id="{{ $image->id }}"
+                                               id="deleteSelectedButton"
+                                               value="{{ $image->id }}">
                                     </div>
                                 @endif
                             </td>
