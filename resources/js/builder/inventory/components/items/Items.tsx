@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import api from '../../../services/api';
 import Item from "./Item";
 
-const Items = ({versions}) => {
+const Items = ({versions, onItemClick}) => {
 
     const [items, setItems] = useState([]);
     const [version, setVersion] = useState('');
@@ -67,7 +67,7 @@ const Items = ({versions}) => {
             </div>
             <div className="items" id="items">
                 {filterAndSortItems().map((item, index) => (
-                    <Item item={item} key={index}/>
+                    <Item item={item} key={index} onItemClick={onItemClick}/>
                 ))}
             </div>
         </div>

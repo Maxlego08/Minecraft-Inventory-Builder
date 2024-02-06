@@ -1,16 +1,17 @@
-import {useRef, useState} from "react";
+import {useRef} from "react";
 import Tooltip from "../utils/Tooltip";
 
-const Item = ({ item }) => {
+const Item = ({item, onItemClick}) => {
     const itemRef = useRef(null);
 
     return (
         <div
             ref={itemRef}
             className={'item'}
+            onClick={(event) => onItemClick(event, item)}
         >
             <i className={"icon-minecraft " + item.css}></i>
-            <Tooltip item={item} itemRef={itemRef} />
+            <Tooltip item={item} itemRef={itemRef}/>
         </div>
     );
 };

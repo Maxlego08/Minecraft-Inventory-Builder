@@ -30,5 +30,16 @@
     .item {
         margin: 2px;
     }
+}
+
+.mouse-item {
+    position: absolute;
+    top: 13px;
+    left: 12px;
+    color: white;
+    z-index: 1001;
+    font-size: 18px;
+    text-align: end;
 
 }
+
