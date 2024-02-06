@@ -2,6 +2,7 @@
 @import "bootstrap/scss/variables";
 @import "bootstrap/scss/mixins";
 @import "highlight.js/styles/obsidian.css";
+@import "font/minecraft";
 
 $image-path: './../image/';
 $font-path: './fonts/';
@@ -19,6 +20,7 @@ $font-path: './fonts/';
 @import "builder/folders";
 @import "builder/inventories";
 @import "builder/inventory";
+@import "builder/minecraftTooltip";
 @import "builder/inventory/inventoryBuilder";
 
 @import "minecraft-icons";

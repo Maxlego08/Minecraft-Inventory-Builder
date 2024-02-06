@@ -1,5 +1,5 @@
 import {useState} from "react";
-import Items from "./components/Items";
+import Items from "./components/items/Items";
 import api from '../services/api';
 const Inventory = () => {
 
