@@ -12,8 +12,8 @@
             <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.discord_support_forum') }}</li>
             <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.resource_access') }}</li>
             <li class="py-1 d-flex text-warning"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.resource_amount', ['size' => 50]) }}</li>
-            <li class="py-1 d-flex text-warning"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.image_size', ['size' => '10mo']) }}</li>
-            <li class="py-1 d-flex text-warning"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.image_global_size', ['size' => '500mo']) }}</li>
+            <li class="py-1 d-flex text-warning"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.image_size', ['size' => '10mb']) }}</li>
+            <li class="py-1 d-flex text-warning"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.image_global_size', ['size' => '500mb']) }}</li>
             <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.resource_premium') }}</li>
             <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.resource_gift_code') }}</li>
             <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.gift_access') }}</li>
