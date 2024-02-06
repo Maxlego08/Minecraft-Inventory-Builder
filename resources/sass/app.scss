@@ -19,6 +19,9 @@ $font-path: './fonts/';
 @import "builder/folders";
 @import "builder/inventories";
 @import "builder/inventory";
+@import "builder/inventory/inventoryBuilder";
+
+@import "minecraft-icons";
 
 
 .nav-tabs .nav-item a {

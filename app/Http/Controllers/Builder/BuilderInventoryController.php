@@ -5,7 +5,11 @@ namespace App\Http\Controllers\Builder;
 use App\Http\Controllers\Controller;
 use App\Models\Builder\Folder;
 use App\Models\Builder\Inventory;
+use App\Models\MinecraftVersion;
 use App\Models\UserLog;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class BuilderInventoryController extends Controller
@@ -76,7 +80,7 @@ class BuilderInventoryController extends Controller
             'user_id' => $user->id,
             'folder_id' => $folder->id,
         ]);
-        userLog("Vient de créer l'inventaire $inventory->file_name.$inventory->id", UserLog::COLOR_DANGER, UserLog::ICON_TRASH);
+        userLog("Vient de créer l'inventaire $inventory->file_name.$inventory->id", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
 
         return json_encode([
             'result' => 'success',
@@ -107,13 +111,28 @@ class BuilderInventoryController extends Controller
             ]);
         }
 
-        userLog("Vient de créer de renommer l'inventaire $inventory->file_name.$inventory->id", UserLog::COLOR_DANGER, UserLog::ICON_TRASH);
+        userLog("Vient de créer de renommer l'inventaire $inventory->file_name.$inventory->id", UserLog::COLOR_SUCCESS, UserLog::ICON_EDIT);
 
         return json_encode([
             'result' => 'success',
             'toast' => createToast('success', 'Success', 'Inventory successfully renamed.', 5000)
         ]);
 
+    }
+
+    /**
+     * Edit an inventory
+     *
+     * @param Inventory $inventory
+     * @return View|\Illuminate\Foundation\Application|Factory|Application
+     */
+    public function edit(Inventory $inventory): View|\Illuminate\Foundation\Application|Factory|Application
+    {
+        $versions = MinecraftVersion::all();
+        return view('builder.inventory', [
+            'inventory' => $inventory,
+            'versions' => $versions
+        ]);
     }
 
 }

@@ -4,7 +4,9 @@ use App\Http\Controllers\AlertController;
 use App\Http\Controllers\Api\TooltipController;
 use App\Http\Controllers\Builder\BuilderIndexController;
 use App\Http\Controllers\Builder\BuilderInventoryController;
+use App\Http\Controllers\Builder\BuilderItemsController;
 use App\Http\Controllers\ConversationController;
+use App\Http\Controllers\ExportDataController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\IndexController;
@@ -58,6 +60,8 @@ Route::prefix('/account-upgrade')->name('premium.')->group(function () {
 
 Route::prefix('/builder')->name('builder.')->middleware('auth')->group(function () {
     Route::get('/', [BuilderIndexController::class, 'index'])->name('index');
+    Route::get('/inventory/{inventory}', [BuilderInventoryController::class, 'edit'])->name('edit');
+    Route::get('/test', [BuilderIndexController::class, 'test'])->name('test');
 
     Route::prefix('/api')->name('api.')->middleware('auth')->group(function () {
         Route::prefix('/folders')->name('folder.')->group(function () {
@@ -70,6 +74,9 @@ Route::prefix('/builder')->name('builder.')->middleware('auth')->group(function 
             Route::get('/{folder}', [BuilderInventoryController::class, 'inventories'])->name('get');
             Route::post('/{folder}/create', [BuilderInventoryController::class, 'create'])->name('create');
             Route::post('/{inventory}/rename', [BuilderInventoryController::class, 'rename'])->name('rename');
+        });
+        Route::prefix('/items')->name('items.')->group(function () {
+            Route::get('/all', [BuilderItemsController::class, 'items'])->name('all');
         });
     });
 });
@@ -256,4 +263,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/resource/{resource}', [ReportController::class, 'reportResource'])->name('resource');
         Route::post('/version/{version}', [ReportController::class, 'reportVersion'])->name('version');
     });
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('export/data/to/json', [ExportDataController::class, 'index'])->name('export.data.json');
 });

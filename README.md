@@ -52,3 +52,7 @@ VITE_URL_UPLOAD_IMAGE=http://mib.test/profile/images/store
 DISCORD_CLIENT_ID=<your discord client ID>
 DISCORD_CLIENT_SECRET=<your discord client SECRET>
 ````
+
+# Inventory Builder
+
+The inventory editor is developed with React. You will find the rendered.json file in storage/app/ with all the item information of each minecraft version. If you find an error on the file do not hesitate to make an issue or a PR 
