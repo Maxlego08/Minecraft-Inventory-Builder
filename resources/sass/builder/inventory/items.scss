@@ -1,0 +1,45 @@
+.sidebar {
+
+    width: 465px;
+    background: #1a202c;
+    padding: 10px;
+    overflow-y: scroll;
+
+    &-header {
+        margin: 5px 0;
+        display: flex;
+        justify-content: space-between;
+
+        .search {
+            width: 100%;
+            margin: 10px 5px;
+        }
+
+        .select {
+            width: 110px;
+            margin: 10px 0;
+        }
+    }
+
+    .items {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+    }
+
+    .item {
+        margin: 2px;
+    }
+}
+
+.mouse-item {
+    position: absolute;
+    top: 13px;
+    left: 12px;
+    color: white;
+    z-index: 1001;
+    font-size: 18px;
+    text-align: end;
+
+}
+

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Builder;
 
 use App\Http\Controllers\Controller;
 use App\Models\Builder\Folder;
+use App\Models\Builder\Item;
 use App\Models\UserLog;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -112,7 +113,7 @@ class BuilderIndexController extends Controller
         }
 
         $counts = Folder::where('user_id', $user->id)->whereNotNull('parent_id')->count();
-        if ($counts >= $user->role->max_folders){
+        if ($counts >= $user->role->max_folders) {
             return json_encode([
                 'result' => 'error',
                 'toast' => createToast('error', 'Error', 'You cannot create a new file, please upgrade your account.', 5000)
@@ -165,6 +166,19 @@ class BuilderIndexController extends Controller
             'result' => 'success',
             'toast' => createToast('success', 'Success', "You just changed the folder name to $folder->name", 5000),
             'folder' => $folder,
+        ]);
+    }
+
+    /**
+     * Just a test page
+     *
+     * @return View|\Illuminate\Foundation\Application|Factory|Application
+     */
+    public function test(): View|\Illuminate\Foundation\Application|Factory|Application
+    {
+        $items = Item::all();
+        return view('builder.test', [
+            'items' => $items,
         ]);
     }
 

@@ -1,0 +1,16 @@
+@import "items";
+
+.inventory-builder {
+
+    display: flex;
+    height: 850px;
+
+    ::-moz-selection {
+        background-color: transparent;
+    }
+
+    ::selection {
+        background-color: transparent;
+    }
+
+}
