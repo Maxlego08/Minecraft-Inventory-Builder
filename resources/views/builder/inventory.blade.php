@@ -18,6 +18,9 @@
     </div>
 
     <div id="builder">
+        <div class="inventory-builder">
+
+        </div>
     </div>
 @endsection
 

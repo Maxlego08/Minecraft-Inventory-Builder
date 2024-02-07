@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import Items from "./components/items/Items";
 
 const Inventory = () => {
@@ -9,21 +9,34 @@ const Inventory = () => {
     const [isShiftClick, setIsShiftClick] = useState(false);
 
     useEffect(() => {
-        document.addEventListener('mousemove', event => onItemMove(event));
-        document.addEventListener('wheel', event => onItemMove(event));
-        document.addEventListener('keydown', event => handleKeyDown(event));
-        document.addEventListener('keyup', event => handleKeyUp(event));
 
-        console.log(currentCount)
+        // Attacher les écouteurs d'événements
+        document.addEventListener('mousemove', onItemMove);
+        document.addEventListener('wheel', onItemMove);
+        document.addEventListener('keydown', handleKeyDown);
+        document.addEventListener('keyup', handleKeyUp);
 
-        updateCountElement()
+        updateCountElement();
 
-        if (currentItem != null){
-            currentItem.clickElement.addEventListener('click', event => onCurrentElementClick(event))
+        if (currentItem != null) {
+            onItemMove(currentItem.event);
+            currentItem.clickElement.addEventListener('click', event => onCurrentElementClick(event));
         }
-    })
 
-    const handleKeyDown = (event) => {
+        // Fonction de nettoyage pour supprimer les écouteurs d'événements
+        return () => {
+            document.removeEventListener('mousemove', onItemMove);
+            document.removeEventListener('wheel', onItemMove);
+            document.removeEventListener('keydown', handleKeyDown);
+            document.removeEventListener('keyup', handleKeyUp);
+
+            if (currentItem != null) {
+                currentItem.clickElement.removeEventListener('click', onCurrentElementClick);
+            }
+        };
+    });
+
+    const handleKeyDown = useCallback(event => {
         event = event || window.event;
         if (isKeyPress(event, ['Escape', 'Esc'], 27)) {
             deleteItem();
@@ -31,14 +44,14 @@ const Inventory = () => {
         if (isKeyPress(event, ['Shift'], 16)) {
             setIsShiftClick(true);
         }
-    };
+    }, [isShiftClick, currentItem]);
 
-    const handleKeyUp = (event) => {
+    const handleKeyUp = useCallback(event => {
         event = event || window.event;
         if (isKeyPress(event, ['Shift'], 16)) {
             setIsShiftClick(false);
         }
-    };
+    }, [isShiftClick]);
 
     const isKeyPress = (event, keys, keyCode) => {
         return !!(keys.includes(event.key) || event.keyCode === keyCode);
@@ -54,7 +67,7 @@ const Inventory = () => {
 
     const onItemClick = (event, item, amount = -1) => {
         event.preventDefault();
-
+        
         if (currentItem != null) {
             addCount(amount === -1 ? (isShiftClick ? 64 : 1) : amount);
             return
@@ -79,6 +92,8 @@ const Inventory = () => {
         clickElement.append(countElement);
 
         document.body.append(clickElement);
+
+        addCount(amount === -1 ? (isShiftClick ? 64 : 1) : amount);
 
         setCurrentItem({
             event: event,
@@ -125,7 +140,7 @@ const Inventory = () => {
         currentItem.countElement.innerText = `${currentCount}`;
     }
 
-    const onItemMove = (event) => {
+    const onItemMove = useCallback(event => {
         if (currentItem == null) return
 
         let x = event.pageX - currentItem.shiftX;
@@ -133,7 +148,7 @@ const Inventory = () => {
 
         currentItem.clickElement.style.left = x + 'px';
         currentItem.clickElement.style.top = y + 'px';
-    }
+    }, [currentItem])
 
     return (
         <div className={'inventory-builder'}>
