@@ -11,6 +11,7 @@ export default defineConfig({
                 'resources/sass/editor/theme.scss',
                 'resources/js/app.js',
                 'resources/js/builder/builder.js',
+                'resources/js/builder/inventory.js',
                 'resources/js/admins/admin.js',
                 'resources/js/editor/editor.js',
                 'resources/js/userautocomplete.js',

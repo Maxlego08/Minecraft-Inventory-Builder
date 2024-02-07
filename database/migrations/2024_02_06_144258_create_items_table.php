@@ -31,7 +31,7 @@ return new class extends Migration {
         foreach ($json as $value) {
             $version = MinecraftVersion::where('minecraft_version', $value['item']['version'] ?? 1.08)->first();
             $collections->add([
-                'version' => $version?->id ?? 1,
+                'version_id' => $version?->id ?? 1,
                 'id' => $value['item']['id'] ?? 'empty',
                 'name' => $value['name'],
                 'data' => $value['item']['data'] ?? 0,
