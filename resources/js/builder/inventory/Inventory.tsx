@@ -5,7 +5,7 @@ const Inventory = () => {
 
     const [data, setData] = useState(window.Content || {});
     const [currentItem, setCurrentItem] = useState(null);
-    const [currentCount, setCurrentCount] = useState(1);
+    const [currentCount, setCurrentCount] = useState(0);
     const [isShiftClick, setIsShiftClick] = useState(false);
 
     useEffect(() => {
@@ -16,10 +16,19 @@ const Inventory = () => {
         document.addEventListener('keydown', handleKeyDown);
         document.addEventListener('keyup', handleKeyUp);
 
+        // console.log(currentCount)
         updateCountElement();
 
         if (currentItem != null) {
-            onItemMove(currentItem.event);
+
+            if (currentItem.event != null) {
+                onItemMove(currentItem.event);
+                setCurrentItem(current => ({
+                    ...current,
+                    event: null,
+                }));
+            }
+
             currentItem.clickElement.addEventListener('click', event => onCurrentElementClick(event));
         }
 
@@ -59,17 +68,20 @@ const Inventory = () => {
     };
 
     const deleteItem = () => {
-        if (currentItem == null) return
-        document.body.removeChild(currentItem.clickElement);
 
-        setCurrentItem(null)
+        if (currentItem == null) return
+
+        if (document.body.contains(currentItem.clickElement)) {
+            document.body.removeChild(currentItem.clickElement);
+            setCurrentItem(null)
+        }
     };
 
     const onItemClick = (event, item, amount = -1) => {
         event.preventDefault();
-        
+
         if (currentItem != null) {
-            addCount(amount === -1 ? (isShiftClick ? 64 : 1) : amount);
+            deleteItem()
             return
         }
 
@@ -93,7 +105,7 @@ const Inventory = () => {
 
         document.body.append(clickElement);
 
-        addCount(amount === -1 ? (isShiftClick ? 64 : 1) : amount);
+        setCurrentCount(amount === -1 ? (isShiftClick ? 64 : 1) : amount);
 
         setCurrentItem({
             event: event,
@@ -106,15 +118,24 @@ const Inventory = () => {
         })
     }
 
-    const onCurrentElementClick = (event) => {
+    const onCurrentElementClick = useCallback(event => {
+
+        event.preventDefault();
 
         if (currentItem == null) return
 
         let currentElement = getCurrentPointElement(event)
         if (currentItem.target === currentElement) {
-            addCount(isShiftClick ? 64 : 1)
+            // When we add more items here, the more we will add to the number the more the site goes lag, I do not understand why
+            // addCount(isShiftClick ? 64 : 1)
+        } else {
+            // TODO
+            // This method is called twice
+            onItemClick(event, currentElement)
+            // deleteItem()
         }
-    }
+
+    }, [currentItem, isShiftClick, currentCount])
 
     const getCurrentPointElement = (event) => {
         let elements = document.elementsFromPoint(event.clientX, event.clientY)
@@ -123,20 +144,17 @@ const Inventory = () => {
     }
 
     const addCount = (count) => {
-        setCurrentCount(count)
-        updateCountElement();
+        setCount(currentCount + count)
     }
 
     const setCount = (count) => {
+        if (count > 64) count = 64
+        else if (count < 1) count = 1
         setCurrentCount(count)
-        updateCountElement();
     }
 
     const updateCountElement = () => {
         if (currentItem == null) return
-
-        // ToDo, update with max stack size
-        setCurrentCount(currentCount > 64 ? 64 : currentCount < 1 ? 1 : currentCount);
         currentItem.countElement.innerText = `${currentCount}`;
     }
 
