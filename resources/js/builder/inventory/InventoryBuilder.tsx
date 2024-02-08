@@ -15,7 +15,7 @@ const InventoryBuilder = () => {
         slots: Array.from({length: 54}, (_, index) => ({
             id: index,
             content: null,
-            amount: 1
+            amount: 0
         }))
     });
 
@@ -41,6 +41,7 @@ const InventoryBuilder = () => {
             }
 
             currentItem.clickElement.addEventListener('click', onCurrentElementClick);
+            currentItem.clickElement.addEventListener('contextmenu', onCurrentElementContextClick);
         }
 
         // Fonction de nettoyage pour supprimer les écouteurs d'événements
@@ -52,6 +53,7 @@ const InventoryBuilder = () => {
 
             if (currentItem != null) {
                 currentItem.clickElement.removeEventListener('click', onCurrentElementClick);
+                currentItem.clickElement.removeEventListener('contextmenu', onCurrentElementContextClick);
             }
         };
     });
@@ -85,6 +87,18 @@ const InventoryBuilder = () => {
         if (document.body.contains(currentItem.clickElement)) {
             document.body.removeChild(currentItem.clickElement);
             setCurrentItem(null)
+        }
+    };
+
+    const removeOne = () => {
+
+        if (currentItem == null) return
+
+        let newAmount = currentCount - 1
+        if (newAmount <= 0) {
+            deleteItem()
+        } else {
+            setCurrentCount(newAmount)
         }
     };
 
@@ -166,6 +180,44 @@ const InventoryBuilder = () => {
 
     }, [currentItem, inventoryContent])
 
+    const onCurrentElementContextClick = useCallback(event => {
+
+        event.preventDefault();
+
+        if (currentItem == null) return
+
+        let currentElement = getCurrentPointElement(event)
+
+        let elementId = currentElement.id
+        if (elementId == null) return
+
+        // @ts-ignore
+        // If the player clicks on a slot
+        if (elementId.startsWith("slot") || elementId.startsWith("item-slot")) {
+
+            // We will retrieve the slot ID currently
+            let slotId = currentElement.getAttribute('data-slot')
+
+            // We will calculate the new number of elements
+            let newAmount = inventoryContent.slots[slotId].amount + 1
+            if (newAmount > 64) return
+
+            updateSlotContent(slotId, currentItem.item, newAmount)
+            removeOne()
+
+            // @ts-ignore
+        }
+        /*else if (elementId.startsWith("item-slot")) {
+
+            console.log("WTF ?")
+
+            /*let elementSlot = currentElement.parentElement.parentElement
+            let slotId = elementSlot.getAttribute('data-slot')
+            handleSlotClick(event, slotId)*/
+        // }
+
+    }, [inventoryContent, currentItem, currentCount])
+
     const getCurrentPointElement = (event) => {
         let elements = document.elementsFromPoint(event.clientX, event.clientY)
         if (elements.length >= 3) return elements[2]
@@ -227,7 +279,7 @@ const InventoryBuilder = () => {
 
             if (slot.content == null) return
 
-            updateSlotContent(id, null)
+            updateSlotContent(id, null, 0)
             onItemClick(event, slot.content, slot.amount)
 
             return
@@ -237,11 +289,20 @@ const InventoryBuilder = () => {
         console.log(id)
     }
 
+    const handleSlotDoubleClick = (event, id, isRightClick = true) => {
+
+        event.preventDefault()
+
+        console.log(event)
+        console.log(id)
+        console.log(isRightClick)
+    }
+
     return (
         <div className={'inventory-builder'}>
             <Items versions={data.versions} onItemClick={onItemClick}/>
             <Inventory inventory={data.inventory} inventoryContent={inventoryContent}
-                       handleSlotClick={handleSlotClick}/>
+                       handleSlotClick={handleSlotClick} handleSlotDoubleClick={handleSlotDoubleClick}/>
             <div className="configurations">
             </div>
         </div>
