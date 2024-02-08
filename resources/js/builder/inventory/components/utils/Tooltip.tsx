@@ -12,7 +12,10 @@ const Tooltip = ({ item, itemRef }) => {
     };
 
     useEffect(() => {
-        const handleMouseEnter = () => setShowTooltip(true);
+        const handleMouseEnter = (event) => {
+            setShowTooltip(true);
+            moveTooltip(event);
+        }
         const handleMouseMove = (event) => moveTooltip(event);
         const handleMouseLeave = () => setShowTooltip(false);
 

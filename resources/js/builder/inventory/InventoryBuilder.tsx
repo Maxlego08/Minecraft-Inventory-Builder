@@ -272,10 +272,10 @@ const InventoryBuilder = () => {
     const handleSlotClick = (event, id) => {
 
         event.preventDefault()
+        let slot = inventoryContent.slots[id]
 
         // If the current item is null, we can only take the content of the slot, if it exists
         if (currentItem == null) {
-            let slot = inventoryContent.slots[id]
 
             if (slot.content == null) return
 
@@ -283,6 +283,27 @@ const InventoryBuilder = () => {
             onItemClick(event, slot.content, slot.amount)
 
             return
+        }
+
+        // If the item in the slot is not null et que l’article actuel est le même que l’article actuel
+        if (slot.content != null && slot.content.id == currentItem.item.id) {
+            // We will add the item to the one already present, except that the number exceeds the maxStackSize or 64
+
+            let newAmount = slot.amount + currentCount
+            // If the number is greater than 64, then the number must be reduced
+            if (newAmount > 64) {
+                // We will calculate the new number of items that the player has in the hand
+                let newCurrentAmount = newAmount - currentCount
+                setCurrentCount(newCurrentAmount)
+                // We will set the new number to 64
+                newAmount = 64
+            } else {
+                // Otherwise we will delete the item
+                deleteItem()
+            }
+
+            updateSlotAmount(id, newAmount)
+
         }
 
         console.log(event)
