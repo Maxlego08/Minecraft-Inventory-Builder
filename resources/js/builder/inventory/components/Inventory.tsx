@@ -1,15 +1,15 @@
 import Slot from "./Slot";
 
-const Inventory = ({invetory}) => {
+const Inventory = ({inventory, inventoryContent, handleSlotClick}) => {
 
     // @ts-ignore
-    const slots = Array.from({length: invetory.size});
+    const slots = Array.from({length: inventory.size});
 
     return (
         <div className="inventory inventory-builder-center">
             <div className="inventory-content">
                 <div className="inventory-content-header">
-                    <span className="inventory-name" id="inventory-display-name">{invetory.name}</span>
+                    <span className="inventory-name" id="inventory-display-name">{inventory.name}</span>
                     <div className="inventory-content-header-actions">
                         <i className={"bi bi-floppy"}/>
                         <i className={"bi bi-trash"}/>
@@ -17,7 +17,7 @@ const Inventory = ({invetory}) => {
                 </div>
                 <div className="slotSpace" id="slots">
                     {slots.map((_, i) => (
-                        <Slot key={i} id={i}></Slot>
+                        <Slot key={i} id={i} currentItem={inventoryContent.slots[i]} handleSlotClick={handleSlotClick}/>
                     ))}
                 </div>
             </div>

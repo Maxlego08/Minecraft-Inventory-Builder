@@ -1,6 +1,7 @@
 import {useCallback, useEffect, useState} from "react";
 import Items from "./components/items/Items";
 import Inventory from "./components/Inventory"
+import slot from "./components/Slot";
 
 const InventoryBuilder = () => {
 
@@ -11,9 +12,10 @@ const InventoryBuilder = () => {
     const [isShiftClick, setIsShiftClick] = useState(false);
     const [inventoryContent, setInventoryContent] = useState({
         // @ts-ignore
-        slots: Array.from(54, (_, index) => ({
+        slots: Array.from({length: 54}, (_, index) => ({
             id: index,
-            content: null
+            content: null,
+            amount: 1
         }))
     });
 
@@ -38,7 +40,7 @@ const InventoryBuilder = () => {
                 }));
             }
 
-            currentItem.clickElement.addEventListener('click', event => onCurrentElementClick(event));
+            currentItem.clickElement.addEventListener('click', onCurrentElementClick);
         }
 
         // Fonction de nettoyage pour supprimer les écouteurs d'événements
@@ -94,14 +96,14 @@ const InventoryBuilder = () => {
             return
         }
 
-        let element = event.target
-
         let clickElement = document.createElement('div');
         let countElement = document.createElement('span');
         countElement.classList.add('mouse-item');
 
-        let ghostItem = element.cloneNode(true);
+        let ghostItem = document.createElement('div')
 
+        ghostItem.classList.add("icon-minecraft")
+        ghostItem.classList.add(`${item.css}`)
         ghostItem.style.position = 'absolute';
         ghostItem.style.zIndex = '1000';
 
@@ -118,7 +120,7 @@ const InventoryBuilder = () => {
 
         setCurrentItem({
             event: event,
-            target: element,
+            target: ghostItem,
             item: item,
             clickElement: clickElement,
             countElement: countElement,
@@ -138,14 +140,31 @@ const InventoryBuilder = () => {
             // When we add more items here, the more we will add to the number the more the site goes lag, I do not understand why
             // addCount(isShiftClick ? 64 : 1)
         } else {
-            console.log(currentElement)
-            // TODO
-            // This method is called twice
-            // onItemClick(event, currentElement)
-            // deleteItem()
+            let elementId = currentElement.id
+            if (elementId == null) return
+
+            // @ts-ignore
+            if (elementId.startsWith("item") && !elementId.startsWith("item-slot")) {
+                deleteItem()
+                // @ts-ignore
+            } else if (elementId.startsWith("slot")) {
+
+                let slotId = currentElement.getAttribute('data-slot')
+                updateSlotContent(slotId, currentItem.item, currentCount)
+                deleteItem()
+
+            } else {
+
+                // @ts-ignore
+                if (elementId.startsWith("item-slot")) {
+                    let elementSlot = currentElement.parentElement.parentElement
+                    let slotId = elementSlot.getAttribute('data-slot')
+                    handleSlotClick(event, slotId)
+                }
+            }
         }
 
-    }, [currentItem])
+    }, [currentItem, inventoryContent])
 
     const getCurrentPointElement = (event) => {
         let elements = document.elementsFromPoint(event.clientX, event.clientY)
@@ -178,10 +197,51 @@ const InventoryBuilder = () => {
         currentItem.clickElement.style.top = y + 'px';
     }, [currentItem])
 
+    const updateSlotContent = (slotIndex, newContent, newAmount = 1) => {
+        setInventoryContent(prevInventoryContent => {
+            const newSlots = [...prevInventoryContent.slots];
+
+            newSlots[slotIndex] = {...newSlots[slotIndex], content: newContent, amount: newAmount};
+
+            return {...prevInventoryContent, slots: newSlots};
+        });
+    };
+
+    const updateSlotAmount = (slotIndex, newAmount) => {
+        setInventoryContent(prevInventoryContent => {
+            const newSlots = [...prevInventoryContent.slots];
+
+            newSlots[slotIndex] = {...newSlots[slotIndex], amount: newAmount};
+
+            return {...prevInventoryContent, slots: newSlots};
+        });
+    };
+
+    const handleSlotClick = (event, id) => {
+
+        event.preventDefault()
+
+        // If the current item is null, we can only take the content of the slot, if it exists
+        if (currentItem == null) {
+            let slot = inventoryContent.slots[id]
+
+            if (slot.content == null) return
+
+            updateSlotContent(id, null)
+            onItemClick(event, slot.content, slot.amount)
+
+            return
+        }
+
+        console.log(event)
+        console.log(id)
+    }
+
     return (
         <div className={'inventory-builder'}>
             <Items versions={data.versions} onItemClick={onItemClick}/>
-            <Inventory invetory={data.inventory} />
+            <Inventory inventory={data.inventory} inventoryContent={inventoryContent}
+                       handleSlotClick={handleSlotClick}/>
             <div className="configurations">
             </div>
         </div>
