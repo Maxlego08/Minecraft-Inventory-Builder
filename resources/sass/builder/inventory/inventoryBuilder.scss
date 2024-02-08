@@ -1,4 +1,5 @@
 @import "items";
+@import "configuration";
 
 .inventory-builder {
 
@@ -11,6 +12,14 @@
 
     ::selection {
         background-color: transparent;
+    }
+
+    &-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin: auto;
     }
 
 }

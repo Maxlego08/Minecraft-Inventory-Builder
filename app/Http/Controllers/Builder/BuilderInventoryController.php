@@ -85,7 +85,7 @@ class BuilderInventoryController extends Controller
         return json_encode([
             'result' => 'success',
             'inventory' => $inventory,
-            'toast' => createToast('success', 'Success', 'Inventory successfully created.', 5000)
+            'toast' => createToast('success', 'Success', 'InventoryBuilder successfully created.', 5000)
         ]);
     }
 
@@ -115,7 +115,7 @@ class BuilderInventoryController extends Controller
 
         return json_encode([
             'result' => 'success',
-            'toast' => createToast('success', 'Success', 'Inventory successfully renamed.', 5000)
+            'toast' => createToast('success', 'Success', 'InventoryBuilder successfully renamed.', 5000)
         ]);
 
     }

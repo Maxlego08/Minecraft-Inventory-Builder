@@ -63,6 +63,11 @@
             background: #8b8b8b;
             box-shadow: inset 1.5px 1.5px 0 rgba(55, 55, 55, 0.8),
             inset -2px -2px 0px #ffffff;
+
+            &:hover {
+                background-color: #c5c5c5;
+            }
+
         }
 
         .slotSpace {

@@ -29,16 +29,16 @@ return [
     'documentation' => 'Documentations',
     'account-upgrade' => 'Upgrade your account !',
     'premium' => 'Premium',
-    'builder-builder' => 'Inventory Builder',
+    'builder-builder' => 'InventoryBuilder Builder',
     'home' => 'Home',
     'save_changes' => 'Save changes',
     'save_update' => 'Save update',
-    'copyright' => 'All rights reserved. Minecraft Inventory Builder is not affiliated with Mojang',
+    'copyright' => 'All rights reserved. Minecraft InventoryBuilder Builder is not affiliated with Mojang',
     'released_at' => 'Release Date',
     'average_rating' => 'Average Rating',
     'about' => [
         'title' => 'About',
-        'content' => 'Minecraft Inventory Builder is a site dedicated to the zMenu plugin. zMenu is a minecraft plugin dedicated to builder creation. The site includes a marketplace for selling and downloading resource related to zMenu. It also includes an builder editor.'
+        'content' => 'Minecraft InventoryBuilder Builder is a site dedicated to the zMenu plugin. zMenu is a minecraft plugin dedicated to builder creation. The site includes a marketplace for selling and downloading resource related to zMenu. It also includes an builder editor.'
     ],
     'links' => [
         'title' => 'links',

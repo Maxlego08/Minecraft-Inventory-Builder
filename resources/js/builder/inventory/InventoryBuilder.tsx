@@ -1,12 +1,21 @@
 import {useCallback, useEffect, useState} from "react";
 import Items from "./components/items/Items";
+import Inventory from "./components/Inventory"
 
-const Inventory = () => {
+const InventoryBuilder = () => {
 
+    // @ts-ignore
     const [data, setData] = useState(window.Content || {});
     const [currentItem, setCurrentItem] = useState(null);
     const [currentCount, setCurrentCount] = useState(0);
     const [isShiftClick, setIsShiftClick] = useState(false);
+    const [inventoryContent, setInventoryContent] = useState({
+        // @ts-ignore
+        slots: Array.from(54, (_, index) => ({
+            id: index,
+            content: null
+        }))
+    });
 
     useEffect(() => {
 
@@ -129,13 +138,14 @@ const Inventory = () => {
             // When we add more items here, the more we will add to the number the more the site goes lag, I do not understand why
             // addCount(isShiftClick ? 64 : 1)
         } else {
+            console.log(currentElement)
             // TODO
             // This method is called twice
-            onItemClick(event, currentElement)
+            // onItemClick(event, currentElement)
             // deleteItem()
         }
 
-    }, [currentItem, isShiftClick, currentCount])
+    }, [currentItem])
 
     const getCurrentPointElement = (event) => {
         let elements = document.elementsFromPoint(event.clientX, event.clientY)
@@ -171,8 +181,11 @@ const Inventory = () => {
     return (
         <div className={'inventory-builder'}>
             <Items versions={data.versions} onItemClick={onItemClick}/>
+            <Inventory invetory={data.inventory} />
+            <div className="configurations">
+            </div>
         </div>
     );
 }
 
-export default Inventory
+export default InventoryBuilder
