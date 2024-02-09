@@ -314,9 +314,23 @@ const InventoryBuilder = () => {
 
         event.preventDefault()
 
-        console.log(event)
-        console.log(id)
-        console.log(isRightClick)
+        if (!isRightClick) {
+
+            let slot = inventoryContent.slots[id]
+            let currentAmount = slot.amount
+            if (currentAmount == 1) {
+
+                updateSlotContent(id, null, 0)
+                onItemClick(event, slot.content, 1)
+
+                return
+            }
+
+            let newAmount = parseInt(String(currentAmount / 2))
+            updateSlotAmount(id, currentAmount - newAmount)
+            onItemClick(event, slot.content, newAmount)
+            return
+        }
     }
 
     return (
