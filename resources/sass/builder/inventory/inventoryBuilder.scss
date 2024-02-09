@@ -4,7 +4,8 @@
 .inventory-builder {
 
     display: flex;
-    height: 850px;
+    height: 1000px;
+    padding-bottom: 50px;
 
     ::-moz-selection {
         background-color: transparent;
@@ -15,11 +16,37 @@
     }
 
     &-center {
+
+        flex-grow: 1;
         display: flex;
-        justify-content: center;
-        align-items: center;
         flex-direction: column;
-        margin: auto;
+
+
+        &-inventory {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+        }
+
+        &-configuration {
+            height: 350px;
+            background: $color-primary;
+            overflow: scroll;
+
+            ::-moz-selection {
+                background-color: rgba(178, 193, 193, 0.5);
+            }
+
+            ::selection {
+                background-color: rgba(178, 193, 193, 0.5);
+            }
+
+        }
+
+
     }
+
 
 }

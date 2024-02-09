@@ -1,7 +1,9 @@
 .configurations {
 
+    margin-left: auto;
     display: flex;
     width: 1000px;
     background: $color-primary;
+    flex-shrink: 0;
 
 }

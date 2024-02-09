@@ -1,9 +1,10 @@
 .sidebar {
 
-    width: 465px;
+    width: 428px;
     background: #1a202c;
     padding: 10px;
     overflow-y: scroll;
+    flex-shrink: 0;
 
     &-header {
         margin: 5px 0;

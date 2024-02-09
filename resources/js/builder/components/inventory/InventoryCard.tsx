@@ -43,7 +43,7 @@ const InventoryCard = ({inventory}) => {
                 )}
             </div>
             <div className={'inventory-card-actions'}>
-                <a className={'inventory-card-actions-element'} href={`/builder/inventory/${inventory.id}`}>
+                <a className={'inventory-card-actions-element'} href={`/builder/inventory/${inventory.id}#builder`}>
                     <i className="bi bi-pencil-square"/>
                 </a>
                 <div className={'inventory-card-actions-element'}>

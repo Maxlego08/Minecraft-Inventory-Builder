@@ -7,6 +7,7 @@ const InventoryBuilder = () => {
 
     // @ts-ignore
     const [data, setData] = useState(window.Content || {});
+    const [inventory, setInventory] = useState(data.inventory || {});
     const [currentItem, setCurrentItem] = useState(null);
     const [currentCount, setCurrentCount] = useState(0);
     const [isShiftClick, setIsShiftClick] = useState(false);
@@ -29,6 +30,8 @@ const InventoryBuilder = () => {
 
         // console.log(currentCount)
         updateCountElement();
+
+        console.log(inventory)
 
         if (currentItem != null) {
 
@@ -336,9 +339,12 @@ const InventoryBuilder = () => {
     return (
         <div className={'inventory-builder'}>
             <Items versions={data.versions} onItemClick={onItemClick}/>
-            <Inventory inventory={data.inventory} inventoryContent={inventoryContent}
+            <Inventory inventory={inventory} setInventory={setInventory} inventoryContent={inventoryContent}
                        handleSlotClick={handleSlotClick} handleSlotDoubleClick={handleSlotDoubleClick}/>
             <div className="configurations">
+                <div className={"d-flex justify-content-center w-100 align-items-center"}>
+                    ToDo
+                </div>
             </div>
         </div>
     );

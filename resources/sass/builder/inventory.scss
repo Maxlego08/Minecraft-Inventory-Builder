@@ -38,9 +38,10 @@
 
         .inventory-name {
             margin: 5px 10px;
-            font-size: 18px;
+            font-size: 14px;
             color: #404040;
-            display: block;
+            display: flex;
+            align-items: center;
             min-height: 25px;
         }
 
