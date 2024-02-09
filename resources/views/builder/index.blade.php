@@ -17,4 +17,5 @@
 
     <div id="builder">
     </div>
+    @include('builder.error')
 @endsection

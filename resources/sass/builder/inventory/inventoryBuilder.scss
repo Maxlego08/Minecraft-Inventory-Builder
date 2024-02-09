@@ -1,11 +1,30 @@
 @import "items";
 @import "configuration";
 
+.phone {
+    display: none;
+    @media (max-width: 1800px) {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 300px;
+    }
+}
+
+#builder {
+
+    @media (max-width: 1800px) {
+        display: none;
+    }
+
+}
+
 .inventory-builder {
 
     display: flex;
     height: 1000px;
     padding-bottom: 50px;
+
 
     ::-moz-selection {
         background-color: transparent;

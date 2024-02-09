@@ -22,6 +22,7 @@
 
         </div>
     </div>
+    @include('builder.error')
 @endsection
 
 @push('footer-scripts')

@@ -182,7 +182,7 @@ const InventoryBuilder = () => {
                     let elementSlot = currentElement.parentElement.parentElement
                     let slotId = elementSlot.getAttribute('data-slot')
                     handleSlotClick(event, slotId)
-                }
+                } else deleteItem()
             }
         }
 
@@ -212,17 +212,7 @@ const InventoryBuilder = () => {
 
             updateSlotContent(slotId, currentItem.item, newAmount)
             removeOne()
-
-            // @ts-ignore
         }
-        /*else if (elementId.startsWith("item-slot")) {
-
-            console.log("WTF ?")
-
-            /*let elementSlot = currentElement.parentElement.parentElement
-            let slotId = elementSlot.getAttribute('data-slot')
-            handleSlotClick(event, slotId)*/
-        // }
 
     }, [inventoryContent, currentItem, currentCount])
 
@@ -230,10 +220,6 @@ const InventoryBuilder = () => {
         let elements = document.elementsFromPoint(event.clientX, event.clientY)
         if (elements.length >= 3) return elements[2]
         return null;
-    }
-
-    const addCount = (count) => {
-        setCount(currentCount + count)
     }
 
     const setCount = (count) => {
