@@ -30,11 +30,11 @@
 }
 
 .animate-in {
-    animation: slideInFromRight 0.5s ease-out forwards;
+    animation: slideInFromRight 0.2s ease-out forwards;
     visibility: visible;
 }
 
 .animate-out {
-    animation: slideOutToRight 0.5s ease-out forwards;
+    animation: slideOutToRight 0.2s ease-out forwards;
     visibility: visible;
 }

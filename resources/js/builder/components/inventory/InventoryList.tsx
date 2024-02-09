@@ -49,7 +49,6 @@ const InventoryList = ({folder = null}) => {
         }
     }
 
-    // @ts-ignore
     return (
         <div className={'inventories'}>
             <InventoryHeader createInventory={handleCreateInventory}/>

@@ -25,14 +25,13 @@ const InventoryBuilder = () => {
     useEffect(() => {
         const intervalId = setInterval(() => {
             saveData();
-        }, 1000 * 60 * 2);
+        }, 1000 * 30); // 30 seconds
 
         return () => clearInterval(intervalId);
     });
 
     useEffect(() => {
 
-        // Attacher les écouteurs d'événements
         document.addEventListener('mousemove', onItemMove);
         document.addEventListener('wheel', onItemMove);
         document.addEventListener('keydown', handleKeyDown);
@@ -54,7 +53,6 @@ const InventoryBuilder = () => {
             currentItem.clickElement.addEventListener('contextmenu', onCurrentElementContextClick);
         }
 
-        // Fonction de nettoyage pour supprimer les écouteurs d'événements
         return () => {
             document.removeEventListener('mousemove', onItemMove);
             document.removeEventListener('wheel', onItemMove);
@@ -350,7 +348,9 @@ const InventoryBuilder = () => {
 
     const saveData = () => {
         if (!needToUpdate) return;
-        
+
+        setNeedToUpdate(false);
+
         const toggleAnimation = (add, remove) => {
             const element = document.getElementById('saving-text');
             if (element) {
@@ -371,7 +371,6 @@ const InventoryBuilder = () => {
         setTimeout(() => {
             const handleResponse = () => {
                 toggleAnimation('animate-out', 'animate-in');
-                setNeedToUpdate(false);
             };
 
             api.updateInventory(formData, inventory.id).then(handleResponse).catch(handleResponse);
@@ -389,6 +388,7 @@ const InventoryBuilder = () => {
             </div>
             <Items versions={data.versions} onItemClick={onItemClick}/>
             <Inventory inventory={inventory} updateInventory={updateInventory} inventoryContent={inventoryContent}
+                       needToUpdate={needToUpdate} saveData={saveData}
                        handleSlotClick={handleSlotClick} handleSlotDoubleClick={handleSlotDoubleClick}/>
             <div className="configurations">
                 <div className={"d-flex justify-content-center w-100 align-items-center"}>
