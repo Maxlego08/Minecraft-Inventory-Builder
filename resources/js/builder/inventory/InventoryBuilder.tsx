@@ -2,6 +2,7 @@ import {useCallback, useEffect, useState} from "react";
 import Items from "./components/items/Items";
 import Inventory from "./components/Inventory"
 import slot from "./components/Slot";
+import api from "../services/api"
 
 const InventoryBuilder = () => {
 
@@ -11,6 +12,7 @@ const InventoryBuilder = () => {
     const [currentItem, setCurrentItem] = useState(null);
     const [currentCount, setCurrentCount] = useState(0);
     const [isShiftClick, setIsShiftClick] = useState(false);
+    const [needToUpdate, setNeedToUpdate] = useState(false);
     const [inventoryContent, setInventoryContent] = useState({
         // @ts-ignore
         slots: Array.from({length: 54}, (_, index) => ({
@@ -21,6 +23,14 @@ const InventoryBuilder = () => {
     });
 
     useEffect(() => {
+        const intervalId = setInterval(() => {
+            saveData();
+        }, 1000 * 60 * 2);
+
+        return () => clearInterval(intervalId);
+    });
+
+    useEffect(() => {
 
         // Attacher les écouteurs d'événements
         document.addEventListener('mousemove', onItemMove);
@@ -28,10 +38,7 @@ const InventoryBuilder = () => {
         document.addEventListener('keydown', handleKeyDown);
         document.addEventListener('keyup', handleKeyUp);
 
-        // console.log(currentCount)
         updateCountElement();
-
-        console.log(inventory)
 
         if (currentItem != null) {
 
@@ -336,10 +343,52 @@ const InventoryBuilder = () => {
         }
     }
 
+    const updateInventory = (inventory) => {
+        setInventory(inventory)
+        setNeedToUpdate(true)
+    }
+
+    const saveData = () => {
+        if (!needToUpdate) return;
+        
+        const toggleAnimation = (add, remove) => {
+            const element = document.getElementById('saving-text');
+            if (element) {
+                element.classList.add(add);
+                element.classList.remove(remove);
+            }
+        };
+
+        toggleAnimation('animate-in', 'animate-out');
+
+        const formData = new FormData();
+        ['name', 'size', 'file_name', 'update_interval', 'clear_inventory'].forEach(prop => {
+            if (inventory[prop] !== undefined) {
+                formData.append(prop, inventory[prop]);
+            }
+        });
+
+        setTimeout(() => {
+            const handleResponse = () => {
+                toggleAnimation('animate-out', 'animate-in');
+                setNeedToUpdate(false);
+            };
+
+            api.updateInventory(formData, inventory.id).then(handleResponse).catch(handleResponse);
+        }, 1000);
+    };
+
+
     return (
         <div className={'inventory-builder'}>
+            <div id={"saving-text"} className="text-animation">
+                <div className={'me-2'}>Sauvegarde en cours</div>
+                <div className="spinner-border spinner-border-sm" role="status">
+                    <span className="visually-hidden"></span>
+                </div>
+            </div>
             <Items versions={data.versions} onItemClick={onItemClick}/>
-            <Inventory inventory={inventory} setInventory={setInventory} inventoryContent={inventoryContent}
+            <Inventory inventory={inventory} updateInventory={updateInventory} inventoryContent={inventoryContent}
                        handleSlotClick={handleSlotClick} handleSlotDoubleClick={handleSlotDoubleClick}/>
             <div className="configurations">
                 <div className={"d-flex justify-content-center w-100 align-items-center"}>

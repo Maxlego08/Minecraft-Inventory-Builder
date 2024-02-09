@@ -73,7 +73,7 @@ Route::prefix('/builder')->name('builder.')->middleware('auth')->group(function 
         Route::prefix('/inventories')->name('inventories.')->group(function () {
             Route::get('/{folder}', [BuilderInventoryController::class, 'inventories'])->name('get');
             Route::post('/{folder}/create', [BuilderInventoryController::class, 'create'])->name('create');
-            Route::post('/{inventory}/rename', [BuilderInventoryController::class, 'rename'])->name('rename');
+            Route::post('/{inventory}/update', [BuilderInventoryController::class, 'update'])->name('update');
         });
         Route::prefix('/items')->name('items.')->group(function () {
             Route::get('/all', [BuilderItemsController::class, 'items'])->name('all');

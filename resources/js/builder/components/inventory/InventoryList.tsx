@@ -33,6 +33,7 @@ const InventoryList = ({folder = null}) => {
      *
      * @param formData
      */
+    // @ts-ignore
     const handleCreateInventory = async (formData: FormData) => {
         try {
             const response = await api.createInventory(formData, folder.id)
@@ -48,6 +49,7 @@ const InventoryList = ({folder = null}) => {
         }
     }
 
+    // @ts-ignore
     return (
         <div className={'inventories'}>
             <InventoryHeader createInventory={handleCreateInventory}/>

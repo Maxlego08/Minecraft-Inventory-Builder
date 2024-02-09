@@ -65,14 +65,12 @@ const createInventory = (formData, folderId) => {
     return apiClient.post(`/inventories/${folderId}/create`, formData);
 };
 
-const fetchInventories = (folderId) => {
-    return apiClient.get(`/inventories/${folderId}`);
+const updateInventory = (formData, inventoryId) => {
+    return apiClient.post(`/inventories/${inventoryId}/update`, formData);
 };
 
-const renameInventory = (inventoryId, fileName) => {
-    const formData = new FormData()
-    formData.append('file_name', fileName)
-    return apiClient.post(`/inventories/${inventoryId}/rename`, formData);
+const fetchInventories = (folderId) => {
+    return apiClient.get(`/inventories/${folderId}`);
 };
 
 
@@ -92,9 +90,9 @@ const apiFunctions = {
     updateFolder,
     displayToast,
     createInventory,
+    updateInventory,
     fetchInventories,
-    renameInventory,
-    fetchItems
+    fetchItems,
 };
 
 export default apiFunctions;

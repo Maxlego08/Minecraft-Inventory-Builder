@@ -90,33 +90,42 @@ class BuilderInventoryController extends Controller
     }
 
     /**
-     * Permet de renommer un inventaire
+     * Permet de modifier un inventaire
      *
      * @param Request $request
      * @param Inventory $inventory
      * @return bool|string
      */
-    public function rename(Request $request, Inventory $inventory): bool|string
+    public function update(Request $request, Inventory $inventory): bool|string
     {
 
         $validatedData = $request->validate([
+            'name' => 'nullable|string|max:500|min:0',
             'file_name' => 'required|string|max:100|min:3',
+            'size' => 'required|integer',
+            'update_interval' => 'required|integer',
+            'clear_inventory' => 'required'
         ]);
 
         $user = user();
         if ($inventory->user_id != $user->id && !$user->isAdmin()) {
             return json_encode([
                 'result' => 'error',
-                'toast' => createToast('error', 'Error', 'Cannot use this folder.', 5000)
+                'toast' => createToast('error', 'Error', 'Cannot use this inventory.', 5000)
             ]);
         }
 
-        userLog("Vient de créer de renommer l'inventaire $inventory->file_name.$inventory->id", UserLog::COLOR_SUCCESS, UserLog::ICON_EDIT);
-
-        return json_encode([
-            'result' => 'success',
-            'toast' => createToast('success', 'Success', 'InventoryBuilder successfully renamed.', 5000)
+        $inventory->update([
+            'name' => $validatedData['name'],
+            'file_name' => $validatedData['file_name'],
+            'size' => $validatedData['size'],
+            'update_interval' => $validatedData['update_interval'],
+            'clear_inventory' => $validatedData['name'] === 'true',
         ]);
+
+        userLog("Vient de créer de modifier l'inventaire $inventory->file_name.$inventory->id", UserLog::COLOR_SUCCESS, UserLog::ICON_EDIT);
+
+        return json_encode(['result' => 'success']);
 
     }
 

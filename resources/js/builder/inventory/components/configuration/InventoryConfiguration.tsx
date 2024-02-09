@@ -1,18 +1,14 @@
 import {Form} from "react-bootstrap";
 import {useState} from "react";
 
-const InventoryConfiguration = ({inventory, setInventory}) => {
+const InventoryConfiguration = ({inventory, updateInventory}) => {
 
     const [error, setError] = useState('');
 
     const handleChange = (event) => {
 
         const {name, value, type, checked} = event.target;
-        console.log(name)
-        console.log(value)
-        console.log(type)
-        console.log(checked)
-        setInventory(prevData => ({
+        updateInventory(prevData => ({
             ...prevData,
             [name]: type === 'checkbox' ? checked : value
         }));
