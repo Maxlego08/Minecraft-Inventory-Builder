@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
@@ -13,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $name
  * @property string $file_name
  * @property int $size
+ * @property InventoryButton[] $buttons
  */
 class Inventory extends Model
 {
@@ -24,4 +26,15 @@ class Inventory extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Retourne la liste des boutons de l'inventaire
+     *
+     * @return HasMany
+     */
+    public function buttons(): HasMany
+    {
+        return $this->hasMany(InventoryButton::class);
+    }
+
 }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Builder;
 use App\Http\Controllers\Controller;
 use App\Models\Builder\Folder;
 use App\Models\Builder\Inventory;
+use App\Models\Builder\InventoryButton;
+use App\Models\Builder\Item;
 use App\Models\MinecraftVersion;
 use App\Models\UserLog;
 use Illuminate\Contracts\Foundation\Application;
@@ -123,9 +125,48 @@ class BuilderInventoryController extends Controller
             'clear_inventory' => $validatedData['name'] === 'true',
         ]);
 
+        $this->updateButton($request, $inventory);
+
         userLog("Vient de créer de modifier l'inventaire $inventory->file_name.$inventory->id", UserLog::COLOR_SUCCESS, UserLog::ICON_EDIT);
 
         return json_encode(['result' => 'success']);
+
+    }
+
+    /**
+     * Permet de mettre à jour les boutons de l'inventaire
+     *
+     * @param Request $request
+     * @param Inventory $inventory
+     * @return void
+     */
+    private function updateButton(Request $request, Inventory $inventory): void
+    {
+
+        $itemIds = array_column($request['slot'], 'item_id');
+        $itemIds = array_unique(array_filter($itemIds));
+
+        $items = Item::findMany($itemIds)->keyBy('id');
+
+        $slotsToKeep = array_filter(array_column($request['slot'], 'slot'));
+
+        foreach ($request['slot'] as $slot) {
+            if (empty($slot) || !isset($items[$slot['item_id']])) continue;
+
+            $currentSlot = $slot['slot'];
+            $itemId = $slot['item_id'];
+            $amount = $slot['amount'];
+
+            if (!isset($items[$itemId])) continue;
+            $item = $items[$itemId];
+
+            InventoryButton::updateOrCreate(
+                ['inventory_id' => $inventory->id, 'slot' => $currentSlot],
+                ['item_id' => $item->id, 'amount' => $amount]
+            );
+        }
+
+        InventoryButton::where('inventory_id', $inventory->id)->whereNotIn('slot', $slotsToKeep)->delete();
 
     }
 
@@ -138,6 +179,8 @@ class BuilderInventoryController extends Controller
     public function edit(Inventory $inventory): View|\Illuminate\Foundation\Application|Factory|Application
     {
         $versions = MinecraftVersion::all();
+        $inventory = $inventory->load('buttons');
+        $inventory = $inventory->load('buttons.item');
         return view('builder.inventory', [
             'inventory' => $inventory,
             'versions' => $versions

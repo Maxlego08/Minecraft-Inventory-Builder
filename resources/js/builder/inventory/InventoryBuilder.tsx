@@ -6,6 +6,10 @@ import api from "../services/api"
 
 const InventoryBuilder = () => {
 
+    const findButton = (index) => {
+        return inventory.buttons.find(button => button.slot === index) || null;
+    }
+
     // @ts-ignore
     const [data, setData] = useState(window.Content || {});
     const [inventory, setInventory] = useState(data.inventory || {});
@@ -15,11 +19,15 @@ const InventoryBuilder = () => {
     const [needToUpdate, setNeedToUpdate] = useState(false);
     const [inventoryContent, setInventoryContent] = useState({
         // @ts-ignore
-        slots: Array.from({length: 54}, (_, index) => ({
-            id: index,
-            content: null,
-            amount: 0
-        }))
+        slots: Array.from({length: 54}, (_, index) => {
+            let button = findButton(index)
+            return ({
+                id: index,
+                content: button?.item ?? null,
+                amount: button?.amount ?? 0,
+                button: button
+            })
+        })
     });
 
     useEffect(() => {
@@ -244,6 +252,7 @@ const InventoryBuilder = () => {
     }, [currentItem])
 
     const updateSlotContent = (slotIndex, newContent, newAmount = 1) => {
+        setNeedToUpdate(true)
         setInventoryContent(prevInventoryContent => {
             const newSlots = [...prevInventoryContent.slots];
 
@@ -254,6 +263,7 @@ const InventoryBuilder = () => {
     };
 
     const updateSlotAmount = (slotIndex, newAmount) => {
+        setNeedToUpdate(true)
         setInventoryContent(prevInventoryContent => {
             const newSlots = [...prevInventoryContent.slots];
 
@@ -348,6 +358,15 @@ const InventoryBuilder = () => {
         toggleAnimation('animate-in', 'animate-out');
 
         const formData = new FormData();
+
+        inventoryContent.slots.map((slot, index) => {
+            if (slot.content != null) {
+                formData.append(`slot[${index}]item_id`, slot.content.id);
+                formData.append(`slot[${index}]amount`, slot.amount);
+                formData.append(`slot[${index}]slot`, slot.id);
+            }
+        });
+
         ['name', 'size', 'file_name', 'update_interval', 'clear_inventory'].forEach(prop => {
             if (inventory[prop] !== undefined) {
                 formData.append(prop, inventory[prop]);

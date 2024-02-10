@@ -29,6 +29,7 @@
     <script>
         window.Content = {!! json_encode([
     'inventory' => $inventory,
+    // 'buttons' => $buttons,
     'versions' => $versions,
   ]) !!};
     </script>
