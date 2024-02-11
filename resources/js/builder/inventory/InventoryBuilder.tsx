@@ -3,11 +3,13 @@ import Items from "./components/items/Items";
 import Inventory from "./components/Inventory"
 import slot from "./components/Slot";
 import api from "../services/api"
+import ButtonConfiguration from "./components/configuration/button/ButtonConfiguration";
+import ItemStackConfiguration from "./components/configuration/itemstack/ItemStackConfiguration";
 
 const InventoryBuilder = () => {
 
     const findButton = (index) => {
-        return inventory.buttons.find(button => button.slot === index) || null;
+        return inventory.buttons.find(button => button.slot == index) || null;
     }
 
     // @ts-ignore
@@ -18,6 +20,7 @@ const InventoryBuilder = () => {
     const [isShiftClick, setIsShiftClick] = useState(false);
     const [needToUpdate, setNeedToUpdate] = useState(false);
     const [inventoryContent, setInventoryContent] = useState({
+        currentSlot: -1,
         // @ts-ignore
         slots: Array.from({length: 54}, (_, index) => {
             let button = findButton(index)
@@ -25,7 +28,10 @@ const InventoryBuilder = () => {
                 id: index,
                 content: button?.item ?? null,
                 amount: button?.amount ?? 0,
-                button: button
+                button: button ?? {
+                    display_name: null,
+                    lore: null,
+                }
             })
         })
     });
@@ -40,10 +46,19 @@ const InventoryBuilder = () => {
 
     useEffect(() => {
 
+        const handleBeforeUnload = (e) => {
+            if (needToUpdate) {
+                const message = "You have unsaved changes. Are you sure you want to leave?";
+                e.returnValue = message;
+                return message;
+            }
+        };
+
         document.addEventListener('mousemove', onItemMove);
         document.addEventListener('wheel', onItemMove);
         document.addEventListener('keydown', handleKeyDown);
         document.addEventListener('keyup', handleKeyUp);
+        window.addEventListener('beforeunload', handleBeforeUnload);
 
         updateCountElement();
 
@@ -66,6 +81,7 @@ const InventoryBuilder = () => {
             document.removeEventListener('wheel', onItemMove);
             document.removeEventListener('keydown', handleKeyDown);
             document.removeEventListener('keyup', handleKeyUp);
+            window.removeEventListener('beforeunload', handleBeforeUnload);
 
             if (currentItem != null) {
                 currentItem.clickElement.removeEventListener('click', onCurrentElementClick);
@@ -93,7 +109,6 @@ const InventoryBuilder = () => {
 
     const isKeyPress = (event, keys, keyCode) => {
         return !!(keys.includes(event.key) || event.keyCode === keyCode);
-
     };
 
     const deleteItem = () => {
@@ -229,13 +244,6 @@ const InventoryBuilder = () => {
         if (elements.length >= 3) return elements[2]
         return null;
     }
-
-    const setCount = (count) => {
-        if (count > 64) count = 64
-        else if (count < 1) count = 1
-        setCurrentCount(count)
-    }
-
     const updateCountElement = () => {
         if (currentItem == null) return
         currentItem.countElement.innerText = `${currentCount}`;
@@ -258,7 +266,7 @@ const InventoryBuilder = () => {
 
             newSlots[slotIndex] = {...newSlots[slotIndex], content: newContent, amount: newAmount};
 
-            return {...prevInventoryContent, slots: newSlots};
+            return {...prevInventoryContent, slots: newSlots, currentSlot: slotIndex};
         });
     };
 
@@ -268,6 +276,18 @@ const InventoryBuilder = () => {
             const newSlots = [...prevInventoryContent.slots];
 
             newSlots[slotIndex] = {...newSlots[slotIndex], amount: newAmount};
+
+            return {...prevInventoryContent, slots: newSlots, currentSlot: slotIndex};
+        });
+    };
+
+    const updateButton = (slotIndex, button) => {
+        console.log("button", button)
+        setNeedToUpdate(true)
+        setInventoryContent(prevInventoryContent => {
+            const newSlots = [...prevInventoryContent.slots];
+
+            newSlots[slotIndex] = {...newSlots[slotIndex], button: button};
 
             return {...prevInventoryContent, slots: newSlots};
         });
@@ -307,18 +327,14 @@ const InventoryBuilder = () => {
             }
 
             updateSlotAmount(id, newAmount)
-
         }
-
-        console.log(event)
-        console.log(id)
     }
 
-    const handleSlotDoubleClick = (event, id, isRightClick = true) => {
+    const handleSlotDoubleClick = (event, id, isMiddleClick = true) => {
 
         event.preventDefault()
 
-        if (!isRightClick) {
+        if (!isMiddleClick) {
 
             let slot = inventoryContent.slots[id]
             let currentAmount = slot.amount
@@ -364,6 +380,8 @@ const InventoryBuilder = () => {
                 formData.append(`slot[${index}]item_id`, slot.content.id);
                 formData.append(`slot[${index}]amount`, slot.amount);
                 formData.append(`slot[${index}]slot`, slot.id);
+                if (slot.button?.display_name) formData.append(`slot[${index}]display_name`, slot.button.display_name);
+                if (slot.button?.lore) formData.append(`slot[${index}]lore`, slot.button.lore);
             }
         });
 
@@ -396,9 +414,8 @@ const InventoryBuilder = () => {
                        needToUpdate={needToUpdate} saveData={saveData}
                        handleSlotClick={handleSlotClick} handleSlotDoubleClick={handleSlotDoubleClick}/>
             <div className="configurations">
-                <div className={"d-flex justify-content-center w-100 align-items-center"}>
-                    ToDo
-                </div>
+                <ItemStackConfiguration inventoryContent={inventoryContent} updateButton={updateButton} />
+                <ButtonConfiguration inventoryContent={inventoryContent} />
             </div>
         </div>
     );

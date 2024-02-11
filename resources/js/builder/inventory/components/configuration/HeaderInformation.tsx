@@ -1,4 +1,6 @@
-const HeaderInformation = ({needToUpdate, saveData}) => {
+import api from '../../../services/api'
+
+const HeaderInformation = ({needToUpdate, saveData, inventoryId}) => {
 
     return (
         <div className={"header-information"}>
@@ -8,10 +10,10 @@ const HeaderInformation = ({needToUpdate, saveData}) => {
                         <i className="bi bi-floppy"></i>
                         <span className={"ms-1"}>Save</span>
                     </div>
-                    <div className={needToUpdate ? 'enable' : 'disable'}>
+                    <a className={"action"} href={api.getDownloadUrl(inventoryId)} target={"_blank"}>
                         <i className="bi bi-cloud-download"></i>
                         <span className={"ms-1"}>Download the inventory</span>
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>

@@ -71,6 +71,15 @@
 
         }
 
+        .slot-select {
+            background: #83cad5;
+
+            &:hover {
+                background-color: #5a9ca5;
+            }
+
+        }
+
         .slotSpace {
             margin: 10px 10px;
             display: flex;

@@ -6,14 +6,33 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property string $name
+ * @property string $slot
+ * @property Item $item
+ * @property int $amount
+ * @property string $display_name
+ * @property string $lore
+ */
 class InventoryButton extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'name',
         'inventory_id',
+        'else_button_id',
+        'type_id',
         'item_id',
         'slot',
+        'messages',
+        'commands',
+        'page',
+        'isPermanent',
+        'closeInventory',
+        'refreshOnClick',
+        'updateOnClick',
+        'update',
         'amount',
         'display_name',
         'lore'

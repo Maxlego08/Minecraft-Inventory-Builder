@@ -11,7 +11,7 @@ const Item = ({item, onItemClick}) => {
             onClick={(event) => onItemClick(event, item)}
         >
             <i id={`item-${item.id}`} className={`icon-minecraft ${item.css}`}></i>
-            <Tooltip item={item} itemRef={itemRef}/>
+            <Tooltip item={item} itemRef={itemRef} button={null}/>
         </div>
     );
 };

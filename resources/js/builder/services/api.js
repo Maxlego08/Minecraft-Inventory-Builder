@@ -78,6 +78,10 @@ const fetchItems = () => {
     return apiClient.get(`/items/all`);
 };
 
+const getDownloadUrl = (inventoryId) => {
+    return import.meta.env.VITE_REACT_APP_API_URL + `/inventories/${inventoryId}/download`
+}
+
 const displayToast = (response) => {
     let toast = response.data.toast
     if (toast) window.toast(toast.type, toast.title, toast.description, toast.duration)
@@ -93,6 +97,7 @@ const apiFunctions = {
     updateInventory,
     fetchInventories,
     fetchItems,
+    getDownloadUrl,
 };
 
 export default apiFunctions;

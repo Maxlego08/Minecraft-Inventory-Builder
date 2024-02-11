@@ -143,12 +143,15 @@ class BuilderInventoryController extends Controller
     private function updateButton(Request $request, Inventory $inventory): void
     {
 
+
         $itemIds = array_column($request['slot'], 'item_id');
         $itemIds = array_unique(array_filter($itemIds));
 
         $items = Item::findMany($itemIds)->keyBy('id');
 
-        $slotsToKeep = array_filter(array_column($request['slot'], 'slot'));
+        $slotsToKeep = array_filter(array_column($request['slot'], 'slot'), function ($value) {
+            return ($value !== null && $value !== false);
+        });
 
         foreach ($request['slot'] as $slot) {
             if (empty($slot) || !isset($items[$slot['item_id']])) continue;
@@ -157,17 +160,28 @@ class BuilderInventoryController extends Controller
             $itemId = $slot['item_id'];
             $amount = $slot['amount'];
 
-            if (!isset($items[$itemId])) continue;
             $item = $items[$itemId];
+
+            $name = "btn-$currentSlot";
+
+            $display_name = isset($slot['display_name']) && $slot['display_name'] !== "null" && trim($slot['display_name']) !== "" ? $slot['display_name'] : null;
+            $lore = isset($slot['lore']) && $slot['lore'] !== "null" && trim($slot['lore']) !== "" ? $slot['lore'] : null;
 
             InventoryButton::updateOrCreate(
                 ['inventory_id' => $inventory->id, 'slot' => $currentSlot],
-                ['item_id' => $item->id, 'amount' => $amount]
+                [
+                    'item_id' => $item->id,
+                    'amount' => $amount,
+                    'type_id' => 1,
+                    'name' => $name,
+                    'display_name' => $display_name,
+                    'lore' => $lore
+                ]
             );
+
         }
 
         InventoryButton::where('inventory_id', $inventory->id)->whereNotIn('slot', $slotsToKeep)->delete();
-
     }
 
     /**

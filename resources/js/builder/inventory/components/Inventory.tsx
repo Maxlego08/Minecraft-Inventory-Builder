@@ -13,7 +13,7 @@ const Inventory = ({inventory, updateInventory, inventoryContent, handleSlotClic
 
     return (
         <div className={"inventory-builder-center"}>
-            <HeaderInformation needToUpdate={needToUpdate} saveData={saveData}/>
+            <HeaderInformation needToUpdate={needToUpdate} saveData={saveData} inventoryId={inventory.id}/>
             <div className={"inventory-builder-center-inventory inventory"}>
                 <div className="inventory-content">
                     <div className="inventory-content-header">
@@ -22,7 +22,7 @@ const Inventory = ({inventory, updateInventory, inventoryContent, handleSlotClic
                     </div>
                     <div className="slotSpace" id="slots">
                         {slots.map((_, i) => (
-                            <Slot key={i} id={i} currentItem={inventoryContent.slots[i]}
+                            <Slot key={i} id={i} currentItem={inventoryContent.slots[i]} currentSelectSlot={inventoryContent.currentSlot}
                                   handleSlotClick={handleSlotClick} handleSlotDoubleClick={handleSlotDoubleClick}/>
                         ))}
                     </div>

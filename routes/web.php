@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AlertController;
 use App\Http\Controllers\Api\TooltipController;
+use App\Http\Controllers\Builder\BuilderDownloadController;
 use App\Http\Controllers\Builder\BuilderIndexController;
 use App\Http\Controllers\Builder\BuilderInventoryController;
 use App\Http\Controllers\Builder\BuilderItemsController;
@@ -74,6 +75,7 @@ Route::prefix('/builder')->name('builder.')->middleware('auth')->group(function 
             Route::get('/{folder}', [BuilderInventoryController::class, 'inventories'])->name('get');
             Route::post('/{folder}/create', [BuilderInventoryController::class, 'create'])->name('create');
             Route::post('/{inventory}/update', [BuilderInventoryController::class, 'update'])->name('update');
+            Route::get('/{inventory}/download', [BuilderDownloadController::class, 'download'])->name('download');
         });
         Route::prefix('/items')->name('items.')->group(function () {
             Route::get('/all', [BuilderItemsController::class, 'items'])->name('all');

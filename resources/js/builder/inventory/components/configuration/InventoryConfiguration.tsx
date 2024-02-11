@@ -12,7 +12,6 @@ const InventoryConfiguration = ({inventory, updateInventory}) => {
             ...prevData,
             [name]: type === 'checkbox' ? checked : value
         }));
-
     }
 
     return (
