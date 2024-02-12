@@ -177,7 +177,12 @@ class BuilderInventoryController extends Controller
                     'type_id' => 1,
                     'name' => $name,
                     'display_name' => $display_name,
-                    'lore' => $lore
+                    'lore' => $lore,
+                    'is_permanent' => $this->getBoolean($slot, 'is_permanent'),
+                    'close_inventory' => $this->getBoolean($slot, 'close_inventory'),
+                    'refresh_on_click' => $this->getBoolean($slot, 'refresh_on_click'),
+                    'update_on_click' => $this->getBoolean($slot, 'update_on_click'),
+                    'update' => $this->getBoolean($slot, 'update'),
                 ]
             );
 
@@ -204,6 +209,20 @@ class BuilderInventoryController extends Controller
             'versions' => $versions,
             'buttonTypes' => $buttonTypes,
         ]);
+    }
+
+    function getBoolean($array, $key, $defaultValue = false) {
+
+        if (!isset($array[$key])) return $defaultValue;
+
+        $value = strtolower($array[$key]);
+        if ($value == 'true') {
+            return true;
+        } elseif ($value == 'false') {
+            return false;
+        }
+
+        return $defaultValue;
     }
 
 }

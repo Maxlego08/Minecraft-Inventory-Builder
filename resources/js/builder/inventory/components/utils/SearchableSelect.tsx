@@ -21,7 +21,7 @@ const SearchableSelect = ({options}) => {
                 className={'rounded-1'}
                 name="button_type"
                 type="text"
-                placeholder="Rechercher..."
+                placeholder="Search..."
                 value={searchTerm}
                 onChange={handleSearch}
                 onFocus={() => setShowDropdown(true)}

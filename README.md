@@ -24,6 +24,10 @@ Thing to develop to open the site
 * [ ] Add configuration of itemstacks and buttons
 * [ ] Add the possibility to create an addon from a resource
 * [ ] Add the ability to create buttons for the addon
+* [ ] Create a table "configuration button" with the name of the item to configure, the type of value it wants (string, int, boolean, double, list)
+* [ ] Create the code to configure the buttons according to their configuration type
+* [ ] Create the code to generate the YAML according to each type of button
+* [ ] Add next to each configuration item one? , when the user will hover or click on the? This will display more information about this configuration item.
 * [ ] Add paypal payments. The configuration is already done but the PaymentManager of Paypal not.
 
 # How do I contribute?

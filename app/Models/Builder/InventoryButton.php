@@ -28,14 +28,15 @@ class InventoryButton extends Model
         'messages',
         'commands',
         'page',
-        'isPermanent',
-        'closeInventory',
-        'refreshOnClick',
-        'updateOnClick',
+        'is_permanent',
+        'close_inventory',
+        'refresh_on_click',
+        'update_on_click',
         'update',
         'amount',
         'display_name',
-        'lore'
+        'lore',
+        'data'
     ];
 
     /**

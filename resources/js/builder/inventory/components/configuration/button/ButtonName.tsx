@@ -3,7 +3,7 @@ import {Form} from "react-bootstrap";
 const ButtonName = ({currentSlot, handleChange}) => {
 
     return (
-        <Form.Group className="mb-3">
+        <Form.Group>
             <Form.Label>Name</Form.Label>
             <Form.Control
                 type="text"

@@ -40,6 +40,8 @@ return new class extends Migration
             $table->longText('enchants')->nullable();
             $table->longText('flags')->nullable();
 
+            $table->longText('data')->nullable();
+
             $table->timestamps();
         });
     }

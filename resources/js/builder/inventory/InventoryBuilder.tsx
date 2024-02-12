@@ -394,6 +394,11 @@ const InventoryBuilder = () => {
                 formData.append(`slot[${index}]amount`, slot.amount);
                 formData.append(`slot[${index}]slot`, slot.id);
                 formData.append(`slot[${index}]name`, slot.button.name);
+                formData.append(`slot[${index}]is_permanent`, slot.button.is_permanent);
+                formData.append(`slot[${index}]close_inventory`, slot.button.close_inventory);
+                formData.append(`slot[${index}]refresh_on_click`, slot.button.refresh_on_click);
+                formData.append(`slot[${index}]update_on_click`, slot.button.update_on_click);
+                formData.append(`slot[${index}]update`, slot.button.update);
                 if (slot.button?.display_name) formData.append(`slot[${index}]display_name`, slot.button.display_name);
                 if (slot.button?.lore) formData.append(`slot[${index}]lore`, slot.button.lore);
             }
