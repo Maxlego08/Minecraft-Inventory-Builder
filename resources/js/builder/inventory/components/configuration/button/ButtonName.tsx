@@ -1,21 +1,20 @@
 import {Form} from "react-bootstrap";
 
-const Lore = ({handleChange, lore}) => {
+const ButtonName = ({currentSlot, handleChange}) => {
 
     return (
         <Form.Group className="mb-3">
-            <Form.Label>Lore</Form.Label>
+            <Form.Label>Name</Form.Label>
             <Form.Control
-                as="textarea"
-                name="lore"
-                value={lore ?? ''}
+                type="text"
+                name="name"
                 onChange={handleChange}
+                value={currentSlot.button.name}
                 className={'rounded-1'}
-                rows={10}
             />
         </Form.Group>
     )
 
 }
 
-export default Lore
+export default ButtonName

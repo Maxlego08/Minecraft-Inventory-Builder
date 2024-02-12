@@ -28,9 +28,9 @@
 @push('footer-scripts')
     <script>
         window.Content = {!! json_encode([
-    'inventory' => $inventory,
-    // 'buttons' => $buttons,
-    'versions' => $versions,
-  ]) !!};
+        'inventory' => $inventory,
+        'versions' => $versions,
+        'buttonTypes' => $buttonTypes,
+        ]) !!};
     </script>
 @endpush

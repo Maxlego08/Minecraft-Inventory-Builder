@@ -282,7 +282,6 @@ const InventoryBuilder = () => {
     };
 
     const updateButton = (slotIndex, button) => {
-        console.log("button", button)
         setNeedToUpdate(true)
         setInventoryContent(prevInventoryContent => {
             const newSlots = [...prevInventoryContent.slots];
@@ -293,9 +292,23 @@ const InventoryBuilder = () => {
         });
     };
 
+    const selectSlot = (slotIndex) => {
+        setNeedToUpdate(true)
+        setInventoryContent(prevInventoryContent => {
+            return {...prevInventoryContent, currentSlot: slotIndex};
+        });
+    };
+
     const handleSlotClick = (event, id) => {
 
         event.preventDefault()
+
+        // Select the slot before you can move the item.
+        if (inventoryContent.currentSlot == null || inventoryContent.currentSlot != id) {
+            selectSlot(id)
+            return
+        }
+
         let slot = inventoryContent.slots[id]
 
         // If the current item is null, we can only take the content of the slot, if it exists
@@ -380,6 +393,7 @@ const InventoryBuilder = () => {
                 formData.append(`slot[${index}]item_id`, slot.content.id);
                 formData.append(`slot[${index}]amount`, slot.amount);
                 formData.append(`slot[${index}]slot`, slot.id);
+                formData.append(`slot[${index}]name`, slot.button.name);
                 if (slot.button?.display_name) formData.append(`slot[${index}]display_name`, slot.button.display_name);
                 if (slot.button?.lore) formData.append(`slot[${index}]lore`, slot.button.lore);
             }
@@ -414,8 +428,8 @@ const InventoryBuilder = () => {
                        needToUpdate={needToUpdate} saveData={saveData}
                        handleSlotClick={handleSlotClick} handleSlotDoubleClick={handleSlotDoubleClick}/>
             <div className="configurations">
-                <ItemStackConfiguration inventoryContent={inventoryContent} updateButton={updateButton} />
-                <ButtonConfiguration inventoryContent={inventoryContent} />
+                <ItemStackConfiguration inventoryContent={inventoryContent} updateButton={updateButton}/>
+                <ButtonConfiguration inventoryContent={inventoryContent} updateButton={updateButton} buttonTypes={data.buttonTypes}/>
             </div>
         </div>
     );

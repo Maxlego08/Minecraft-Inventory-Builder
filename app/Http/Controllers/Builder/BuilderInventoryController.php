@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Builder;
 
 use App\Http\Controllers\Controller;
+use App\Models\Builder\ButtonType;
 use App\Models\Builder\Folder;
 use App\Models\Builder\Inventory;
 use App\Models\Builder\InventoryButton;
@@ -13,6 +14,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class BuilderInventoryController extends Controller
 {
@@ -158,11 +160,11 @@ class BuilderInventoryController extends Controller
 
             $currentSlot = $slot['slot'];
             $itemId = $slot['item_id'];
-            $amount = $slot['amount'];
+
+            $name = Str::limit($slot['name'], 255);
+            $name = empty($name) ? "btn-$currentSlot" : str_replace(" ", "_", $name);
 
             $item = $items[$itemId];
-
-            $name = "btn-$currentSlot";
 
             $display_name = isset($slot['display_name']) && $slot['display_name'] !== "null" && trim($slot['display_name']) !== "" ? $slot['display_name'] : null;
             $lore = isset($slot['lore']) && $slot['lore'] !== "null" && trim($slot['lore']) !== "" ? $slot['lore'] : null;
@@ -171,7 +173,7 @@ class BuilderInventoryController extends Controller
                 ['inventory_id' => $inventory->id, 'slot' => $currentSlot],
                 [
                     'item_id' => $item->id,
-                    'amount' => $amount,
+                    'amount' => $slot['amount'],
                     'type_id' => 1,
                     'name' => $name,
                     'display_name' => $display_name,
@@ -195,9 +197,12 @@ class BuilderInventoryController extends Controller
         $versions = MinecraftVersion::all();
         $inventory = $inventory->load('buttons');
         $inventory = $inventory->load('buttons.item');
+        $buttonTypes = ButtonType::all();
+
         return view('builder.inventory', [
             'inventory' => $inventory,
-            'versions' => $versions
+            'versions' => $versions,
+            'buttonTypes' => $buttonTypes,
         ]);
     }
 

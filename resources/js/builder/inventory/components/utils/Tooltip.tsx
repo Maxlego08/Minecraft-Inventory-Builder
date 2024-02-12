@@ -49,7 +49,7 @@ const Tooltip = ({item, itemRef, button}) => {
             <span className={button?.display_name ? '' : 'minecraft-tooltip-title'}
                   dangerouslySetInnerHTML={{__html: processedName}}></span>
             {
-                button?.lore && (<pre className={"tooltip-description"} dangerouslySetInnerHTML={{__html: processedLore}}></pre>)
+                button?.lore && (<pre className={"minecraft-tooltip-description"} dangerouslySetInnerHTML={{__html: processedLore}}></pre>)
             }
         </div>
     ) : null;

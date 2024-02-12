@@ -30,7 +30,7 @@ class BuilderDownloadController extends Controller
         foreach ($inventory->buttons as $key => $button) {
             $buttonKey = $button->name;
             $items[$buttonKey] = [
-                'slot' => $button->slot,
+                'slot' => (int)$button->slot,
                 'item' => [
                     'material' => $button->item->material,
                     'amount' => $button->amount,

@@ -23,14 +23,22 @@ return new class extends Migration
             $table->longText('messages')->nullable();
             $table->longText('commands')->nullable();
             $table->integer('page')->default(1);
-            $table->boolean('isPermanent')->default(false);
-            $table->boolean('closeInventory')->default(false);
-            $table->boolean('refreshOnClick')->default(false);
-            $table->boolean('updateOnClick')->default(false);
+            $table->boolean('is_permanent')->default(false);
+            $table->boolean('close_inventory')->default(false);
+            $table->boolean('refresh_on_click')->default(false);
+            $table->boolean('update_on_click')->default(false);
             $table->boolean('update')->default(false);
+
             $table->integer('amount')->default(1);
             $table->text('display_name')->nullable();
             $table->text('lore')->nullable();
+            $table->integer('data')->default(0);
+            $table->integer('durability')->default(0);
+            $table->longText('url')->nullable();
+            $table->boolean('glow')->default(false);
+            $table->integer('model_id')->default(0);
+            $table->longText('enchants')->nullable();
+            $table->longText('flags')->nullable();
 
             $table->timestamps();
         });
