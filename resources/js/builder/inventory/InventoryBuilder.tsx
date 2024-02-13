@@ -28,6 +28,7 @@ const InventoryBuilder = () => {
                 id: index,
                 content: button?.item ?? null,
                 button: button ?? {
+                    model_id: 0,
                     amount: 0,
                     display_name: null,
                     lore: null,
@@ -38,6 +39,9 @@ const InventoryBuilder = () => {
     });
 
     useEffect(() => {
+
+        console.log(inventoryContent)
+
         const intervalId = setInterval(() => {
             saveData();
         }, 1000 * 30); // 30 seconds
@@ -266,7 +270,7 @@ const InventoryBuilder = () => {
             const newSlots = [...prevInventoryContent.slots];
 
             const updatedButton = {
-                ...inventoryContent.slots[inventoryContent.currentSlot].button,
+                ...inventoryContent.slots[slotIndex].button,
                 amount: newAmount,
             };
 
@@ -282,7 +286,7 @@ const InventoryBuilder = () => {
             const newSlots = [...prevInventoryContent.slots];
 
             const updatedButton = {
-                ...inventoryContent.slots[inventoryContent.currentSlot].button,
+                ...inventoryContent.slots[slotIndex].button,
                 amount: newAmount,
             };
 

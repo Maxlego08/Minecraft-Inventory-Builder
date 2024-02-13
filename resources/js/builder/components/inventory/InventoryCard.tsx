@@ -17,12 +17,20 @@ const InventoryCard = ({inventory}) => {
 
     const handleFinishEdit = () => {
         setIsEditing(false);
+        let oldName = inventoryName
+
+        let currentName = editedName
+        if (editedName.length === 0) currentName = 'inventory'
+        if (editedName.length > 100) currentName = 'too long'
+
+        setEditedName(currentName)
+        setInventoryName(currentName)
 
         api.renameInventory(inventory.id, editedName).then(response => {
             api.displayToast(response)
-            if (response.data.result === 'success') {
-                setInventoryName(editedName)
-            }
+        }).catch(() => {
+            setEditedName(oldName)
+            setInventoryName(oldName)
         })
     };
 
@@ -32,6 +40,8 @@ const InventoryCard = ({inventory}) => {
                 {isEditing ? (
                     <input
                         type="text"
+                        minLength={1}
+                        maxLength={100}
                         value={editedName}
                         onChange={handleNameChange}
                         onBlur={handleFinishEdit}

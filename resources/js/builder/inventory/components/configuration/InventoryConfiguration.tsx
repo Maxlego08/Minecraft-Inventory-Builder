@@ -23,7 +23,7 @@ const InventoryConfiguration = ({inventory, updateInventory}) => {
                     <Form.Control
                         type="text"
                         name="name"
-                        value={inventory.name}
+                        value={inventory?.name ?? ''}
                         onChange={handleChange}
                         className={'rounded-1'}
                         placeholder={'Inventory'}

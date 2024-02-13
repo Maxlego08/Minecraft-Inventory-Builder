@@ -68,6 +68,14 @@ class BuilderInventoryController extends Controller
             ]);
         }
 
+        $counts = Inventory::where('user_id', $user->id)->count();
+        if ($counts >= $user->role->max_inventories) {
+            return json_encode([
+                'result' => 'error',
+                'toast' => createToast('error', 'Error', 'You cannot create a new inventory, please upgrade your account.', 5000)
+            ]);
+        }
+
         if ($validatedData['size'] % 9 != 0) {
             return json_encode([
                 'result' => 'error',
@@ -225,6 +233,37 @@ class BuilderInventoryController extends Controller
         }
 
         return $defaultValue;
+    }
+
+    /**
+     * Permet de renommer un inventaire
+     *
+     * @param Request $request
+     * @param Inventory $inventory
+     * @return bool|string
+     */
+    public function rename(Request $request, Inventory $inventory): bool|string
+    {
+
+        $validatedData = $request->validate([
+            'file_name' => 'required|string|max:100|min:3',
+        ]);
+
+        $user = user();
+        if ($inventory->user_id != $user->id && !$user->isAdmin()) {
+            return json_encode([
+                'result' => 'error',
+                'toast' => createToast('error', 'Error', 'Cannot use this folder.', 5000)
+            ]);
+        }
+
+        userLog("Vient de créer de renommer l'inventaire $inventory->file_name.$inventory->id", UserLog::COLOR_SUCCESS, UserLog::ICON_EDIT);
+
+        return json_encode([
+            'result' => 'success',
+            'toast' => createToast('success', 'Success', 'Inventory successfully renamed.', 5000)
+        ]);
+
     }
 
 }
