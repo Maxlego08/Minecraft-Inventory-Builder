@@ -77,6 +77,7 @@ Route::prefix('/builder')->name('builder.')->middleware('auth')->group(function 
             Route::post('/{inventory}/update', [BuilderInventoryController::class, 'update'])->name('update');
             Route::get('/{inventory}/download', [BuilderDownloadController::class, 'download'])->name('download');
             Route::post('/{inventory}/rename', [BuilderInventoryController::class, 'rename'])->name('rename');
+            Route::post('/{inventory}/delete', [BuilderInventoryController::class, 'delete'])->name('delete');
         });
         Route::prefix('/items')->name('items.')->group(function () {
             Route::get('/all', [BuilderItemsController::class, 'items'])->name('all');

@@ -93,6 +93,10 @@ const renameInventory = (inventoryId, fileName) => {
     return apiClient.post(`/inventories/${inventoryId}/rename`, formData);
 }
 
+const deleteInventory = (inventoryId) => {
+    return apiClient.post(`/inventories/${inventoryId}/delete`);
+}
+
 const apiFunctions = {
     fetchFolders,
     deleteFolder,
@@ -105,6 +109,7 @@ const apiFunctions = {
     fetchItems,
     getDownloadUrl,
     renameInventory,
+    deleteInventory,
 };
 
 export default apiFunctions;

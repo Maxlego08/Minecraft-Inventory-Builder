@@ -1,11 +1,13 @@
 import {useState} from "react";
 import api from "../../services/api"
+import DeleteConfirmationModal from '../modals/DeleteConfirmationModal';
 
-const InventoryCard = ({inventory}) => {
+const InventoryCard = ({inventory, handleDeleteInventory}) => {
 
     const [inventoryName, setInventoryName] = useState(inventory.file_name);
     const [isEditing, setIsEditing] = useState(false);
     const [editedName, setEditedName] = useState(inventory.file_name);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     const handleEditClick = () => {
         setIsEditing(true);
@@ -34,6 +36,16 @@ const InventoryCard = ({inventory}) => {
         })
     };
 
+    const handleDelete = (event) => {
+        event.stopPropagation()
+        setShowDeleteModal(true);
+    }
+
+    const handleConfirmDelete = () => {
+        setShowDeleteModal(false);
+        handleDeleteInventory(inventory.id)
+    };
+
     return (
         <div className={'inventory-card rounded-1'}>
             <div className={'inventory-card-header'}>
@@ -59,9 +71,15 @@ const InventoryCard = ({inventory}) => {
                 <div className={'inventory-card-actions-element'}>
                     <i className="bi bi-copy"/>
                 </div>
-                <div className={'inventory-card-actions-element'}>
+                <div className={'inventory-card-actions-element'} onClick={handleDelete}>
                     <i className="bi bi-trash text-danger"/>
                 </div>
+                <DeleteConfirmationModal
+                    show={showDeleteModal}
+                    handleClose={() => setShowDeleteModal(false)}
+                    handleConfirm={handleConfirmDelete}
+                    itemToDelete={inventory.file_name}
+                />
             </div>
         </div>
     )

@@ -14,6 +14,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class BuilderInventoryController extends Controller
@@ -221,7 +222,8 @@ class BuilderInventoryController extends Controller
         ]);
     }
 
-    function getBoolean($array, $key, $defaultValue = false) {
+    function getBoolean($array, $key, $defaultValue = false)
+    {
 
         if (!isset($array[$key])) return $defaultValue;
 
@@ -245,9 +247,18 @@ class BuilderInventoryController extends Controller
     public function rename(Request $request, Inventory $inventory): bool|string
     {
 
-        $validatedData = $request->validate([
+        $rules = [
             'file_name' => 'required|string|max:100|min:3',
-        ]);
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'result' => 'error',
+                'toast' => createToast('error', 'Validation Error', $validator->errors()->first('file_name'), 5000)
+            ], 422);
+        }
 
         $user = user();
         if ($inventory->user_id != $user->id && !$user->isAdmin()) {
@@ -257,13 +268,41 @@ class BuilderInventoryController extends Controller
             ]);
         }
 
+        $inventory->update($request->all());
+
         userLog("Vient de créer de renommer l'inventaire $inventory->file_name.$inventory->id", UserLog::COLOR_SUCCESS, UserLog::ICON_EDIT);
 
         return json_encode([
             'result' => 'success',
             'toast' => createToast('success', 'Success', 'Inventory successfully renamed.', 5000)
         ]);
+    }
 
+    /**
+     * Supprimer un inventaire
+     *
+     * @param Inventory $inventory
+     * @return bool|string
+     */
+    public function delete(Inventory $inventory): bool|string
+    {
+
+        $user = user();
+        if ($inventory->user_id != $user->id && !$user->isAdmin()) {
+            return json_encode([
+                'result' => 'error',
+                'toast' => createToast('error', 'Error', 'Cannot use this folder.', 5000)
+            ]);
+        }
+
+        $inventory->delete();
+
+        userLog("Vient de créer de supprimer l'inventaire $inventory->file_name.$inventory->id", UserLog::COLOR_SUCCESS, UserLog::ICON_EDIT);
+
+        return json_encode([
+            'result' => 'success',
+            'toast' => createToast('success', 'Success', 'Inventory successfully deleted.', 5000)
+        ]);
     }
 
 }
