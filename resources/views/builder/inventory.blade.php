@@ -5,7 +5,7 @@
     @vite(['resources/js/builder/inventory.js'])
 @endpush
 
-@section('title', 'Inventory Builder')
+@section('title', 'InventoryBuilder Builder')
 
 @section('app')
 
@@ -22,13 +22,15 @@
 
         </div>
     </div>
+    @include('builder.error')
 @endsection
 
 @push('footer-scripts')
     <script>
         window.Content = {!! json_encode([
-    'inventory' => $inventory,
-    'versions' => $versions,
-  ]) !!};
+        'inventory' => $inventory,
+        'versions' => $versions,
+        'buttonTypes' => $buttonTypes,
+        ]) !!};
     </script>
 @endpush

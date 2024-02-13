@@ -12,15 +12,27 @@ Thing to develop to open the site
 * [ ] Added other pages for the creator dashboard (discord and gift)
 * [ ] Check that each text is present in a translation file
 * [ ] Adds all administration pages to manage the site
-* [ ] Add role purchase
-* [ ] Changing the home page
+* [x] Add role purchase
+* [ ] Improve the homepage by adding images and video. Improve the texts.
 * [ ] Addition of static pages (terms, conditions etc.)
 * [ ] Improve the user page. Add more information, change the style to have a few more complete things
 * [ ] Management of users who will create a dispute or be refunded a payment (remove access)
-* [ ] Add an ad system. A div will be displayed with a cross to delete the message, and the display information will be stored in a table. So when the player clicks to delete the ad, it will be deleted and added to the database.
+* [ ] Add an AD system. A div will be displayed with a cross to delete the message, and the display information will be stored in a table. So when the player clicks to delete the ad, it will be deleted and added to the database.
 * [ ] Add a full log system on review, review response, and resource update changes
 * [x] Add a system to allow you to close your private messages.
 * [x] Add a system to automatically reply to the first message sent in private message
+* [ ] Add configuration of itemstacks and buttons
+* [ ] Add the possibility to create an addon from a resource
+* [ ] Add the ability to create buttons for the addon
+* [ ] Create a table "configuration button" with the name of the item to configure, the type of value it wants (string, int, boolean, double, list)
+* [ ] Create the code to configure the buttons according to their configuration type
+* [ ] Create the code to generate the YAML according to each type of button
+* [ ] Add next to each configuration item one? , when the user will hover or click on the? This will display more information about this configuration item.
+* [ ] Add paypal payments. The configuration is already done but the PaymentManager of Paypal not.
+* [ ] Sort materials by % of uses (similar to an AI of autocompletion)
+* [ ] Be able to duplicate an item (you often use the same lore...)
+* [ ] Auto Completions of placeholders (PAPI)
+* [ ] Mistletoe presets for the glass
 
 # How do I contribute?
 

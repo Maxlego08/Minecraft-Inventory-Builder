@@ -1,9 +1,10 @@
 .sidebar {
 
-    width: 465px;
+    width: 428px;
     background: #1a202c;
     padding: 10px;
     overflow-y: scroll;
+    flex-shrink: 0;
 
     &-header {
         margin: 5px 0;
@@ -34,12 +35,12 @@
 
 .mouse-item {
     position: absolute;
-    top: 13px;
-    left: 12px;
+    top: 14px;
+    left: 14px;
     color: white;
     z-index: 1001;
     font-size: 18px;
     text-align: end;
-
+    width: 20px;
 }
 

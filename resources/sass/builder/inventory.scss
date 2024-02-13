@@ -38,22 +38,23 @@
 
         .inventory-name {
             margin: 5px 10px;
-            font-size: 18px;
+            font-size: 14px;
             color: #404040;
-            display: block;
+            display: flex;
+            align-items: center;
             min-height: 25px;
         }
 
         .number {
-            // font-family: Minecraft, sans-serif;
-            font-size: 18px;
+            width: 20px;
+            font-size: 14px;
             color: #fefefe;
             position: relative;
             text-shadow: #333 1px 2px 1px;
-            top: -18px;
-            right: -2px;
+            top: -20px;
+            right: -12px;
             cursor: default;
-            text-align: end
+            text-align: end;
         }
 
         .slot {
@@ -63,6 +64,20 @@
             background: #8b8b8b;
             box-shadow: inset 1.5px 1.5px 0 rgba(55, 55, 55, 0.8),
             inset -2px -2px 0px #ffffff;
+
+            &:hover {
+                background-color: #c5c5c5;
+            }
+
+        }
+
+        .slot-select {
+            background: #83cad5;
+
+            &:hover {
+                background-color: #5a9ca5;
+            }
+
         }
 
         .slotSpace {
@@ -72,7 +87,7 @@
         }
 
         .item {
-            margin: 2px;
+            margin: 1px;
             width: 30px;
             height: 30px;
         }

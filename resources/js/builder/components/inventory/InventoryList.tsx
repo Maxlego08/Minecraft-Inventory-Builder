@@ -33,29 +33,49 @@ const InventoryList = ({folder = null}) => {
      *
      * @param formData
      */
+        // @ts-ignore
     const handleCreateInventory = async (formData: FormData) => {
-        try {
-            const response = await api.createInventory(formData, folder.id)
+            try {
+                const response = await api.createInventory(formData, folder.id)
+                api.displayToast(response)
+
+                if (response.data.result === 'success') {
+                    // @ts-ignore
+                    setInventories(currentInventories => [
+                        // @ts-ignore
+                        ...currentInventories,
+                        response.data.inventory
+                    ]);
+                }
+            } catch (error) {
+                console.error("Error deleting folder:", error);
+                // @ts-ignore
+                window.toast('error', 'Error !', `Error deleting folder: ${error}`, 5000)
+            }
+        }
+
+    const handleDeleteInventory = (inventoryId) => {
+        api.deleteInventory(inventoryId).then(response => {
             api.displayToast(response)
 
-            if (response.data.result === 'success') {
-                // ToDo
-            }
-        } catch (error) {
-            console.error("Error deleting folder:", error);
-            // @ts-ignore
-            window.toast('error', 'Error !', `Error deleting folder: ${error}`, 5000)
-        }
+            setInventories(currentInventories =>
+                // @ts-ignore
+                currentInventories.filter(inventory => inventory.id !== inventoryId)
+            );
+        })
     }
+
 
     return (
         <div className={'inventories'}>
             <InventoryHeader createInventory={handleCreateInventory}/>
             {inventories ? (
                 <div className={'inventories-list'}>
-                    {inventories?.map((inventory, index) => (
-                        <InventoryCard key={index} inventory={inventory}/>
-                    ))}
+                    {// @ts-ignore
+                        inventories?.map((inventory, index) => (
+                            <InventoryCard key={index} inventory={inventory}
+                                           handleDeleteInventory={handleDeleteInventory}/>
+                        ))}
                 </div>
             ) : (
                 <Loader/>

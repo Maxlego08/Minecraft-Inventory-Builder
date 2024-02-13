@@ -195,9 +195,9 @@ class Payment extends Model
     public function getPaymentType(): string
     {
         return match ($this->type) {
-            Payment::TYPE_RESOURCE => "Minecraft Inventory Builder - Resource {$this->resource->name}.$this->content_id",
-            Payment::TYPE_ACCOUNT_UPGRADE => "Minecraft Inventory Builder - Account Upgrade {$this->role->name}.$this->content_id",
-            Payment::TYPE_NAME_COLOR => "Minecraft Inventory Builder - Name color {$this->nameColor->translation()}.{$this->nameColor->id}",
+            Payment::TYPE_RESOURCE => "Minecraft InventoryBuilder Builder - Resource {$this->resource->name}.$this->content_id",
+            Payment::TYPE_ACCOUNT_UPGRADE => "Minecraft InventoryBuilder Builder - Account Upgrade {$this->role->name}.$this->content_id",
+            Payment::TYPE_NAME_COLOR => "Minecraft InventoryBuilder Builder - Name color {$this->nameColor->translation()}.{$this->nameColor->id}",
         };
     }
 

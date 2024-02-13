@@ -65,14 +65,12 @@ const createInventory = (formData, folderId) => {
     return apiClient.post(`/inventories/${folderId}/create`, formData);
 };
 
-const fetchInventories = (folderId) => {
-    return apiClient.get(`/inventories/${folderId}`);
+const updateInventory = (formData, inventoryId) => {
+    return apiClient.post(`/inventories/${inventoryId}/update`, formData);
 };
 
-const renameInventory = (inventoryId, fileName) => {
-    const formData = new FormData()
-    formData.append('file_name', fileName)
-    return apiClient.post(`/inventories/${inventoryId}/rename`, formData);
+const fetchInventories = (folderId) => {
+    return apiClient.get(`/inventories/${folderId}`);
 };
 
 
@@ -80,9 +78,23 @@ const fetchItems = () => {
     return apiClient.get(`/items/all`);
 };
 
+const getDownloadUrl = (inventoryId) => {
+    return import.meta.env.VITE_REACT_APP_API_URL + `/inventories/${inventoryId}/download`
+}
+
 const displayToast = (response) => {
     let toast = response.data.toast
     if (toast) window.toast(toast.type, toast.title, toast.description, toast.duration)
+}
+
+const renameInventory = (inventoryId, fileName) => {
+    const formData = new FormData()
+    formData.append('file_name', fileName)
+    return apiClient.post(`/inventories/${inventoryId}/rename`, formData);
+}
+
+const deleteInventory = (inventoryId) => {
+    return apiClient.post(`/inventories/${inventoryId}/delete`);
 }
 
 const apiFunctions = {
@@ -92,9 +104,12 @@ const apiFunctions = {
     updateFolder,
     displayToast,
     createInventory,
+    updateInventory,
     fetchInventories,
+    fetchItems,
+    getDownloadUrl,
     renameInventory,
-    fetchItems
+    deleteInventory,
 };
 
 export default apiFunctions;
