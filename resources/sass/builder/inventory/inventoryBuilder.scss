@@ -3,7 +3,7 @@
 
 .phone {
     display: none;
-    @media (max-width: 1800px) {
+    @media (max-width: 1000px) {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -13,7 +13,7 @@
 
 #builder {
 
-    @media (max-width: 1800px) {
+    @media (max-width: 1000px) {
         display: none;
     }
 

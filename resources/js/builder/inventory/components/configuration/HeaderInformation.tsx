@@ -10,10 +10,19 @@ const HeaderInformation = ({needToUpdate, saveData, inventoryId}) => {
                         <i className="bi bi-floppy"></i>
                         <span className={"ms-1"}>Save</span>
                     </div>
-                    <a className={"action"} href={api.getDownloadUrl(inventoryId)} target={"_blank"}>
-                        <i className="bi bi-cloud-download"></i>
-                        <span className={"ms-1"}>Download the inventory</span>
-                    </a>
+                    {
+                        needToUpdate ? (
+                            <div className={'disable'}>
+                                <i className="bi bi-cloud-download"></i>
+                                <span className={"ms-1"}>Download the inventory</span>
+                            </div>
+                        ) : (
+                            <a className={'enable action'} href={api.getDownloadUrl(inventoryId)} target={"_blank"}>
+                                <i className="bi bi-cloud-download"></i>
+                                <span className={"ms-1"}>Download the inventory</span>
+                            </a>
+                        )
+                    }
                 </div>
             </div>
         </div>
