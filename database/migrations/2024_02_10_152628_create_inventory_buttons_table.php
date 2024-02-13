@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('inventory_buttons', function (Blueprint $table) {
             $table->id();
             $table->foreignId('else_button_id')->nullable();
-            $table->foreignId('inventory_id')->constrained();
-            $table->foreignId('item_id')->constrained();
-            $table->foreignId('type_id')->constrained('inventory_button_types');
+            $table->foreignId('inventory_id')->constrained()->onDelete('cascade');
+            $table->foreignId('item_id')->constrained()->onDelete('cascade');
+            $table->foreignId('type_id')->constrained('inventory_button_types')->onDelete('cascade');
             $table->string('name');
             $table->string('slot');
 
@@ -40,7 +40,7 @@ return new class extends Migration
             $table->longText('enchants')->nullable();
             $table->longText('flags')->nullable();
 
-            $table->longText('data')->nullable();
+            $table->longText('button_data')->nullable();
 
             $table->timestamps();
         });

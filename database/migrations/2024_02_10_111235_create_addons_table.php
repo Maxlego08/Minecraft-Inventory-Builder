@@ -13,7 +13,7 @@ return new class extends Migration {
     {
         Schema::create('inventory_addons', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('resource_id')->constrained('resource_resources');
+            $table->foreignId('resource_id')->constrained('resource_resources')->onDelete('cascade');
             $table->string('name');
             $table->longText('description');
             $table->boolean('is_official')->default(false);

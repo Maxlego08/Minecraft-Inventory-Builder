@@ -13,7 +13,7 @@ return new class extends Migration {
     {
         Schema::create('inventory_button_types', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('addon_id')->constrained('inventory_addons');
+            $table->foreignId('addon_id')->constrained('inventory_addons')->onDelete('cascade');
             $table->string('name');
             $table->longText('description');
             $table->longText('example')->nullable();
