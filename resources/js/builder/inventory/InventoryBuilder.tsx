@@ -39,9 +39,6 @@ const InventoryBuilder = () => {
     });
 
     useEffect(() => {
-
-        console.log(inventoryContent)
-
         const intervalId = setInterval(() => {
             saveData();
         }, 1000 * 30); // 30 seconds

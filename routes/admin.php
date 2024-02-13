@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ConversationController;
 use App\Http\Controllers\Admin\GiftController;
 use App\Http\Controllers\Admin\IndexController;
+use App\Http\Controllers\Admin\ItemController;
 use App\Http\Controllers\Admin\LogController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ReportController;
@@ -40,6 +41,8 @@ Route::prefix('reports/')->name('reports.')->group(function () {
 
 // Admin access
 Route::middleware('admin')->group(function () {
+
+    Route::get('/update/items', [ItemController::class, 'updateItems'])->name('update.items');
 
     Route::prefix('users/')->name('users.')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('index');

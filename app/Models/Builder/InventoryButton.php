@@ -13,6 +13,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $amount
  * @property string $display_name
  * @property string $lore
+ * @property int $model_id
+ * @property boolean $glow
+ * @property boolean $is_permanent
+ * @property boolean $close_inventory
+ * @property boolean $refresh_on_click
+ * @property boolean $update_on_click
+ * @property boolean $update
  */
 class InventoryButton extends Model
 {

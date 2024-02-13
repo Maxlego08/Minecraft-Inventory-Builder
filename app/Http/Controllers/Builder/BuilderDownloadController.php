@@ -28,14 +28,20 @@ class BuilderDownloadController extends Controller
         $items = [];
 
         foreach ($inventory->buttons as $key => $button) {
+
+            $slot = (int)$button->slot;
+
+            if ($slot >= $inventory->size) continue;
+
             $buttonKey = $button->name;
             $items[$buttonKey] = [
-                'slot' => (int)$button->slot,
+                'slot' => $slot,
                 'item' => [
                     'material' => $button->item->material,
                     'amount' => $button->amount,
                 ]
             ];
+
 
             if (isset($button->display_name) && $button->display_name !== null) {
                 $items[$buttonKey]['item']['name'] = $button->display_name;
@@ -44,6 +50,14 @@ class BuilderDownloadController extends Controller
             if (isset($button->lore) && $button->lore !== null) {
                 $items[$buttonKey]['item']['lore'] = $button->lore;
             }
+
+            if ($button->model_id != 0) $items[$buttonKey]['item']['modelId'] = $button->model_id;
+            if ($button->glow) $items[$buttonKey]['item']['glow'] = true;
+            if ($button->is_permanent) $items[$buttonKey]['isPermanent'] = true;
+            if ($button->close_inventory) $items[$buttonKey]['closeInventory'] = true;
+            if ($button->refresh_on_click) $items[$buttonKey]['refreshOnClick'] = true;
+            if ($button->update_on_click) $items[$buttonKey]['updateOnClick'] = true;
+            if ($button->update) $items[$buttonKey]['update'] = true;
         }
 
         $data = [

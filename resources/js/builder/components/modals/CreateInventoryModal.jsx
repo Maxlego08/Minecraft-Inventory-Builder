@@ -4,7 +4,7 @@ import Inventory from '../inventory/Inventory'
 
 const CreateInventoryModal = ({show, handleClose, handleSave}) => {
     const [inventoryData, setInventoryData] = useState({
-        name: '',
+        name: '&8My Inventory',
         size: '9',
         updateInterval: '0',
         clearInventory: false,
