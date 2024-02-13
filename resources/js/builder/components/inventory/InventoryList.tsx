@@ -40,7 +40,12 @@ const InventoryList = ({folder = null}) => {
                 api.displayToast(response)
 
                 if (response.data.result === 'success') {
-                    // ToDo
+                    // @ts-ignore
+                    setInventories(currentInventories => [
+                        // @ts-ignore
+                        ...currentInventories,
+                        response.data.inventory
+                    ]);
                 }
             } catch (error) {
                 console.error("Error deleting folder:", error);
