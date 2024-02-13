@@ -36,7 +36,9 @@ class InventoryButton extends Model
         'amount',
         'display_name',
         'lore',
-        'data'
+        'data',
+        'glow',
+        'model_id'
     ];
 
     /**

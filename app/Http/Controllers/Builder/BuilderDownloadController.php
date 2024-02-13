@@ -42,8 +42,7 @@ class BuilderDownloadController extends Controller
             }
 
             if (isset($button->lore) && $button->lore !== null) {
-                $items[$buttonKey]['item']['lore'] = explode("\n", $button->lore);
-
+                $items[$buttonKey]['item']['lore'] = $button->lore;
             }
         }
 
@@ -53,7 +52,7 @@ class BuilderDownloadController extends Controller
             'items' => $items,
         ];
 
-        $ymlContent = Yaml::dump($data, 4, 2, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
+        $ymlContent = Yaml::dump($data, 4, 2, Yaml::DUMP_OBJECT_AS_MAP | Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
 
         return response($ymlContent, 200)
             ->header('Content-Type', 'text/yaml')

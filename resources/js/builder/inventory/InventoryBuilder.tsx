@@ -27,10 +27,11 @@ const InventoryBuilder = () => {
             return ({
                 id: index,
                 content: button?.item ?? null,
-                amount: button?.amount ?? 0,
                 button: button ?? {
+                    amount: 0,
                     display_name: null,
                     lore: null,
+                    name: `btn-${index}`
                 }
             })
         })
@@ -230,7 +231,7 @@ const InventoryBuilder = () => {
             let slotId = currentElement.getAttribute('data-slot')
 
             // We will calculate the new number of elements
-            let newAmount = inventoryContent.slots[slotId].amount + 1
+            let newAmount = inventoryContent.slots[slotId].button.amount + 1
             if (newAmount > 64) return
 
             updateSlotContent(slotId, currentItem.item, newAmount)
@@ -264,7 +265,12 @@ const InventoryBuilder = () => {
         setInventoryContent(prevInventoryContent => {
             const newSlots = [...prevInventoryContent.slots];
 
-            newSlots[slotIndex] = {...newSlots[slotIndex], content: newContent, amount: newAmount};
+            const updatedButton = {
+                ...inventoryContent.slots[inventoryContent.currentSlot].button,
+                amount: newAmount,
+            };
+
+            newSlots[slotIndex] = {...newSlots[slotIndex], content: newContent, button: updatedButton};
 
             return {...prevInventoryContent, slots: newSlots, currentSlot: slotIndex};
         });
@@ -275,7 +281,12 @@ const InventoryBuilder = () => {
         setInventoryContent(prevInventoryContent => {
             const newSlots = [...prevInventoryContent.slots];
 
-            newSlots[slotIndex] = {...newSlots[slotIndex], amount: newAmount};
+            const updatedButton = {
+                ...inventoryContent.slots[inventoryContent.currentSlot].button,
+                amount: newAmount,
+            };
+
+            newSlots[slotIndex] = {...newSlots[slotIndex], button: updatedButton};
 
             return {...prevInventoryContent, slots: newSlots, currentSlot: slotIndex};
         });
@@ -304,7 +315,7 @@ const InventoryBuilder = () => {
         event.preventDefault()
 
         // Select the slot before you can move the item.
-        if (inventoryContent.currentSlot == null || inventoryContent.currentSlot != id) {
+        if ((inventoryContent.currentSlot == null || inventoryContent.currentSlot != id) && currentItem == null) {
             selectSlot(id)
             return
         }
@@ -317,7 +328,7 @@ const InventoryBuilder = () => {
             if (slot.content == null) return
 
             updateSlotContent(id, null, 0)
-            onItemClick(event, slot.content, slot.amount)
+            onItemClick(event, slot.content, slot.button.amount)
 
             return
         }
@@ -326,7 +337,7 @@ const InventoryBuilder = () => {
         if (slot.content != null && slot.content.id == currentItem.item.id) {
             // We will add the item to the one already present, except that the number exceeds the maxStackSize or 64
 
-            let newAmount = slot.amount + currentCount
+            let newAmount = slot.button.amount + currentCount
             // If the number is greater than 64, then the number must be reduced
             if (newAmount > 64) {
                 // We will calculate the new number of items that the player has in the hand
@@ -350,7 +361,7 @@ const InventoryBuilder = () => {
         if (!isMiddleClick) {
 
             let slot = inventoryContent.slots[id]
-            let currentAmount = slot.amount
+            let currentAmount = slot.button.amount
             if (currentAmount == 1) {
 
                 updateSlotContent(id, null, 0)
@@ -391,7 +402,7 @@ const InventoryBuilder = () => {
         inventoryContent.slots.map((slot, index) => {
             if (slot.content != null) {
                 formData.append(`slot[${index}]item_id`, slot.content.id);
-                formData.append(`slot[${index}]amount`, slot.amount);
+                formData.append(`slot[${index}]amount`, slot.button.amount);
                 formData.append(`slot[${index}]slot`, slot.id);
                 formData.append(`slot[${index}]name`, slot.button.name);
                 formData.append(`slot[${index}]is_permanent`, slot.button.is_permanent);
@@ -399,6 +410,8 @@ const InventoryBuilder = () => {
                 formData.append(`slot[${index}]refresh_on_click`, slot.button.refresh_on_click);
                 formData.append(`slot[${index}]update_on_click`, slot.button.update_on_click);
                 formData.append(`slot[${index}]update`, slot.button.update);
+                formData.append(`slot[${index}]glow`, slot.button.glow);
+                formData.append(`slot[${index}]model_id`, slot.button.model_id);
                 if (slot.button?.display_name) formData.append(`slot[${index}]display_name`, slot.button.display_name);
                 if (slot.button?.lore) formData.append(`slot[${index}]lore`, slot.button.lore);
             }
@@ -434,7 +447,8 @@ const InventoryBuilder = () => {
                        handleSlotClick={handleSlotClick} handleSlotDoubleClick={handleSlotDoubleClick}/>
             <div className="configurations">
                 <ItemStackConfiguration inventoryContent={inventoryContent} updateButton={updateButton}/>
-                <ButtonConfiguration inventoryContent={inventoryContent} updateButton={updateButton} buttonTypes={data.buttonTypes}/>
+                <ButtonConfiguration inventoryContent={inventoryContent} updateButton={updateButton}
+                                     buttonTypes={data.buttonTypes}/>
             </div>
         </div>
     );

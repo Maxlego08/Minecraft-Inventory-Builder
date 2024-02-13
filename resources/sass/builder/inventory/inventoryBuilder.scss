@@ -46,7 +46,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-
         }
 
         &-configuration {
@@ -61,12 +60,8 @@
             ::selection {
                 background-color: rgba(178, 193, 193, 0.5);
             }
-
         }
-
-
     }
-
 }
 
 .header-information {

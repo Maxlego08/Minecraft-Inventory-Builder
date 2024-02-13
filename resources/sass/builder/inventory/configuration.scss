@@ -6,6 +6,18 @@
     background: $color-primary;
     flex-shrink: 0;
 
+    ::-moz-selection {
+        background-color: rgba(178, 193, 193, 0.5) !important;
+    }
+
+    ::selection {
+        background-color: rgba(178, 193, 193, 0.5) !important;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
     &-itemstack {
         width: 50%;
         height: 100%;
@@ -19,10 +31,6 @@
     &-button {
         width: 50%;
         height: 100%;
-
-        a {
-            text-decoration: none;
-        }
 
         &-header {
             text-align: center;

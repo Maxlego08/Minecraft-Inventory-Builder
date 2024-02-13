@@ -29,6 +29,10 @@ Thing to develop to open the site
 * [ ] Create the code to generate the YAML according to each type of button
 * [ ] Add next to each configuration item one? , when the user will hover or click on the? This will display more information about this configuration item.
 * [ ] Add paypal payments. The configuration is already done but the PaymentManager of Paypal not.
+* [ ] Sort materials by % of uses (similar to an AI of autocompletion)
+* [ ] Be able to duplicate an item (you often use the same lore...)
+* [ ] Auto Completions of placeholders (PAPI)
+* [ ] Mistletoe presets for the glass
 
 # How do I contribute?
 

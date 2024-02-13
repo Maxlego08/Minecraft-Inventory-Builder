@@ -173,16 +173,18 @@ class BuilderInventoryController extends Controller
                 ['inventory_id' => $inventory->id, 'slot' => $currentSlot],
                 [
                     'item_id' => $item->id,
-                    'amount' => $slot['amount'],
+                    'amount' => max(1, min(64, $slot['amount'])),
                     'type_id' => 1,
                     'name' => $name,
-                    'display_name' => $display_name,
-                    'lore' => $lore,
+                    'display_name' => Str::limit($display_name, 65535),
+                    'lore' => Str::limit($lore, 65535),
                     'is_permanent' => $this->getBoolean($slot, 'is_permanent'),
                     'close_inventory' => $this->getBoolean($slot, 'close_inventory'),
                     'refresh_on_click' => $this->getBoolean($slot, 'refresh_on_click'),
                     'update_on_click' => $this->getBoolean($slot, 'update_on_click'),
                     'update' => $this->getBoolean($slot, 'update'),
+                    'glow' => $this->getBoolean($slot, 'glow'),
+                    'model_id' => $slot['model_id']
                 ]
             );
 
