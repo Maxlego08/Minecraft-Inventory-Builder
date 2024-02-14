@@ -13,7 +13,9 @@ use App\Models\UserLog;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -153,8 +155,6 @@ class BuilderInventoryController extends Controller
      */
     private function updateButton(Request $request, Inventory $inventory): void
     {
-
-
         $itemIds = array_column($request['slot'], 'item_id');
         $itemIds = array_unique(array_filter($itemIds));
 
@@ -202,26 +202,6 @@ class BuilderInventoryController extends Controller
         InventoryButton::where('inventory_id', $inventory->id)->whereNotIn('slot', $slotsToKeep)->delete();
     }
 
-    /**
-     * Edit an inventory
-     *
-     * @param Inventory $inventory
-     * @return View|\Illuminate\Foundation\Application|Factory|Application
-     */
-    public function edit(Inventory $inventory): View|\Illuminate\Foundation\Application|Factory|Application
-    {
-        $versions = MinecraftVersion::all();
-        $inventory = $inventory->load('buttons');
-        $inventory = $inventory->load('buttons.item');
-        $buttonTypes = ButtonType::all();
-
-        return view('builder.inventory', [
-            'inventory' => $inventory,
-            'versions' => $versions,
-            'buttonTypes' => $buttonTypes,
-        ]);
-    }
-
     function getBoolean($array, $key, $defaultValue = false)
     {
 
@@ -235,6 +215,32 @@ class BuilderInventoryController extends Controller
         }
 
         return $defaultValue;
+    }
+
+    /**
+     * Edit an inventory
+     *
+     * @param Inventory $inventory
+     * @return Factory|\Illuminate\Foundation\Application|View|RedirectResponse|Application
+     */
+    public function edit(Inventory $inventory): Factory|\Illuminate\Foundation\Application|View|RedirectResponse|Application
+    {
+
+        $user = user();
+        if ($inventory->user_id != $user->id && !$user->role->isModerator()) {
+            return Redirect::route('home');
+        }
+
+        $versions = MinecraftVersion::all();
+        $inventory = $inventory->load('buttons');
+        $inventory = $inventory->load('buttons.item');
+        $buttonTypes = ButtonType::all();
+
+        return view('builder.inventory', [
+            'inventory' => $inventory,
+            'versions' => $versions,
+            'buttonTypes' => $buttonTypes,
+        ]);
     }
 
     /**

@@ -29,7 +29,7 @@ return [
     'documentation' => 'Documentations',
     'account-upgrade' => 'Upgrade your account !',
     'premium' => 'Premium',
-    'builder-builder' => 'InventoryBuilder Builder',
+    'builder-builder' => 'Inventory Builder',
     'home' => 'Home',
     'save_changes' => 'Save changes',
     'save_update' => 'Save update',
