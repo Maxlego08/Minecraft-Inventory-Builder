@@ -28,6 +28,12 @@ return [
                     'icon' => 'fas fa-pause-circle',
                     'power' => UserRole::MODERATOR
                 ],
+                'inventories' => [
+                    'name' => 'Inventaires',
+                    'route' => 'admin.inventories.index',
+                    'icon' => 'fas fa-folder',
+                    'power' => UserRole::MODERATOR
+                ],
                 'payments' => [
                     'name' => 'Payments',
                     'route' => 'admin.payments.index',

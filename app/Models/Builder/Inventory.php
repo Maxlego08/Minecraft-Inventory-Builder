@@ -22,6 +22,22 @@ class Inventory extends Model
 
     protected $fillable = ['file_name', 'name', 'size', 'user_id', 'update_interval', 'clear_inventory', 'folder_id'];
 
+
+    /**
+     * Returns the folder or inventory
+     *
+     * @return BelongsTo
+     */
+    public function folder(): BelongsTo
+    {
+        return $this->belongsTo(Folder::class);
+    }
+
+    /**
+     * Returns the inventory user
+     *
+     * @return BelongsTo
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

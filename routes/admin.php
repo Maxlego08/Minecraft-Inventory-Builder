@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ConversationController;
 use App\Http\Controllers\Admin\GiftController;
 use App\Http\Controllers\Admin\IndexController;
+use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Admin\ItemController;
 use App\Http\Controllers\Admin\LogController;
 use App\Http\Controllers\Admin\PaymentController;
@@ -31,6 +32,9 @@ Route::prefix('conversations/')->name('conversations.')->group(function () {
     Route::post('/delete/{conversation}', [ConversationController::class, 'delete'])->middleware('admin')->name('delete');
 });
 
+Route::prefix('inventories/')->name('inventories.')->group(function () {
+    Route::get('/', [InventoryController::class, 'index'])->name('index');
+});
 
 Route::prefix('reports/')->name('reports.')->group(function () {
     Route::get('/', [ReportController::class, 'index'])->name('index');
