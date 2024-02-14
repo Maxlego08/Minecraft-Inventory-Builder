@@ -32,7 +32,7 @@
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th scope="col" style="width: 100px">#</th>
+                            <th scope="col">#</th>
                             <th scope="col">Utilisateur</th>
                             <th scope="col">Dossier</th>
                             <th scope="col">Nom du fichier</th>
@@ -52,15 +52,16 @@
                                 <td>
                                     @include('admins.elements.user', ['currentUser' => $inventory->user])
                                 </td>
-                                <td>{{ $inventory->folder->name }}</td>
-                                <td>{{ $inventory->file_name }}</td>
-                                <td>{{ $inventory->name ?? 'Inventory' }}</td>
+                                <td>{{ \Illuminate\Support\Str::limit($inventory->folder->name, 20) }}</td>
+                                <td>{{ \Illuminate\Support\Str::limit($inventory->file_name, 20) }}</td>
+                                <td>{{ \Illuminate\Support\Str::limit($inventory->name ?? 'Inventory', 20) }}</td>
                                 <td>{{ $inventory->size }}</td>
                                 <td>{{ $inventory->buttons->count() }}</td>
                                 <td>{{ format_date($inventory->created_at, true) }}</td>
                                 <td>{{ format_date($inventory->updated_at, true) }}</td>
                                 <td>
-                                    <a href="{{ route('builder.edit', $inventory) }}" target="_blank"><i class="fas fa-edit"></i></a>
+                                    <a href="{{ route('builder.edit', $inventory) }}" target="_blank"><i
+                                            class="fas fa-edit"></i></a>
                                 </td>
                             </tr>
                         @endforeach
