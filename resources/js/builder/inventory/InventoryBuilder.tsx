@@ -305,7 +305,6 @@ const InventoryBuilder = () => {
     };
 
     const selectSlot = (slotIndex) => {
-        setNeedToUpdate(true)
         setInventoryContent(prevInventoryContent => {
             return {...prevInventoryContent, currentSlot: slotIndex};
         });
