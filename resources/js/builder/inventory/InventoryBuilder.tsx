@@ -389,6 +389,7 @@ const InventoryBuilder = () => {
         setNeedToUpdate(false);
 
         const toggleAnimation = (add, remove) => {
+
             const element = document.getElementById('saving-text');
             if (element) {
                 element.classList.add(add);
@@ -437,7 +438,7 @@ const InventoryBuilder = () => {
     return (
         <div className={'inventory-builder'}>
             <div id={"saving-text"} className="text-animation">
-                <div className={'me-2'}>Sauvegarde en cours</div>
+                <div className={'me-2'}>Saving</div>
                 <div className="spinner-border spinner-border-sm" role="status">
                     <span className="visually-hidden"></span>
                 </div>

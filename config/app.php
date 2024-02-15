@@ -197,8 +197,6 @@ return [
         App\Providers\ViewServiceProvider::class,
 
         \App\Providers\FortifyServiceProvider::class,
-        Mews\Purifier\PurifierServiceProvider::class,
-        PheRum\BBCode\BBCodeServiceProvider::class,
     ],
 
     /*
@@ -214,7 +212,6 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
-        'BBBCode' => PheRum\BBCode\Facades\BBCode::class,
     ])->toArray(),
 
 ];
