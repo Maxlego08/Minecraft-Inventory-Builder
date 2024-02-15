@@ -54,7 +54,7 @@ class BuilderDownloadController extends Controller
                 }
                 $items[$currentKey]['slots'][] = $slot;
             }
-        }
+        };
 
         $data = [
             'name' => $inventory->name,
@@ -62,7 +62,7 @@ class BuilderDownloadController extends Controller
             'items' => $items,
         ];
 
-        $ymlContent = Yaml::dump($data, 4, 2, Yaml::DUMP_OBJECT_AS_MAP | Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
+        $ymlContent = Yaml::dump($data, 99, 2, Yaml::DUMP_OBJECT_AS_MAP | Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
 
         return response($ymlContent, 200)
             ->header('Content-Type', 'text/yaml')
@@ -99,7 +99,9 @@ class BuilderDownloadController extends Controller
             $array['name'] = $button->display_name;
         }
 
-        if (isset($button->lore) && $button->lore !== null) $array['item']['lore'] = $button->lore;
+        if (isset($button->lore) && $button->lore !== null) {
+            $array['item']['lore'] = explode("\n", $button->lore);
+        }
 
         if ($button->model_id != 0) $array['item']['modelId'] = $button->model_id;
         if ($button->glow) $array['item']['glow'] = true;
