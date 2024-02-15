@@ -1,12 +1,13 @@
 import Tooltip from "./utils/Tooltip";
 import {useRef} from "react";
 
-const Slot = ({id, currentItem, handleSlotClick, handleSlotDoubleClick, currentSelectSlot}) => {
+const Slot = ({id, currentItem, handleSlotClick, handleSlotDoubleClick, currentSelectSlot, selectSlots}) => {
 
     const itemRef = useRef(null);
+    const isSelect = currentSelectSlot == id || selectSlots.includes(id)
 
     return (
-        <div id={`slot-${id}`} className={`slot ${currentSelectSlot == id ? 'slot-select' : ''}`}
+        <div id={`slot-${id}`} className={`slot ${isSelect ? 'slot-select' : ''}`}
              onClick={event => handleSlotClick(event, id)}
              onContextMenu={event => handleSlotDoubleClick(event, id, false)}
              data-slot={id}>

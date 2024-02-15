@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Builder;
 
 use App\Http\Controllers\Controller;
 use App\Models\Builder\Inventory;
+use App\Models\Builder\InventoryButton;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Response;
@@ -26,6 +27,7 @@ class BuilderDownloadController extends Controller
         }
 
         $items = [];
+        $sameButtons = [];
 
         foreach ($inventory->buttons as $key => $button) {
 
@@ -34,31 +36,25 @@ class BuilderDownloadController extends Controller
             if ($slot >= $inventory->size) continue;
 
             $buttonKey = $button->name;
-            $items[$buttonKey] = [
-                'slot' => $slot,
-                'item' => [
-                    'material' => $button->item->material,
-                    'amount' => $button->amount,
-                ]
-            ];
+            $currentButton = $this->buttonToArray($button, $slot);
 
+            $result = $this->is_in($button, $sameButtons);
+            if (!$result) {
 
-            if (isset($button->display_name) && $button->display_name !== null) {
-                $items[$buttonKey]['item']['name'] = $button->display_name;
+                $sameButtons[] = $button;
+                $items[$buttonKey] = $currentButton;
+
+            } else {
+
+                $currentKey = $result->name;
+
+                unset($items[$currentKey]['slot']);
+                if (!isset($items[$currentKey]['slots'])) {
+                    $items[$currentKey]['slots'] = [(int)$result->slot];
+                }
+                $items[$currentKey]['slots'][] = $slot;
             }
-
-            if (isset($button->lore) && $button->lore !== null) {
-                $items[$buttonKey]['item']['lore'] = $button->lore;
-            }
-
-            if ($button->model_id != 0) $items[$buttonKey]['item']['modelId'] = $button->model_id;
-            if ($button->glow) $items[$buttonKey]['item']['glow'] = true;
-            if ($button->is_permanent) $items[$buttonKey]['isPermanent'] = true;
-            if ($button->close_inventory) $items[$buttonKey]['closeInventory'] = true;
-            if ($button->refresh_on_click) $items[$buttonKey]['refreshOnClick'] = true;
-            if ($button->update_on_click) $items[$buttonKey]['updateOnClick'] = true;
-            if ($button->update) $items[$buttonKey]['update'] = true;
-        }
+        };
 
         $data = [
             'name' => $inventory->name,
@@ -66,11 +62,56 @@ class BuilderDownloadController extends Controller
             'items' => $items,
         ];
 
-        $ymlContent = Yaml::dump($data, 4, 2, Yaml::DUMP_OBJECT_AS_MAP | Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
+        $ymlContent = Yaml::dump($data, 99, 2, Yaml::DUMP_OBJECT_AS_MAP | Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
 
         return response($ymlContent, 200)
             ->header('Content-Type', 'text/yaml')
             ->header("Content-Disposition", "attachment; filename={$inventory->file_name}.yml");
 
     }
+
+    public function is_in(InventoryButton $button, array $array): ?InventoryButton
+    {
+        $toRemove = ['slot', 'created_at', 'updated_at', 'name', 'id'];
+        $attributes = $button->getAttributes();
+        foreach ($toRemove as $remove) unset($attributes[$remove]);
+
+        foreach ($array as $value) {
+            $currentAttributes = $value->getAttributes();
+            foreach ($toRemove as $remove) unset($currentAttributes[$remove]);
+
+            if ($attributes === $currentAttributes) return $value;
+        }
+        return null;
+    }
+
+    private function buttonToArray(InventoryButton $button, int $slot): array
+    {
+        $array = [
+            'slot' => $slot,
+            'item' => [
+                'material' => $button->item->material,
+                'amount' => $button->amount,
+            ]
+        ];
+
+        if (isset($button->display_name) && $button->display_name !== null) {
+            $array['name'] = $button->display_name;
+        }
+
+        if (isset($button->lore) && $button->lore !== null) {
+            $array['item']['lore'] = explode("\n", $button->lore);
+        }
+
+        if ($button->model_id != 0) $array['item']['modelId'] = $button->model_id;
+        if ($button->glow) $array['item']['glow'] = true;
+        if ($button->is_permanent) $array['isPermanent'] = true;
+        if ($button->close_inventory) $array['closeInventory'] = true;
+        if ($button->refresh_on_click) $array['refreshOnClick'] = true;
+        if ($button->update_on_click) $array['updateOnClick'] = true;
+        if ($button->update) $array['update'] = true;
+
+        return $array;
+    }
+
 }

@@ -19,6 +19,7 @@ const InventoryBuilder = () => {
     const [currentCount, setCurrentCount] = useState(0);
     const [isShiftClick, setIsShiftClick] = useState(false);
     const [needToUpdate, setNeedToUpdate] = useState(false);
+    const [slots, setSlots] = useState([]);
     const [inventoryContent, setInventoryContent] = useState({
         currentSlot: -1,
         // @ts-ignore
@@ -305,7 +306,6 @@ const InventoryBuilder = () => {
     };
 
     const selectSlot = (slotIndex) => {
-        setNeedToUpdate(true)
         setInventoryContent(prevInventoryContent => {
             return {...prevInventoryContent, currentSlot: slotIndex};
         });
@@ -315,9 +315,22 @@ const InventoryBuilder = () => {
 
         event.preventDefault()
 
+        // Manage the selection of multiple slots
+        if (isShiftClick) {
+            // @ts-ignore
+            if (slots.includes(id)) {
+                removeSlot(id)
+            } else {
+                if (slots.length === 0) selectSlot(id)
+                addSlot(id)
+            }
+            return
+        }
+
         // Select the slot before you can move the item.
         if ((inventoryContent.currentSlot == null || inventoryContent.currentSlot != id) && currentItem == null) {
             selectSlot(id)
+            setSlots([])
             return
         }
 
@@ -389,6 +402,7 @@ const InventoryBuilder = () => {
         setNeedToUpdate(false);
 
         const toggleAnimation = (add, remove) => {
+
             const element = document.getElementById('saving-text');
             if (element) {
                 element.classList.add(add);
@@ -433,23 +447,31 @@ const InventoryBuilder = () => {
         }, 1000);
     };
 
+    const addSlot = (element) => {
+        setSlots([...slots, element]);
+    };
+
+    const removeSlot = (index) => {
+        setSlots(slots.filter((i, _) => i != index));
+    };
 
     return (
         <div className={'inventory-builder'}>
             <div id={"saving-text"} className="text-animation">
-                <div className={'me-2'}>Sauvegarde en cours</div>
+                <div className={'me-2'}>Saving</div>
                 <div className="spinner-border spinner-border-sm" role="status">
                     <span className="visually-hidden"></span>
                 </div>
             </div>
             <Items versions={data.versions} onItemClick={onItemClick}/>
             <Inventory inventory={inventory} updateInventory={updateInventory} inventoryContent={inventoryContent}
-                       needToUpdate={needToUpdate} saveData={saveData}
+                       needToUpdate={needToUpdate} saveData={saveData} selectSlots={slots}
                        handleSlotClick={handleSlotClick} handleSlotDoubleClick={handleSlotDoubleClick}/>
             <div className="configurations">
-                <ItemStackConfiguration inventoryContent={inventoryContent} updateButton={updateButton}/>
+                <ItemStackConfiguration inventoryContent={inventoryContent} updateButton={updateButton}
+                                        selectedSlots={slots}/>
                 <ButtonConfiguration inventoryContent={inventoryContent} updateButton={updateButton}
-                                     buttonTypes={data.buttonTypes}/>
+                                     selectedSlots={slots} buttonTypes={data.buttonTypes}/>
             </div>
         </div>
     );

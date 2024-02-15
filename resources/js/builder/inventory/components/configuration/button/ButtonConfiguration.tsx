@@ -7,8 +7,9 @@ import RefreshOnClick from "./RefreshOnClick";
 import UpdateOnClick from "./UpdateOnClick";
 import Update from "./Update";
 
-const ButtonConfiguration = ({inventoryContent, buttonTypes, updateButton}) => {
+const ButtonConfiguration = ({inventoryContent, buttonTypes, updateButton, selectedSlots}) => {
 
+    const slotsToUpdate = selectedSlots.length > 0 ? selectedSlots : [inventoryContent.currentSlot].filter(index => index >= 0);
     let currentSlot = inventoryContent.currentSlot >= 0 ? inventoryContent.slots[inventoryContent.currentSlot] : null;
 
     const handleChange = (event) => {
@@ -16,12 +17,14 @@ const ButtonConfiguration = ({inventoryContent, buttonTypes, updateButton}) => {
 
         const newValue = type === 'checkbox' ? checked : value;
 
-        const updatedButton = {
-            ...inventoryContent.slots[inventoryContent.currentSlot].button,
-            [name]: newValue,
-        };
+        slotsToUpdate.forEach(slotIndex => {
+            const updatedButton = {
+                ...inventoryContent.slots[slotIndex].button,
+                [name]: newValue,
+            };
 
-        updateButton(inventoryContent.currentSlot, updatedButton);
+            updateButton(slotIndex, updatedButton);
+        });
     };
 
     return inventoryContent.currentSlot >= 0 ? (
@@ -45,11 +48,11 @@ const ButtonConfiguration = ({inventoryContent, buttonTypes, updateButton}) => {
                         <ButtonName currentSlot={currentSlot} handleChange={handleChange}/>
                     </div>
                 </div>
-                <IsPermanent currentSlot={currentSlot} handleChange={handleChange} />
-                <CloseInventory currentSlot={currentSlot} handleChange={handleChange} />
-                <RefreshOnClick currentSlot={currentSlot} handleChange={handleChange} />
-                <UpdateOnClick currentSlot={currentSlot} handleChange={handleChange} />
-                <Update currentSlot={currentSlot} handleChange={handleChange} />
+                <IsPermanent currentSlot={currentSlot} handleChange={handleChange}/>
+                <CloseInventory currentSlot={currentSlot} handleChange={handleChange}/>
+                <RefreshOnClick currentSlot={currentSlot} handleChange={handleChange}/>
+                <UpdateOnClick currentSlot={currentSlot} handleChange={handleChange}/>
+                <Update currentSlot={currentSlot} handleChange={handleChange}/>
             </div>
             <div className={'configurations-button-bottom p-2'}>
                 <div className={'configurations-button-header mb-2'}>

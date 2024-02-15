@@ -45,6 +45,7 @@
                     <hr>
                     <div>Discord: <a href="https://discord.groupez.dev/" target="_blank">https://discord.groupez.dev/</a></div>
                     <div>Support the project: <a href="{{ route('premium.index') }}">Upgrade my account</a></div>
+                    <div>Changelogs: <a href="https://github.com/Maxlego08/Minecraft-Inventory-Builder/blob/master/changelog.md" target="_blank">Click here</a></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>

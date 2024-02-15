@@ -8,6 +8,7 @@ use App\Payment\PaymentManager;
 use App\Utils\Likeable;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\File;
 
 if (!function_exists('user')) {
     function user(): User
@@ -292,6 +293,24 @@ if (!function_exists('formatPriceWithId')) {
             'gbp' => "<span data-price='$price' id='price'>$formattedPrice</span>£",
             default => $formattedPrice . ' ' . strtoupper($currency),
         };
+    }
+}
+
+/*
+ * Price format
+ * */
+if (!function_exists('showChangelog')) {
+    function showChangelog()
+    {
+        $path = base_path('changelog.md');
+
+        if (File::exists($path)) {
+            $markdown = File::get($path);
+            $parsedown = new Parsedown();
+            return $parsedown->text($markdown);
+        }
+
+        return "Not found";
     }
 }
 

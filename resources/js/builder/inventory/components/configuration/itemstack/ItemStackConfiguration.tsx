@@ -4,7 +4,9 @@ import Amount from "./Amount";
 import Glow from "./Glow";
 import ModelId from "./ModelId";
 
-const ItemStackConfiguration = ({inventoryContent, updateButton}) => {
+const ItemStackConfiguration = ({inventoryContent, updateButton, selectedSlots}) => {
+
+    const slotsToUpdate = selectedSlots.length > 0 ? selectedSlots : [inventoryContent.currentSlot].filter(index => index >= 0);
 
     const handleChange = (event) => {
         const { name, value, type, checked, min, max } = event.target;
@@ -27,12 +29,14 @@ const ItemStackConfiguration = ({inventoryContent, updateButton}) => {
             }
         }
 
-        const updatedButton = {
-            ...inventoryContent.slots[inventoryContent.currentSlot].button,
-            [name]: newValue,
-        };
+        slotsToUpdate.forEach(slotIndex => {
+            const updatedButton = {
+                ...inventoryContent.slots[slotIndex].button,
+                [name]: newValue,
+            };
 
-        updateButton(inventoryContent.currentSlot, updatedButton);
+            updateButton(slotIndex, updatedButton);
+        });
     };
 
 
@@ -50,10 +54,8 @@ const ItemStackConfiguration = ({inventoryContent, updateButton}) => {
             ) : (
                 <div className={'d-flex justify-content-center align-items-center h-100'}>Please select an item</div>
             )}
-
         </div>
     )
-
 }
 
 export default ItemStackConfiguration
