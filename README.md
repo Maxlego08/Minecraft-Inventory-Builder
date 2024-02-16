@@ -33,6 +33,7 @@ Thing to develop to open the site
 * [ ] Be able to duplicate an item (you often use the same lore...)
 * [ ] Auto Completions of placeholders (PAPI)
 * [ ] Mistletoe presets for the glass
+* [ ] Added a way to have a tutorial on how to use the builder
 
 # How do I contribute?
 

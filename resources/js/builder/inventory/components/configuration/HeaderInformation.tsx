@@ -1,4 +1,5 @@
 import api from '../../../services/api'
+import LockScrollButton from "../utils/LockScrollButton";
 
 const HeaderInformation = ({needToUpdate, saveData, inventoryId}) => {
 
@@ -23,6 +24,7 @@ const HeaderInformation = ({needToUpdate, saveData, inventoryId}) => {
                             </a>
                         )
                     }
+                    <LockScrollButton/>
                 </div>
             </div>
         </div>

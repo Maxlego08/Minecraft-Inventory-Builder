@@ -2,6 +2,7 @@
 
 - Add inventories element in user show page
 - Add sound configuration
+- Added a button to lock the page, to avoid scrolling and allow centered selections
 
 # 1.0.3
 
