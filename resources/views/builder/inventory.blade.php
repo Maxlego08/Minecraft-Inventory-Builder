@@ -53,7 +53,6 @@
             </div>
         </div>
     </div>
-
 @endsection
 
 @push('footer-scripts')
@@ -62,6 +61,7 @@
         'inventory' => $inventory,
         'versions' => $versions,
         'buttonTypes' => $buttonTypes,
+        'sounds' => $sounds,
         ]) !!};
     </script>
 @endpush

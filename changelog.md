@@ -1,6 +1,7 @@
 # Unreleased
 
 - Add inventories element in user show page
+- Add sound configuration
 
 # 1.0.3
 

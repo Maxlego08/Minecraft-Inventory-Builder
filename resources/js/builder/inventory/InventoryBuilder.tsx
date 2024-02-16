@@ -33,7 +33,11 @@ const InventoryBuilder = () => {
                     amount: 0,
                     display_name: null,
                     lore: null,
-                    name: `btn-${index}`
+                    name: `btn-${index}`,
+                    volume: 1.0,
+                    pitch: 1.0,
+                    sound: '',
+                    glow: false
                 }
             })
         })
@@ -427,6 +431,9 @@ const InventoryBuilder = () => {
                 formData.append(`slot[${index}]update`, slot.button.update);
                 formData.append(`slot[${index}]glow`, slot.button.glow);
                 formData.append(`slot[${index}]model_id`, slot.button.model_id);
+                formData.append(`slot[${index}]volume`, slot.button.volume);
+                formData.append(`slot[${index}]pitch`, slot.button.pitch);
+                formData.append(`slot[${index}]sound`, slot.button.sound);
                 if (slot.button?.display_name) formData.append(`slot[${index}]display_name`, slot.button.display_name);
                 if (slot.button?.lore) formData.append(`slot[${index}]lore`, slot.button.lore);
             }
@@ -471,7 +478,7 @@ const InventoryBuilder = () => {
                 <ItemStackConfiguration inventoryContent={inventoryContent} updateButton={updateButton}
                                         selectedSlots={slots}/>
                 <ButtonConfiguration inventoryContent={inventoryContent} updateButton={updateButton}
-                                     selectedSlots={slots} buttonTypes={data.buttonTypes}/>
+                                     selectedSlots={slots} buttonTypes={data.buttonTypes} sounds={data.sounds}/>
             </div>
         </div>
     );

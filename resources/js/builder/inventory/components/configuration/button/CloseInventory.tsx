@@ -9,7 +9,7 @@ const CloseInventory = ({currentSlot, handleChange}) => {
                 type="checkbox"
                 name="close_inventory"
                 onChange={handleChange}
-                checked={currentSlot.button.close_inventory}
+                checked={currentSlot.button?.close_inventory ?? false}
                 className={'rounded-1'}
             />
             <a className={'ms-2'} href={'https://docs.zmenu.dev/configurations/buttons#closeinventory'} target={'_blank'}>(<i className="bi bi-question-lg"></i>)</a>

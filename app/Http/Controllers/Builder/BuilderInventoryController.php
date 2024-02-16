@@ -15,6 +15,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -193,7 +194,10 @@ class BuilderInventoryController extends Controller
                     'update_on_click' => $this->getBoolean($slot, 'update_on_click'),
                     'update' => $this->getBoolean($slot, 'update'),
                     'glow' => $this->getBoolean($slot, 'glow'),
-                    'model_id' => $slot['model_id']
+                    'model_id' => $slot['model_id'],
+                    'sound' => $slot['sound'],
+                    'pitch' => $slot['pitch'],
+                    'volume' => $slot['volume'],
                 ]
             );
 
@@ -231,15 +235,22 @@ class BuilderInventoryController extends Controller
             return Redirect::route('home');
         }
 
+        $sounds = Cache::remember('xsound:values', 86400, function () {
+            $content = file_get_contents('https://raw.githubusercontent.com/CryptoMorin/XSeries/master/src/main/java/com/cryptomorin/xseries/XSound.java');
+            preg_match_all('/^\s{4}([A-Z_]+)(?=\(|,)/m', $content, $matches);
+            return $matches[1];
+        });
+
         $versions = MinecraftVersion::all();
         $inventory = $inventory->load('buttons');
         $inventory = $inventory->load('buttons.item');
-        $buttonTypes = ButtonType::all();
+        $buttonTypes = ButtonType::pluck('name');
 
         return view('builder.inventory', [
             'inventory' => $inventory,
             'versions' => $versions,
             'buttonTypes' => $buttonTypes,
+            'sounds' => $sounds,
         ]);
     }
 

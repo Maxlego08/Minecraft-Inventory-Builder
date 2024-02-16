@@ -45,7 +45,10 @@ class InventoryButton extends Model
         'lore',
         'data',
         'glow',
-        'model_id'
+        'model_id',
+        'sound',
+        'pitch',
+        'volume',
     ];
 
     /**
