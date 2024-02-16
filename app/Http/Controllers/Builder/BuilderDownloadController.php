@@ -91,17 +91,14 @@ class BuilderDownloadController extends Controller
             'slot' => $slot,
             'item' => [
                 'material' => $button->item->material,
-                'amount' => $button->amount,
             ]
         ];
 
-        if (isset($button->display_name) && $button->display_name !== null) {
-            $array['name'] = $button->display_name;
-        }
+        if ($button->amount != 1) $array['item']['amount'] = $button->amount;
 
-        if (isset($button->lore) && $button->lore !== null) {
-            $array['item']['lore'] = explode("\n", $button->lore);
-        }
+        if (isset($button->display_name)) $array['item']['name'] = $button->display_name;
+
+        if (isset($button->lore)) $array['item']['lore'] = explode("\n", $button->lore);
 
         if ($button->model_id != 0) $array['item']['modelId'] = $button->model_id;
         if ($button->glow) $array['item']['glow'] = true;
@@ -113,6 +110,7 @@ class BuilderDownloadController extends Controller
         if (isset($button->sound)) $array['sound'] = $button->sound;
         if ($button->pitch != 1) $array['pitch'] = $button->pitch;
         if ($button->volume != 1) $array['volume'] = $button->volume;
+        if (isset($button->messages)) $array['messages'] = explode("\n", $button->messages);
 
         return $array;
     }

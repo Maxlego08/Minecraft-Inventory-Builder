@@ -7,6 +7,7 @@ import RefreshOnClick from "./RefreshOnClick";
 import UpdateOnClick from "./UpdateOnClick";
 import Update from "./Update";
 import Sound from "./Sound";
+import Messages from "./Messages";
 
 const ButtonConfiguration = ({inventoryContent, buttonTypes, updateButton, selectedSlots, sounds}) => {
 
@@ -71,6 +72,7 @@ const ButtonConfiguration = ({inventoryContent, buttonTypes, updateButton, selec
                 <UpdateOnClick currentSlot={currentSlot} handleChange={handleChange}/>
                 <Update currentSlot={currentSlot} handleChange={handleChange}/>
                 <Sound sounds={sounds} currentSlot={currentSlot} handleChange={handleChange}/>
+                <Messages currentSlot={currentSlot} handleChange={handleChange}/>
             </div>
             <div className={'configurations-button-bottom p-2'}>
                 <div className={'configurations-button-header mb-2'}>

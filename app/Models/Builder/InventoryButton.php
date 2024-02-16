@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property boolean $refresh_on_click
  * @property boolean $update_on_click
  * @property boolean $update
+ * @property string $messages
  * @property string $sound
  * @property float $volume
  * @property float $pitch

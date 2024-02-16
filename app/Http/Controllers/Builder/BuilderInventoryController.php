@@ -178,6 +178,7 @@ class BuilderInventoryController extends Controller
 
             $display_name = isset($slot['display_name']) && $slot['display_name'] !== "null" && trim($slot['display_name']) !== "" ? $slot['display_name'] : null;
             $lore = isset($slot['lore']) && $slot['lore'] !== "null" && trim($slot['lore']) !== "" ? $slot['lore'] : null;
+            $messages = isset($slot['messages']) && $slot['messages'] !== "null" && trim($slot['messages']) !== "" ? $slot['messages'] : null;
 
             InventoryButton::updateOrCreate(
                 ['inventory_id' => $inventory->id, 'slot' => $currentSlot],
@@ -186,6 +187,7 @@ class BuilderInventoryController extends Controller
                     'amount' => max(1, min(64, $slot['amount'])),
                     'type_id' => 1,
                     'name' => $name,
+                    'messages' => Str::limit($messages, 65535),
                     'display_name' => Str::limit($display_name, 65535),
                     'lore' => Str::limit($lore, 65535),
                     'is_permanent' => $this->getBoolean($slot, 'is_permanent'),

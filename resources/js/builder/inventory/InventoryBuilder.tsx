@@ -33,6 +33,7 @@ const InventoryBuilder = () => {
                     amount: 0,
                     display_name: null,
                     lore: null,
+                    messages: null,
                     name: `btn-${index}`,
                     volume: 1.0,
                     pitch: 1.0,
@@ -434,6 +435,7 @@ const InventoryBuilder = () => {
                 formData.append(`slot[${index}]volume`, slot.button.volume);
                 formData.append(`slot[${index}]pitch`, slot.button.pitch);
                 formData.append(`slot[${index}]sound`, slot.button.sound);
+                formData.append(`slot[${index}]messages`, slot.button.messages);
                 if (slot.button?.display_name) formData.append(`slot[${index}]display_name`, slot.button.display_name);
                 if (slot.button?.lore) formData.append(`slot[${index}]lore`, slot.button.lore);
             }
