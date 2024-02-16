@@ -110,6 +110,9 @@ class BuilderDownloadController extends Controller
         if ($button->refresh_on_click) $array['refreshOnClick'] = true;
         if ($button->update_on_click) $array['updateOnClick'] = true;
         if ($button->update) $array['update'] = true;
+        if (isset($button->sound)) $array['sound'] = $button->sound;
+        if ($button->pitch != 1) $array['pitch'] = $button->pitch;
+        if ($button->volume != 1) $array['volume'] = $button->volume;
 
         return $array;
     }
