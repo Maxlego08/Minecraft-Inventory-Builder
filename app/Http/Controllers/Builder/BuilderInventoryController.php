@@ -140,7 +140,7 @@ class BuilderInventoryController extends Controller
 
         $this->updateButton($request, $inventory);
 
-        userLog("Vient de créer de modifier l'inventaire $inventory->file_name.$inventory->id", UserLog::COLOR_SUCCESS, UserLog::ICON_EDIT);
+        userLog("Vient de modifier l'inventaire $inventory->file_name.$inventory->id", UserLog::COLOR_SUCCESS, UserLog::ICON_EDIT);
 
         return json_encode(['result' => 'success']);
 

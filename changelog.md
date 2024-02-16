@@ -1,5 +1,7 @@
 # Unreleased
 
+- Add inventories element in user show page
+
 # 1.0.3
 
 - Add multi slot support

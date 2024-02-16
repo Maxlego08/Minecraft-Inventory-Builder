@@ -45,27 +45,9 @@
                         </tr>
                         </thead>
                         <tbody>
-
-                        @foreach($inventories as $inventory)
-                            <tr>
-                                <td>{{ $inventory->id }}</td>
-                                <td>
-                                    @include('admins.elements.user', ['currentUser' => $inventory->user])
-                                </td>
-                                <td>{{ \Illuminate\Support\Str::limit($inventory->folder->name, 20) }}</td>
-                                <td>{{ \Illuminate\Support\Str::limit($inventory->file_name, 20) }}</td>
-                                <td>{{ \Illuminate\Support\Str::limit($inventory->name ?? 'Inventory', 20) }}</td>
-                                <td>{{ $inventory->size }}</td>
-                                <td>{{ $inventory->buttons->count() }}</td>
-                                <td>{{ format_date($inventory->created_at, true) }}</td>
-                                <td>{{ format_date($inventory->updated_at, true) }}</td>
-                                <td>
-                                    <a href="{{ route('builder.edit', $inventory) }}" target="_blank"><i
-                                            class="fas fa-edit"></i></a>
-                                </td>
-                            </tr>
-                        @endforeach
-
+                            @foreach($inventories as $inventory)
+                                @include('admins.elements.inventory', ['currentInventory' => $inventory])
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
