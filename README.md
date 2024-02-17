@@ -34,6 +34,8 @@ Thing to develop to open the site
 * [ ] Auto Completions of placeholders (PAPI)
 * [ ] Mistletoe presets for the glass
 * [ ] Added a way to have a tutorial on how to use the builder
+* [x] Be able to move in the inventory with the directional keys
+* [ ] Ability to navigate between multiple pages
 
 # How do I contribute?
 

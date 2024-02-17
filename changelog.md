@@ -1,5 +1,6 @@
 # Unreleased
 
+- You can now move around the inventory with the directional keys
 - Add inventories element in user show page
 - Add sound configuration
 - Added a button to lock the page, to avoid scrolling and allow centered selections

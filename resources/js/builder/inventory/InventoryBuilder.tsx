@@ -21,7 +21,7 @@ const InventoryBuilder = () => {
     const [needToUpdate, setNeedToUpdate] = useState(false);
     const [slots, setSlots] = useState([]);
     const [inventoryContent, setInventoryContent] = useState({
-        currentSlot: -1,
+        currentSlot: 0,
         // @ts-ignore
         slots: Array.from({length: 54}, (_, index) => {
             let button = findButton(index)
@@ -100,19 +100,25 @@ const InventoryBuilder = () => {
 
     const handleKeyDown = useCallback(event => {
         event = event || window.event;
-        if (isKeyPress(event, ['Escape', 'Esc'], 27)) {
-            deleteItem();
-        }
-        if (isKeyPress(event, ['Shift'], 16)) {
-            setIsShiftClick(true);
-        }
-    }, [isShiftClick, currentItem]);
+
+        if (isKeyPress(event, ['Escape', 'Esc'], 27)) deleteItem();
+        if (isKeyPress(event, ['Shift'], 16)) setIsShiftClick(true);
+
+        if (isKeyPress(event, ['ArrowRight'], 39)) updateSlot(event, inventoryContent.currentSlot + 1)
+        if (isKeyPress(event, ['ArrowUp'], 38)) updateSlot(event, inventoryContent.currentSlot - 9)
+        if (isKeyPress(event, ['ArrowLeft'], 37)) updateSlot(event, inventoryContent.currentSlot - 1)
+        if (isKeyPress(event, ['ArrowDown'], 40)) updateSlot(event, inventoryContent.currentSlot + 9)
+
+    }, [isShiftClick, currentItem, inventoryContent]);
+
+    const updateSlot = (event, newSlot) => {
+        event.preventDefault()
+        if (newSlot > 0 && newSlot < inventory.size) selectSlot(newSlot)
+    }
 
     const handleKeyUp = useCallback(event => {
         event = event || window.event;
-        if (isKeyPress(event, ['Shift'], 16)) {
-            setIsShiftClick(false);
-        }
+        if (isKeyPress(event, ['Shift'], 16)) setIsShiftClick(false);
     }, [isShiftClick]);
 
     const isKeyPress = (event, keys, keyCode) => {

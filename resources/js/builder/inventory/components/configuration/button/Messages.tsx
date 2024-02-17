@@ -11,7 +11,7 @@ const Messages = ({currentSlot, handleChange}) => {
                 as={'textarea'}
                 rows={10}
                 onChange={handleChange}
-                value={currentSlot.button.messages}
+                value={currentSlot.button?.messages ?? ''}
                 className={'rounded-1'}
             />
         </Form.Group>
