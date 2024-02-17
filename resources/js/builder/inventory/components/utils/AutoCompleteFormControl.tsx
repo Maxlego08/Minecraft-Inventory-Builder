@@ -65,7 +65,7 @@ const AutoCompleteFormControl = ({ name, asControl = 'text', handleChange, defau
                                 const newValue = inputValue.replace(lastWordRegex, filteredSuggestion);
                                 setInputValue(newValue);
                                 setShowSuggestions(false);
-                                if(handleChange) handleChange({ target: { name, value: newValue } });
+                                handleChange({ target: { name: name, value: newValue } });
                             }}
                         >
                             {filteredSuggestion}
