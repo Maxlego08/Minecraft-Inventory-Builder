@@ -25,6 +25,8 @@ const InformationModal = ({handleClose, show}) => {
                     <div className={'h5 mb-1'}>Place an item in the inventory.</div>
                     <div><kbd>Right Click</kbd> to place the item in inventory.</div>
                     <div><kbd>Left Click</kbd> to place a single item in the inventory.</div>
+                    <div><kbd>Esc</kbd> to remove inventory from the hand</div>
+                    <div><kbd>Left Click</kbd> on the page to remove inventory from the hand</div>
                 </p>
                 <hr/>
                 <p>
@@ -33,10 +35,10 @@ const InformationModal = ({handleClose, show}) => {
                     <div><kbd>Left Click</kbd> to take a whole item.</div>
                     <div><kbd>Right Click</kbd> to take half the item.</div>
                     <div><kbd>Shift</kbd> + <kbd>Left Click</kbd> to select multiple slots at the same time.</div>
-                    <div><kbd>Shift</kbd> +<kbd>Arrow Up</kbd> to move your selected slot up</div>
-                    <div><kbd>Shift</kbd> +<kbd>Arrow Down</kbd> to move your selected slot down</div>
-                    <div><kbd>Shift</kbd> +<kbd>Arrow Right</kbd> to move your selected slot right</div>
-                    <div><kbd>Shift</kbd> +<kbd>Arrow Left</kbd> to move your selected slot left</div>
+                    <div><kbd>Shift</kbd> +<kbd>Arrow Up</kbd> to move your selected slot up.</div>
+                    <div><kbd>Shift</kbd> +<kbd>Arrow Down</kbd> to move your selected slot down.</div>
+                    <div><kbd>Shift</kbd> +<kbd>Arrow Right</kbd> to move your selected slot right.</div>
+                    <div><kbd>Shift</kbd> +<kbd>Arrow Left</kbd> to move your selected slot left.</div>
                 </p>
             </Modal.Body>
             <Modal.Footer>
