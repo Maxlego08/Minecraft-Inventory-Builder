@@ -21,6 +21,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property boolean $update_on_click
  * @property boolean $update
  * @property string $messages
+ * @property string $commands
+ * @property string $console_commands
  * @property string $sound
  * @property float $volume
  * @property float $pitch
@@ -38,6 +40,7 @@ class InventoryButton extends Model
         'slot',
         'messages',
         'commands',
+        'console_commands',
         'page',
         'is_permanent',
         'close_inventory',

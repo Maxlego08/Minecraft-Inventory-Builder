@@ -104,16 +104,16 @@ const InventoryBuilder = () => {
         if (isKeyPress(event, ['Escape', 'Esc'], 27)) deleteItem();
         if (isKeyPress(event, ['Shift'], 16)) setIsShiftClick(true);
 
-        if (isKeyPress(event, ['ArrowRight'], 39)) updateSlot(event, inventoryContent.currentSlot + 1)
-        if (isKeyPress(event, ['ArrowUp'], 38)) updateSlot(event, inventoryContent.currentSlot - 9)
-        if (isKeyPress(event, ['ArrowLeft'], 37)) updateSlot(event, inventoryContent.currentSlot - 1)
-        if (isKeyPress(event, ['ArrowDown'], 40)) updateSlot(event, inventoryContent.currentSlot + 9)
+        if (isKeyPress(event, ['ArrowRight'], 39) && isShiftClick) updateSlot(event, inventoryContent.currentSlot + 1)
+        if (isKeyPress(event, ['ArrowUp'], 38) && isShiftClick) updateSlot(event, inventoryContent.currentSlot - 9)
+        if (isKeyPress(event, ['ArrowLeft'], 37) && isShiftClick) updateSlot(event, inventoryContent.currentSlot - 1)
+        if (isKeyPress(event, ['ArrowDown'], 40) && isShiftClick) updateSlot(event, inventoryContent.currentSlot + 9)
 
     }, [isShiftClick, currentItem, inventoryContent]);
 
     const updateSlot = (event, newSlot) => {
         event.preventDefault()
-        if (newSlot > 0 && newSlot < inventory.size) selectSlot(newSlot)
+        if (newSlot >= 0 && newSlot < inventory.size) selectSlot(newSlot)
     }
 
     const handleKeyUp = useCallback(event => {
@@ -440,8 +440,10 @@ const InventoryBuilder = () => {
                 formData.append(`slot[${index}]model_id`, slot.button.model_id);
                 formData.append(`slot[${index}]volume`, slot.button.volume);
                 formData.append(`slot[${index}]pitch`, slot.button.pitch);
-                formData.append(`slot[${index}]sound`, slot.button.sound);
-                formData.append(`slot[${index}]messages`, slot.button.messages);
+                formData.append(`slot[${index}]sound`, slot.button?.sound ?? null);
+                formData.append(`slot[${index}]messages`, slot.button?.messages ?? null);
+                formData.append(`slot[${index}]commands`, slot.button?.commands ?? null);
+                formData.append(`slot[${index}]console_commands`, slot.button?.console_commands ?? null);
                 if (slot.button?.display_name) formData.append(`slot[${index}]display_name`, slot.button.display_name);
                 if (slot.button?.lore) formData.append(`slot[${index}]lore`, slot.button.lore);
             }

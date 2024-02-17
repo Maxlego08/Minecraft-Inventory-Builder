@@ -46,7 +46,7 @@ const SearchableSelect = ({ options, handleChange, name, defaultValue = '' }) =>
                 onFocus={() => setShowDropdown(true)}
             />
             {showDropdown && (
-                <Dropdown.Menu show style={{ maxHeight: '300px', overflowY: 'auto', maxWidth: '460px', overflowX: 'hidden' }}>
+                <Dropdown.Menu show style={{ maxHeight: '300px', overflowY: 'auto', maxWidth: '460px', overflowX: 'hidden' }} variant={'dark'}>
                     {filteredOptions.length > 0 ? (
                         filteredOptions.map((option, index) => (
                             <Dropdown.Item key={index} onClick={() => handleClick(option)}>

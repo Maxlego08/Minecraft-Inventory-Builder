@@ -8,6 +8,9 @@ import UpdateOnClick from "./UpdateOnClick";
 import Update from "./Update";
 import Sound from "./Sound";
 import Messages from "./Messages";
+import Commands from "./Commands";
+import ConsoleCommands from "./ConsoleCommands";
+import AutoCompleteFormControl from "../../utils/AutoCompleteFormControl";
 
 const ButtonConfiguration = ({inventoryContent, buttonTypes, updateButton, selectedSlots, sounds}) => {
 
@@ -73,6 +76,8 @@ const ButtonConfiguration = ({inventoryContent, buttonTypes, updateButton, selec
                 <Update currentSlot={currentSlot} handleChange={handleChange}/>
                 <Sound sounds={sounds} currentSlot={currentSlot} handleChange={handleChange}/>
                 <Messages currentSlot={currentSlot} handleChange={handleChange}/>
+                <Commands currentSlot={currentSlot} handleChange={handleChange}/>
+                <ConsoleCommands currentSlot={currentSlot} handleChange={handleChange}/>
             </div>
             <div className={'configurations-button-bottom p-2'}>
                 <div className={'configurations-button-header mb-2'}>

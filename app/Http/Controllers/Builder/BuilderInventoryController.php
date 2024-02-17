@@ -179,6 +179,9 @@ class BuilderInventoryController extends Controller
             $display_name = isset($slot['display_name']) && $slot['display_name'] !== "null" && trim($slot['display_name']) !== "" ? $slot['display_name'] : null;
             $lore = isset($slot['lore']) && $slot['lore'] !== "null" && trim($slot['lore']) !== "" ? $slot['lore'] : null;
             $messages = isset($slot['messages']) && $slot['messages'] !== "null" && trim($slot['messages']) !== "" ? $slot['messages'] : null;
+            $commands = isset($slot['commands']) && $slot['commands'] !== "null" && trim($slot['commands']) !== "" ? $slot['commands'] : null;
+            $consoleCommands = isset($slot['console_commands']) && $slot['console_commands'] !== "null" && trim($slot['console_commands']) !== "" ? $slot['console_commands'] : null;
+            $sound = isset($slot['sound']) && $slot['sound'] !== "null" && trim($slot['sound']) !== "" ? $slot['sound'] : null;
 
             InventoryButton::updateOrCreate(
                 ['inventory_id' => $inventory->id, 'slot' => $currentSlot],
@@ -197,9 +200,11 @@ class BuilderInventoryController extends Controller
                     'update' => $this->getBoolean($slot, 'update'),
                     'glow' => $this->getBoolean($slot, 'glow'),
                     'model_id' => $slot['model_id'],
-                    'sound' => $slot['sound'],
+                    'sound' => $sound,
                     'pitch' => $slot['pitch'],
                     'volume' => $slot['volume'],
+                    'commands' => $commands,
+                    'console_commands' => $consoleCommands,
                 ]
             );
 

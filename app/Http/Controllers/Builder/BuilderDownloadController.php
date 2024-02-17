@@ -111,6 +111,8 @@ class BuilderDownloadController extends Controller
         if ($button->pitch != 1) $array['pitch'] = $button->pitch;
         if ($button->volume != 1) $array['volume'] = $button->volume;
         if (isset($button->messages)) $array['messages'] = explode("\n", $button->messages);
+        if (isset($button->commands)) $array['commands'] = explode("\n", $button->commands);
+        if (isset($button->console_commands)) $array['consoleCommands'] = explode("\n", $button->console_commands);
 
         return $array;
     }
