@@ -3,7 +3,8 @@
 - Add inventories element in user show page (admin)
 - Add folders page (admin)
 - Add messages, commands, console commands and sound configuration
-- Added a button to lock the page, to avoid scrolling and allow centered selections
+- Add a button to lock the page, to avoid scrolling and allow centered selections
+- Added grouping of slots when generating yaml file
 - Default slot selected will be slot 0
 - You can now move around the inventory with the directional keys
 
