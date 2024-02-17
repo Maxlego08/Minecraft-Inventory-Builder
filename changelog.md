@@ -1,5 +1,8 @@
 # Unreleased
 
+# 1.0.4
+
+- Add informations modal
 - Add inventories element in user show page (admin)
 - Add folders page (admin)
 - Add messages, commands, console commands and sound configuration
