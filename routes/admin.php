@@ -34,6 +34,10 @@ Route::prefix('conversations/')->name('conversations.')->group(function () {
 
 Route::prefix('inventories/')->name('inventories.')->group(function () {
     Route::get('/', [InventoryController::class, 'index'])->name('index');
+    Route::prefix('folders/')->name('folders.')->group(function () {
+        Route::get('', [InventoryController::class, 'folders'])->name('index');
+        Route::get('{folder}', [InventoryController::class, 'folderUser'])->name('user');
+    });
 });
 
 Route::prefix('reports/')->name('reports.')->group(function () {

@@ -6,7 +6,7 @@ const Lore = ({handleChange, lore}) => {
         <Form.Group className="mb-3">
             <Form.Label>Lore</Form.Label>
             <Form.Control
-                as="textarea"
+                as={'textarea'}
                 name="lore"
                 value={lore ?? ''}
                 onChange={handleChange}

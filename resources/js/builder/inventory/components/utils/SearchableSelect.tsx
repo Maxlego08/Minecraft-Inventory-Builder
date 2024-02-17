@@ -1,38 +1,56 @@
-import {useState} from 'react';
-import {Dropdown, Form} from 'react-bootstrap';
+import { useState, useEffect, useRef } from 'react';
+import { Dropdown, Form } from 'react-bootstrap';
 
-const SearchableSelect = ({options}) => {
-    const [searchTerm, setSearchTerm] = useState('');
+const SearchableSelect = ({ options, handleChange, name, defaultValue = '' }) => {
+    const [searchTerm, setSearchTerm] = useState(defaultValue ?? '');
     const [showDropdown, setShowDropdown] = useState(false);
+    const wrapperRef = useRef(null);
 
-    const handleSearch = (event) => {
-        setSearchTerm(event.target.value.toLowerCase());
-        setShowDropdown(event.target.value !== '');
+    useEffect(() => {
+        setSearchTerm(defaultValue ?? '');
+    }, [defaultValue]);
+
+    const handleClick = (option) => {
+        setSearchTerm(option);
+        handleChange({
+            target: { type: 'text', name: name, value: option, checked: false },
+        });
+        setShowDropdown(false);
     };
 
-    const filteredOptions = options.filter(option =>
-        option.name.toLowerCase().includes(searchTerm)
+    const handleSearch = (event) => {
+        setSearchTerm(event.target.value);
+        setShowDropdown(event.target.value !== '');
+        handleChange(event);
+    };
+
+    const filteredOptions = options.filter((option) =>
+        option.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    const handleBlur = (event) => {
+        if (!wrapperRef.current.contains(event.relatedTarget)) {
+            setShowDropdown(false);
+        }
+    };
 
     return (
-        <div>
+        <div ref={wrapperRef} onBlur={handleBlur}>
             <Form.Control
                 className={'rounded-1'}
-                name="button_type"
+                name={name}
                 type="text"
                 placeholder="Search..."
                 value={searchTerm}
                 onChange={handleSearch}
                 onFocus={() => setShowDropdown(true)}
-                onBlur={() => setTimeout(() => setShowDropdown(false), 100)}
             />
             {showDropdown && (
-                <Dropdown.Menu show style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                <Dropdown.Menu show style={{ maxHeight: '300px', overflowY: 'auto', maxWidth: '460px', overflowX: 'hidden' }} variant={'dark'}>
                     {filteredOptions.length > 0 ? (
                         filteredOptions.map((option, index) => (
-                            <Dropdown.Item key={index} onClick={() => setSearchTerm(option.name)}>
-                                {option.name.toUpperCase()}
+                            <Dropdown.Item key={index} onClick={() => handleClick(option)}>
+                                {option.toUpperCase()}
                             </Dropdown.Item>
                         ))
                     ) : (
@@ -44,4 +62,4 @@ const SearchableSelect = ({options}) => {
     );
 };
 
-export default SearchableSelect
+export default SearchableSelect;

@@ -1,3 +1,8 @@
+.lock-scroll {
+    overflow: hidden;
+    height: 100%;
+}
+
 .builder {
 
     display: flex;
@@ -25,5 +30,19 @@
         display: flex;
         background: $color-primary;
     }
+}
 
+kbd {
+    display: inline-block;
+    padding: 2px 4px;
+    font-family: Arial, sans-serif;
+    font-size: 0.85em;
+    line-height: 14px;
+    color: #444;
+    text-shadow: 0 1px 0 #fff;
+    background-color: #f7f7f7;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.2), 0 2px 0 rgba(255,255,255,0.7) inset;
+    margin: 2px;
 }

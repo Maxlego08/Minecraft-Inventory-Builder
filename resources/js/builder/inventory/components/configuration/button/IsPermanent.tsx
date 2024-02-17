@@ -9,7 +9,7 @@ const IsPermanent = ({currentSlot, handleChange}) => {
                 type="checkbox"
                 name="is_permanent"
                 onChange={handleChange}
-                checked={currentSlot.button.is_permanent}
+                checked={currentSlot.button?.is_permanent ?? false}
                 className={'rounded-1'}
             />
             <a className={'ms-2'} href={'https://docs.zmenu.dev/configurations/buttons#ispermanent'} target={'_blank'}>(<i className="bi bi-question-lg"></i>)</a>

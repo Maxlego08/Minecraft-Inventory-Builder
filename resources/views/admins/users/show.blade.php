@@ -171,6 +171,7 @@
 
     @include('admins.users.elements.discord')
     @include('admins.users.elements.resources')
+    @include('admins.users.elements.inventories')
     @include('admins.users.elements.logs')
     @if($user->paymentInfo)
         @include('admins.users.elements.payment')

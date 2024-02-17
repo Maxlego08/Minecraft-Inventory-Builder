@@ -51,6 +51,7 @@ class UserController extends Controller
     {
         $resources = $user->resources()->paginate(10, ['*'], 'resources');
         $logs = $user->logs()->latest()->paginate(10, ['*'], 'logs');
+        $inventories = $user->inventories()->latest()->paginate(10, ['*'], 'inventories');
 
         $roles = UserRole::all();
         $colors = User\NameColor::all();
@@ -62,6 +63,7 @@ class UserController extends Controller
             'colors' => $colors,
             'currencies' => Currency::all(),
             'nameColorAccesses' => $user->nameColorAccesses,
+            'inventories' => $inventories,
         ]);
     }
 

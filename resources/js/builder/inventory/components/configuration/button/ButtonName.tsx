@@ -6,8 +6,8 @@ const ButtonName = ({currentSlot, handleChange}) => {
         <Form.Group>
             <Form.Label>Name</Form.Label>
             <Form.Control
-                type="text"
                 name="name"
+                type="text"
                 onChange={handleChange}
                 value={currentSlot.button.name}
                 className={'rounded-1'}

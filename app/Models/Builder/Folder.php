@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $name
  * @property Folder $parent
  * @property Folder[] $children
+ * @property Inventory[] $inventories
  */
 class Folder extends Model
 {
@@ -33,6 +34,12 @@ class Folder extends Model
     public function children(): HasMany
     {
         return $this->hasMany(Folder::class, 'parent_id');
+    }
+
+
+    public function inventories(): HasMany
+    {
+        return $this->hasMany(Inventory::class);
     }
 
     /**
@@ -71,4 +78,32 @@ class Folder extends Model
 
         return $hierarchy;
     }
+
+    public function generate(): string
+    {
+        $currentFolder = $this;
+        $breadcrumbs = [];
+        while ($currentFolder) {
+            array_unshift($breadcrumbs, $currentFolder);
+            $currentFolder = $currentFolder->parent;
+        }
+
+        // Ajouter 'Home' au début
+        $breadcrumbsHtml = '<nav aria-label="breadcrumb"><ol class="breadcrumb">';
+
+        foreach ($breadcrumbs as $folder) {
+            if ($folder === end($breadcrumbs)) {
+                // Dossier actuel
+                $breadcrumbsHtml .= '<li class="breadcrumb-item active" aria-current="page">' . e($folder->name) . '</li>';
+            } else {
+                // Dossier parent
+                $breadcrumbsHtml .= '<li class="breadcrumb-item"><a href="' . route('admin.inventories.folders.user', $folder) . '">' . e($folder->name) . '</a></li>';
+            }
+        }
+
+        $breadcrumbsHtml .= '</ol></nav>';
+
+        return $breadcrumbsHtml;
+    }
+
 }

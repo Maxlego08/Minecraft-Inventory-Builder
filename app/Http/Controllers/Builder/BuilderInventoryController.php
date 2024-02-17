@@ -15,6 +15,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -140,7 +141,7 @@ class BuilderInventoryController extends Controller
 
         $this->updateButton($request, $inventory);
 
-        userLog("Vient de créer de modifier l'inventaire $inventory->file_name.$inventory->id", UserLog::COLOR_SUCCESS, UserLog::ICON_EDIT);
+        userLog("Vient de modifier l'inventaire $inventory->file_name.$inventory->id", UserLog::COLOR_SUCCESS, UserLog::ICON_EDIT);
 
         return json_encode(['result' => 'success']);
 
@@ -177,6 +178,10 @@ class BuilderInventoryController extends Controller
 
             $display_name = isset($slot['display_name']) && $slot['display_name'] !== "null" && trim($slot['display_name']) !== "" ? $slot['display_name'] : null;
             $lore = isset($slot['lore']) && $slot['lore'] !== "null" && trim($slot['lore']) !== "" ? $slot['lore'] : null;
+            $messages = isset($slot['messages']) && $slot['messages'] !== "null" && trim($slot['messages']) !== "" ? $slot['messages'] : null;
+            $commands = isset($slot['commands']) && $slot['commands'] !== "null" && trim($slot['commands']) !== "" ? $slot['commands'] : null;
+            $consoleCommands = isset($slot['console_commands']) && $slot['console_commands'] !== "null" && trim($slot['console_commands']) !== "" ? $slot['console_commands'] : null;
+            $sound = isset($slot['sound']) && $slot['sound'] !== "null" && trim($slot['sound']) !== "" ? $slot['sound'] : null;
 
             InventoryButton::updateOrCreate(
                 ['inventory_id' => $inventory->id, 'slot' => $currentSlot],
@@ -185,6 +190,7 @@ class BuilderInventoryController extends Controller
                     'amount' => max(1, min(64, $slot['amount'])),
                     'type_id' => 1,
                     'name' => $name,
+                    'messages' => Str::limit($messages, 65535),
                     'display_name' => Str::limit($display_name, 65535),
                     'lore' => Str::limit($lore, 65535),
                     'is_permanent' => $this->getBoolean($slot, 'is_permanent'),
@@ -193,7 +199,12 @@ class BuilderInventoryController extends Controller
                     'update_on_click' => $this->getBoolean($slot, 'update_on_click'),
                     'update' => $this->getBoolean($slot, 'update'),
                     'glow' => $this->getBoolean($slot, 'glow'),
-                    'model_id' => $slot['model_id']
+                    'model_id' => $slot['model_id'],
+                    'sound' => $sound,
+                    'pitch' => $slot['pitch'],
+                    'volume' => $slot['volume'],
+                    'commands' => $commands,
+                    'console_commands' => $consoleCommands,
                 ]
             );
 
@@ -231,15 +242,22 @@ class BuilderInventoryController extends Controller
             return Redirect::route('home');
         }
 
+        $sounds = Cache::remember('xsound:values', 86400, function () {
+            $content = file_get_contents('https://raw.githubusercontent.com/CryptoMorin/XSeries/master/src/main/java/com/cryptomorin/xseries/XSound.java');
+            preg_match_all('/^\s{4}([A-Z_]+)(?=\(|,)/m', $content, $matches);
+            return $matches[1];
+        });
+
         $versions = MinecraftVersion::all();
         $inventory = $inventory->load('buttons');
         $inventory = $inventory->load('buttons.item');
-        $buttonTypes = ButtonType::all();
+        $buttonTypes = ButtonType::pluck('name');
 
         return view('builder.inventory', [
             'inventory' => $inventory,
             'versions' => $versions,
             'buttonTypes' => $buttonTypes,
+            'sounds' => $sounds,
         ]);
     }
 

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Builder\Folder;
+use App\Models\Builder\Inventory;
 use App\Models\Resource\Resource;
 use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
@@ -21,6 +23,8 @@ class IndexController extends Controller
         return view('admins.dashboard', [
             'users' => User::count(),
             'resources' => Resource::count(),
+            'folders' => Folder::count(),
+            'inventories' => Inventory::count(),
         ]);
     }
 }

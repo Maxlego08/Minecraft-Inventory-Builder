@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Alert\AlertUser;
+use App\Models\Builder\Inventory;
 use App\Models\Conversation\ConversationAutoResponse;
 use App\Models\Conversation\ConversationNotification;
 use App\Models\Discord\DiscordNotification;
@@ -70,6 +71,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property User[] $followers
  * @property User[] $followings
  * @property NameColorAccess[] $nameColorAccesses
+ * @property Inventory[] $inventories
  * @property NameColorAccess $names
  * @method static User find(int $id)
  * @method string getProfilePhotoUrlAttribute()
@@ -138,6 +140,17 @@ class User extends Authenticate implements MustVerifyEmail
     public function accesses(): HasMany
     {
         return $this->hasMany(Access::class);
+    }
+
+
+    /**
+     * Retourne la liste des inventaires
+     *
+     * @return HasMany
+     */
+    public function inventories(): HasMany
+    {
+        return $this->hasMany(Inventory::class);
     }
 
     /**

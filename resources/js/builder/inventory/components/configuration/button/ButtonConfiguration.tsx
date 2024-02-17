@@ -6,16 +6,37 @@ import CloseInventory from "./CloseInventory";
 import RefreshOnClick from "./RefreshOnClick";
 import UpdateOnClick from "./UpdateOnClick";
 import Update from "./Update";
+import Sound from "./Sound";
+import Messages from "./Messages";
+import Commands from "./Commands";
+import ConsoleCommands from "./ConsoleCommands";
+import AutoCompleteFormControl from "../../utils/AutoCompleteFormControl";
 
-const ButtonConfiguration = ({inventoryContent, buttonTypes, updateButton, selectedSlots}) => {
+const ButtonConfiguration = ({inventoryContent, buttonTypes, updateButton, selectedSlots, sounds}) => {
 
     const slotsToUpdate = selectedSlots.length > 0 ? selectedSlots : [inventoryContent.currentSlot].filter(index => index >= 0);
     let currentSlot = inventoryContent.currentSlot >= 0 ? inventoryContent.slots[inventoryContent.currentSlot] : null;
 
     const handleChange = (event) => {
-        const {name, value, type, checked} = event.target;
+        const {name, value, type, checked, min, max} = event.target;
 
-        const newValue = type === 'checkbox' ? checked : value;
+        let newValue = type === 'checkbox' ? checked : value;
+
+        if (type === 'number' || type === 'range') {
+            const numericValue = parseFloat(newValue);
+            const minValue = parseFloat(min);
+            const maxValue = parseFloat(max);
+
+            if (!isNaN(numericValue)) {
+                if (!isNaN(minValue) && numericValue < minValue) {
+                    newValue = minValue;
+                } else if (!isNaN(maxValue) && numericValue > maxValue) {
+                    newValue = maxValue;
+                } else {
+                    newValue = numericValue;
+                }
+            }
+        }
 
         slotsToUpdate.forEach(slotIndex => {
             const updatedButton = {
@@ -53,12 +74,16 @@ const ButtonConfiguration = ({inventoryContent, buttonTypes, updateButton, selec
                 <RefreshOnClick currentSlot={currentSlot} handleChange={handleChange}/>
                 <UpdateOnClick currentSlot={currentSlot} handleChange={handleChange}/>
                 <Update currentSlot={currentSlot} handleChange={handleChange}/>
+                <Sound sounds={sounds} currentSlot={currentSlot} handleChange={handleChange}/>
+                <Messages currentSlot={currentSlot} handleChange={handleChange}/>
+                <Commands currentSlot={currentSlot} handleChange={handleChange}/>
+                <ConsoleCommands currentSlot={currentSlot} handleChange={handleChange}/>
             </div>
             <div className={'configurations-button-bottom p-2'}>
                 <div className={'configurations-button-header mb-2'}>
                     Specific configuration
                 </div>
-                <SearchableSelect options={buttonTypes}/>
+                <SearchableSelect key={'button_type'} options={buttonTypes} handleChange={handleChange} name={'bouton_type'}/>
             </div>
         </div>
     ) : (

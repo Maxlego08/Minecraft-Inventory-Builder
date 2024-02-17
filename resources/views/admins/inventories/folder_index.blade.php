@@ -8,9 +8,9 @@
     <div class="container-fluid">
 
         <!-- Page Heading -->
-        <h1 class="h3 mb-2 text-gray-800">Inventaires</h1>
+        <h1 class="h3 mb-2 text-gray-800">Dossiers</h1>
 
-        <form class="form-inline mb-3" action="{{ route('admin.inventories.index') }}" method="GET">
+        <form class="form-inline mb-3" action="{{ route('admin.inventories.folders.index') }}" method="GET">
             <div class="form-group mb-2">
                 <label for="searchInput" class="sr-only">Recherche</label>
 
@@ -34,25 +34,21 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Utilisateur</th>
-                            <th scope="col">Dossier</th>
-                            <th scope="col">Nom du fichier</th>
-                            <th scope="col">Nom de l'inventaire</th>
-                            <th scope="col">Taille de l'inventaire</th>
-                            <th scope="col">Nombre de bouton</th>
-                            <th scope="col">Date de création</th>
-                            <th scope="col">Dernière modification</th>
+                            <th scope="col">Nom du dossier</th>
+                            <th scope="col">Nombre de sous dossiers</th>
+                            <th scope="col">Nombre d'inventaires</th>
                             <th scope="col">Action</th>
                         </tr>
                         </thead>
                         <tbody>
-                            @foreach($inventories as $inventory)
-                                @include('admins.elements.inventory', ['currentInventory' => $inventory])
-                            @endforeach
+                        @foreach($folders as $folder)
+                            @include('admins.elements.folder', ['currentFolder' => $folder])
+                        @endforeach
                         </tbody>
                     </table>
                 </div>
 
-                {{ $inventories->withQueryString()->links('vendor.pagination.bootstrap-4') }}
+                {{ $folders->withQueryString()->links('vendor.pagination.bootstrap-4') }}
             </div>
         </div>
     </div>
