@@ -1,6 +1,7 @@
 # Unreleased
 
 - Add inventories element in user show page (admin)
+- Add folders page (admin)
 - Add messages, commands, console commands and sound configuration
 - Added a button to lock the page, to avoid scrolling and allow centered selections
 - Default slot selected will be slot 0

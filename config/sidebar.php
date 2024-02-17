@@ -34,6 +34,12 @@ return [
                     'icon' => 'fas fa-folder',
                     'power' => UserRole::MODERATOR
                 ],
+                'folders' => [
+                    'name' => 'Dossiers',
+                    'route' => 'admin.inventories.folders.index',
+                    'icon' => 'fas fa-folder-open',
+                    'power' => UserRole::MODERATOR
+                ],
                 'payments' => [
                     'name' => 'Payments',
                     'route' => 'admin.payments.index',
