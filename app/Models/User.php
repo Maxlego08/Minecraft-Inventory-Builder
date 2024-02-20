@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Alert\AlertUser;
+use App\Models\Builder\Folder;
 use App\Models\Builder\Inventory;
 use App\Models\Conversation\ConversationAutoResponse;
 use App\Models\Conversation\ConversationNotification;
@@ -151,6 +152,17 @@ class User extends Authenticate implements MustVerifyEmail
     public function inventories(): HasMany
     {
         return $this->hasMany(Inventory::class);
+    }
+
+
+    /**
+     * Retourne la liste des dossiers
+     *
+     * @return HasMany
+     */
+    public function folders(): HasMany
+    {
+        return $this->hasMany(Folder::class);
     }
 
     /**

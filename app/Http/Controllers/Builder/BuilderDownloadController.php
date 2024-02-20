@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Builder;
 use App\Http\Controllers\Controller;
 use App\Models\Builder\Inventory;
 use App\Models\Builder\InventoryButton;
+use App\Models\UserLog;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Response;
@@ -26,6 +27,25 @@ class BuilderDownloadController extends Controller
             abort(403, "You don't have permission");
         }
 
+        userLog("Vient de télécharger l'inventaire $inventory->file_name.$inventory->id", UserLog::COLOR_SUCCESS, UserLog::ICON_DOWNLOAD);
+
+        $ymlContent = self::inventoryToYAML($inventory);
+
+        return response($ymlContent, 200)
+            ->header('Content-Type', 'text/yaml')
+            ->header("Content-Disposition", "attachment; filename={$inventory->file_name}.yml");
+
+    }
+
+    /**
+     * Inventory to YAML
+     *
+     * @param Inventory $inventory
+     * @return string
+     */
+    public static function inventoryToYAML(Inventory $inventory): string
+    {
+
         $items = [];
         $sameButtons = [];
 
@@ -36,9 +56,9 @@ class BuilderDownloadController extends Controller
             if ($slot >= $inventory->size) continue;
 
             $buttonKey = $button->name;
-            $currentButton = $this->buttonToArray($button, $slot);
+            $currentButton = self::buttonToArray($button, $slot);
 
-            $result = $this->is_in($button, $sameButtons);
+            $result = self::is_in($button, $sameButtons);
             if (!$result) {
 
                 $sameButtons[] = $button;
@@ -56,7 +76,7 @@ class BuilderDownloadController extends Controller
             }
         };
 
-        foreach ($items as $key => $value) if (isset($value['slots'])) $items[$key]['slots'] = $this->groupSlots($value['slots']);
+        foreach ($items as $key => $value) if (isset($value['slots'])) $items[$key]['slots'] = self::groupSlots($value['slots']);
 
         $data = [
             'name' => $inventory->name,
@@ -64,12 +84,7 @@ class BuilderDownloadController extends Controller
             'items' => $items,
         ];
 
-        $ymlContent = Yaml::dump($data, 99, 2, Yaml::DUMP_OBJECT_AS_MAP | Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
-
-        return response($ymlContent, 200)
-            ->header('Content-Type', 'text/yaml')
-            ->header("Content-Disposition", "attachment; filename={$inventory->file_name}.yml");
-
+        return Yaml::dump($data, 99, 2, Yaml::DUMP_OBJECT_AS_MAP | Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
     }
 
     /**
@@ -78,7 +93,7 @@ class BuilderDownloadController extends Controller
      * @param $tableau
      * @return array
      */
-    function groupSlots($tableau): array
+    private static function groupSlots($tableau): array
     {
         sort($tableau);
 
@@ -109,7 +124,7 @@ class BuilderDownloadController extends Controller
         return $result;
     }
 
-    public function is_in(InventoryButton $button, array $array): ?InventoryButton
+    private static function is_in(InventoryButton $button, array $array): ?InventoryButton
     {
         $toRemove = ['slot', 'created_at', 'updated_at', 'name', 'id'];
         $attributes = $button->getAttributes();
@@ -124,7 +139,7 @@ class BuilderDownloadController extends Controller
         return null;
     }
 
-    private function buttonToArray(InventoryButton $button, int $slot): array
+    private static function buttonToArray(InventoryButton $button, int $slot): array
     {
         $array = [
             'slot' => $slot,
