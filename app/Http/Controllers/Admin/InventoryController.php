@@ -74,7 +74,7 @@ class InventoryController extends Controller
                             ->orWhere('users.name', 'like', "%{$search}%")
                             ->orWhere('users.email', 'like', "%{$search}%");
                     });
-            })->whereNull('parent_id')->latest()->paginate();
+            })->whereNull('parent_id')->paginate();
         return view('admins.inventories.folder_index', [
             'folders' => $folders,
             'search' => $search,

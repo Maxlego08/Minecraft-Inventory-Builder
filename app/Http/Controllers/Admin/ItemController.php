@@ -15,11 +15,10 @@ class ItemController extends Controller
 
         $path = storage_path() . '/app/rendered.json';
         $json = json_decode(file_get_contents($path), true);
-        $collections = collect();
 
         foreach ($json as $value) {
             $item = Item::where('css', $value['css'])->first();
-            if (isset($item)){
+            if (isset($item)) {
                 $version = MinecraftVersion::where('minecraft_version', $value['item']['version'] ?? 1.08)->first();
                 $item->update([
                     'version_id' => $version?->id ?? 1,
@@ -50,4 +49,32 @@ class ItemController extends Controller
 
         return Redirect::route('admin.index')->with('toast', createToast('success', 'Update of the items', 'You have just updated the items'));
     }
+
+    public function updateJson()
+    {
+
+        $pathRendered = storage_path() . '/app/rendered.json';
+        $pathItems = storage_path() . '/app/items.json';
+        $rendered = json_decode(file_get_contents($pathRendered), true);
+        $items = json_decode(file_get_contents($pathItems), true);
+
+        foreach ($rendered as $key => $value) {
+            $result = $this->findValueByKey($items, $value['name']);
+            if (isset($result) && isset($result['stackSize'])) {
+                $rendered[$key]['item']['max'] = $result['stackSize'];
+            }
+        }
+
+        file_put_contents($pathRendered, json_encode($rendered, JSON_PRETTY_PRINT));
+    }
+
+    private function findValueByKey(array $values, string $key): ?array
+    {
+        foreach ($values as $value) {
+            if ($value['newID'] == $key) return $value;
+        }
+
+        return null;
+    }
+
 }

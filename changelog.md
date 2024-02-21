@@ -1,5 +1,10 @@
 # Unreleased
 
+# 1.0.5
+
+- Update color code
+- Update rendered.json
+
 # 1.0.4
 
 - Add informations modal

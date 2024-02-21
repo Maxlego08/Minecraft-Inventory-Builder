@@ -51,6 +51,7 @@ Route::prefix('reports/')->name('reports.')->group(function () {
 Route::middleware('admin')->group(function () {
 
     Route::get('/update/items', [ItemController::class, 'updateItems'])->name('update.items');
+    Route::get('/update/json', [ItemController::class, 'updateJson'])->name('update.json');
 
     Route::prefix('users/')->name('users.')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('index');

@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\FileController;
 use App\Http\Controllers\Api\GiftController;
 use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\ResourceUserController;
@@ -9,8 +8,9 @@ use App\Http\Controllers\Api\TooltipController;
 use App\Http\Controllers\Api\V1\BStatsController;
 use App\Http\Controllers\Api\V1\DiscordAuthController;
 use App\Http\Controllers\Api\V1\DiscordController;
+use App\Http\Controllers\Api\V1\InventoryController;
 use App\Http\Controllers\Api\V1\PreviewController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\V1\ResourceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,8 +25,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('/v1')->name('v1.')->group(function () {
-    Route::middleware(['auth:sanctum', 'abilities:' . env('ABILITY_RESOURCE')])->get('/user', function (Request $request) {
-        return $request->user();
+
+    Route::middleware(['auth:sanctum', 'abilities:' . env('ABILITY_RESOURCE')])->name('sanctum.')->group(function () {
+
+        Route::get('/resources', [ResourceController::class, 'resources'])->name('resources');
+        Route::get('/inventories', [InventoryController::class, 'inventories'])->name('inventories');
+        Route::get('/inventory/{inventory}/download', [InventoryController::class, 'download'])->name('download');
+
     });
 
     Route::middleware('auth:sanctum')->post('auth/test', function () {
@@ -37,6 +42,7 @@ Route::prefix('/v1')->name('v1.')->group(function () {
 
     // Allows you to create a token
     Route::post('/auth/login', [AuthController::class, "login"]);
+
     Route::get('/discord/authentication', [DiscordAuthController::class, 'authentication'])->name('discord');
     Route::get('/discord/user/{discordUserId}', [DiscordController::class, 'getUsingInformation'])->name('discord.user');
     Route::get('/discord/{server_id}', [DiscordController::class, 'getDiscordInformation'])->name('discord.information');
