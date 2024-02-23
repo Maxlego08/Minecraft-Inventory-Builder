@@ -169,6 +169,7 @@ class BuilderInventoryController extends Controller
             if (empty($slot) || !isset($items[$slot['item_id']])) continue;
 
             $currentSlot = $slot['slot'];
+            $page = filter_var($slot['page'], FILTER_VALIDATE_INT) !== false ? $slot['page'] : 1;
             $itemId = $slot['item_id'];
 
             $name = Str::limit($slot['name'], 255);
@@ -184,7 +185,7 @@ class BuilderInventoryController extends Controller
             $sound = isset($slot['sound']) && $slot['sound'] !== "null" && trim($slot['sound']) !== "" ? $slot['sound'] : null;
 
             InventoryButton::updateOrCreate(
-                ['inventory_id' => $inventory->id, 'slot' => $currentSlot],
+                ['inventory_id' => $inventory->id, 'slot' => $currentSlot, 'page' => $page],
                 [
                     'item_id' => $item->id,
                     'amount' => max(1, min(64, $slot['amount'])),

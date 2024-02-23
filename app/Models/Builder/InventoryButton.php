@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $slot
  * @property Item $item
  * @property int $amount
+ * @property int $page
  * @property string $display_name
  * @property string $lore
  * @property int $model_id

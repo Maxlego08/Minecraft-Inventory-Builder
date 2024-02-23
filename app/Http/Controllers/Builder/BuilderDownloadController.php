@@ -148,6 +148,8 @@ class BuilderDownloadController extends Controller
             ]
         ];
 
+        if ($button->page != 1) $array['page'] = $button->page;
+
         if ($button->amount != 1) $array['item']['amount'] = $button->amount;
 
         if (isset($button->display_name)) $array['item']['name'] = $button->display_name;
