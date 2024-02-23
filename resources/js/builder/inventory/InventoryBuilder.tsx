@@ -480,15 +480,23 @@ const InventoryBuilder = () => {
                     <span className="visually-hidden"></span>
                 </div>
             </div>
-            <Items versions={data.versions} onItemClick={onItemClick}/>
-            <Inventory inventory={inventory} updateInventory={updateInventory} inventoryContent={inventoryContent}
-                       needToUpdate={needToUpdate} saveData={saveData} selectSlots={slots}
-                       handleSlotClick={handleSlotClick} handleSlotDoubleClick={handleSlotDoubleClick}/>
-            <div className="configurations">
-                <ItemStackConfiguration inventoryContent={inventoryContent} updateButton={updateButton}
-                                        selectedSlots={slots}/>
-                <ButtonConfiguration inventoryContent={inventoryContent} updateButton={updateButton}
-                                     selectedSlots={slots} buttonTypes={data.buttonTypes} sounds={data.sounds}/>
+            <div className={'d-flex'}>
+                <div className={'d-flex'}>
+                    <Items versions={data.versions} onItemClick={onItemClick}/>
+
+                    <Inventory inventory={inventory} updateInventory={updateInventory}
+                               inventoryContent={inventoryContent}
+                               needToUpdate={needToUpdate} saveData={saveData} selectSlots={slots}
+                               handleSlotClick={handleSlotClick} handleSlotDoubleClick={handleSlotDoubleClick}/>
+                </div>
+                <div className={'resizer-x'}/>
+                <div className="configurations">
+                    <ItemStackConfiguration inventoryContent={inventoryContent} updateButton={updateButton}
+                                            selectedSlots={slots}/>
+                    <div className={'resizer-x'}/>
+                    <ButtonConfiguration inventoryContent={inventoryContent} updateButton={updateButton}
+                                         selectedSlots={slots} buttonTypes={data.buttonTypes} sounds={data.sounds}/>
+                </div>
             </div>
         </div>
     );

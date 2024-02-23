@@ -2,7 +2,7 @@
 
     margin-left: auto;
     display: flex;
-    width: 1000px;
+    width: 1075px;
     background: $color-primary;
     flex-shrink: 0;
 
@@ -21,7 +21,6 @@
     &-itemstack {
         width: 50%;
         height: 100%;
-        border-right: 1px solid gray;
     }
 
     .disabled {
@@ -45,14 +44,33 @@
         }
 
         &-bottom {
-
             border-top: 1px solid gray;
             width: 100%;
             height: 40%;
             overflow-y: scroll;
-
         }
-
     }
+}
 
+.resizer-x {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #4d4d78;
+    padding: 3px;
+    height: 100%;
+    overflow: hidden;
+}
+
+.resizer-x {
+    z-index: 2;
+    cursor: col-resize;
+}
+.resizer-x::before,
+.resizer-x::after {
+    width: 2px;
+    height: 16px;
+    margin: 2px;
+    background: lightgray;
 }
