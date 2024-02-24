@@ -48,6 +48,39 @@ class BuilderInventoryController extends Controller
     }
 
     /**
+     * Edit an inventory
+     *
+     * @param Inventory $inventory
+     * @return Factory|\Illuminate\Foundation\Application|View|RedirectResponse|Application
+     */
+    public function edit(Inventory $inventory): Factory|\Illuminate\Foundation\Application|View|RedirectResponse|Application
+    {
+
+        $user = user();
+        if ($inventory->user_id != $user->id && !$user->role->isModerator()) {
+            return Redirect::route('home');
+        }
+
+        $sounds = Cache::remember('xsound:values', 86400, function () {
+            $content = file_get_contents('https://raw.githubusercontent.com/CryptoMorin/XSeries/master/src/main/java/com/cryptomorin/xseries/XSound.java');
+            preg_match_all('/^\s{4}([A-Z_]+)(?=\(|,)/m', $content, $matches);
+            return $matches[1];
+        });
+
+        $versions = MinecraftVersion::all();
+        $inventory = $inventory->load('buttons');
+        $inventory = $inventory->load('buttons.item');
+        $buttonTypes = ButtonType::with('contents')->get();
+
+        return view('builder.inventory', [
+            'inventory' => $inventory,
+            'versions' => $versions,
+            'buttonTypes' => $buttonTypes,
+            'sounds' => $sounds,
+        ]);
+    }
+
+    /**
      * Permet de créer un inventaire
      *
      * @param Request $request
@@ -234,39 +267,6 @@ class BuilderInventoryController extends Controller
         }
 
         return $defaultValue;
-    }
-
-    /**
-     * Edit an inventory
-     *
-     * @param Inventory $inventory
-     * @return Factory|\Illuminate\Foundation\Application|View|RedirectResponse|Application
-     */
-    public function edit(Inventory $inventory): Factory|\Illuminate\Foundation\Application|View|RedirectResponse|Application
-    {
-
-        $user = user();
-        if ($inventory->user_id != $user->id && !$user->role->isModerator()) {
-            return Redirect::route('home');
-        }
-
-        $sounds = Cache::remember('xsound:values', 86400, function () {
-            $content = file_get_contents('https://raw.githubusercontent.com/CryptoMorin/XSeries/master/src/main/java/com/cryptomorin/xseries/XSound.java');
-            preg_match_all('/^\s{4}([A-Z_]+)(?=\(|,)/m', $content, $matches);
-            return $matches[1];
-        });
-
-        $versions = MinecraftVersion::all();
-        $inventory = $inventory->load('buttons');
-        $inventory = $inventory->load('buttons.item');
-        $buttonTypes = ButtonType::select(['name', 'id'])->get();
-
-        return view('builder.inventory', [
-            'inventory' => $inventory,
-            'versions' => $versions,
-            'buttonTypes' => $buttonTypes,
-            'sounds' => $sounds,
-        ]);
     }
 
     /**

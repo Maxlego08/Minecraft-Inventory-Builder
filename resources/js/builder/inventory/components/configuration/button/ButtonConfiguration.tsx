@@ -10,6 +10,7 @@ import Sound from "./Sound";
 import Messages from "./Messages";
 import Commands from "./Commands";
 import ConsoleCommands from "./ConsoleCommands";
+import TextType from "./types/TextType";
 
 const ButtonConfiguration = ({inventoryContent, buttonTypes, updateButton, selectedSlots, sounds}) => {
 
@@ -92,9 +93,21 @@ const ButtonConfiguration = ({inventoryContent, buttonTypes, updateButton, selec
                 <div className={'configurations-button-header mb-2'}>
                     Specific configuration
                 </div>
-                <SearchableSelect key={'button_type'} options={buttonTypes.map(btn => btn.name)}
-                                  handleChange={handleChange} name={'button_type'}
-                                  defaultValue={findButtonName()?.name ?? ''}/>
+                <div className="mb-2">
+                    <SearchableSelect key={'button_type'} options={buttonTypes.map(btn => btn.name)}
+                                      handleChange={handleChange} name={'button_type'}
+                                      defaultValue={findButtonName()?.name ?? ''}/>
+                </div>
+                {findButtonName()?.contents?.map((element, id) => {
+                    console.log(`${element.data_type == 'text'} -> ${element}`)
+                    if (element.data_type == 'text') {
+                        return (
+                            <div>
+                                <TextType key={id} element={element} handleChange={handleChange}/>
+                            </div>
+                        )
+                    }
+                })}
             </div>
         </div>
     ) : (
