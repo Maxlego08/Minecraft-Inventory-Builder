@@ -159,7 +159,12 @@ class BuilderInventoryController extends Controller
         $itemIds = array_column($request['slot'], 'item_id');
         $itemIds = array_unique(array_filter($itemIds));
 
+        $typeIds = array_column($request['slot'], 'type_id');
+        $typeIds = array_unique(array_filter($typeIds));
+
+
         $items = Item::findMany($itemIds)->keyBy('id');
+        $buttonTypes = ButtonType::findMany($typeIds)->keyBy('id');
 
         $slotsToKeep = array_filter(array_column($request['slot'], 'slot'), function ($value) {
             return ($value !== null && $value !== false);
@@ -177,6 +182,8 @@ class BuilderInventoryController extends Controller
 
             $item = $items[$itemId];
 
+            $typeId = $buttonTypes[$slot['type_id']]?->id ?? 1;
+
             $display_name = isset($slot['display_name']) && $slot['display_name'] !== "null" && trim($slot['display_name']) !== "" ? $slot['display_name'] : null;
             $lore = isset($slot['lore']) && $slot['lore'] !== "null" && trim($slot['lore']) !== "" ? $slot['lore'] : null;
             $messages = isset($slot['messages']) && $slot['messages'] !== "null" && trim($slot['messages']) !== "" ? $slot['messages'] : null;
@@ -189,7 +196,7 @@ class BuilderInventoryController extends Controller
                 [
                     'item_id' => $item->id,
                     'amount' => max(1, min(64, $slot['amount'])),
-                    'type_id' => 1,
+                    'type_id' => $typeId,
                     'name' => $name,
                     'messages' => Str::limit($messages, 65535),
                     'display_name' => Str::limit($display_name, 65535),
@@ -252,7 +259,7 @@ class BuilderInventoryController extends Controller
         $versions = MinecraftVersion::all();
         $inventory = $inventory->load('buttons');
         $inventory = $inventory->load('buttons.item');
-        $buttonTypes = ButtonType::pluck('name');
+        $buttonTypes = ButtonType::select(['name', 'id'])->get();
 
         return view('builder.inventory', [
             'inventory' => $inventory,

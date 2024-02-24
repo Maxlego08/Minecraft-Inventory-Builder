@@ -58,7 +58,6 @@ const InventoryBuilder = () => {
 
 
     useEffect(() => {
-        console.log(inventoryContent)
         const intervalId = setInterval(() => {
             saveData();
         }, 1000 * 30); // 30 seconds
@@ -443,6 +442,7 @@ const InventoryBuilder = () => {
         inventoryContent.slots.map((slot, index) => {
             if (slot.content != null) {
                 formData.append(`slot[${index}]item_id`, slot.content.id);
+                formData.append(`slot[${index}]type_id`, slot.button?.type_id ?? 1);
                 formData.append(`slot[${index}]amount`, slot.button.amount);
                 formData.append(`slot[${index}]slot`, slot.button.slot);
                 formData.append(`slot[${index}]page`, slot.button.page);

@@ -10,7 +10,6 @@ import Sound from "./Sound";
 import Messages from "./Messages";
 import Commands from "./Commands";
 import ConsoleCommands from "./ConsoleCommands";
-import AutoCompleteFormControl from "../../utils/AutoCompleteFormControl";
 
 const ButtonConfiguration = ({inventoryContent, buttonTypes, updateButton, selectedSlots, sounds}) => {
 
@@ -18,7 +17,7 @@ const ButtonConfiguration = ({inventoryContent, buttonTypes, updateButton, selec
     let currentSlot = inventoryContent.currentSlot >= 0 ? inventoryContent.slots[inventoryContent.currentSlot] : null;
 
     const handleChange = (event) => {
-        const {name, value, type, checked, min, max} = event.target;
+        let {name, value, type, checked, min, max} = event.target;
 
         let newValue = type === 'checkbox' ? checked : value;
 
@@ -38,6 +37,11 @@ const ButtonConfiguration = ({inventoryContent, buttonTypes, updateButton, selec
             }
         }
 
+        if (name === 'button_type') {
+            name = 'type_id'
+            newValue = buttonTypes.find(button => button.name.toUpperCase() == value.toUpperCase())?.id
+        }
+
         slotsToUpdate.forEach(slotIndex => {
             const updatedButton = {
                 ...inventoryContent.slots[slotIndex].button,
@@ -47,6 +51,11 @@ const ButtonConfiguration = ({inventoryContent, buttonTypes, updateButton, selec
             updateButton(slotIndex, updatedButton);
         });
     };
+
+    const findButtonName = () => {
+        if (!currentSlot.button.type_id || currentSlot.button.type_id == 1) return null
+        return buttonTypes.find(button => currentSlot.button.type_id == button.id) ?? ''
+    }
 
     return inventoryContent.currentSlot >= 0 ? (
         <div className={'configurations-button'}>
@@ -83,7 +92,9 @@ const ButtonConfiguration = ({inventoryContent, buttonTypes, updateButton, selec
                 <div className={'configurations-button-header mb-2'}>
                     Specific configuration
                 </div>
-                <SearchableSelect key={'button_type'} options={buttonTypes} handleChange={handleChange} name={'bouton_type'}/>
+                <SearchableSelect key={'button_type'} options={buttonTypes.map(btn => btn.name)}
+                                  handleChange={handleChange} name={'button_type'}
+                                  defaultValue={findButtonName()?.name ?? ''}/>
             </div>
         </div>
     ) : (

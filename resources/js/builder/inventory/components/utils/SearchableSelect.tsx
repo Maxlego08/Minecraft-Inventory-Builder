@@ -41,7 +41,7 @@ const SearchableSelect = ({ options, handleChange, name, defaultValue = '' }) =>
                 name={name}
                 type="text"
                 placeholder="Search..."
-                value={searchTerm}
+                value={searchTerm.toUpperCase()}
                 onChange={handleSearch}
                 onFocus={() => setShowDropdown(true)}
             />
