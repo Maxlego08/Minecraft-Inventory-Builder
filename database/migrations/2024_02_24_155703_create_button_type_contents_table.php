@@ -53,6 +53,13 @@ return new class extends Migration {
             'documentation_url' => 'https://docs.zmenu.dev/configurations/buttons#inventory',
         ]);
 
+        ButtonTypeContent::create([
+            'type_id' => 8,
+            'key' => 'toPage',
+            'data_type' => 'number',
+            'documentation_url' => 'https://docs.zmenu.dev/configurations/buttons#jump',
+        ]);
+
     }
 
     /**
