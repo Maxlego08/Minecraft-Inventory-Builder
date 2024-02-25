@@ -53,6 +53,30 @@ const ButtonConfiguration = ({inventoryContent, buttonTypes, updateButton, selec
         });
     };
 
+    const handleChangeData = (event, element) => {
+
+
+        let {name, value, type, checked} = event.target;
+
+        const obj = JSON.parse(currentSlot.button?.button_data ?? '{}');
+        obj[element.key] = value
+        const result = JSON.stringify(obj)
+
+        slotsToUpdate.forEach(slotIndex => {
+            const updatedButton = {
+                ...inventoryContent.slots[slotIndex].button,
+                ['button_data']: result,
+            };
+
+            updateButton(slotIndex, updatedButton);
+        });
+    }
+
+    const jsonValueOf = (element) => {
+        const obj = JSON.parse(currentSlot.button?.button_data ?? '{}');
+        return obj[element.key] ?? ''
+    }
+
     const findButtonName = () => {
         if (!currentSlot.button.type_id || currentSlot.button.type_id == 1) return null
         return buttonTypes.find(button => currentSlot.button.type_id == button.id) ?? ''
@@ -99,12 +123,10 @@ const ButtonConfiguration = ({inventoryContent, buttonTypes, updateButton, selec
                                       defaultValue={findButtonName()?.name ?? ''}/>
                 </div>
                 {findButtonName()?.contents?.map((element, id) => {
-                    console.log(`${element.data_type == 'text'} -> ${element}`)
                     if (element.data_type == 'text') {
                         return (
-                            <div>
-                                <TextType key={id} element={element} handleChange={handleChange}/>
-                            </div>
+                            <TextType key={element.id} element={element} handleChange={handleChangeData}
+                                      defaultValue={jsonValueOf(element)}/>
                         )
                     }
                 })}

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * @property int $id
  * @property int $name
+ * @property ButtonTypeContent[] $contents
  */
 class ButtonType extends Model
 {

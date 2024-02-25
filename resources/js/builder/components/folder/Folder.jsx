@@ -42,7 +42,7 @@ const Folder = ({folderId, folderName, onFolderClick, handleDeleteFolder, handle
                 <i className="bi bi-folder me-2"/> {folderName}
             </div>
             <div className="dropdown">
-                <div className={'folder-action ps-2 pe-2'} onClick={handleGearClick} type="button"
+                <div className={'folder-action ps-2 pe-2 rotatable'} onClick={handleGearClick} type="button"
                      data-bs-toggle="dropdown" aria-expanded="false">
                     <i className="bi bi-gear"/>
                 </div>

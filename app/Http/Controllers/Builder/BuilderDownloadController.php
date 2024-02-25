@@ -171,6 +171,11 @@ class BuilderDownloadController extends Controller
         if (isset($button->commands)) $array['commands'] = explode("\n", $button->commands);
         if (isset($button->console_commands)) $array['consoleCommands'] = explode("\n", $button->console_commands);
 
+        $data = json_decode($button->button_data ?? '{}', true);
+        foreach ($button->buttonType->contents as $content) {
+            $array[$content->key] = $data[$content->key] ?? '';
+        }
+
         return $array;
     }
 

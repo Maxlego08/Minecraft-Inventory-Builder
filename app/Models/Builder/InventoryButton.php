@@ -27,6 +27,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $sound
  * @property float $volume
  * @property float $pitch
+ * @property string $button_data
  * @property ButtonType $buttonType
  */
 class InventoryButton extends Model
@@ -58,6 +59,7 @@ class InventoryButton extends Model
         'sound',
         'pitch',
         'volume',
+        'button_data',
     ];
 
     /**

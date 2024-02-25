@@ -50,7 +50,8 @@ const InventoryBuilder = () => {
                     volume: 1.0,
                     pitch: 1.0,
                     sound: '',
-                    glow: false
+                    glow: false,
+                    button_data: ''
                 }
             })
         })
@@ -460,6 +461,7 @@ const InventoryBuilder = () => {
                 formData.append(`slot[${index}]messages`, slot.button?.messages ?? null);
                 formData.append(`slot[${index}]commands`, slot.button?.commands ?? null);
                 formData.append(`slot[${index}]console_commands`, slot.button?.console_commands ?? null);
+                formData.append(`slot[${index}]button_data`, slot.button?.button_data ?? null);
                 if (slot.button?.display_name) formData.append(`slot[${index}]display_name`, slot.button.display_name);
                 if (slot.button?.lore) formData.append(`slot[${index}]lore`, slot.button.lore);
             }
@@ -511,7 +513,7 @@ const InventoryBuilder = () => {
                     <ItemStackConfiguration inventoryContent={inventoryContent} updateButton={updateButton}
                                             selectedSlots={slots}/>
                     <div className={'resizer-x'}/>
-                    <ButtonConfiguration inventoryContent={inventoryContent} updateButton={updateButton}
+                    <ButtonConfiguration key={'configuration-button'} inventoryContent={inventoryContent} updateButton={updateButton}
                                          selectedSlots={slots} buttonTypes={data.buttonTypes} sounds={data.sounds}/>
                 </div>
             </div>

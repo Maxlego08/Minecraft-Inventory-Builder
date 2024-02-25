@@ -243,6 +243,7 @@ class BuilderInventoryController extends Controller
                     'model_id' => $slot['model_id'],
                     'sound' => $sound,
                     'pitch' => $slot['pitch'],
+                    'button_data' => $slot['button_data'],
                     'volume' => $slot['volume'],
                     'commands' => $commands,
                     'console_commands' => $consoleCommands,
