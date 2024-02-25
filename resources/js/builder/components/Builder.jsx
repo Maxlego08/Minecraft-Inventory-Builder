@@ -160,7 +160,7 @@ const Builder = () => {
 
     return (
         <div className={'builder'}>
-            <Breadcrumb key={1} parent={parentHierarchy ?? []} folder={folder} onFolderClick={handleFolderClick}/>
+            <Breadcrumb key={1} parent={parentHierarchy ?? []} folder={folder} onFolderClick={handleFolderClick} homeFolderId={1}/>
             <div className={'builder-content'}>
                 <div className={'folders'}>
                     {folder ? (
@@ -169,7 +169,7 @@ const Builder = () => {
                                           createFolder={createFolder}/>
                             <div className={'folders-content'}>
                                 {folder.children?.map((f, index) => (
-                                    <Folder key={index} folderId={f.id} folderName={f.name}
+                                    <Folder key={`${index}-${folder.id}`} folderId={f.id} folderName={f.name}
                                             onFolderClick={handleFolderClick} handleDeleteFolder={handleDeleteFolder}
                                             handleEditFolder={handleEditFolder}/>
                                 ))}
@@ -181,9 +181,9 @@ const Builder = () => {
                 </div>
                 <div className={'builder-inventories'}>
                     {folder ? (
-                        <InventoryList folder={folder}/>
+                        <InventoryList key={folder} folder={folder}/>
                     ) : (
-                        <InventoryList/>
+                        <InventoryList key={'empty'}/>
                     )}
                 </div>
             </div>

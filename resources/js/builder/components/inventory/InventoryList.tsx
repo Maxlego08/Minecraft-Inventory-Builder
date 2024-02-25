@@ -7,9 +7,11 @@ import InventoryCard from "./InventoryCard";
 
 const InventoryList = ({folder = null}) => {
 
-    const [inventories, setInventories] = useState();
+    const [inventories, setInventories] = useState(null);
+
 
     useEffect(() => {
+        setInventories(null);
         fetchInventories();
     }, [folder]);
 
@@ -21,7 +23,6 @@ const InventoryList = ({folder = null}) => {
         api.fetchInventories(folder.id).then(response => {
             if (response.data.result === 'success') {
                 const inventories = response.data.inventories;
-                console.log(inventories)
                 setInventories(inventories)
             }
         }).catch(error => {
@@ -73,7 +74,7 @@ const InventoryList = ({folder = null}) => {
                 <div className={'inventories-list'}>
                     {// @ts-ignore
                         inventories?.map((inventory, index) => (
-                            <InventoryCard key={index} inventory={inventory}
+                            <InventoryCard key={`${index}-${folder.id}`} inventory={inventory}
                                            handleDeleteInventory={handleDeleteInventory}/>
                         ))}
                 </div>

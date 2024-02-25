@@ -8,6 +8,7 @@
 
 - Update color code
 - Update rendered.json
+- Fix inventory card name
 
 # 1.0.4
 

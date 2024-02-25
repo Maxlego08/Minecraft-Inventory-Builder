@@ -9,7 +9,6 @@ const InventoryHeader = ({createInventory}) => {
     const handleModalShow = () => setModalShow(true);
 
     const handleSaveInventory = (inventoryData) => {
-        console.log('Saving inventory:', inventoryData);
         handleModalClose();
 
         const formData = new FormData();
