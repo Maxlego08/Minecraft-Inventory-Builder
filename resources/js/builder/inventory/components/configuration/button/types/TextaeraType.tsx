@@ -1,6 +1,6 @@
 import {Form} from "react-bootstrap";
 
-const TextType = ({element, handleChange, defaultValue = ''}) => {
+const TextareaType = ({element, handleChange, defaultValue = ''}) => {
 
     // ToDo add rules for the text
 
@@ -11,7 +11,8 @@ const TextType = ({element, handleChange, defaultValue = ''}) => {
                 {element.documentation_url && (<a target={'_blank'} href={element.documentation_url} className={'ms-1'}>(?)</a>)}
             </Form.Label>
             <Form.Control
-                type="text"
+                as={'textarea'}
+                rows={10}
                 value={defaultValue}
                 name={element.key}
                 onChange={(event) => handleChange(event, element)}
@@ -23,4 +24,4 @@ const TextType = ({element, handleChange, defaultValue = ''}) => {
 
 }
 
-export default TextType
+export default TextareaType

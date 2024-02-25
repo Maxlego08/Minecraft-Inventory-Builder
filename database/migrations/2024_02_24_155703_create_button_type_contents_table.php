@@ -24,13 +24,33 @@ return new class extends Migration {
         ButtonTypeContent::create([
             'type_id' => 2,
             'key' => 'plugin',
-            'data_type' => 'text'
+            'data_type' => 'text',
+            'description' => 'Name of the plugin from where the inventory comes from. It is advisable to specify the plugin name to avoid opening another inventory with the same name.',
+            'documentation_url' => 'https://docs.zmenu.dev/configurations/buttons#inventory',
         ]);
 
         ButtonTypeContent::create([
             'type_id' => 2,
             'key' => 'inventory',
-            'data_type' => 'text'
+            'data_type' => 'text',
+            'description' => 'Name of the inventory you want to open. The name of the inventory will be the name of the inventory file.',
+            'documentation_url' => 'https://docs.zmenu.dev/configurations/buttons#inventory',
+        ]);
+
+        ButtonTypeContent::create([
+            'type_id' => 2,
+            'key' => 'toPage',
+            'data_type' => 'number',
+            'description' => 'Number of the page you want to open. Default will be 1.',
+            'documentation_url' => 'https://docs.zmenu.dev/configurations/buttons#inventory',
+        ]);
+
+        ButtonTypeContent::create([
+            'type_id' => 2,
+            'key' => 'arguments',
+            'data_type' => 'textarea',
+            'description' => 'List of arguments you can add. An argument can contain a name in the following format: <name>:<value>',
+            'documentation_url' => 'https://docs.zmenu.dev/configurations/buttons#inventory',
         ]);
 
     }

@@ -173,7 +173,25 @@ class BuilderDownloadController extends Controller
 
         $data = json_decode($button->button_data ?? '{}', true);
         foreach ($button->buttonType->contents as $content) {
-            $array[$content->key] = $data[$content->key] ?? '';
+            $value = $data[$content->key] ?? '';
+            switch ($content->data_type) {
+                case 'number':
+                {
+                    if (filter_var($value, FILTER_VALIDATE_INT) !== false) {
+                        $array[$content->key] = (int)$value;
+                    } else $array[$content->key] = $value;
+                    break;
+                }
+                case 'textarea':
+                {
+                    $array[$content->key] = explode("\n", $value);
+                    break;
+                }
+                default:
+                {
+                    $array[$content->key] = $value;
+                }
+            }
         }
 
         return $array;

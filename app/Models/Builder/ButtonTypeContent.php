@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property string $key
+ * @property string $data_type
  */
 class ButtonTypeContent extends Model
 {

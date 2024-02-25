@@ -11,6 +11,8 @@ import Messages from "./Messages";
 import Commands from "./Commands";
 import ConsoleCommands from "./ConsoleCommands";
 import TextType from "./types/TextType";
+import TextareaType from "./types/TextaeraType";
+import NumberType from "./types/NumberType";
 
 const ButtonConfiguration = ({inventoryContent, buttonTypes, updateButton, selectedSlots, sounds}) => {
 
@@ -121,12 +123,27 @@ const ButtonConfiguration = ({inventoryContent, buttonTypes, updateButton, selec
                     <SearchableSelect key={'button_type'} options={buttonTypes.map(btn => btn.name)}
                                       handleChange={handleChange} name={'button_type'}
                                       defaultValue={findButtonName()?.name ?? ''}/>
+                    {findButtonName()?.description && (
+                        <small className="form-text text-muted">
+                            {findButtonName()?.description}
+                        </small>
+                    )}
                 </div>
                 {findButtonName()?.contents?.map((element, id) => {
                     if (element.data_type == 'text') {
                         return (
                             <TextType key={element.id} element={element} handleChange={handleChangeData}
                                       defaultValue={jsonValueOf(element)}/>
+                        )
+                    } else if (element.data_type == 'textarea') {
+                        return (
+                            <TextareaType key={element.id} element={element} handleChange={handleChangeData}
+                                          defaultValue={jsonValueOf(element)}/>
+                        )
+                    } else if (element.data_type == 'number') {
+                        return (
+                            <NumberType key={element.id} element={element} handleChange={handleChangeData}
+                                        defaultValue={jsonValueOf(element)}/>
                         )
                     }
                 })}
