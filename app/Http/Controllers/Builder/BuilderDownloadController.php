@@ -148,6 +148,9 @@ class BuilderDownloadController extends Controller
             ]
         ];
 
+        if ($button->page != 1) $array['page'] = $button->page;
+        if ($button->buttonType->id != 1) $array['type'] = strtoupper($button->buttonType->name);
+
         if ($button->amount != 1) $array['item']['amount'] = $button->amount;
 
         if (isset($button->display_name)) $array['item']['name'] = $button->display_name;
@@ -167,6 +170,29 @@ class BuilderDownloadController extends Controller
         if (isset($button->messages)) $array['messages'] = explode("\n", $button->messages);
         if (isset($button->commands)) $array['commands'] = explode("\n", $button->commands);
         if (isset($button->console_commands)) $array['consoleCommands'] = explode("\n", $button->console_commands);
+
+        $data = json_decode($button->button_data ?? '{}', true);
+        foreach ($button->buttonType->contents as $content) {
+            $value = $data[$content->key] ?? '';
+            switch ($content->data_type) {
+                case 'number':
+                {
+                    if (filter_var($value, FILTER_VALIDATE_INT) !== false) {
+                        $array[$content->key] = (int)$value;
+                    } else $array[$content->key] = $value;
+                    break;
+                }
+                case 'textarea':
+                {
+                    $array[$content->key] = explode("\n", $value);
+                    break;
+                }
+                default:
+                {
+                    $array[$content->key] = $value;
+                }
+            }
+        }
 
         return $array;
     }

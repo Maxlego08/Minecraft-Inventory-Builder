@@ -43,6 +43,22 @@ kbd {
     background-color: #f7f7f7;
     border: 1px solid #ccc;
     border-radius: 3px;
-    box-shadow: 0 1px 0 rgba(0,0,0,0.2), 0 2px 0 rgba(255,255,255,0.7) inset;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 2px 0 rgba(255, 255, 255, 0.7) inset;
     margin: 2px;
+}
+
+.rotatable {
+    transition: transform 0.5s ease;
+
+    &:hover {
+        transform: rotate(90deg);
+    }
+}
+
+.trash-rotatable {
+    transition: transform 0.2s ease;
+
+    &:hover {
+        transform: rotate(5deg);
+    }
 }

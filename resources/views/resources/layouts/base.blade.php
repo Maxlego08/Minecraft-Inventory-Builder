@@ -260,7 +260,7 @@
                                     </li>
                                     <li class="d-flex justify-content-between align-items-center">
                                         {{ __('messages.downloads') }}
-                                        <span>{{ $resource->cache('version')->download }}</span>
+                                        <span>{{ $resource->countDownload() }}</span>
                                     </li>
                                     <li class="d-flex justify-content-between align-items-center">
                                         {{ __('messages.updated') }}

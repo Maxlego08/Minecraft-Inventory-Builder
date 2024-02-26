@@ -48,6 +48,39 @@ class BuilderInventoryController extends Controller
     }
 
     /**
+     * Edit an inventory
+     *
+     * @param Inventory $inventory
+     * @return Factory|\Illuminate\Foundation\Application|View|RedirectResponse|Application
+     */
+    public function edit(Inventory $inventory): Factory|\Illuminate\Foundation\Application|View|RedirectResponse|Application
+    {
+
+        $user = user();
+        if ($inventory->user_id != $user->id && !$user->role->isModerator()) {
+            return Redirect::route('home');
+        }
+
+        $sounds = Cache::remember('xsound:values', 86400, function () {
+            $content = file_get_contents('https://raw.githubusercontent.com/CryptoMorin/XSeries/master/src/main/java/com/cryptomorin/xseries/XSound.java');
+            preg_match_all('/^\s{4}([A-Z_]+)(?=\(|,)/m', $content, $matches);
+            return $matches[1];
+        });
+
+        $versions = MinecraftVersion::all();
+        $inventory = $inventory->load('buttons');
+        $inventory = $inventory->load('buttons.item');
+        $buttonTypes = ButtonType::with('contents')->get();
+
+        return view('builder.inventory', [
+            'inventory' => $inventory,
+            'versions' => $versions,
+            'buttonTypes' => $buttonTypes,
+            'sounds' => $sounds,
+        ]);
+    }
+
+    /**
      * Permet de créer un inventaire
      *
      * @param Request $request
@@ -159,7 +192,12 @@ class BuilderInventoryController extends Controller
         $itemIds = array_column($request['slot'], 'item_id');
         $itemIds = array_unique(array_filter($itemIds));
 
+        $typeIds = array_column($request['slot'], 'type_id');
+        $typeIds = array_unique(array_filter($typeIds));
+
+
         $items = Item::findMany($itemIds)->keyBy('id');
+        $buttonTypes = ButtonType::findMany($typeIds)->keyBy('id');
 
         $slotsToKeep = array_filter(array_column($request['slot'], 'slot'), function ($value) {
             return ($value !== null && $value !== false);
@@ -169,12 +207,15 @@ class BuilderInventoryController extends Controller
             if (empty($slot) || !isset($items[$slot['item_id']])) continue;
 
             $currentSlot = $slot['slot'];
+            $page = filter_var($slot['page'], FILTER_VALIDATE_INT) !== false ? $slot['page'] : 1;
             $itemId = $slot['item_id'];
 
             $name = Str::limit($slot['name'], 255);
             $name = empty($name) ? "btn-$currentSlot" : str_replace(" ", "_", $name);
 
             $item = $items[$itemId];
+
+            $typeId = $buttonTypes[$slot['type_id']]?->id ?? 1;
 
             $display_name = isset($slot['display_name']) && $slot['display_name'] !== "null" && trim($slot['display_name']) !== "" ? $slot['display_name'] : null;
             $lore = isset($slot['lore']) && $slot['lore'] !== "null" && trim($slot['lore']) !== "" ? $slot['lore'] : null;
@@ -184,11 +225,11 @@ class BuilderInventoryController extends Controller
             $sound = isset($slot['sound']) && $slot['sound'] !== "null" && trim($slot['sound']) !== "" ? $slot['sound'] : null;
 
             InventoryButton::updateOrCreate(
-                ['inventory_id' => $inventory->id, 'slot' => $currentSlot],
+                ['inventory_id' => $inventory->id, 'slot' => $currentSlot, 'page' => $page],
                 [
                     'item_id' => $item->id,
                     'amount' => max(1, min(64, $slot['amount'])),
-                    'type_id' => 1,
+                    'type_id' => $typeId,
                     'name' => $name,
                     'messages' => Str::limit($messages, 65535),
                     'display_name' => Str::limit($display_name, 65535),
@@ -202,6 +243,7 @@ class BuilderInventoryController extends Controller
                     'model_id' => $slot['model_id'],
                     'sound' => $sound,
                     'pitch' => $slot['pitch'],
+                    'button_data' => $slot['button_data'],
                     'volume' => $slot['volume'],
                     'commands' => $commands,
                     'console_commands' => $consoleCommands,
@@ -226,39 +268,6 @@ class BuilderInventoryController extends Controller
         }
 
         return $defaultValue;
-    }
-
-    /**
-     * Edit an inventory
-     *
-     * @param Inventory $inventory
-     * @return Factory|\Illuminate\Foundation\Application|View|RedirectResponse|Application
-     */
-    public function edit(Inventory $inventory): Factory|\Illuminate\Foundation\Application|View|RedirectResponse|Application
-    {
-
-        $user = user();
-        if ($inventory->user_id != $user->id && !$user->role->isModerator()) {
-            return Redirect::route('home');
-        }
-
-        $sounds = Cache::remember('xsound:values', 86400, function () {
-            $content = file_get_contents('https://raw.githubusercontent.com/CryptoMorin/XSeries/master/src/main/java/com/cryptomorin/xseries/XSound.java');
-            preg_match_all('/^\s{4}([A-Z_]+)(?=\(|,)/m', $content, $matches);
-            return $matches[1];
-        });
-
-        $versions = MinecraftVersion::all();
-        $inventory = $inventory->load('buttons');
-        $inventory = $inventory->load('buttons.item');
-        $buttonTypes = ButtonType::pluck('name');
-
-        return view('builder.inventory', [
-            'inventory' => $inventory,
-            'versions' => $versions,
-            'buttonTypes' => $buttonTypes,
-            'sounds' => $sounds,
-        ]);
     }
 
     /**

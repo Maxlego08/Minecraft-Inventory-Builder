@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ButtonController;
 use App\Http\Controllers\Admin\ConversationController;
 use App\Http\Controllers\Admin\GiftController;
 use App\Http\Controllers\Admin\IndexController;
@@ -79,5 +80,18 @@ Route::middleware('admin')->group(function () {
         Route::post('/store', [GiftController::class, 'store'])->name('store');
         Route::get('/edit/{gift}', [GiftController::class, 'edit'])->name('edit');
         Route::post('/update/{gift}', [GiftController::class, 'update'])->name('update');
+    });
+
+    Route::prefix('/buttons')->name('buttons.')->group(function () {
+        Route::get('/', [ButtonController::class, 'index'])->name('index');
+        Route::get('/{button}', [ButtonController::class, 'edit'])->name('edit');
+        Route::post('/{button}/update', [ButtonController::class, 'update'])->name('update');
+        Route::prefix('/content')->name('content.')->group(function () {
+            Route::get('/{content}', [ButtonController::class, 'editContent'])->name('edit');
+            Route::post('/update/{content}', [ButtonController::class, 'updateContent'])->name('update');
+            Route::post('/destroy/{content}', [ButtonController::class, 'destroyContent'])->name('destroy');
+            Route::get('/create/{button}', [ButtonController::class, 'createContent'])->name('create');
+            Route::post('/store/{button}', [ButtonController::class, 'storeContent'])->name('store');
+        });
     });
 });

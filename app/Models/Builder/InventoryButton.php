@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $slot
  * @property Item $item
  * @property int $amount
+ * @property int $page
  * @property string $display_name
  * @property string $lore
  * @property int $model_id
@@ -26,6 +27,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $sound
  * @property float $volume
  * @property float $pitch
+ * @property string $button_data
+ * @property ButtonType $buttonType
  */
 class InventoryButton extends Model
 {
@@ -56,6 +59,7 @@ class InventoryButton extends Model
         'sound',
         'pitch',
         'volume',
+        'button_data',
     ];
 
     /**
@@ -76,6 +80,16 @@ class InventoryButton extends Model
     public function item(): BelongsTo
     {
         return $this->belongsTo(Item::class);
+    }
+
+    /**
+     * Returns the item used by the button
+     *
+     * @return BelongsTo
+     */
+    public function buttonType(): BelongsTo
+    {
+        return $this->belongsTo(ButtonType::class, 'type_id');
     }
 
 }

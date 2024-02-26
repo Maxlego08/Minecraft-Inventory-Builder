@@ -72,6 +72,11 @@ class UserRole extends Model
         return $this->power >= self::PRO;
     }
 
+    public function isPremium(): bool
+    {
+        return $this->power >= self::PREMIUM;
+    }
+
     /**
      * Return the validator for banner image
      *

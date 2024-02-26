@@ -1,12 +1,12 @@
 import React from "react";
 
-const Breadcrumb = ({ parent, folder, onFolderClick }) => {
+const Breadcrumb = ({ parent, folder, onFolderClick, homeFolderId }) => {
 
     return (
         <div className={'builder-breadcrumb'}>
             <nav aria-label="breadcrumb">
                 <ol className="breadcrumb">
-                    <li className="breadcrumb-item can-click"><span onClick={() => onFolderClick()}><i className="bi bi-house"></i> Home</span>
+                    <li className="breadcrumb-item can-click"><span onClick={() => onFolderClick(homeFolderId)}><i className="bi bi-house"></i> Home</span>
                     </li>
                     {parent && parent.size !== 0 && parent.map((info, index) => (
                         <li key={index}

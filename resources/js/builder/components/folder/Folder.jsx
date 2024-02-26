@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import DeleteConfirmationModal from '../modals/DeleteConfirmationModal';
 import EditFolderModal from "../modals/EditFolderModal";
 
@@ -6,6 +6,7 @@ const Folder = ({folderId, folderName, onFolderClick, handleDeleteFolder, handle
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
+    const wrapperRef = useRef(null);
 
     const handleClick = () => {
         onFolderClick(folderId);
@@ -36,12 +37,12 @@ const Folder = ({folderId, folderName, onFolderClick, handleDeleteFolder, handle
     };
 
     return (
-        <div className={'folder'} id={`folder-${folderId}`}>
+        <div className={'folder'} id={`folder-${folderId}`} ref={wrapperRef}>
             <div className={'folder-name'} onClick={handleClick}>
                 <i className="bi bi-folder me-2"/> {folderName}
             </div>
             <div className="dropdown">
-                <div className={'folder-action ps-2 pe-2'} onClick={handleGearClick} type="button"
+                <div className={'folder-action ps-2 pe-2 rotatable'} onClick={handleGearClick} type="button"
                      data-bs-toggle="dropdown" aria-expanded="false">
                     <i className="bi bi-gear"/>
                 </div>

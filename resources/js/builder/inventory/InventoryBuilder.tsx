@@ -6,10 +6,17 @@ import api from "../services/api"
 import ButtonConfiguration from "./components/configuration/button/ButtonConfiguration";
 import ItemStackConfiguration from "./components/configuration/itemstack/ItemStackConfiguration";
 
+const ITEMS_PER_PAGE = 54;
+const MAX_PAGE = 10;
+// The page management system is temporary, I have not yet found a better solution than to generate the whole table in advance.
+// We have to think about a better solution because the multi page and else button system will not be compatible in the state
+
 const InventoryBuilder = () => {
 
     const findButton = (index) => {
-        return inventory.buttons.find(button => button.slot == index) || null;
+        let page = Math.ceil((index + 1) / ITEMS_PER_PAGE)
+        let currentSlot = index - (ITEMS_PER_PAGE * (page - 1))
+        return inventory.buttons.find(button => button.slot == currentSlot && button.page == page) || null;
     }
 
     // @ts-ignore
@@ -20,15 +27,20 @@ const InventoryBuilder = () => {
     const [isShiftClick, setIsShiftClick] = useState(false);
     const [needToUpdate, setNeedToUpdate] = useState(false);
     const [slots, setSlots] = useState([]);
+    const [page, setPage] = useState(1);
     const [inventoryContent, setInventoryContent] = useState({
         currentSlot: 0,
         // @ts-ignore
-        slots: Array.from({length: 54}, (_, index) => {
+        slots: Array.from({length: ITEMS_PER_PAGE * MAX_PAGE}, (_, index) => {
             let button = findButton(index)
+            let page = Math.ceil((index + 1) / ITEMS_PER_PAGE)
+            let currentSlot = index - (ITEMS_PER_PAGE * (page - 1))
             return ({
                 id: index,
                 content: button?.item ?? null,
                 button: button ?? {
+                    slot: currentSlot,
+                    page: page,
                     model_id: 0,
                     amount: 0,
                     display_name: null,
@@ -38,11 +50,13 @@ const InventoryBuilder = () => {
                     volume: 1.0,
                     pitch: 1.0,
                     sound: '',
-                    glow: false
+                    glow: false,
+                    button_data: ''
                 }
             })
         })
     });
+
 
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -274,6 +288,7 @@ const InventoryBuilder = () => {
     }, [currentItem])
 
     const updateSlotContent = (slotIndex, newContent, newAmount = 1) => {
+        slotIndex = parseInt(slotIndex) + ((page - 1) * ITEMS_PER_PAGE)
         setNeedToUpdate(true)
         setInventoryContent(prevInventoryContent => {
             const newSlots = [...prevInventoryContent.slots];
@@ -428,8 +443,10 @@ const InventoryBuilder = () => {
         inventoryContent.slots.map((slot, index) => {
             if (slot.content != null) {
                 formData.append(`slot[${index}]item_id`, slot.content.id);
+                formData.append(`slot[${index}]type_id`, slot.button?.type_id ?? 1);
                 formData.append(`slot[${index}]amount`, slot.button.amount);
-                formData.append(`slot[${index}]slot`, slot.id);
+                formData.append(`slot[${index}]slot`, slot.button.slot);
+                formData.append(`slot[${index}]page`, slot.button.page);
                 formData.append(`slot[${index}]name`, slot.button.name);
                 formData.append(`slot[${index}]is_permanent`, slot.button.is_permanent);
                 formData.append(`slot[${index}]close_inventory`, slot.button.close_inventory);
@@ -444,6 +461,7 @@ const InventoryBuilder = () => {
                 formData.append(`slot[${index}]messages`, slot.button?.messages ?? null);
                 formData.append(`slot[${index}]commands`, slot.button?.commands ?? null);
                 formData.append(`slot[${index}]console_commands`, slot.button?.console_commands ?? null);
+                formData.append(`slot[${index}]button_data`, slot.button?.button_data ?? null);
                 if (slot.button?.display_name) formData.append(`slot[${index}]display_name`, slot.button.display_name);
                 if (slot.button?.lore) formData.append(`slot[${index}]lore`, slot.button.lore);
             }
@@ -480,15 +498,24 @@ const InventoryBuilder = () => {
                     <span className="visually-hidden"></span>
                 </div>
             </div>
-            <Items versions={data.versions} onItemClick={onItemClick}/>
-            <Inventory inventory={inventory} updateInventory={updateInventory} inventoryContent={inventoryContent}
-                       needToUpdate={needToUpdate} saveData={saveData} selectSlots={slots}
-                       handleSlotClick={handleSlotClick} handleSlotDoubleClick={handleSlotDoubleClick}/>
-            <div className="configurations">
-                <ItemStackConfiguration inventoryContent={inventoryContent} updateButton={updateButton}
-                                        selectedSlots={slots}/>
-                <ButtonConfiguration inventoryContent={inventoryContent} updateButton={updateButton}
-                                     selectedSlots={slots} buttonTypes={data.buttonTypes} sounds={data.sounds}/>
+            <div className={'d-flex'}>
+                <div className={'d-flex'}>
+                    <Items versions={data.versions} onItemClick={onItemClick}/>
+
+                    <Inventory inventory={inventory} updateInventory={updateInventory}
+                               inventoryContent={inventoryContent}
+                               needToUpdate={needToUpdate} saveData={saveData} selectSlots={slots}
+                               handleSlotClick={handleSlotClick} handleSlotDoubleClick={handleSlotDoubleClick}
+                               page={page} setPage={setPage} maxPage={MAX_PAGE}/>
+                </div>
+                <div className={'resizer-x'}/>
+                <div className="configurations">
+                    <ItemStackConfiguration inventoryContent={inventoryContent} updateButton={updateButton}
+                                            selectedSlots={slots}/>
+                    <div className={'resizer-x'}/>
+                    <ButtonConfiguration key={'configuration-button'} inventoryContent={inventoryContent} updateButton={updateButton}
+                                         selectedSlots={slots} buttonTypes={data.buttonTypes} sounds={data.sounds}/>
+                </div>
             </div>
         </div>
     );
