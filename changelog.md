@@ -1,8 +1,10 @@
 # Unreleased
 
+- Add admin page for button type
 - Adding multiple pages in inventory, currently you can go up to 10 pages
 - Design change to allow more room for button configuration
 - You can now resize the page 
+- Fix resource download
 
 # 1.0.5
 

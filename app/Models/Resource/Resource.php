@@ -167,7 +167,7 @@ class Resource extends Model implements Likeable
     public function countDownload(): mixed
     {
         return Cache::remember("count.download::$this->id", 86400, function () {
-            return $this->version()->sum('download');
+            return $this->versions()->sum('download');
         });
     }
 
