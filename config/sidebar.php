@@ -64,6 +64,12 @@ return [
                     'icon' => 'fas fa-gifts',
                     'power' => UserRole::ADMIN
                 ],
+                'buttons' => [
+                    'name' => "Boutons",
+                    'route' => 'admin.buttons.index',
+                    'icon' => 'fas fa-map-marker-alt',
+                    'power' => UserRole::ADMIN
+                ],
             ],
 
         ],

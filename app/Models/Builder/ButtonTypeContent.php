@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * @property int $id
+ * @property int $type_id
  * @property string $key
  * @property string $data_type
  */
@@ -18,5 +20,4 @@ class ButtonTypeContent extends Model
     protected $fillable = [
         'type_id', 'data_type', 'key', 'description', 'documentation_url'
     ];
-
 }
