@@ -1,11 +1,13 @@
 @php use App\Models\UserRole; @endphp
 <div>
     <div class="p-4 rounded-1 bg-blue-700">
-        <h3 class="fw-normal fs-5 mb-0">
-            <span class='btn-role btn-member rounded-1'><i class='me-2 {{ UserRole::ICON_MEMBER }}'></i>{{ __('upgrade.member') }}</span>
-        </h3>
-        <span class="home_abonnement_price fw-bold fs-2">0.00€</span>
-        <ul class="nav">
+        <div class="d-flex justify-content-between align-items-center">
+            <h3 class="fw-normal">
+                <span class='btn-role btn-member rounded-1'><i class='me-2 {{ UserRole::ICON_MEMBER }}'></i>{{ __('upgrade.member') }}</span>
+            </h3>
+            <span class="home_abonnement_price fw-bold fs-2">0.00€</span>
+        </div>
+        <ul class="nav d-flex flex-column">
             <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>{!! __('upgrade.roles.zmenu+') !!}</li>
             <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.creator_dashboard') }}</li>
             <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.discord_support_ticket') }}</li>
@@ -29,6 +31,6 @@
             <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.auto_response') }}</li>
             <li class="py-1 d-flex text-muted"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.username') }}</li>
         </ul>
-        <a href="#" class="btn btn-secondary w-100 rounded-1 mt-4 disabled">{{ __('upgrade.already') }}</a>
+        <div class="btn btn-secondary w-100 rounded-1 mt-4 disabled">{{ __('upgrade.already') }}</div>
     </div>
 </div>

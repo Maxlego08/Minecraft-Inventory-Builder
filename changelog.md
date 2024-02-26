@@ -1,5 +1,6 @@
 # Unreleased
 
+- Added discount for PRO upgrade purchase if you already have PREMIUM
 - Add admin page for button type
 - Adding multiple pages in inventory, currently you can go up to 10 pages
 - Design change to allow more room for button configuration

@@ -1,11 +1,24 @@
 @php use App\Models\UserRole; @endphp
 <div>
     <div class="p-4 rounded-1 bg-blue-700">
-        <h3 class="fw-normal fs-5 mb-0">
-            <span class='btn-role btn-pro rounded-1'><i class='me-2 {{ UserRole::ICON_PRO }}'></i>Pro</span>
-        </h3>
-        <span class="home_abonnement_price fw-bold fs-2">49.99€</span>
-        <ul class="nav">
+        <div class="d-flex justify-content-between align-items-center">
+            <h3 class="fw-normal">
+                <span class='btn-role btn-pro rounded-1'><i class='me-2 {{ UserRole::ICON_PRO }}'></i>Pro</span>
+            </h3>
+            @auth()
+                @if(user()->role->isPremium())
+                    <div>
+                    <span class="home_abonnement_price fw-bold fs-5 text-danger text-decoration-line-through me-2">49.99€</span><span class="home_abonnement_price fw-bold fs-2">35€</span>
+                    </div>
+                @else
+                    <span class="home_abonnement_price fw-bold fs-2">49.99€</span>
+                @endif
+            @endauth
+            @guest()
+            <span class="home_abonnement_price fw-bold fs-2">49.99€</span>
+            @endguest
+        </div>
+        <ul class="nav d-flex flex-column">
             <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{!! __('upgrade.roles.zmenu+') !!}</li>
             <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.creator_dashboard') }}</li>
             <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.discord_support_ticket') }}</li>
@@ -29,6 +42,19 @@
             <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.auto_response') }}</li>
             <li class="py-1 d-flex text-green-light"><i class="bi bi-check-circle me-3"></i>{{ __('upgrade.roles.username') }}</li>
         </ul>
-        <a href="{{ route('premium.checkout', UserRole::PRO) }}" class="btn btn-success w-100 rounded-1 mt-4">{{ __('upgrade.purchase', ['price' => '49.99']) }}</a>
+
+        @auth()
+            @if(user()->role->isPro())
+                <div class="btn btn-secondary w-100 rounded-1 mt-4 disabled">{{ __('upgrade.already') }}</div>
+            @else
+                <a href="{{ route('premium.checkout', UserRole::PRO) }}"
+                   class="btn btn-success w-100 rounded-1 mt-4">{{ __('upgrade.purchase', ['price' => user()->role->isPremium() ? '35' : '49.99']) }}</a>
+            @endif
+        @endauth
+        @guest()
+            <a href="{{ route('premium.checkout', UserRole::PRO) }}"
+               class="btn btn-success w-100 rounded-1 mt-4">{{ __('upgrade.purchase', ['price' => '49.99']) }}</a>
+        @endguest
+
     </div>
 </div>

@@ -97,6 +97,15 @@
                                         <th>{{ __('payment.subtotal') }}</th>
                                         <td>{{ formatPrice($price, $currency) }}</td>
                                     </tr>
+                                    @if($reduction)
+                                    <tr class="t-14" id="reduction">
+                                        <td class="w-50"></td>
+                                        <td></td>
+                                        <th>{{ $reduction['name'] }}</th>
+                                        <td>-{{ formatPrice($reduction['reduction'], $currency) }}
+                                        </td>
+                                    </tr>
+                                    @endif
                                     <tr class="t-14" id="giftTable" style="display: none">
                                         <td class="w-50"></td>
                                         <td></td>
@@ -122,7 +131,7 @@
                                 <hr>
                                 <div class="d-flex justify-content-end">
                                     <h4>{{ __('payment.total_end') }}</h4>
-                                    <p class="ms-3 h4 text-info">{!! formatPriceWithId($price, $currency) !!}</p>
+                                    <p class="ms-3 h4 text-info">{!! formatPriceWithId($price - ($reduction['reduction'] ?? 0), $currency) !!}</p>
                                 </div>
                             </div>
                         </div>

@@ -37,7 +37,7 @@ class PremiumController extends Controller
 
         // Si l'utilisateur à déjà le role
         if (user()->role->power >= $userRole->power && !user()->isAdmin()) {
-            return Redirect::route('premium.index');
+            return Redirect::route('premium.index')->with('toast', createToast('error', 'Huummmmm', "its very nice to you to want to buy this upgrade again, but you already owned it."));
         }
 
         if ($userRole->power != UserRole::PREMIUM && $userRole->power != UserRole::PRO) {
@@ -47,16 +47,22 @@ class PremiumController extends Controller
         $paymentInfo = UserPaymentInfo::where('id', env('PAYMENT_INFO_ADMIN_ID'))->first();
         $name = $userRole->power == UserRole::PRO ? __("upgrade.pro") : __("upgrade.premium");
 
+        $price = $userRole->price;
+
         // Sinon, on affiche la page d'achat
         return view('resources.purchase.checkout', [
             'paymentInfo' => $paymentInfo,
-            'price' => $userRole->price,
+            'price' => $price,
             'currency' => 'eur',
             'confirmUrl' => route('premium.purchase', $userRole),
             'name' => $name,
             'enableGift' => true,
             'contentType' => UserRole::class,
             'contentId' => $userRole->id,
+            'reduction' => [
+                'name' => 'Premium',
+                'reduction' => 14.99,
+            ]
         ]);
     }
 
@@ -80,7 +86,12 @@ class PremiumController extends Controller
             $gift = Gift::where('code', $request['gift'])->first();
         }
 
-        return paymentManager()->startPaymentInterne($request, $userRole->price, $payment, $gift, UserRole::class);
+        $price = $userRole->price;
+        if ($userRole->power == UserRole::PRO && user()->role->isPremium()) {
+            $price -= 14.99;
+        }
+
+        return paymentManager()->startPaymentInterne($request, $price, $payment, $gift, UserRole::class);
 
     }
 }
