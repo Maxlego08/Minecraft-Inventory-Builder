@@ -60,7 +60,9 @@ const ButtonConfiguration = ({inventoryContent, buttonTypes, updateButton, selec
 
         let {name, value, type, checked} = event.target;
 
-        const obj = JSON.parse(currentSlot.button?.button_data ?? '{}');
+        let buttonData = currentSlot.button?.button_data;
+        if (!buttonData || buttonData.trim() === '') buttonData = '{}';
+        const obj = JSON.parse(buttonData ?? '{}');
         obj[element.key] = value
         const result = JSON.stringify(obj)
 
@@ -75,9 +77,17 @@ const ButtonConfiguration = ({inventoryContent, buttonTypes, updateButton, selec
     }
 
     const jsonValueOf = (element) => {
-        const obj = JSON.parse(currentSlot.button?.button_data ?? '{}');
-        return obj[element.key] ?? ''
+        try {
+            const buttonData = currentSlot.button?.button_data;
+            if (!buttonData || buttonData.trim() === '') return '';
+            const obj = JSON.parse(buttonData);
+            return obj[element.key] ?? '';
+        } catch (error) {
+            console.error('Failed to parse JSON:', error);
+            return '';
+        }
     }
+
 
     const findButtonName = () => {
         if (!currentSlot.button.type_id || currentSlot.button.type_id == 1) return null
