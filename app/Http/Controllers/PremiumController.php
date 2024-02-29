@@ -48,6 +48,13 @@ class PremiumController extends Controller
         $name = $userRole->power == UserRole::PRO ? __("upgrade.pro") : __("upgrade.premium");
 
         $price = $userRole->price;
+        $reduction = [];
+        if ($userRole->isPro() && user()->role->isPremium()) {
+            $reduction = [
+                'name' => 'Premium',
+                'reduction' => 14.99,
+            ];
+        }
 
         // Sinon, on affiche la page d'achat
         return view('resources.purchase.checkout', [
@@ -59,10 +66,7 @@ class PremiumController extends Controller
             'enableGift' => true,
             'contentType' => UserRole::class,
             'contentId' => $userRole->id,
-            'reduction' => [
-                'name' => 'Premium',
-                'reduction' => 14.99,
-            ]
+            'reduction' => $reduction,
         ]);
     }
 
