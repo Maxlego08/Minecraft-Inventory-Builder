@@ -33,6 +33,10 @@ class ResourcePurchaseController extends Controller
             return Redirect::route('resources.view', ['slug' => Str::slug($resource->name), 'resource' => $resource->id]);
         }
 
+        if ($resource->id == env('ZMENUPLUS_RESOURCE_ID')) {
+            return Redirect::route('resources.view', ['slug' => Str::slug($resource->name), 'resource' => $resource->id]);
+        }
+
         $paymentInfo = $resource->user->paymentInfo;
         if ($paymentInfo->sk_live == null && $paymentInfo->paypal_email == null) {
             return Redirect::route('resources.view', ['slug' => Str::slug($resource->name), 'resource' => $resource->id]);

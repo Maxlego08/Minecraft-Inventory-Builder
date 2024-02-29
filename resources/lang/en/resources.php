@@ -280,6 +280,7 @@ return [
         ],
     ],
     'purchase' => [
+        'premium' => "Included with Premium upgrade",
         'button' => 'Buy now for :price€',
         'error' => 'Unable to purchase this resource at this time.'
     ],

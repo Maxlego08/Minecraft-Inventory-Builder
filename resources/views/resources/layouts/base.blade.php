@@ -1,4 +1,4 @@
-@php use App\Models\UserRole; @endphp
+@php use App\Models\UserRole @endphp
 @extends('layouts.base')
 
 @section('app')
@@ -22,7 +22,7 @@
                                 </div>
                             </div>
                             @auth()
-                                @if(user()->cache('role')->id == UserRole::BANNED)
+                                @if(user()->cache('role')->id == \App\Models\UserRole::BANNED)
                                     <div class="col-lg-3 col-xl-2 offset-lg-1">
                                         <div class="btn btn-primary w-100 rounded-1 cursor-disabled"
                                              title="{{ __('resources.download.access') }}">{{ $resource->price }}€
@@ -36,6 +36,14 @@
                                             <span class="fs-9 fw-light d-block">{{ $resource->fileInformations()['size'] }} .{{ $resource->fileInformations()['extension'] }}</span>
                                         </a>
                                     </div>
+                                @elseif(env('ZMENUPLUS_RESOURCE_ID') == $resource->id)
+
+                                    <div class="col-lg-3 col-xl-2 offset-lg-1">
+                                        <a href="{{ route('premium.index') }}" class="btn btn-primary w-100 rounded-1">{{ __('resources.purchase.premium') }}
+                                            <span class="fs-9 fw-light d-block">{{ $resource->fileInformations()['size'] }} .{{ $resource->fileInformations()['extension'] }}</span>
+                                        </a>
+                                    </div>
+
                                 @elseif(!$resource->canBePurchase())
                                     <div class="col-lg-3 col-xl-2 offset-lg-1">
                                         <div class="btn btn-primary w-100 rounded-1 disabled cursor-disabled"
@@ -216,7 +224,8 @@
                                 <ul class="list-group">
                                     <li class="d-flex justify-content-between align-items-center">
                                         {{ __('messages.author') }} <a
-                                            href="{{ $resource->cache('user')->authorPage() }}" class="text-decoration-none">{!! $resource->cache('user')->displayName() !!}</a>
+                                            href="{{ $resource->cache('user')->authorPage() }}"
+                                            class="text-decoration-none">{!! $resource->cache('user')->displayName() !!}</a>
                                     </li>
                                     <li class="d-flex justify-content-between align-items-center">
                                         {{ __('messages.downloads') }}<span>{{ $resource->countDownload() }}</span>
