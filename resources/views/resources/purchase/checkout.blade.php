@@ -97,7 +97,7 @@
                                         <th>{{ __('payment.subtotal') }}</th>
                                         <td>{{ formatPrice($price, $currency) }}</td>
                                     </tr>
-                                    @if(isset($reduction))
+                                    @if(isset($reduction) && array_key_exists('name', $reduction))
                                     <tr class="t-14" id="reduction">
                                         <td class="w-50"></td>
                                         <td></td>
