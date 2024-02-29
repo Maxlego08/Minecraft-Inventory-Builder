@@ -97,7 +97,7 @@
                                         <th>{{ __('payment.subtotal') }}</th>
                                         <td>{{ formatPrice($price, $currency) }}</td>
                                     </tr>
-                                    @if($reduction)
+                                    @if(isset($reduction))
                                     <tr class="t-14" id="reduction">
                                         <td class="w-50"></td>
                                         <td></td>

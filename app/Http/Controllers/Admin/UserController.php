@@ -108,6 +108,7 @@ class UserController extends Controller
         }
         $user->clear('user.color');
         $user->clear('user.role');
+        $user->clear('user.access');
 
         userLog("Modification de l'utilisateur $user->name.$user->id", UserLog::COLOR_WARNING, UserLog::ICON_EDIT);
 
