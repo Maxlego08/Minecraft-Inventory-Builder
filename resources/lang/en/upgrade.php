@@ -33,7 +33,7 @@ return [
         'name_color_reduction' => 'Discount 50% on the price of the name color',
         'gif_avatar' => 'Upload GIF avatars',
         'auto_response' => 'Automatic response to your PMs',
-        'zmenu+' => 'Access to <a href="" target="_blank" class="ms-1 me-1">zMenu+</a> addon',
+        'zmenu+' => 'Access to <a href="https://minecraft-inventory-builder.com/resources/4" target="_blank" class="ms-1 me-1">zMenu+</a> addon',
         'username' => 'Change your username every 30 days',
     ],
 
