@@ -16,6 +16,6 @@ class ResourceIndexController extends Controller
         // dd(DB::getQueryLog()); // Show results of log
 
         $mostResources = ResourcePagination::mostResourcesPagination();
-        return view('resources.index', ['resources' => $pagination, 'categories' => $this->categories(), 'mostResources' => $mostResources,]);
+        return view('resources.index', ['resourcesPagination' => $pagination, 'categories' => $this->categories(), 'mostResources' => $mostResources,]);
     }
 }

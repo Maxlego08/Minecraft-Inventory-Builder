@@ -5,7 +5,7 @@
 @section('app')
     <div class="content_home pb-5">
         <article class="home_background">
-            <img class="img-fluid" src="{{asset('images/newfondavril.png')}}" alt="">
+            <img class="img-fluid" src="{{ asset('images/newfondavril.png') }}" alt="">
             <div class="home_background_text">
                 <h1 class="display-5 fw-semibold">Minecraft Inventory Builder</h1>
                 <p class="fs-7">{{ __('about.description') }}</p>
@@ -15,13 +15,13 @@
         <article class="home_marketplace pb-5" id="home_marketplace">
             <div class="container">
                 <div class="row px-4 px-lg-0">
-                    <div class="p-2 col-lg-4 d-flex justify-content-center align-items-center">
-                        <div style="height: 300px; width:300px; backdrop-filter: blur(5px)!important; background-image: url('{{ asset('images/spoiler.png') }}'); background-position: center;background-repeat: no-repeat; background-size: cover; filter: blur(8px);-webkit-filter: blur(8px);"></div>
+                    <div class="p-2 col-lg-6 d-flex justify-content-center align-items-center">
+                        <div class="blur-background"></div>
                     </div>
-                    <div class="col-lg-8">
+                    <div class="col-lg-6">
                         <h2 class="mt-2">What is the Minecraft-Inventory-Builder ?</h2>
-                        <img class="d-block d-lg-none img-fluid rounded-4 my-4 w-100"
-                             src="https://via.placeholder.com/360" alt="">
+                        <img class="d-block d-lg-none img-fluid rounded-4 my-4 w-100 blur-image"
+                             src="{{ asset('images/builder-small.png') }}" alt="">
                         <p>Welcome to the official website for zMenu. Our platform is more than just a website; it's a
                             comprehensive ecosystem designed to enhance your zMenu experience.</p>
                         <p>

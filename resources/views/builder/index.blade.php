@@ -5,7 +5,7 @@
     @vite(['resources/js/builder/builder.js'])
 @endpush
 
-@section('title', 'InventoryBuilder Builder')
+@section('title', 'Inventory Builder')
 
 @section('app')
 

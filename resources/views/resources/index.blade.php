@@ -33,10 +33,10 @@
                         </div>
                     </div>
                     <div class="col-lg-9">
-                        @foreach($resources as $resource)
+                        @foreach($resourcesPagination as $resource)
                             @include('resources.elements.resource', ['resource' => $resource])
                         @endforeach
-                        {!! $resources->links('elements.pagination') !!}
+                        {!! $resourcesPagination->links('elements.pagination') !!}
                     </div>
                 </div>
             </div>

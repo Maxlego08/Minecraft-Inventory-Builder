@@ -90,7 +90,7 @@ class StripeMethod extends PaymentMethod
             'cancel_url' => route('resources.payment.cancel', $paymentId), // -
             'client_reference_id' => $paymentId, // -
             'payment_intent_data' => [ // -
-                'description' => 'Minecraft InventoryBuilder Builder - ' . $content . ' | ' . $user->name . '.' . $user->id, // -
+                'description' => 'Minecraft Inventory Builder - ' . $content . ' | ' . $user->name . '.' . $user->id, // -
             ],]);
     }
 

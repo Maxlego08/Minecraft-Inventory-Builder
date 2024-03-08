@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('title', 'InventoryBuilder Builder')
+@section('title', 'Inventory Builder')
 
 @section('app')
     <div class="container p-5 d-flex flex-wrap">
