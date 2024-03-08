@@ -223,6 +223,7 @@ class BuilderInventoryController extends Controller
             $commands = isset($slot['commands']) && $slot['commands'] !== "null" && trim($slot['commands']) !== "" ? $slot['commands'] : null;
             $consoleCommands = isset($slot['console_commands']) && $slot['console_commands'] !== "null" && trim($slot['console_commands']) !== "" ? $slot['console_commands'] : null;
             $sound = isset($slot['sound']) && $slot['sound'] !== "null" && trim($slot['sound']) !== "" ? $slot['sound'] : null;
+            $buttonData = isset($slot['button_data']) && $slot['button_data'] !== "null" && trim($slot['button_data']) !== "" ? $slot['button_data'] : null;
 
             InventoryButton::updateOrCreate(
                 ['inventory_id' => $inventory->id, 'slot' => $currentSlot, 'page' => $page],
@@ -243,7 +244,7 @@ class BuilderInventoryController extends Controller
                     'model_id' => $slot['model_id'],
                     'sound' => $sound,
                     'pitch' => $slot['pitch'],
-                    'button_data' => $slot['button_data'],
+                    'button_data' => $buttonData,
                     'volume' => $slot['volume'],
                     'commands' => $commands,
                     'console_commands' => $consoleCommands,
