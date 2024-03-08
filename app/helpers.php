@@ -7,9 +7,9 @@ use App\Models\UserLog;
 use App\Payment\PaymentManager;
 use App\Utils\Likeable;
 use Carbon\Carbon;
-use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Route;
 
 if (!function_exists('user')) {
     function user(): User
@@ -337,7 +337,7 @@ if (!function_exists('replaceUrl')) {
     function replaceUrl($url): string
     {
 
-        $route = \Illuminate\Support\Facades\Route::getCurrentRoute();
+        $route = Route::getCurrentRoute();
         if ($route->getName() === 'resources.index') {
             $explosions = explode('/page/', $url);
             if (count($explosions) !== 2) {

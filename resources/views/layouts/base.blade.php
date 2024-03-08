@@ -53,13 +53,13 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
     <link rel="manifest" href="{{ asset('site.webmanifest') }}">
 
-    @if(isset($resources) && empty($search))
+    @if(isset($resourcesPagination) && empty($search))
         <link rel="canonical" href="{{ url()->current() }}">
-        @if (!$resources->onFirstPage())
-            <link rel="prev" href="{{ $resources->previousPageUrl() }}">
+        @if (!$resourcesPagination->onFirstPage())
+            <link rel="prev" href="{{ $resourcesPagination->previousPageUrl() }}">
         @endif
-        @if ($resources->hasMorePages())
-            <link rel="next" href="{{ $resources->nextPageUrl() }}">
+        @if ($resourcesPagination->hasMorePages())
+            <link rel="next" href="{{ $resourcesPagination->nextPageUrl() }}">
         @endif
     @endif
 

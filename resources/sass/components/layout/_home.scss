@@ -56,6 +56,25 @@
                     max-width: 221px;
                 }
             }
+
+            .blur-background {
+                height: 100%;
+                width: 100%;
+                backdrop-filter: blur(2px) !important;
+                background-image: url('../../../images/builder.png');
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
+                filter: blur(2px);
+                -webkit-filter: blur(2px);
+                border-radius: 5px;
+            }
+
+            .blur-image {
+                filter: blur(2px);
+                -webkit-filter: blur(2px);
+                border-radius: 5px;
+            }
         }
 
         &_abonnement {
