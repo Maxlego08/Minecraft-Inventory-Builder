@@ -1,1 +1,2 @@
 import '../tata'
+import './charts'

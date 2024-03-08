@@ -7,6 +7,7 @@ use App\Models\UserLog;
 use App\Payment\PaymentManager;
 use App\Utils\Likeable;
 use Carbon\Carbon;
+use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 
@@ -181,30 +182,14 @@ if (!function_exists('format_date_compact')) {
 if (!function_exists('createAlert')) {
     function createAlert(int $user_id, string $content, string $icon, string $level, string $translation_key = null, string $link = null, int $target_id = null): AlertUser
     {
-        return AlertUser::create([
-            'user_id' => $user_id,
-            'level' => $level,
-            'content' => $content,
-            'link' => $link,
-            'icon' => $icon,
-            'translation_key' => $translation_key,
-            'target_id' => $target_id
-        ]);
+        return AlertUser::create(['user_id' => $user_id, 'level' => $level, 'content' => $content, 'link' => $link, 'icon' => $icon, 'translation_key' => $translation_key, 'target_id' => $target_id]);
     }
 }
 
 if (!function_exists('createUniqueAlert')) {
     function createUniqueAlert(int $user_id, string $content, string $icon, string $level, string $translation_key = null, string $link = null, int $target_id = null): AlertUser
     {
-        return AlertUser::firstOrCreate([
-            'user_id' => $user_id,
-            'level' => $level,
-            'content' => $content,
-            'link' => $link,
-            'icon' => $icon,
-            'translation_key' => $translation_key,
-            'target_id' => $target_id
-        ]);
+        return AlertUser::firstOrCreate(['user_id' => $user_id, 'level' => $level, 'content' => $content, 'link' => $link, 'icon' => $icon, 'translation_key' => $translation_key, 'target_id' => $target_id]);
     }
 }
 
@@ -345,4 +330,38 @@ if (!function_exists('formatLikedBy')) {
         });
     }
 
+}
+
+if (!function_exists('replaceUrl')) {
+
+    function replaceUrl($url): string
+    {
+
+        $route = \Illuminate\Support\Facades\Route::getCurrentRoute();
+        if ($route->getName() === 'resources.index') {
+            $explosions = explode('/page/', $url);
+            if (count($explosions) !== 2) {
+                return $url;
+            }
+            $currentValue = $explosions[1];
+            $pageExplosions = explode('?page=', $currentValue);
+            if (count($pageExplosions) !== 2) {
+                return $url;
+            }
+            $newPage = $pageExplosions[1];
+
+            if ($newPage === '1') {
+                return $explosions[0];
+            }
+
+            $url = str_replace($currentValue, $newPage, $url);
+        }
+
+        $explosions = explode('?page=', $url);
+        if (count($explosions) !== 2) {
+            return $url;
+        }
+        $page = $explosions[1];
+        return str_replace("?page={$page}", "/page/{$page}", $url);
+    }
 }

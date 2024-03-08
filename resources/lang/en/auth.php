@@ -26,8 +26,8 @@ return [
     ],
     'register' => [
         'title' => 'Register',
-        'info' => 'Create your account on Minecraft InventoryBuilder Builder to be able to access the site features.',
-        'term' => 'I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a> of Minecraft InventoryBuilder Builder.',
+        'info' => 'Create your account on Minecraft Inventory Builder to be able to access the site features.',
+        'term' => 'I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a> of Minecraft Inventory Builder.',
     ],
 
 ];
