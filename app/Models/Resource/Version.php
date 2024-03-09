@@ -2,6 +2,7 @@
 
 namespace App\Models\Resource;
 
+use App\Code\BBCodeUtils;
 use App\Models\File;
 use App\Models\Like;
 use App\Models\Report;
@@ -14,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 /**
  * Class Version
@@ -155,5 +157,11 @@ class Version extends Model implements Likeable
     {
         return "version::$this->id";
     }
+
+    public function toShortHTML(): string
+    {
+        return BBCodeUtils::renderAndPurify(Str::limit($this->description, 500));
+    }
+
 
 }
