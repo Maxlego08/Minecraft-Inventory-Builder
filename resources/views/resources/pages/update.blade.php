@@ -12,7 +12,7 @@
                         <a href="#" class="fs-5 d-block" title="Mise à jour #3">{{ $version->title }}</a>
                         <span class="fs-6 ms-2">{{ $version->version }}</span>
                     </span>
-                    <p class="fs-6">{{ Str::limit($version->description, 500) }}</p>
+                    <p class="fs-6">{!! $version->toShortHTML() !!}</p>
                     <div class="fs-7 d-flex mb-2">
                         <div>{!! $version->resource->cache('user')->displayNameAndLink() !!}</div>
                         , {{ format_date($version->created_at, true) }}</div>
