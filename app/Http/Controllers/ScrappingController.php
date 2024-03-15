@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\ScrappingJob;
+use App\Models\Builder\Head;
+use Exception;
 use Goutte\Client;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -10,6 +12,25 @@ use Illuminate\Support\Str;
 
 class ScrappingController extends Controller
 {
+    public function index(): string
+    {
+        for ($i = 1; $i <= 10; $i++) {
+            ScrappingJob::dispatch($i);
+        }
+        return "ok";
+    }
+
+    public function index2(): string
+    {
+        for ($i = 1; $i <= 10; $i++) {
+            try {
+                Head::create(self::fetchUrl($i, new Client()));
+            } catch (Exception) {
+            }
+        }
+        return "ok";
+    }
+
     public static function fetchUrl(int $id, Client $client): ?array
     {
         $url = "https://minecraft-heads.com/custom-heads/head/$id";
@@ -44,20 +65,27 @@ class ScrappingController extends Controller
         $response = Http::get($url);
 
         if ($response->successful()) {
-            $imageName = basename($url);
-            Storage::put("public/images/head/{$imageName}", $response->body());
+            // $imageName = basename($url);
+            // Storage::put("public/images/head/{$imageName}", $response->body());
+            Storage::put("public/images/head/$path", $response->body());
             return "Image téléchargée avec succès.";
         }
 
         return "Échec du téléchargement de l'image.";
     }
 
-    public function index(): string
+    public function renameFiles(): string
     {
-        for ($i = 1; $i <= 10; $i++) {
-            ScrappingJob::dispatch($i);
+        $heads = Head::all();
+        foreach ($heads as $head) {
+            try {
+                $imageName = basename($head->image_url);
+                Storage::move("public/images/head/{$imageName}", "public/images/head/$head->image_name.webp");
+            } catch (Exception) {
+                echo "Erreur avec l'id $head->id<br>";
+            }
         }
-        return "ok";
+        return "FIN";
     }
 
 }
