@@ -78,13 +78,28 @@ class ScrappingController extends Controller
     {
         $heads = Head::all();
         foreach ($heads as $head) {
-            try {
+            /*try {
                 $imageName = basename($head->image_url);
                 Storage::move("public/images/head/{$imageName}", "public/images/head/$head->image_name.webp");
             } catch (Exception) {
                 echo "Erreur avec l'id $head->id<br>";
+            }*/
+            $imageName = basename($head->image_url);
+            if (Storage::exists("public/images/head/{$imageName}")) {
+                if (Storage::move("public/images/head/{$imageName}", "public/images/head/{$head->image_name}.webp")){
+                    echo "Succès avec l'id $head->id<br>";
+                } else {
+                    if (Storage::exists("public/images/head/{$head->image_name}.webp")) {
+                        echo "Il existe déjà avec l'id $head->id<br>";
+                    }else {
+                        echo "Impossible avec l'id $head->id<br>";
+                    }
+                }
+            } else {
+                echo "Erreur avec l'id $head->id<br>";
             }
         }
+
         return "FIN";
     }
 

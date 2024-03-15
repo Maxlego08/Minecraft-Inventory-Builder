@@ -3,6 +3,7 @@ import Lore from "./Lore";
 import Amount from "./Amount";
 import Glow from "./Glow";
 import ModelId from "./ModelId";
+import Head from "./Head";
 
 const ItemStackConfiguration = ({inventoryContent, updateButton, selectedSlots}) => {
 
@@ -40,16 +41,22 @@ const ItemStackConfiguration = ({inventoryContent, updateButton, selectedSlots})
     };
 
 
+    let currentSlot = inventoryContent.slots[inventoryContent.currentSlot]
+    console.log(currentSlot)
+
     return (
         <div className={'configurations-itemstack'}>
 
             {inventoryContent.currentSlot >= 0 ? (
                 <div className={'p-2'}>
-                    <DisplayName handleChange={handleChange} displayName={inventoryContent.slots[inventoryContent.currentSlot].button.display_name} />
-                    <Lore handleChange={handleChange} lore={inventoryContent.slots[inventoryContent.currentSlot].button.lore} />
-                    <Amount handleChange={handleChange} amount={inventoryContent.slots[inventoryContent.currentSlot].button.amount} />
-                    <Glow handleChange={handleChange} currentSlot={inventoryContent.slots[inventoryContent.currentSlot]} />
-                    <ModelId handleChange={handleChange} currentSlot={inventoryContent.slots[inventoryContent.currentSlot]} />
+                    <DisplayName handleChange={handleChange} displayName={currentSlot.button.display_name} />
+                    <Lore handleChange={handleChange} lore={currentSlot.button.lore} />
+                    <Amount handleChange={handleChange} amount={currentSlot.button.amount} />
+                    <Glow handleChange={handleChange} currentSlot={currentSlot} />
+                    <ModelId handleChange={handleChange} currentSlot={currentSlot} />
+                    {currentSlot.content?.material === 'PLAYER_HEAD' && (
+                        <Head handleChange={handleChange} currentSlot={currentSlot} />
+                    )}
                 </div>
             ) : (
                 <div className={'d-flex justify-content-center align-items-center h-100'}>Please select an item</div>

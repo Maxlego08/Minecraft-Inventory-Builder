@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\V1\DiscordController;
 use App\Http\Controllers\Api\V1\InventoryController;
 use App\Http\Controllers\Api\V1\PreviewController;
 use App\Http\Controllers\Api\V1\ResourceController;
+use App\Http\Controllers\Builder\BuilderHeadController;
 use Illuminate\Support\Facades\Route;
 
 /*
