@@ -197,6 +197,7 @@ return [
         App\Providers\ViewServiceProvider::class,
 
         \App\Providers\FortifyServiceProvider::class,
+        Weidner\Goutte\GoutteServiceProvider::class,
     ],
 
     /*
@@ -212,6 +213,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'Goutte' => Weidner\Goutte\GoutteFacade::class,
     ])->toArray(),
 
 ];

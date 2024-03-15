@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "ext-imagick": "*",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.7",
         "laravel/fortify": "^1.13",
@@ -18,7 +19,7 @@
         "stevebauman/purify": "^5.0",
         "stripe/stripe-php": "^13.6",
         "symfony/yaml": "^6.4",
-        "ext-imagick": "*"
+        "weidner/goutte": "^2.3"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",

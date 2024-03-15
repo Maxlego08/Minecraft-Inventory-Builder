@@ -11,10 +11,12 @@ use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\ResourceController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\ScrappingController;
 use Illuminate\Support\Facades\Route;
 
 // Moderator access
 Route::get('/', [IndexController::class, 'index'])->name('index');
+Route::get('/test', [ScrappingController::class, 'index'])->name('test.scrapping');
 
 Route::prefix('resources/')->name('resources.')->group(function () {
     Route::get('/', [ResourceController::class, 'index'])->name('index');

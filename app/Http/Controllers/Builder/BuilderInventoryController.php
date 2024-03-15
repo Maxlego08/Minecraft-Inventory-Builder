@@ -331,7 +331,7 @@ class BuilderInventoryController extends Controller
 
         $inventory->delete();
 
-        userLog("Vient de créer de supprimer l'inventaire $inventory->file_name.$inventory->id", UserLog::COLOR_SUCCESS, UserLog::ICON_EDIT);
+        userLog("Vient de supprimer l'inventaire $inventory->file_name.$inventory->id", UserLog::COLOR_DANGER, UserLog::ICON_TRASH);
 
         return json_encode([
             'result' => 'success',
