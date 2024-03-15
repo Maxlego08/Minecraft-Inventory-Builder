@@ -18,7 +18,6 @@ return new class extends Migration
             $table->float('volume')->after('pitch')->default(1.0);
 
             // COMMANDS
-            $table->longText('commands')->after('button_data')->nullable();
             $table->longText('console_commands')->after('button_data')->nullable();
         });
     }

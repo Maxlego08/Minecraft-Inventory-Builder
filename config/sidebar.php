@@ -70,6 +70,12 @@ return [
                     'icon' => 'fas fa-map-marker-alt',
                     'power' => UserRole::ADMIN
                 ],
+                'statistics' => [
+                    'name' => "Statistiques",
+                    'route' => 'admin.statistics',
+                    'icon' => 'fas fa-chart-line',
+                    'power' => UserRole::ADMIN
+                ],
             ],
 
         ],

@@ -20,7 +20,8 @@ class Addon extends Model
     protected $fillable = [
         'name',
         'resource_id',
-        'description'
+        'description',
+        'is_official'
     ];
 
     public function resource(): BelongsTo
