@@ -49,14 +49,14 @@ const ItemStackConfiguration = ({inventoryContent, updateButton, selectedSlots})
 
             {inventoryContent.currentSlot >= 0 ? (
                 <div className={'p-2'}>
+                    {currentSlot.content?.material === 'PLAYER_HEAD' && (
+                        <Head handleChange={handleChange} currentSlot={currentSlot} />
+                    )}
                     <DisplayName handleChange={handleChange} displayName={currentSlot.button.display_name} />
                     <Lore handleChange={handleChange} lore={currentSlot.button.lore} />
                     <Amount handleChange={handleChange} amount={currentSlot.button.amount} />
                     <Glow handleChange={handleChange} currentSlot={currentSlot} />
                     <ModelId handleChange={handleChange} currentSlot={currentSlot} />
-                    {currentSlot.content?.material === 'PLAYER_HEAD' && (
-                        <Head handleChange={handleChange} currentSlot={currentSlot} />
-                    )}
                 </div>
             ) : (
                 <div className={'d-flex justify-content-center align-items-center h-100'}>Please select an item</div>

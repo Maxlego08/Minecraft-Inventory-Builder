@@ -15,7 +15,7 @@ class BuilderHeadController extends Controller
      */
     public function search($search): bool|string
     {
-        $heads = Head::where('name', 'like', "%$search%")->orWhere('head_url', 'like', "%$search%")->limit(10)->get();
+        $heads = Head::where('name', 'like', "%$search%")->orWhere('head_url', 'like', "%$search%")->limit(150)->get();
         $formattedHeads = [];
         foreach ($heads as $head) {
             $formattedHeads[] = [

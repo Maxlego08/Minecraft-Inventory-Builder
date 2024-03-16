@@ -26,6 +26,12 @@ const Head = ({handleChange, currentSlot}) => {
         });
     };
 
+    const handleFocus = () => {
+        if (search.length > 1) {
+            setShowDropdown(true);
+        }
+    }
+
     const handleBlur = (event) => {
         if (!wrapperRef.current.contains(event.relatedTarget)) {
             setShowDropdown(false);
@@ -39,6 +45,7 @@ const Head = ({handleChange, currentSlot}) => {
     };
 
     const copyToClipboard = (text, type) => {
+        // @ts-ignore
         window.toast("success", "Copied !", `You just copied ${type}`, 1000)
         if (navigator.clipboard && window.isSecureContext) {
             return navigator.clipboard.writeText(text);
@@ -65,7 +72,6 @@ const Head = ({handleChange, currentSlot}) => {
 
     return (
         <div ref={wrapperRef} onBlur={handleBlur} className="mb-3">
-            <hr/>
             <div className={'mb-2 d-flex justify-content-between'}>
                 <div>
                     {head && (
@@ -90,8 +96,9 @@ const Head = ({handleChange, currentSlot}) => {
                     value={search}
                     name="search_head"
                     onChange={searchHead}
+                    onFocus={handleFocus}
                     className={'rounded-1 mb-3'}
-                    aria-autocomplete={"none"}
+                    autoComplete="off"
                 />
 
                 {showDropdown && (
@@ -128,7 +135,10 @@ const Head = ({handleChange, currentSlot}) => {
                                     onClick={() => copyToClipboard(head.data, 'the value')}>Copy
                             </button>
                         </div>
-                        <Form.Label>Head Database<a className={'ms-2'} href={'https://minecraft-heads.com/plugins/head-database'} target={'_blank'}>(<i className="bi bi-question-lg"></i>)</a></Form.Label>
+                        <Form.Label>Head Database<a className={'ms-2'}
+                                                    href={'https://minecraft-heads.com/plugins/head-database'}
+                                                    target={'_blank'}>(<i
+                            className="bi bi-question-lg"></i>)</a></Form.Label>
                         <div className="input-group">
                             <Form.Control
                                 type="text"
@@ -144,6 +154,7 @@ const Head = ({handleChange, currentSlot}) => {
                 )}
 
             </Form.Group>
+            <hr/>
         </div>
     );
 };
