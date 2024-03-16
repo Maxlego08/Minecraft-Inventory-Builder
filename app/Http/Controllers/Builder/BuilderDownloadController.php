@@ -184,17 +184,17 @@ class BuilderDownloadController extends Controller
                 $precedent = $tableau[$i];
             } else {
                 if ($debut == $precedent) {
-                    $result[] = "$debut";
+                    $result[] = (int) $debut;
                 } else {
                     $result[] = "$debut-$precedent";
                 }
                 $debut = $tableau[$i];
-                $precedent = $debut;
+                $precedent = (int) $debut;
             }
         }
 
         if ($debut == $precedent) {
-            $result[] = "$debut";
+            $result[] = (int) "$debut";
         } else {
             $result[] = "$debut-$precedent";
         }
