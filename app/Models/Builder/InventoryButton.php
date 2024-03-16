@@ -29,6 +29,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property float $pitch
  * @property string $button_data
  * @property ButtonType $buttonType
+ * @property Head $head
  */
 class InventoryButton extends Model
 {
@@ -40,6 +41,7 @@ class InventoryButton extends Model
         'else_button_id',
         'type_id',
         'item_id',
+        'head_id',
         'slot',
         'messages',
         'commands',
@@ -80,6 +82,16 @@ class InventoryButton extends Model
     public function item(): BelongsTo
     {
         return $this->belongsTo(Item::class);
+    }
+
+    /**
+     * Returns the item used by the button
+     *
+     * @return BelongsTo"
+     */
+    public function head(): BelongsTo
+    {
+        return $this->belongsTo(Head::class, 'head_id');
     }
 
     /**

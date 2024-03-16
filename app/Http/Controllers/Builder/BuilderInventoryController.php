@@ -69,7 +69,7 @@ class BuilderInventoryController extends Controller
 
         $versions = MinecraftVersion::all();
         $inventory = $inventory->load('buttons');
-        $inventory = $inventory->load('buttons.item');
+        $inventory = $inventory->load(['buttons.head', 'buttons.item']);
         $buttonTypes = ButtonType::with('contents')->get();
 
         return view('builder.inventory', [
@@ -224,6 +224,7 @@ class BuilderInventoryController extends Controller
             $consoleCommands = isset($slot['console_commands']) && $slot['console_commands'] !== "null" && trim($slot['console_commands']) !== "" ? $slot['console_commands'] : null;
             $sound = isset($slot['sound']) && $slot['sound'] !== "null" && trim($slot['sound']) !== "" ? $slot['sound'] : null;
             $buttonData = isset($slot['button_data']) && $slot['button_data'] !== "null" && trim($slot['button_data']) !== "" ? $slot['button_data'] : null;
+            $headId = isset($slot['head_id']) && $slot['head_id'] !== "null" && trim($slot['head_id']) !== "" ? $slot['head_id'] : null;
 
             InventoryButton::updateOrCreate(
                 ['inventory_id' => $inventory->id, 'slot' => $currentSlot, 'page' => $page],
@@ -231,6 +232,7 @@ class BuilderInventoryController extends Controller
                     'item_id' => $item->id,
                     'amount' => max(1, min(64, $slot['amount'])),
                     'type_id' => $typeId,
+                    'head_id' => $headId,
                     'name' => $name,
                     'messages' => Str::limit($messages, 65535),
                     'display_name' => Str::limit($display_name, 65535),

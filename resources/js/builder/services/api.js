@@ -90,6 +90,10 @@ const getDownloadUrl = (inventoryId) => {
     return import.meta.env.VITE_REACT_APP_API_URL + `/inventories/${inventoryId}/download`
 }
 
+const getHeadUrl = (headName) => {
+    return import.meta.env.VITE_URL_API_IMAGE + `/head/${headName}.webp`
+}
+
 const displayToast = (response) => {
     let toast = response.data.toast
     if (toast) window.toast(toast.type, toast.title, toast.description, toast.duration)
@@ -119,6 +123,7 @@ const apiFunctions = {
     renameInventory,
     deleteInventory,
     fetchHeads,
+    getHeadUrl,
 };
 
 export default apiFunctions;

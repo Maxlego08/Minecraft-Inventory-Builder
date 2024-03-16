@@ -40,9 +40,19 @@ const ItemStackConfiguration = ({inventoryContent, updateButton, selectedSlots})
         });
     };
 
+    const setHead = (head) => {
+        slotsToUpdate.forEach(slotIndex => {
+            const updatedButton = {
+                ...inventoryContent.slots[slotIndex].button,
+                head,
+                head_id: head?.id ?? null,
+            };
+
+            updateButton(slotIndex, updatedButton);
+        });
+    }
 
     let currentSlot = inventoryContent.slots[inventoryContent.currentSlot]
-    console.log(currentSlot)
 
     return (
         <div className={'configurations-itemstack'}>
@@ -50,7 +60,7 @@ const ItemStackConfiguration = ({inventoryContent, updateButton, selectedSlots})
             {inventoryContent.currentSlot >= 0 ? (
                 <div className={'p-2'}>
                     {currentSlot.content?.material === 'PLAYER_HEAD' && (
-                        <Head handleChange={handleChange} currentSlot={currentSlot} />
+                        <Head handleChange={handleChange} currentSlot={currentSlot} updateHead={setHead} />
                     )}
                     <DisplayName handleChange={handleChange} displayName={currentSlot.button.display_name} />
                     <Lore handleChange={handleChange} lore={currentSlot.button.lore} />

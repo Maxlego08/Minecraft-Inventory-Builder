@@ -2,10 +2,10 @@ import {Dropdown, Form} from "react-bootstrap";
 import api from '../../../../services/api'
 import {useRef, useState} from "react";
 
-const Head = ({handleChange, currentSlot}) => {
+const Head = ({handleChange, currentSlot, updateHead}) => {
 
-    const [search, setSearch] = useState("");
-    const [head, setHead] = useState(null);
+    const [search, setSearch] = useState(currentSlot?.button?.head?.name ?? "");
+    const [head, setHead] = useState(currentSlot?.button?.head ?? null);
     const [heads, setHeads] = useState([]);
     const [showDropdown, setShowDropdown] = useState(false);
     const wrapperRef = useRef(null);
@@ -17,6 +17,7 @@ const Head = ({handleChange, currentSlot}) => {
         if (value.length <= 1) {
             setHead(null)
             setShowDropdown(false);
+            updateHead(null)
             return;
         }
 
@@ -42,6 +43,7 @@ const Head = ({handleChange, currentSlot}) => {
         setSearch(head.name)
         setHead(head)
         setShowDropdown(false);
+        updateHead(head)
     };
 
     const copyToClipboard = (text, type) => {
@@ -70,23 +72,19 @@ const Head = ({handleChange, currentSlot}) => {
         }
     }
 
-    return (
-        <div ref={wrapperRef} onBlur={handleBlur} className="mb-3">
+    return (<div ref={wrapperRef} onBlur={handleBlur} className="mb-3">
             <div className={'mb-2 d-flex justify-content-between'}>
                 <div>
-                    {head && (
-                        <img src={head.url} alt={head.name} width={35} height={35} className={'me-2'}/>
-                    )}
+                    {head && (<img src={api.getHeadUrl(head.image_name)} alt={head.name} width={35} height={35}
+                                   className={'me-2'}/>)}
                     Head configuration
                 </div>
-                {head && (
-                    <div>
+                {head && (<div>
                         <small>
-                            <a href={`https://minecraft-heads.com/custom-heads/head/${head.id}`} target={"_blank"}>More
+                            <a href={`https://minecraft-heads.com/custom-heads/head/${head.url_id}`} target={"_blank"}>More
                                 informations here</a>
                         </small>
-                    </div>
-                )}
+                    </div>)}
             </div>
 
             <Form.Group className="mb-3">
@@ -101,38 +99,28 @@ const Head = ({handleChange, currentSlot}) => {
                     autoComplete="off"
                 />
 
-                {showDropdown && (
-                    <Dropdown.Menu show style={{
-                        maxHeight: '300px',
-                        overflowY: 'auto',
-                        maxWidth: '460px',
-                        overflowX: 'hidden'
+                {showDropdown && (<Dropdown.Menu show style={{
+                        maxHeight: '300px', overflowY: 'auto', maxWidth: '460px', overflowX: 'hidden'
                     }} variant={'dark'}>
-                        {heads.length > 0 ? (
-                            heads.map((option, index) => (
+                        {heads.length > 0 ? (heads.map((option, index) => (
                                 <Dropdown.Item key={index} onClick={() => handleClick(option)}>
-                                    <img src={option.url} alt={'Head image'} width={25} height={25}
+                                    <img src={api.getHeadUrl(option.image_name)} alt={'Head image'} width={25}
+                                         height={25}
                                          className={'me-2'}/>{option.name}
-                                </Dropdown.Item>
-                            ))
-                        ) : (
-                            <Dropdown.Item disabled>No option found</Dropdown.Item>
-                        )}
-                    </Dropdown.Menu>
-                )}
+                                </Dropdown.Item>))) : (<Dropdown.Item disabled>No option found</Dropdown.Item>)}
+                    </Dropdown.Menu>)}
 
-                {head && (
-                    <div>
+                {head && (<div>
                         <Form.Label>Head value</Form.Label>
                         <div className="input-group mb-3">
                             <Form.Control
                                 type="text"
-                                value={head.data}
+                                value={head.head_url}
                                 className={'rounded-1'}
                                 disabled={true}
                             />
                             <button className="btn btn-outline-secondary" type="button" id="button-addon2"
-                                    onClick={() => copyToClipboard(head.data, 'the value')}>Copy
+                                    onClick={() => copyToClipboard(head.head_url, 'the value')}>Copy
                             </button>
                         </div>
                         <Form.Label>Head Database<a className={'ms-2'}
@@ -142,21 +130,19 @@ const Head = ({handleChange, currentSlot}) => {
                         <div className="input-group">
                             <Form.Control
                                 type="text"
-                                value={`/hdb search id:${head.id}`}
+                                value={`/hdb search id:${head.url_id}`}
                                 className={'rounded-1'}
                                 disabled={true}
                             />
                             <button className="btn btn-outline-secondary" type="button" id="button-addon2"
-                                    onClick={() => copyToClipboard(`/hdb search id:${head.id}`, 'the command')}>Copy
+                                    onClick={() => copyToClipboard(`/hdb search id:${head.url_id}`, 'the command')}>Copy
                             </button>
                         </div>
-                    </div>
-                )}
+                    </div>)}
 
             </Form.Group>
             <hr/>
-        </div>
-    );
+        </div>);
 };
 
 export default Head;
