@@ -17,10 +17,10 @@ class BuilderHeadController extends Controller
     public function search($search): bool|string
     {
         // Clé de cache unique pour cette requête de recherche spécifique
-        $cacheKey = 'search_heads_'.md5($search);
+        $cacheKey = 'search_heads_' . md5($search);
 
         // Vérifie si les résultats existent déjà dans le cache
-        $heads = Cache::remember($cacheKey, 60*60*24, function () use ($search) { // Cache pour 1 jour
+        $heads = Cache::remember($cacheKey, 60 * 60 * 24, function () use ($search) { // Cache pour 1 jour
             return Head::where('name', 'like', "%{$search}%")
                 ->orWhere('head_url', 'like', "%{$search}%")
                 ->limit(150)
