@@ -1,5 +1,7 @@
 # Unreleased
 
+- Added head configuration with complex head search
+
 # 1.0.6
 
 - Added discount for PRO upgrade purchase if you already have PREMIUM

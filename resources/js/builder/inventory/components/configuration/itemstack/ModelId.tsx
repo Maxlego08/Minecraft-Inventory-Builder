@@ -10,7 +10,7 @@ const ModelId = ({handleChange, currentSlot}) => {
                 min={0}
                 max={9999999}
                 name="model_id"
-                value={currentSlot.model_id}
+                value={currentSlot.button.model_id}
                 onChange={handleChange}
                 className={'rounded-1'}
             />
