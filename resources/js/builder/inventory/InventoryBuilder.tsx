@@ -51,7 +51,8 @@ const InventoryBuilder = () => {
                     pitch: 1.0,
                     sound: '',
                     glow: false,
-                    button_data: ''
+                    button_data: '',
+                    head_id: null
                 }
             })
         })
@@ -444,6 +445,7 @@ const InventoryBuilder = () => {
             if (slot.content != null) {
                 formData.append(`slot[${index}]item_id`, slot.content.id);
                 formData.append(`slot[${index}]type_id`, slot.button?.type_id ?? 1);
+                formData.append(`slot[${index}]head_id`, slot.button?.head_id ?? null);
                 formData.append(`slot[${index}]amount`, slot.button.amount);
                 formData.append(`slot[${index}]slot`, slot.button.slot);
                 formData.append(`slot[${index}]page`, slot.button.page);

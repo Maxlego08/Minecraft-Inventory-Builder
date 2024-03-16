@@ -3,6 +3,7 @@
 use App\Http\Controllers\AlertController;
 use App\Http\Controllers\Api\TooltipController;
 use App\Http\Controllers\Builder\BuilderDownloadController;
+use App\Http\Controllers\Builder\BuilderHeadController;
 use App\Http\Controllers\Builder\BuilderIndexController;
 use App\Http\Controllers\Builder\BuilderInventoryController;
 use App\Http\Controllers\Builder\BuilderItemsController;
@@ -82,6 +83,7 @@ Route::prefix('/builder')->name('builder.')->middleware('auth')->group(function 
         Route::prefix('/items')->name('items.')->group(function () {
             Route::get('/all', [BuilderItemsController::class, 'items'])->name('all');
         });
+        Route::get('/heads/{search}', [BuilderHeadController::class, 'search'])->name('search');
     });
 });
 

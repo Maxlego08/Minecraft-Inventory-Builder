@@ -69,7 +69,7 @@ class BuilderInventoryController extends Controller
 
         $versions = MinecraftVersion::all();
         $inventory = $inventory->load('buttons');
-        $inventory = $inventory->load('buttons.item');
+        $inventory = $inventory->load(['buttons.head', 'buttons.item']);
         $buttonTypes = ButtonType::with('contents')->get();
 
         return view('builder.inventory', [
@@ -135,6 +135,47 @@ class BuilderInventoryController extends Controller
             'result' => 'success',
             'inventory' => $inventory,
             'toast' => createToast('success', 'Success', 'InventoryBuilder successfully created.', 5000)
+        ]);
+    }
+
+    /**
+     * Permet de renommer un inventaire
+     *
+     * @param Request $request
+     * @param Inventory $inventory
+     * @return bool|string
+     */
+    public function rename(Request $request, Inventory $inventory): bool|string
+    {
+
+        $rules = [
+            'file_name' => 'required|string|max:100|min:3',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'result' => 'error',
+                'toast' => createToast('error', 'Validation Error', $validator->errors()->first('file_name'), 5000)
+            ], 422);
+        }
+
+        $user = user();
+        if ($inventory->user_id != $user->id && !$user->isAdmin()) {
+            return json_encode([
+                'result' => 'error',
+                'toast' => createToast('error', 'Error', 'Cannot use this folder.', 5000)
+            ]);
+        }
+
+        $inventory->update($request->all());
+
+        userLog("Vient de créer de renommer l'inventaire $inventory->file_name.$inventory->id", UserLog::COLOR_SUCCESS, UserLog::ICON_EDIT);
+
+        return json_encode([
+            'result' => 'success',
+            'toast' => createToast('success', 'Success', 'Inventory successfully renamed.', 5000)
         ]);
     }
 
@@ -217,43 +258,50 @@ class BuilderInventoryController extends Controller
 
             $typeId = $buttonTypes[$slot['type_id']]?->id ?? 1;
 
-            $display_name = isset($slot['display_name']) && $slot['display_name'] !== "null" && trim($slot['display_name']) !== "" ? $slot['display_name'] : null;
-            $lore = isset($slot['lore']) && $slot['lore'] !== "null" && trim($slot['lore']) !== "" ? $slot['lore'] : null;
-            $messages = isset($slot['messages']) && $slot['messages'] !== "null" && trim($slot['messages']) !== "" ? $slot['messages'] : null;
-            $commands = isset($slot['commands']) && $slot['commands'] !== "null" && trim($slot['commands']) !== "" ? $slot['commands'] : null;
-            $consoleCommands = isset($slot['console_commands']) && $slot['console_commands'] !== "null" && trim($slot['console_commands']) !== "" ? $slot['console_commands'] : null;
-            $sound = isset($slot['sound']) && $slot['sound'] !== "null" && trim($slot['sound']) !== "" ? $slot['sound'] : null;
-            $buttonData = isset($slot['button_data']) && $slot['button_data'] !== "null" && trim($slot['button_data']) !== "" ? $slot['button_data'] : null;
-
             InventoryButton::updateOrCreate(
                 ['inventory_id' => $inventory->id, 'slot' => $currentSlot, 'page' => $page],
                 [
                     'item_id' => $item->id,
                     'amount' => max(1, min(64, $slot['amount'])),
                     'type_id' => $typeId,
+                    'head_id' => $this->cleanSlotValue($slot, 'head_id', null, 'int'),
                     'name' => $name,
-                    'messages' => Str::limit($messages, 65535),
-                    'display_name' => Str::limit($display_name, 65535),
-                    'lore' => Str::limit($lore, 65535),
+                    'messages' => Str::limit($this->cleanSlotValue($slot, 'messages'), 65535),
+                    'display_name' => Str::limit($this->cleanSlotValue($slot, 'display_name'), 65535),
+                    'lore' => Str::limit( $this->cleanSlotValue($slot, 'lore'), 65535),
                     'is_permanent' => $this->getBoolean($slot, 'is_permanent'),
                     'close_inventory' => $this->getBoolean($slot, 'close_inventory'),
                     'refresh_on_click' => $this->getBoolean($slot, 'refresh_on_click'),
                     'update_on_click' => $this->getBoolean($slot, 'update_on_click'),
                     'update' => $this->getBoolean($slot, 'update'),
                     'glow' => $this->getBoolean($slot, 'glow'),
-                    'model_id' => $slot['model_id'],
-                    'sound' => $sound,
-                    'pitch' => $slot['pitch'],
-                    'button_data' => $buttonData,
-                    'volume' => $slot['volume'],
-                    'commands' => $commands,
-                    'console_commands' => $consoleCommands,
+                    'model_id' => $this->cleanSlotValue($slot, 'model_id', 0, 'int'),
+                    'sound' => $this->cleanSlotValue($slot, 'sound'),
+                    'button_data' => $this->cleanSlotValue($slot, 'button_data'),
+                    'volume' => $this->cleanSlotValue($slot, 'volume', 1),
+                    'pitch' => $this->cleanSlotValue($slot, 'pitch', 1),
+                    'commands' => Str::limit($this->cleanSlotValue($slot, 'commands'), 65535),
+                    'console_commands' => Str::limit($this->cleanSlotValue($slot, 'console_commands'), 65535),
                 ]
             );
-
         }
 
         InventoryButton::where('inventory_id', $inventory->id)->whereNotIn('slot', $slotsToKeep)->delete();
+    }
+
+    function cleanSlotValue($slot, $key, $defaultValue = null, $type = null)
+    {
+        $value = $defaultValue;
+        if (isset($slot[$key]) && $slot[$key] !== "null" && trim($slot[$key]) !== "") {
+            $value = trim($slot[$key]);
+            if ($type === 'int') {
+                $value = filter_var($value, FILTER_VALIDATE_INT);
+                if ($value === false) {
+                    return $defaultValue;
+                }
+            }
+        }
+        return $value;
     }
 
     function getBoolean($array, $key, $defaultValue = false)
@@ -269,47 +317,6 @@ class BuilderInventoryController extends Controller
         }
 
         return $defaultValue;
-    }
-
-    /**
-     * Permet de renommer un inventaire
-     *
-     * @param Request $request
-     * @param Inventory $inventory
-     * @return bool|string
-     */
-    public function rename(Request $request, Inventory $inventory): bool|string
-    {
-
-        $rules = [
-            'file_name' => 'required|string|max:100|min:3',
-        ];
-
-        $validator = Validator::make($request->all(), $rules);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'result' => 'error',
-                'toast' => createToast('error', 'Validation Error', $validator->errors()->first('file_name'), 5000)
-            ], 422);
-        }
-
-        $user = user();
-        if ($inventory->user_id != $user->id && !$user->isAdmin()) {
-            return json_encode([
-                'result' => 'error',
-                'toast' => createToast('error', 'Error', 'Cannot use this folder.', 5000)
-            ]);
-        }
-
-        $inventory->update($request->all());
-
-        userLog("Vient de créer de renommer l'inventaire $inventory->file_name.$inventory->id", UserLog::COLOR_SUCCESS, UserLog::ICON_EDIT);
-
-        return json_encode([
-            'result' => 'success',
-            'toast' => createToast('success', 'Success', 'Inventory successfully renamed.', 5000)
-        ]);
     }
 
     /**
@@ -331,7 +338,7 @@ class BuilderInventoryController extends Controller
 
         $inventory->delete();
 
-        userLog("Vient de créer de supprimer l'inventaire $inventory->file_name.$inventory->id", UserLog::COLOR_SUCCESS, UserLog::ICON_EDIT);
+        userLog("Vient de supprimer l'inventaire $inventory->file_name.$inventory->id", UserLog::COLOR_DANGER, UserLog::ICON_TRASH);
 
         return json_encode([
             'result' => 'success',

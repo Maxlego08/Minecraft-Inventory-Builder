@@ -1,5 +1,12 @@
 # Unreleased
 
+# 1.0.8
+
+- Added head configuration with complex head search
+- Fix Custom Model Id
+- Fixed display of slots when downloading inventory
+- Improved code for saving buttons
+
 # 1.0.6
 
 - Added discount for PRO upgrade purchase if you already have PREMIUM

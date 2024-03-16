@@ -12,10 +12,8 @@ const getCsrfToken = () => {
 };
 
 const apiClient = axios.create({
-    baseURL: import.meta.env.VITE_REACT_APP_API_URL,
-    headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': getCsrfToken()
+    baseURL: import.meta.env.VITE_REACT_APP_API_URL, headers: {
+        'Content-Type': 'application/json', 'X-CSRF-TOKEN': getCsrfToken()
     }
 });
 
@@ -27,6 +25,16 @@ const apiClient = axios.create({
  */
 const fetchFolders = (folderId = null) => {
     return apiClient.get(folderId ? `/folders/${folderId}` : '/folders');
+};
+
+/**
+ * Permet de récupérer la liste des têtes
+ *
+ * @param head
+ * @returns {Promise<axios.AxiosResponse<any>>}
+ */
+const fetchHeads = (head) => {
+    return apiClient.get(`/heads/${head}`);
 };
 
 /**
@@ -82,6 +90,10 @@ const getDownloadUrl = (inventoryId) => {
     return import.meta.env.VITE_REACT_APP_API_URL + `/inventories/${inventoryId}/download`
 }
 
+const getHeadUrl = (headName) => {
+    return import.meta.env.VITE_URL_API_IMAGE + `/head/${headName}.webp`
+}
+
 const displayToast = (response) => {
     let toast = response.data.toast
     if (toast) window.toast(toast.type, toast.title, toast.description, toast.duration)
@@ -110,6 +122,8 @@ const apiFunctions = {
     getDownloadUrl,
     renameInventory,
     deleteInventory,
+    fetchHeads,
+    getHeadUrl,
 };
 
 export default apiFunctions;

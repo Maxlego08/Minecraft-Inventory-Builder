@@ -87,58 +87,6 @@ class BuilderDownloadController extends Controller
         return Yaml::dump($data, 99, 2, Yaml::DUMP_OBJECT_AS_MAP | Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
     }
 
-    /**
-     * Permet de regrouper les slots qui se suivent pour réduire la configuration
-     *
-     * @param $tableau
-     * @return array
-     */
-    private static function groupSlots($tableau): array
-    {
-        sort($tableau);
-
-        $result = [];
-        $debut = $tableau[0];
-        $precedent = $debut;
-
-        for ($i = 1; $i < count($tableau); $i++) {
-            if ($tableau[$i] == $precedent + 1) {
-                $precedent = $tableau[$i];
-            } else {
-                if ($debut == $precedent) {
-                    $result[] = "$debut";
-                } else {
-                    $result[] = "$debut-$precedent";
-                }
-                $debut = $tableau[$i];
-                $precedent = $debut;
-            }
-        }
-
-        if ($debut == $precedent) {
-            $result[] = "$debut";
-        } else {
-            $result[] = "$debut-$precedent";
-        }
-
-        return $result;
-    }
-
-    private static function is_in(InventoryButton $button, array $array): ?InventoryButton
-    {
-        $toRemove = ['slot', 'created_at', 'updated_at', 'name', 'id'];
-        $attributes = $button->getAttributes();
-        foreach ($toRemove as $remove) unset($attributes[$remove]);
-
-        foreach ($array as $value) {
-            $currentAttributes = $value->getAttributes();
-            foreach ($toRemove as $remove) unset($currentAttributes[$remove]);
-
-            if ($attributes === $currentAttributes) return $value;
-        }
-        return null;
-    }
-
     private static function buttonToArray(InventoryButton $button, int $slot): array
     {
         $array = [
@@ -147,6 +95,11 @@ class BuilderDownloadController extends Controller
                 'material' => $button->item->material,
             ]
         ];
+
+        if ($button->head) {
+            unset($array['item']['material']);
+            $array['item']['url'] = $button->head->head_url;
+        }
 
         if ($button->page != 1) $array['page'] = $button->page;
         if ($button->buttonType->id != 1) $array['type'] = strtoupper($button->buttonType->name);
@@ -195,6 +148,58 @@ class BuilderDownloadController extends Controller
         }
 
         return $array;
+    }
+
+    private static function is_in(InventoryButton $button, array $array): ?InventoryButton
+    {
+        $toRemove = ['slot', 'created_at', 'updated_at', 'name', 'id'];
+        $attributes = $button->getAttributes();
+        foreach ($toRemove as $remove) unset($attributes[$remove]);
+
+        foreach ($array as $value) {
+            $currentAttributes = $value->getAttributes();
+            foreach ($toRemove as $remove) unset($currentAttributes[$remove]);
+
+            if ($attributes === $currentAttributes) return $value;
+        }
+        return null;
+    }
+
+    /**
+     * Permet de regrouper les slots qui se suivent pour réduire la configuration
+     *
+     * @param $tableau
+     * @return array
+     */
+    private static function groupSlots($tableau): array
+    {
+        sort($tableau);
+
+        $result = [];
+        $debut = $tableau[0];
+        $precedent = $debut;
+
+        for ($i = 1; $i < count($tableau); $i++) {
+            if ($tableau[$i] == $precedent + 1) {
+                $precedent = $tableau[$i];
+            } else {
+                if ($debut == $precedent) {
+                    $result[] = (int) $debut;
+                } else {
+                    $result[] = "$debut-$precedent";
+                }
+                $debut = $tableau[$i];
+                $precedent = (int) $debut;
+            }
+        }
+
+        if ($debut == $precedent) {
+            $result[] = (int) "$debut";
+        } else {
+            $result[] = "$debut-$precedent";
+        }
+
+        return $result;
     }
 
 }
