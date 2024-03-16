@@ -1,5 +1,7 @@
 # Unreleased
 
+# 1.0.8
+
 - Added head configuration with complex head search
 - Fix Custom Model Id
 - Fixed display of slots when downloading inventory
