@@ -8,10 +8,10 @@ use App\Http\Controllers\Api\TooltipController;
 use App\Http\Controllers\Api\V1\BStatsController;
 use App\Http\Controllers\Api\V1\DiscordAuthController;
 use App\Http\Controllers\Api\V1\DiscordController;
+use App\Http\Controllers\Api\V1\HeadController;
 use App\Http\Controllers\Api\V1\InventoryController;
 use App\Http\Controllers\Api\V1\PreviewController;
 use App\Http\Controllers\Api\V1\ResourceController;
-use App\Http\Controllers\Builder\BuilderHeadController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -60,6 +60,7 @@ Route::prefix('/v1')->name('v1.')->group(function () {
 
     Route::post('{payment}/notification/{id?}', [PaymentController::class, 'notification'])->name('notification');
     Route::get('gift/verify/{code}/{contentType}/{contentId}/{user}', [GiftController::class, 'verify'])->name('gift');
+    Route::get('heads', [HeadController::class, 'heads'])->name('heads');
 
     // Route::get('file/analyse', [FileController::class, 'index'])->name('file');
     // Route::post('file/analyse/store', [FileController::class, 'store'])->name('file.store');
