@@ -20,7 +20,8 @@ Route::get('/', [IndexController::class, 'index'])->name('index');
 Route::get('/statistics', [StatisticController::class, 'index'])->name('statistics');
 // Route::get('/test', [ScrappingController::class, 'index2'])->name('test.scrapping');
 // Route::get('/test2', [ScrappingController::class, 'renameFiles'])->name('test.rename');
-Route::get('/test3', [ScrappingController::class, 'updateDatabase'])->name('test.updatedatabase');
+// Route::get('/test3', [ScrappingController::class, 'updateDatabase'])->name('test.updatedatabase');
+Route::get('/test4', [ScrappingController::class, 'updateOtherValues'])->name('test.updateOtherValues');
 
 Route::prefix('resources/')->name('resources.')->group(function () {
     Route::get('/', [ResourceController::class, 'index'])->name('index');

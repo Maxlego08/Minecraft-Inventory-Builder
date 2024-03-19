@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\ScrappingJob;
 use App\Jobs\UpdateHeadTable;
+use App\Jobs\UpdateHeadValues;
 use App\Models\Builder\Head;
 use Exception;
 use Goutte\Client;
@@ -66,13 +67,25 @@ class ScrappingController extends Controller
         $response = Http::get($url);
 
         if ($response->successful()) {
-             $imageName = basename($url);
-             Storage::put("public/images/head/{$imageName}", $response->body());
+            $imageName = basename($url);
+            Storage::put("public/images/head/{$imageName}", $response->body());
             Storage::put("public/images/head/$path", $response->body());
             return "Image téléchargée avec succès.";
         }
 
         return "Échec du téléchargement de l'image.";
+    }
+
+    public function updateOtherValues(): string
+    {
+
+        $client = new Client();
+        $heads = Head::whereNull('category')->get();
+        foreach ($heads as $head) {
+            UpdateHeadValues::dispatch($head);
+        }
+
+        return "ok";
     }
 
     public function renameFiles(): string
@@ -110,14 +123,14 @@ class ScrappingController extends Controller
         $categories = [
             "alphabet",
             "animals",
-             "blocks",
-             "decoration",
-             "food-drinks",
-             "humans",
-             "humanoid",
-             "miscellaneous",
-             "monsters",
-             "plants"
+            "blocks",
+            "decoration",
+            "food-drinks",
+            "humans",
+            "humanoid",
+            "miscellaneous",
+            "monsters",
+            "plants"
         ];
         $url = "https://minecraft-heads.com/scripts/api.php?cat=%s&tags=true";
 
