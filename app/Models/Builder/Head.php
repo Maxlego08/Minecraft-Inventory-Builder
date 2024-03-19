@@ -18,6 +18,6 @@ class Head extends Model
     use HasFactory;
 
     protected $fillable = [
-        'image_url', 'head_url', 'name', 'image_name', 'url', 'url_id', 'id'
+        'image_url', 'head_url', 'name', 'image_name', 'url', 'url_id', 'id', 'category', 'tags'
     ];
 }
