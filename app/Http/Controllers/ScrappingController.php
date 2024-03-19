@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\ScrappingJob;
+use App\Jobs\UpdateHeadTable;
 use App\Models\Builder\Head;
 use Exception;
 use Goutte\Client;
@@ -65,8 +66,8 @@ class ScrappingController extends Controller
         $response = Http::get($url);
 
         if ($response->successful()) {
-            // $imageName = basename($url);
-            // Storage::put("public/images/head/{$imageName}", $response->body());
+             $imageName = basename($url);
+             Storage::put("public/images/head/{$imageName}", $response->body());
             Storage::put("public/images/head/$path", $response->body());
             return "Image téléchargée avec succès.";
         }
@@ -86,12 +87,12 @@ class ScrappingController extends Controller
             }*/
             $imageName = basename($head->image_url);
             if (Storage::exists("public/images/head/{$imageName}")) {
-                if (Storage::move("public/images/head/{$imageName}", "public/images/head/{$head->image_name}.webp")){
+                if (Storage::move("public/images/head/{$imageName}", "public/images/head/{$head->image_name}.webp")) {
                     echo "Succès avec l'id $head->id<br>";
                 } else {
                     if (Storage::exists("public/images/head/{$head->image_name}.webp")) {
                         echo "Il existe déjà avec l'id $head->id<br>";
-                    }else {
+                    } else {
                         echo "Impossible avec l'id $head->id<br>";
                     }
                 }
@@ -101,6 +102,36 @@ class ScrappingController extends Controller
         }
 
         return "FIN";
+    }
+
+    public function updateDatabase()
+    {
+
+        $categories = [
+            "alphabet",
+            "animals",
+             "blocks",
+             "decoration",
+             "food-drinks",
+             "humans",
+             "humanoid",
+             "miscellaneous",
+             "monsters",
+             "plants"
+        ];
+        $url = "https://minecraft-heads.com/scripts/api.php?cat=%s&tags=true";
+
+        $amount = 0;
+        foreach ($categories as $category) {
+            $values = Http::get(sprintf($url, $category))->json();
+            $amount += count($values);
+
+            foreach ($values as $value) {
+                UpdateHeadTable::dispatch($value, $category);
+            }
+        }
+
+        return "ok -> $amount";
     }
 
 }
