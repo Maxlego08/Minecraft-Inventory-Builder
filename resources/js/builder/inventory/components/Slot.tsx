@@ -7,6 +7,8 @@ const Slot = ({id, currentItem, handleSlotClick, handleSlotDoubleClick, currentS
     const itemRef = useRef(null);
     const isSelect = currentSelectSlot == id || selectSlots.includes(id)
 
+    console.log(currentItem)
+
     return (
         <div id={`slot-${id}`} className={`slot ${isSelect ? 'slot-select' : ''}`}
              onClick={event => handleSlotClick(event, id)}
@@ -14,7 +16,7 @@ const Slot = ({id, currentItem, handleSlotClick, handleSlotDoubleClick, currentS
              data-slot={id}>
             {currentItem.content != null && (
                 <div ref={itemRef} className={'item'} data-slot={id}>
-                    {currentItem.button.head ? (
+                    {currentItem.button.head && currentItem.content?.material === 'PLAYER_HEAD' ? (
                         <img className={'icon-minecraft'} src={api.getHeadUrl(currentItem.button.head.image_name)} alt={currentItem.button.head.name}/>
                     ) : (
                         <i id={`item-slot-${currentItem.content.id}`} data-slot={id}
