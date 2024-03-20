@@ -96,7 +96,7 @@ class BuilderDownloadController extends Controller
             ]
         ];
 
-        if ($button->head) {
+        if ($button->head && $button->item->material === 'PLAYER_HEAD') {
             unset($array['item']['material']);
             $array['item']['url'] = $button->head->head_url;
         }
