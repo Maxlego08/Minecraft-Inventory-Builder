@@ -123,19 +123,19 @@ const Head = ({handleChange, currentSlot, updateHead}) => {
                                     onClick={() => copyToClipboard(head.head_url, 'the value')}>Copy
                             </button>
                         </div>
-                        <Form.Label>Head Database<a className={'ms-2'}
-                                                    href={'https://minecraft-heads.com/plugins/head-database'}
+                        <Form.Label>zHead Database<a className={'ms-2'}
+                                                    href={'https://www.spigotmc.org/resources/zhead-database.115717/'}
                                                     target={'_blank'}>(<i
                             className="bi bi-question-lg"></i>)</a></Form.Label>
                         <div className="input-group">
                             <Form.Control
                                 type="text"
-                                value={`/hdb search id:${head.url_id}`}
+                                value={`/zhd search id:${head.url_id}`}
                                 className={'rounded-1'}
                                 disabled={true}
                             />
                             <button className="btn btn-outline-secondary" type="button" id="button-addon2"
-                                    onClick={() => copyToClipboard(`/hdb search id:${head.url_id}`, 'the command')}>Copy
+                                    onClick={() => copyToClipboard(`/zhd search id:${head.url_id}`, 'the command')}>Copy
                             </button>
                         </div>
                     </div>)}

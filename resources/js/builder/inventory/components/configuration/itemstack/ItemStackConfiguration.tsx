@@ -60,7 +60,7 @@ const ItemStackConfiguration = ({inventoryContent, updateButton, selectedSlots})
             {inventoryContent.currentSlot >= 0 ? (
                 <div className={'p-2'}>
                     {currentSlot.content?.material === 'PLAYER_HEAD' && (
-                        <Head handleChange={handleChange} currentSlot={currentSlot} updateHead={setHead} />
+                        <Head key={currentSlot.button.id} handleChange={handleChange} currentSlot={currentSlot} updateHead={setHead} />
                     )}
                     <DisplayName handleChange={handleChange} displayName={currentSlot.button.display_name} />
                     <Lore handleChange={handleChange} lore={currentSlot.button.lore} />
