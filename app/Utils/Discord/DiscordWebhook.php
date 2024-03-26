@@ -215,14 +215,15 @@ class DiscordWebhook implements Arrayable
      */
     public function toArray()
     {
-        return [
+        return array_filter([
             'content' => $this->content,
             'username' => $this->username,
             'avatar_url' => $this->avatarUrl,
-            'tts' => $this->tts,
             'embeds' => array_map(function (Embed $embed) {
                 return $embed->toArray();
             }, $this->embeds),
-        ];
+        ], function($valeur) {
+            return !is_null($valeur);
+        });
     }
 }

@@ -246,7 +246,7 @@ class DashboardDiscordController extends Controller
 
             $discord = DiscordWebhook::build($notification, $user, $payment, $plugin, $version);
             $url = $notification->url;
-            dd($discord);
+            dd(json_encode($discord->toArray()));
             // CheckDiscordWebhook::dispatch($notification->id, $discord, $url);
 
             $discord->send($url);
