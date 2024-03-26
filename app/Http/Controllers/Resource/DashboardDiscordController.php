@@ -114,6 +114,8 @@ class DashboardDiscordController extends Controller
 
         }
 
+        var_dump($message);
+
         return str_replace('{color_random}', self::random_color(), $message);
 
     }
@@ -221,7 +223,7 @@ class DashboardDiscordController extends Controller
             'is_valid' => false,
         ]);
 
-        rescue(function () use ($notification) {
+        //rescue(function () use ($notification) {
             $user = new User();
             $user->id = 99999;
             $user->name = "AccountTest";
@@ -235,11 +237,7 @@ class DashboardDiscordController extends Controller
             $payment->id = 88888;
             $payment->external_id = "pi_xxxxxxxxxxxxxxxx";
 
-            $plugin = new Resource();
-            $plugin->name = "zTest";
-            $plugin->price = 10;
-            $plugin->id = 77777;
-            $plugin->user_id = 1;
+            $plugin = Resource::find(1);
 
             $version = new Version();
             $version->download = 99;
@@ -248,12 +246,19 @@ class DashboardDiscordController extends Controller
 
             $discord = DiscordWebhook::build($notification, $user, $payment, $plugin, $version);
             $url = $notification->url;
-            CheckDiscordWebhook::dispatch($notification->id, $discord, $url);
-        }, function () use ($notification) {
+            dd($discord);
+            // CheckDiscordWebhook::dispatch($notification->id, $discord, $url);
+
+            $discord->send($url);
+
+            /*$notification = DiscordNotification::find($notification->id);
+            $notification->update(['is_valid' => true,]);*/
+
+        /*}, function () use ($notification) {
             $notification->update([
                 'is_valid' => false,
             ]);
-        });
+        });*/
     }
 
     /**
