@@ -223,7 +223,7 @@ class DashboardDiscordController extends Controller
             'is_valid' => false,
         ]);
 
-        //rescue(function () use ($notification) {
+        rescue(function () use ($notification) {
             $user = new User();
             $user->id = 99999;
             $user->name = "AccountTest";
@@ -246,19 +246,13 @@ class DashboardDiscordController extends Controller
 
             $discord = DiscordWebhook::build($notification, $user, $payment, $plugin, $version);
             $url = $notification->url;
-            dd(json_encode($discord->toArray()));
-            // CheckDiscordWebhook::dispatch($notification->id, $discord, $url);
+            CheckDiscordWebhook::dispatch($notification->id, $discord, $url);
 
-            $discord->send($url);
-
-            /*$notification = DiscordNotification::find($notification->id);
-            $notification->update(['is_valid' => true,]);*/
-
-        /*}, function () use ($notification) {
+        }, function () use ($notification) {
             $notification->update([
                 'is_valid' => false,
             ]);
-        });*/
+        });
     }
 
     /**
