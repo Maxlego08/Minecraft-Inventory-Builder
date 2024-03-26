@@ -5,14 +5,10 @@ namespace App\Http\Controllers\Resource;
 use App\Exceptions\FileExtensionException;
 use App\Exceptions\UserFileFullException;
 use App\Http\Controllers\Controller;
-use App\Jobs\DiscordWebhookNotification;
-use App\Models\Discord\DiscordNotification;
 use App\Models\Resource\Category;
 use App\Models\Resource\Resource;
 use App\Models\Resource\Version;
 use App\Models\UserLog;
-use App\Payment\utils\Resources\ResourceCreate;
-use App\Utils\Discord\DiscordWebhook;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -112,13 +108,6 @@ class ResourceCreateController extends Controller
         userLog("Création de la ressource $resource->name.$resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_FILE);
 
         Cache::forget('pending_resources');
-
-        event(new ResourceCreate($resource, $user));
-
-        $webhooks = DiscordNotification::where('event', 'event.resource.created')->where('is_valid', true)->get();
-        foreach ($webhooks as $webhook) {
-            DiscordWebhookNotification::dispatch(DiscordWebhook::build($webhook, $user, null, $resource, $version), $webhook->url);
-        }
 
         return Redirect::route('resources.index')->with('toast', createToast('success', __('resources.create.success.title'), __('resources.create.success.content'), 5000));
     }
