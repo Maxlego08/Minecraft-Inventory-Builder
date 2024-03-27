@@ -7,6 +7,7 @@ use App\Models\Alert\AlertUser;
 use App\Models\File;
 use App\Models\Resource\Resource;
 use App\Models\UserLog;
+use App\Payment\utils\Resources\ResourceCreate;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -65,6 +66,8 @@ class ResourceController extends Controller
 
         Cache::forget('pending_resources');
         Cache::forget('resources:mostResources');
+
+        event(new ResourceCreate($resource, $resource->user));
 
         return Redirect::route('admin.resources.pending')->with('toast', createToast('success', 'Ressource acceptée !', 'Vous venez d\'accepter la ressource ' . $resource->name . '.' . $resource->id, 5000));
     }

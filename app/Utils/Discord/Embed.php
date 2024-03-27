@@ -2,10 +2,10 @@
 
 namespace App\Utils\Discord;
 
+use App\Utils\Discord\Embeds\EmbedAuthor;
 use App\Utils\Discord\Embeds\EmbedField;
 use App\Utils\Discord\Embeds\EmbedFooter;
 use App\Utils\Discord\Embeds\EmbedThumbnail;
-use App\Utils\Discord\Embeds\EmbedAuthor;
 use Carbon\Carbon;
 use DateTimeInterface;
 use Illuminate\Contracts\Support\Arrayable;
@@ -225,7 +225,7 @@ class Embed implements Arrayable
      */
     public function toArray()
     {
-        return [
+        $values = [
             'title' => $this->title,
             'description' => $this->description,
             'url' => $this->url,
@@ -234,10 +234,15 @@ class Embed implements Arrayable
             'footer' => optional($this->footer)->toArray(),
             'thumbnail' => optional($this->thumbnail)->toArray(),
             'author' => optional($this->author)->toArray(),
-            'fields' => array_map(function (EmbedField $field) {
-                return $field->toArray();
-            }, $this->fields),
         ];
+        if (count($this->fields) > 0) {
+            $values['fields'] = array_map(function (EmbedField $field) {
+                return $field->toArray();
+            }, $this->fields);
+        }
+        return array_filter($values, function ($valeur) {
+            return !is_null($valeur);
+        });
     }
 
     public function isValid(): bool
