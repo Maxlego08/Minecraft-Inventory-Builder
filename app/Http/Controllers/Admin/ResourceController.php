@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\DiscordWebhookNotification;
 use App\Models\Alert\AlertUser;
+use App\Models\Discord\DiscordNotification;
 use App\Models\File;
 use App\Models\Resource\Resource;
 use App\Models\UserLog;
 use App\Payment\utils\Resources\ResourceCreate;
+use App\Utils\Discord\DiscordWebhook;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -66,6 +69,11 @@ class ResourceController extends Controller
 
         Cache::forget('pending_resources');
         Cache::forget('resources:mostResources');
+
+        $webhooks = DiscordNotification::where('event', 'event.resource.created')->where('user_id', env('ADMIN_DISCORD_ID'))->where('is_valid', true)->get();
+        foreach ($webhooks as $webhook) {
+            DiscordWebhookNotification::dispatch(DiscordWebhook::build($webhook, $resource->user, null, $resource, $resource->version), $webhook->url);
+        }
 
         event(new ResourceCreate($resource, $resource->user));
 

@@ -19,6 +19,7 @@ use Intervention\Image\Facades\Image;
  * @property int $user_id
  * @property int $file_size
  * @property string $file_extension
+ * @property string $file_upload_name
  * @property string $file_name
  * @property Carbon created_at
  * @property Carbon updated_at
