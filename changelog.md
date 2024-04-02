@@ -1,5 +1,7 @@
 # Unreleased
 
+- Fix file name on upload
+
 # 1.0.8
 
 - Added head configuration with complex head search

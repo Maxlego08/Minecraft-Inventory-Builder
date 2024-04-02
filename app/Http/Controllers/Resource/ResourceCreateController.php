@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Resource;
 use App\Exceptions\FileExtensionException;
 use App\Exceptions\UserFileFullException;
 use App\Http\Controllers\Controller;
+use App\Jobs\JobResourceInformation;
 use App\Models\Resource\Category;
 use App\Models\Resource\Resource;
 use App\Models\Resource\Version;
 use App\Models\UserLog;
+use App\Utils\Discord\DiscordWebhook;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -108,6 +110,8 @@ class ResourceCreateController extends Controller
         userLog("Création de la ressource $resource->name.$resource->id", UserLog::COLOR_SUCCESS, UserLog::ICON_FILE);
 
         Cache::forget('pending_resources');
+
+        JobResourceInformation::dispatch($resource);
 
         return Redirect::route('resources.index')->with('toast', createToast('success', __('resources.create.success.title'), __('resources.create.success.content'), 5000));
     }

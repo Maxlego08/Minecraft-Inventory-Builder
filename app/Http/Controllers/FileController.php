@@ -54,7 +54,7 @@ class FileController extends Controller
             try {
                 $media = $this->storeImage($user, $file, $image, true, true);
                 userLog("Création de l'image $media->id (JS)", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
-                $uploadedImages[] = ['url' => $media->getPath(), 'name' => "$media->file_name.$media->file_extension", 'file_name' => Str::limit("$media->file_name.$media->file_extension", 15)];
+                $uploadedImages[] = ['url' => $media->getPath(), 'name' => "$media->file_name.$media->file_extension", 'file_name' => Str::limit("$media->file_upload_name", 20)];
             } catch (UserFileFullException) {
                 return json_encode(['toast' => createToast('error', 'Impossible to create an image', 'You dont have enough space for upload a new image.', 5000), 'status' => 'error']);
             }

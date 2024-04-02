@@ -98,9 +98,13 @@ class ResourcePagination
                 $query->where('resource_resources.category_id', $category->id);
             })
             ->when(!Auth::guest(), function ($query) {
-                $user = Auth::user();
-                $query->where('resource_resources.is_pending', true)->where('resource_resources.user_id', $user->id)
-                    ->orWhere('resource_resources.is_pending', false);
+                $user = user();
+                if ($user->isAdmin()) {
+                    $query->where('resource_resources.is_pending', true)->orWhere('resource_resources.is_pending', false);
+                } else {
+                    $query->where('resource_resources.is_pending', true)->where('resource_resources.user_id', $user->id)
+                        ->orWhere('resource_resources.is_pending', false);
+                }
             }, function ($query) {
                 $query->where('resource_resources.is_pending', false);
             })
