@@ -10,6 +10,7 @@ use App\Models\UserLog;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\Yaml\Yaml;
 
 class BuilderDownloadController extends Controller
@@ -25,29 +26,6 @@ class BuilderDownloadController extends Controller
     {
         $user = user();
         if ($inventory->user_id != $user->id && !$user->isAdmin()) {
-            abort(403, "You don't have permission");
-        }
-
-        userLog("Vient de télécharger l'inventaire $inventory->file_name.$inventory->id", UserLog::COLOR_SUCCESS, UserLog::ICON_DOWNLOAD);
-
-        $ymlContent = self::inventoryToYAML($inventory);
-
-        return response($ymlContent, 200)
-            ->header('Content-Type', 'text/yaml')
-            ->header("Content-Disposition", "attachment; filename={$inventory->file_name}.yml");
-
-    }
-
-    /**
-     * Permet de télécharger un fichier de configuration
-     *
-     * @param Inventory $inventory
-     * @return \Illuminate\Foundation\Application|Response|Application|ResponseFactory
-     */
-    public function downloadPublic(Inventory $inventory): \Illuminate\Foundation\Application|Response|Application|ResponseFactory
-    {
-        $user = user();
-        if ($inventory->user_id != $user->id && !$user->isAdmin() && $inventory->visibility->type === InventoryVisibility::PRIVATE) {
             abort(403, "You don't have permission");
         }
 
@@ -208,22 +186,52 @@ class BuilderDownloadController extends Controller
                 $precedent = $tableau[$i];
             } else {
                 if ($debut == $precedent) {
-                    $result[] = (int) $debut;
+                    $result[] = (int)$debut;
                 } else {
                     $result[] = "$debut-$precedent";
                 }
                 $debut = $tableau[$i];
-                $precedent = (int) $debut;
+                $precedent = (int)$debut;
             }
         }
 
         if ($debut == $precedent) {
-            $result[] = (int) "$debut";
+            $result[] = (int)"$debut";
         } else {
             $result[] = "$debut-$precedent";
         }
 
         return $result;
+    }
+
+    /**
+     * Permet de télécharger un fichier de configuration
+     *
+     * @param Inventory $inventory
+     * @return \Illuminate\Foundation\Application|Response|Application|ResponseFactory
+     */
+    public function downloadPublic(Inventory $inventory): \Illuminate\Foundation\Application|Response|Application|ResponseFactory
+    {
+
+        if (Auth::guest() && $inventory->visibility->type === InventoryVisibility::PRIVATE) {
+            abort(403, "You don't have permission");
+        }
+
+        if (Auth::user()) {
+            $user = user();
+            if ($inventory->user_id != $user->id && !$user->isAdmin() && $inventory->visibility->type === InventoryVisibility::PRIVATE) {
+                abort(403, "You don't have permission");
+            }
+
+            userLog("Vient de télécharger l'inventaire $inventory->file_name.$inventory->id", UserLog::COLOR_SUCCESS, UserLog::ICON_DOWNLOAD);
+        }
+
+        $ymlContent = self::inventoryToYAML($inventory);
+
+        return response($ymlContent, 200)
+            ->header('Content-Type', 'text/yaml')
+            ->header("Content-Disposition", "attachment; filename={$inventory->file_name}.yml");
+
     }
 
 }

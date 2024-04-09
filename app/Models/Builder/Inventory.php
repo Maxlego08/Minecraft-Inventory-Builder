@@ -42,7 +42,7 @@ class Inventory extends Model
      */
     public function visibility(): BelongsTo
     {
-        return $this->belongsTo(InventoryVisibility::class);
+        return $this->belongsTo(InventoryVisibility::class, 'inventory_visibility_id');
     }
 
     /**
