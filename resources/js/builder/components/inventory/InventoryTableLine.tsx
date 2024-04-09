@@ -6,7 +6,7 @@ import color from '../../services/minecraftColor'
 import InventoryVisibility from "./InventoryVisibility";
 import DOMPurify from 'dompurify';
 
-const InventoryCard = ({inventory, handleDeleteInventory}) => {
+const InventoryCard = ({inventory, handleDeleteInventory, updateInventory}) => {
 
     const [inventoryName, setInventoryName] = useState(inventory.file_name);
     const [isEditing, setIsEditing] = useState(false);
@@ -61,7 +61,7 @@ const InventoryCard = ({inventory, handleDeleteInventory}) => {
             <td dangerouslySetInnerHTML={{__html: inventory.name ? DOMPurify.sanitize(color.processMinecraftColorCodes(inventory.name)) : 'Inventory'}}></td>
             <td>{inventory.size}</td>
             <td>
-                <InventoryVisibility inventory={inventory}/>
+                <InventoryVisibility inventory={inventory} updateInventory={updateInventory}/>
             </td>
             <td>{date.formatDate(inventory.created_at)}</td>
             <td>{date.formatDate(inventory.updated_at)}</td>

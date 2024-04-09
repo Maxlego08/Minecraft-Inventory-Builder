@@ -21,6 +21,8 @@ $font-path: './fonts/';
 @import "builder/folders";
 @import "builder/inventories";
 @import "builder/inventory-table";
+@import "builder/tooltip";
+@import "builder/visibility";
 @import "builder/inventory";
 @import "builder/minecraftTooltip";
 @import "builder/inventory/inventoryBuilder";

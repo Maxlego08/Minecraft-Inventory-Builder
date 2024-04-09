@@ -25,6 +25,13 @@ const InventoryList = ({folder = null}) => {
         // sortData('created_at')
     }, [inventories])
 
+    const updateInventory = (inventoryId, newData) => {
+        setInventories(inventories.map(inventory =>
+            inventory.id === inventoryId ? { ...inventory, ...newData } : inventory
+        ));
+    };
+
+
     const fetchInventories = () => {
 
         if (!folder) return
@@ -130,7 +137,7 @@ const InventoryList = ({folder = null}) => {
                                 onClick={() => sortData('name')}>Name {getArrow('name')}</th>
                             <th className={getClassName('size')}
                                 onClick={() => sortData('size')}>Size {getArrow('size')}</th>
-                            <th className={getClassName('inventory_visibility_id')}
+                            <th className={getClassName('inventory_visibility_id')} style={{width: '150px'}}
                                 onClick={() => sortData('inventory_visibility_id')}>Visibility {getArrow('inventory_visibility_id')}</th>
                             <th className={getClassName('created_at')} onClick={() => sortData('created_at')}>Created
                                 at {getArrow('created_at')}</th>
@@ -141,8 +148,7 @@ const InventoryList = ({folder = null}) => {
                         </thead>
                         <tbody>
                         {data.map((inventory, index) => (
-                            <InventoryTableLine key={`${index}-${folder.id}`} inventory={inventory}
-                                                handleDeleteInventory={handleDeleteInventory}/>
+                            <InventoryTableLine key={`${index}-${folder.id}`} inventory={inventory} handleDeleteInventory={handleDeleteInventory} updateInventory={updateInventory}/>
                         ))}
                         </tbody>
                     </table>

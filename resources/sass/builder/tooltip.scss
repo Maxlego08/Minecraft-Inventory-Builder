@@ -1,0 +1,29 @@
+/* Tooltip.css */
+.tooltip-inventory-container {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip-inventory-box {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 5px;
+    padding: 8px;
+    background-color: rgba(24, 24, 32, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: rgba(255, 255, 255, 0.9);
+    text-align: left;
+    border-radius: 4px;
+    z-index: 1;
+    width: 400px;
+
+    div {
+        margin-bottom: 6px;
+    }
+
+    div:last-child {
+        margin-bottom: 0;
+    }
+}
