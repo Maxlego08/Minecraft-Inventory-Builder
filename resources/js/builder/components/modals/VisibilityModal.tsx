@@ -1,11 +1,17 @@
 import {Button, Form, Modal} from "react-bootstrap";
 import * as React from "react";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import api from "../../services/api"
 
 const VisibilityModal = ({show, onClose, inventoryVisibility, inventory, updateInventory}) => {
 
     const [visibility, setVisibility] = useState(inventoryVisibility);
+
+    useEffect(() => {
+        if (show) {
+            setVisibility(inventoryVisibility);
+        }
+    }, [show, inventoryVisibility]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -18,6 +24,7 @@ const VisibilityModal = ({show, onClose, inventoryVisibility, inventory, updateI
         })
         onClose()
     };
+
 
     const handleChange = (value) => {
         setVisibility(value)
