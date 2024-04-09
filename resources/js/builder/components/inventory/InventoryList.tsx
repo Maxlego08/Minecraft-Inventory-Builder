@@ -1,9 +1,7 @@
 import * as React from "react";
 import {useEffect, useRef, useState} from "react";
 import InventoryHeader from './InventoryHeader'
-import Loader from "../utils/Loader";
 import api from '../../services/api';
-import InventoryCard from "./InventoryCard";
 import {Form} from "react-bootstrap";
 import InventoryTableLine from "./InventoryTableLine";
 
@@ -27,7 +25,7 @@ const InventoryList = ({folder = null}) => {
 
     const updateInventory = (inventoryId, newData) => {
         setInventories(inventories.map(inventory =>
-            inventory.id === inventoryId ? { ...inventory, ...newData } : inventory
+            inventory.id === inventoryId ? {...inventory, ...newData} : inventory
         ));
     };
 
@@ -148,7 +146,9 @@ const InventoryList = ({folder = null}) => {
                         </thead>
                         <tbody>
                         {data.map((inventory, index) => (
-                            <InventoryTableLine key={`${index}-${folder.id}`} inventory={inventory} handleDeleteInventory={handleDeleteInventory} updateInventory={updateInventory}/>
+                            <InventoryTableLine key={`${index}-${folder.id}`} inventory={inventory}
+                                                handleDeleteInventory={handleDeleteInventory}
+                                                updateInventory={updateInventory}/>
                         ))}
                         </tbody>
                     </table>

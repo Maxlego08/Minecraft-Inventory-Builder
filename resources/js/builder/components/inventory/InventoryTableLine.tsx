@@ -29,6 +29,7 @@ const InventoryCard = ({inventory, handleDeleteInventory, updateInventory}) => {
         let currentName = editedName
         if (editedName.length === 0) currentName = 'inventory'
         if (editedName.length > 100) currentName = 'too long'
+        if (oldName === currentName) return
 
         setEditedName(currentName)
         setInventoryName(currentName)
@@ -55,9 +56,24 @@ const InventoryCard = ({inventory, handleDeleteInventory, updateInventory}) => {
 
         <tr ref={wrapperRef}>
             <td>
-                <input className="form-check-input" type="checkbox" value="" id="select" />
+                <input className="form-check-input" type="checkbox" value="" id="select"/>
             </td>
-            <td>{inventory.file_name}</td>
+            <td>
+                {isEditing ? (
+                    <input
+                        type="text"
+                        minLength={1}
+                        maxLength={100}
+                        value={editedName}
+                        onChange={handleNameChange}
+                        onBlur={handleFinishEdit}
+                        className={'form-control rounded-0'}
+                        autoFocus
+                    />
+                ) : (
+                    <span className={'actions-element'} onClick={handleEditClick}>{inventoryName}</span>
+                )}
+            </td>
             <td dangerouslySetInnerHTML={{__html: inventory.name ? DOMPurify.sanitize(color.processMinecraftColorCodes(inventory.name)) : 'Inventory'}}></td>
             <td>{inventory.size}</td>
             <td>
@@ -65,22 +81,24 @@ const InventoryCard = ({inventory, handleDeleteInventory, updateInventory}) => {
             </td>
             <td>{date.formatDate(inventory.created_at)}</td>
             <td>{date.formatDate(inventory.updated_at)}</td>
-            <td className={'inventory-table-content-actions'}>
-                <a className={'actions-element'} href={`/builder/inventory/${inventory.id}#builder`}>
-                    <i className="bi bi-pencil-square"/>
-                </a>
-                <div className={'actions-element'}>
-                    <i className="bi bi-copy"/>
+            <td>
+                <div className={'inventory-table-content-actions'}>
+                    <a className={'actions-element'} href={`/builder/inventory/${inventory.id}#builder`}>
+                        <i className="bi bi-pencil-square"/>
+                    </a>
+                    <div className={'actions-element'}>
+                        <i className="bi bi-copy"/>
+                    </div>
+                    <div className={'actions-element'} onClick={handleDelete}>
+                        <i className="bi bi-trash text-danger"/>
+                    </div>
+                    <DeleteConfirmationModal
+                        show={showDeleteModal}
+                        handleClose={() => setShowDeleteModal(false)}
+                        handleConfirm={handleConfirmDelete}
+                        itemToDelete={inventory.file_name}
+                    />
                 </div>
-                <div className={'actions-element'} onClick={handleDelete}>
-                    <i className="bi bi-trash text-danger"/>
-                </div>
-                <DeleteConfirmationModal
-                    show={showDeleteModal}
-                    handleClose={() => setShowDeleteModal(false)}
-                    handleConfirm={handleConfirmDelete}
-                    itemToDelete={inventory.file_name}
-                />
             </td>
         </tr>
     )
