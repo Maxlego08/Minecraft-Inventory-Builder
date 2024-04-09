@@ -172,7 +172,7 @@ class PaymentController extends Controller
         }
 
         $paymentInfo = user()->paymentInfo;
-        $oldCurrency = '€';
+        $oldCurrency = '$';
         if (isset($paymentInfo)) {
             $oldCurrency = $paymentInfo->currency->icon;
             $paymentInfo->update([

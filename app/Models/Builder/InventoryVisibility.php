@@ -5,6 +5,11 @@ namespace App\Models\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int $id
+ * @property int $type
+ * @property string $name
+ */
 class InventoryVisibility extends Model
 {
     use HasFactory;

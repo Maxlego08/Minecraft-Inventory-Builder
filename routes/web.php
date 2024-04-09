@@ -6,6 +6,7 @@ use App\Http\Controllers\Builder\BuilderDownloadController;
 use App\Http\Controllers\Builder\BuilderHeadController;
 use App\Http\Controllers\Builder\BuilderIndexController;
 use App\Http\Controllers\Builder\BuilderInventoryController;
+use App\Http\Controllers\Builder\BuilderInventoryVisibilityController;
 use App\Http\Controllers\Builder\BuilderItemsController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\ExportDataController;
@@ -79,6 +80,7 @@ Route::prefix('/builder')->name('builder.')->middleware('auth')->group(function 
             Route::get('/{inventory}/download', [BuilderDownloadController::class, 'download'])->name('download');
             Route::post('/{inventory}/rename', [BuilderInventoryController::class, 'rename'])->name('rename');
             Route::post('/{inventory}/delete', [BuilderInventoryController::class, 'delete'])->name('delete');
+            Route::post('/{inventory}/visibility/{inventoryVisibility}', [BuilderInventoryVisibilityController::class, 'changeVisibility'])->name('visibility');
         });
         Route::prefix('/items')->name('items.')->group(function () {
             Route::get('/all', [BuilderItemsController::class, 'items'])->name('all');
