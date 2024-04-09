@@ -72,6 +72,9 @@ const InventoryCard = ({inventory, handleDeleteInventory}) => {
                 <div className={'inventory-card-actions-element'}>
                     <i className="bi bi-copy"/>
                 </div>
+                <div className={'inventory-card-actions-element'}>
+                    <i className="bi bi-eye"/>
+                </div>
                 <div className={'inventory-card-actions-element'} onClick={handleDelete}>
                     <i className="bi bi-trash text-danger"/>
                 </div>

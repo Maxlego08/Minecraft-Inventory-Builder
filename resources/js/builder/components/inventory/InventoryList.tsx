@@ -4,6 +4,7 @@ import InventoryHeader from './InventoryHeader'
 import Loader from "../utils/Loader";
 import api from '../../services/api';
 import InventoryCard from "./InventoryCard";
+import InventoryTable from "./InventoryTable";
 
 const InventoryList = ({folder = null}) => {
 
@@ -70,6 +71,7 @@ const InventoryList = ({folder = null}) => {
     return (
         <div className={'inventories'}>
             <InventoryHeader createInventory={handleCreateInventory}/>
+            <InventoryTable inventories={inventories ?? [] } folder={folder}/>
             {inventories ? (
                 <div className={'inventories-list'}>
                     {// @ts-ignore
