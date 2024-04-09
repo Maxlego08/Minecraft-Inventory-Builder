@@ -128,6 +128,7 @@ class BuilderInventoryController extends Controller
             'clear_inventory' => $validatedData['name'] === 'true',
             'user_id' => $user->id,
             'folder_id' => $folder->id,
+            'inventory_visibility_id' => 1,
         ]);
         userLog("Vient de créer l'inventaire $inventory->file_name.$inventory->id", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
 

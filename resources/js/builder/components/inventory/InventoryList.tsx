@@ -71,7 +71,7 @@ const InventoryList = ({folder = null}) => {
     return (
         <div className={'inventories'}>
             <InventoryHeader createInventory={handleCreateInventory}/>
-            <InventoryTable inventories={inventories ?? [] } folder={folder}/>
+            <InventoryTable inventories={inventories ?? [] } folder={folder} handleDeleteInventory={handleDeleteInventory}/>
             {inventories ? (
                 <div className={'inventories-list'}>
                     {// @ts-ignore
