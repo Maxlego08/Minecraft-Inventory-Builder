@@ -23,6 +23,8 @@ const VisibilityModal = ({show, onClose, inventoryVisibility, inventory, updateI
         setVisibility(value)
     }
 
+    let downloadURL = `https://zmenu.dev/d/${inventory.id}`
+
     return (
         <Modal show={show} onHide={onClose}>
             <Modal.Header closeButton>
@@ -31,17 +33,28 @@ const VisibilityModal = ({show, onClose, inventoryVisibility, inventory, updateI
             <Form onSubmit={handleSubmit}>
                 <Modal.Body>
                     <div className="form-check">
-                        <input className="form-check-input" type="radio" name="visibility" id="private" checked={visibility === 'private'} onChange={() => handleChange('private')}/>
+                        <input className="form-check-input" type="radio" name="visibility" id="private"
+                               checked={visibility === 'private'} onChange={() => handleChange('private')}/>
                         <label className="form-check-label" htmlFor="private">Private</label>
                     </div>
                     <div className="form-check">
-                        <input className="form-check-input" type="radio" name="visibility" id="unlisted" checked={visibility === 'unlisted'} onChange={() => handleChange('unlisted')}/>
+                        <input className="form-check-input" type="radio" name="visibility" id="unlisted"
+                               checked={visibility === 'unlisted'} onChange={() => handleChange('unlisted')}/>
                         <label className="form-check-label" htmlFor="unlisted">Unlisted</label>
                     </div>
                     <div className="form-check">
-                        <input className="form-check-input" type="radio" name="visibility" id="public" checked={visibility === 'public'} onChange={() => handleChange('public')}/>
+                        <input className="form-check-input" type="radio" name="visibility" id="public"
+                               checked={visibility === 'public'} onChange={() => handleChange('public')}/>
                         <label className="form-check-label" htmlFor="public">Public</label>
                     </div>
+                    {
+                        (visibility === 'unlisted' || visibility === 'public') && (
+                            <div className={'mt-3 d-flex flex-column'}>
+                                <h5 className={'text-center'}>Download Link</h5>
+                                <input type={"text"} value={downloadURL} />
+                            </div>
+                        )
+                    }
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" size="sm" onClick={onClose}>
