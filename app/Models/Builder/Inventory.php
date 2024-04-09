@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $file_name
  * @property int $size
  * @property InventoryButton[] $buttons
+ * @property InventoryVisibility $visibility
  */
 class Inventory extends Model
 {
@@ -32,6 +33,16 @@ class Inventory extends Model
     public function folder(): BelongsTo
     {
         return $this->belongsTo(Folder::class);
+    }
+
+    /**
+     * Returns the folder or inventory
+     *
+     * @return BelongsTo
+     */
+    public function visibility(): BelongsTo
+    {
+        return $this->belongsTo(InventoryVisibility::class);
     }
 
     /**

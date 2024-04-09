@@ -1,70 +1,35 @@
+import React, { useState } from "react";
 import Tooltip from "../utils/ToolTip";
 import HoverIconDisplay from "../utils/HoverIconDisplay";
-import {useState} from "react";
 import VisibilityModal from "../modals/VisibilityModal";
 
-const InventoryVisibility = ({inventory, updateInventory}) => {
-
+const InventoryVisibility = ({ inventory, updateInventory }) => {
     const [modalShow, setModalShow] = useState(false);
+    
+    const visibilityTypes = {
+        1: { label: "Private", icon: "bi-x-circle text-danger", description: "Private\nOnly you can download this inventory.\nThis video will not appear on your profile page." },
+        2: { label: "Unlisted", icon: "bi-link text-warning", description: "Unlisted\nAny user who has the link to this inventory can download it.\nThis inventory will not appear on your page, nor will it appear in search results." },
+        3: { label: "Public", icon: "bi-globe-americas text-success", description: "Public\nEveryone can view and download this inventory" },
+    };
 
-    const handleModalClose = () => setModalShow(false);
-    const handleModalShow = () => setModalShow(true);
+    const handleModalToggle = () => setModalShow(!modalShow);
 
-    const PRIVATE = 1
-    const UNLISTED = 2
-    const PUBLIC = 3
+    const visibility = visibilityTypes[inventory.inventory_visibility_id];
 
-    switch (inventory.inventory_visibility_id) {
-        case PRIVATE:
-            return (
-                <>
-                    <HoverIconDisplay onClick={handleModalShow}>
-                        <Tooltip text="Private
-                        Only you can download this inventory.
-                        This video will not appear on your profile page.">
-                            <i className="bi bi-x-circle text-danger"></i>
-                        </Tooltip>
-                        <span className={'ms-2'}>Private</span>
-                    </HoverIconDisplay>
-                    <VisibilityModal show={modalShow} onClose={handleModalClose} inventoryVisibility={'private'}
-                                     inventory={inventory} updateInventory={updateInventory}/>
-                </>
-            )
-        case UNLISTED:
-            return (
-                <>
-                    <HoverIconDisplay onClick={handleModalShow}>
-                        <Tooltip text="Unlisted
-                    Any user who has the link to this inventory can download it.
-                    This inventory will not appear on your page, nor will it appear in search results.">
-                            <i className="bi bi-link text-warning"></i>
-                        </Tooltip>
-                        <span className={'ms-2'}>Unlisted</span>
-                    </HoverIconDisplay>
-                    <VisibilityModal show={modalShow} onClose={handleModalClose} inventoryVisibility={'unlisted'}
-                                     inventory={inventory} updateInventory={updateInventory}/>
-                </>
-            )
-        case PUBLIC:
-            return (
-                <>
-                    <HoverIconDisplay onClick={handleModalShow}>
-                        <Tooltip text="Public
-                                Everyone can view and download this inventory">
-                            <i className="bi bi-globe-americas text-success"></i>
-                        </Tooltip>
-                        <span className={'ms-2'}> Public</span>
-                    </HoverIconDisplay>
-                    <VisibilityModal show={modalShow} onClose={handleModalClose} inventoryVisibility={'public'}
-                                     inventory={inventory} updateInventory={updateInventory}/>
-                </>
-            )
-        default:
-            return (
-                <div>Error</div>
-            )
-    }
+    if (!visibility) return <div>Error</div>;
 
+    return (
+        <>
+            <HoverIconDisplay onClick={handleModalToggle}>
+                <Tooltip text={visibility.description}>
+                    <i className={`bi ${visibility.icon}`}></i>
+                </Tooltip>
+                <span className="ms-2">{visibility.label}</span>
+            </HoverIconDisplay>
+            <VisibilityModal show={modalShow} onClose={handleModalToggle} inventoryVisibility={visibility.label.toLowerCase()}
+                             inventory={inventory} updateInventory={updateInventory}/>
+        </>
+    );
 }
 
-export default InventoryVisibility
+export default InventoryVisibility;
