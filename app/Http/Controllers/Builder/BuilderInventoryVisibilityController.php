@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Builder\Inventory;
 use App\Models\Builder\InventoryVisibility;
 use App\Models\UserLog;
+use Illuminate\Support\Facades\Cache;
 
 class BuilderInventoryVisibilityController extends Controller
 {
@@ -28,6 +29,8 @@ class BuilderInventoryVisibilityController extends Controller
         ]);
 
         userLog("Vient de changer la visibilité de l'inventaire $inventory->file_name.$inventory->id à $inventoryVisibility->name", UserLog::COLOR_WARNING, UserLog::ICON_EDIT);
+
+        Cache::forget('resources:mostInventories');
 
         return json_encode([
             'result' => 'success',

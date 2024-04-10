@@ -8,6 +8,7 @@ use App\Http\Controllers\Builder\BuilderIndexController;
 use App\Http\Controllers\Builder\BuilderInventoryController;
 use App\Http\Controllers\Builder\BuilderInventoryVisibilityController;
 use App\Http\Controllers\Builder\BuilderItemsController;
+use App\Http\Controllers\Builder\BuilderMarketplaceController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\ExportDataController;
 use App\Http\Controllers\FileController;
@@ -64,9 +65,11 @@ Route::prefix('/account-upgrade')->name('premium.')->group(function () {
 Route::get('/inventories/download/{inventory}', [BuilderDownloadController::class, 'downloadPublic'])->name('inventory.download');
 
 Route::prefix('/builder')->name('builder.')->middleware('auth')->group(function () {
+
     Route::get('/', [BuilderIndexController::class, 'index'])->name('index');
+    Route::get('/inventories', [BuilderMarketplaceController::class, 'inventories'])->name('inventories');
     Route::get('/inventory/{inventory}', [BuilderInventoryController::class, 'edit'])->name('edit');
-    Route::get('/test', [BuilderIndexController::class, 'test'])->name('test');
+    // Route::get('/test', [BuilderIndexController::class, 'test'])->name('test');
 
     Route::prefix('/api')->name('api.')->middleware('auth')->group(function () {
         Route::prefix('/folders')->name('folder.')->group(function () {
