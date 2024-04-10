@@ -49,7 +49,7 @@ class StripeMethod extends PaymentMethod
 
         $session = $this->createSession($paymentInfo, $user, $price, $name, $description, $content, $payment->payment_id, $logo);
 
-        userLog("Création du paiement $payment->payment_id.$payment->id", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
+        userLog("(Stripe) Création du paiement $payment->payment_id.$payment->id", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
 
         $pk_live = $paymentInfo->pk_live;
         return view('resources.purchase.stripe', ['pk_live' => $pk_live, 'payment_id' => $session->id]);
