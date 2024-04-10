@@ -1,4 +1,4 @@
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import api from "../../services/api"
 import DeleteConfirmationModal from '../modals/DeleteConfirmationModal';
 import date from '../../services/dateFormat'
@@ -13,6 +13,10 @@ const InventoryCard = ({inventory, handleDeleteInventory, updateInventory}) => {
     const [editedName, setEditedName] = useState(inventory.file_name);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const wrapperRef = useRef(null);
+
+    useEffect(() => {
+        setInventoryName(inventory.file_name)
+    }, [inventory])
 
     const handleEditClick = () => {
         setIsEditing(true);

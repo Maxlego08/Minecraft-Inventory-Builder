@@ -9,7 +9,7 @@ const InventoryList = ({folder = null}) => {
 
     const [inventories, setInventories] = useState(null);
     const [data, setData] = useState([]);
-    const [sortConfig, setSortConfig] = useState({key: 'created_at', direction: 'ascending'});
+    const [sortConfig, setSortConfig] = useState({key: 'created_at', direction: 'ascending', search: ''});
     const wrapperRef = useRef(null);
 
 
@@ -19,8 +19,9 @@ const InventoryList = ({folder = null}) => {
     }, [folder]);
 
     useEffect(() => {
-        setData(inventories ?? [])
-        // sortData('created_at')
+        if (inventories != null && inventories.length > 0) {
+            sortData(sortConfig.key, sortConfig.search, sortConfig.direction)
+        }
     }, [inventories])
 
     const updateInventory = (inventoryId, newData) => {
@@ -44,13 +45,20 @@ const InventoryList = ({folder = null}) => {
         });
     }
 
-    const sortData = (key) => {
-        let direction = 'ascending';
-        if (sortConfig.key === key && sortConfig.direction === 'ascending') {
-            direction = 'descending';
+    const toggleSortDirection = (key) => {
+        let newDirection = sortConfig.direction
+        if (key === sortConfig.key) {
+            newDirection = sortConfig.direction === 'ascending' ? 'descending' : 'ascending';
         }
 
-        const sortedData = [...data].sort((a, b) => {
+        sortData(key, sortConfig.search, newDirection)
+    };
+
+    const sortData = (key, search = '', direction = sortConfig.direction) => {
+
+        const filteredAndSortedData = [...inventories].filter(item => {
+            return search.length === 0 || (item.file_name.toLowerCase().includes(search.toLowerCase()) || item.name.toLowerCase().includes(search.toLowerCase()));
+        }).sort((a, b) => {
             if (a[key] < b[key]) {
                 return direction === 'ascending' ? -1 : 1;
             }
@@ -59,14 +67,15 @@ const InventoryList = ({folder = null}) => {
             }
             return 0;
         });
-        setData(sortedData);
-        setSortConfig({key, direction});
+
+        setData(filteredAndSortedData);
+        setSortConfig({key, direction, search});
     };
 
     const getClassName = (key) => `sort${sortConfig.key === key ? ' sort-current' : ''}`;
 
     const getArrow = (key) => sortConfig.key !== key ? '' : sortConfig.direction === 'ascending' ?
-        <i className="bi bi-arrow-down"></i> : <i className="bi bi-arrow-up"></i>
+        <i className="bi bi-arrow-down"/> : <i className="bi bi-arrow-up"/>
 
     // @ts-ignore
     const handleCreateInventory = async (formData: FormData) => {
@@ -93,10 +102,7 @@ const InventoryList = ({folder = null}) => {
         api.deleteInventory(inventoryId).then(response => {
             api.displayToast(response)
 
-            setInventories(currentInventories =>
-                // @ts-ignore
-                currentInventories.filter(inventory => inventory.id !== inventoryId)
-            );
+            setInventories(currentInventories => currentInventories.filter(inventory => inventory.id !== inventoryId));
         })
     }
 
@@ -109,15 +115,15 @@ const InventoryList = ({folder = null}) => {
 
                 <div className={'inventory-table-search'}>
                     <div className={'search-icon'}>
-                        <i className="bi bi-filter"></i>
+                        <i className="bi bi-filter"/>
                     </div>
                     <div className={'search-bar'}>
                         <Form.Control
                             type="text"
-                            value={''}
+                            value={sortConfig.search}
                             placeholder={'Filter'}
-                            onChange={(e) => {
-
+                            onChange={(event) => {
+                                sortData(sortConfig.key, event.target.value)
                             }}
                             className={'rounded-0'}
                         />
@@ -129,17 +135,19 @@ const InventoryList = ({folder = null}) => {
                         <thead>
                         <tr>
                             <th className={'select'}></th>
-                            <th className={getClassName('file_name')} onClick={() => sortData('file_name')}>File
-                                Name {getArrow('file_name')}</th>
+                            <th className={getClassName('file_name')}
+                                onClick={() => toggleSortDirection('file_name')}>File Name {getArrow('file_name')}</th>
                             <th className={getClassName('name')}
-                                onClick={() => sortData('name')}>Name {getArrow('name')}</th>
+                                onClick={() => toggleSortDirection('name')}>Name {getArrow('name')}</th>
                             <th className={getClassName('size')}
-                                onClick={() => sortData('size')}>Size {getArrow('size')}</th>
+                                onClick={() => toggleSortDirection('size')}>Size {getArrow('size')}</th>
                             <th className={getClassName('inventory_visibility_id')} style={{width: '150px'}}
-                                onClick={() => sortData('inventory_visibility_id')}>Visibility {getArrow('inventory_visibility_id')}</th>
-                            <th className={getClassName('created_at')} onClick={() => sortData('created_at')}>Created
+                                onClick={() => toggleSortDirection('inventory_visibility_id')}>Visibility {getArrow('inventory_visibility_id')}</th>
+                            <th className={getClassName('created_at')}
+                                onClick={() => toggleSortDirection('created_at')}>Created
                                 at {getArrow('created_at')}</th>
-                            <th className={getClassName('updated_at')} onClick={() => sortData('updated_at')}>Updated
+                            <th className={getClassName('updated_at')}
+                                onClick={() => toggleSortDirection('updated_at')}>Updated
                                 at {getArrow('updated_at')}</th>
                             <th>Action</th>
                         </tr>

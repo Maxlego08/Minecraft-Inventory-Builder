@@ -150,8 +150,15 @@ class BuilderInventoryController extends Controller
     {
 
         $rules = [
-            'file_name' => 'required|string|max:100|min:3',
+            'file_name' => [
+                'required',
+                'string',
+                'max:100',
+                'min:3',
+                'regex:/^[a-zA-Z0-9\-_]{3,100}$/'
+            ],
         ];
+
 
         $validator = Validator::make($request->all(), $rules);
 
