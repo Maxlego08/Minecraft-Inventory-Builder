@@ -30,7 +30,6 @@ const InventoryList = ({folder = null}) => {
         ));
     };
 
-
     const fetchInventories = () => {
 
         if (!folder) return
