@@ -193,6 +193,7 @@ Route::prefix('resources')->name('resources.')->group(function () {
         Route::get('download/{resource}/{version}', [ResourceDownloadController::class, 'download'])->name('download');
 
         Route::get('purchased', [ResourcePurchaseController::class, 'purchased'])->name('purchased');
+        Route::get('purchased/{payment:payment_id}', [ResourcePurchaseController::class, 'paymentDetails'])->name('purchased.payment');
 
         // Review
         Route::prefix('review/')->name('review.')->group(function () {

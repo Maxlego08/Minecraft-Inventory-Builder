@@ -22,7 +22,7 @@ if (!function_exists('format_date')) {
     function format_date(Carbon $date, bool $fullTime = false, string $locale = 'en_US'): string
     {
         $date->locale($locale);
-        return $date->translatedFormat(($fullTime ? 'j F Y \à G:i' : 'j F Y'));
+        return $date->translatedFormat(($fullTime ? 'j F Y \a\t G:i' : 'j F Y'));
     }
 }
 
