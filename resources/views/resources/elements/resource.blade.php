@@ -21,7 +21,7 @@
             </h3>
             <div class="text-muted fw-light fs-8 d-flex">
                 <div>
-                    <a class="text-danger text-decoration-none" href="{{ $resource->user->authorPage() }}">{!! $resource->cache('user')->displayName() !!}</a>
+                    <a class="text-danger text-decoration-none" href="{{ $resource->cache('user')->authorPage() }}">{!! $resource->cache('user')->displayName() !!}</a>
                 </div>
                 , {{ format_date($resource->created_at) }}, <span>{{ $resource->cache('category')->name }}</span>
             </div>

@@ -128,6 +128,7 @@ class BuilderInventoryController extends Controller
             'clear_inventory' => $validatedData['name'] === 'true',
             'user_id' => $user->id,
             'folder_id' => $folder->id,
+            'inventory_visibility_id' => 1,
         ]);
         userLog("Vient de créer l'inventaire $inventory->file_name.$inventory->id", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
 
@@ -149,8 +150,15 @@ class BuilderInventoryController extends Controller
     {
 
         $rules = [
-            'file_name' => 'required|string|max:100|min:3',
+            'file_name' => [
+                'required',
+                'string',
+                'max:100',
+                'min:3',
+                'regex:/^[a-zA-Z0-9\-_]{3,100}$/'
+            ],
         ];
+
 
         $validator = Validator::make($request->all(), $rules);
 
@@ -171,7 +179,7 @@ class BuilderInventoryController extends Controller
 
         $inventory->update($request->all());
 
-        userLog("Vient de créer de renommer l'inventaire $inventory->file_name.$inventory->id", UserLog::COLOR_SUCCESS, UserLog::ICON_EDIT);
+        userLog("Vient de renommer l'inventaire $inventory->file_name.$inventory->id", UserLog::COLOR_SUCCESS, UserLog::ICON_EDIT);
 
         return json_encode([
             'result' => 'success',

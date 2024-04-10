@@ -1,9 +1,12 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import { Modal, Button } from 'react-bootstrap';
 
 const DeleteConfirmationModal = ({ show, handleClose, handleConfirm, itemToDelete }) => {
+
+    const wrapperRef = useRef(itemToDelete);
+
     return (
-        <Modal show={show} onHide={handleClose}>
+        <Modal show={show} onHide={handleClose} ref={wrapperRef}>
             <Modal.Header closeButton>
                 <Modal.Title>Confirm Deletion</Modal.Title>
             </Modal.Header>

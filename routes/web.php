@@ -6,7 +6,9 @@ use App\Http\Controllers\Builder\BuilderDownloadController;
 use App\Http\Controllers\Builder\BuilderHeadController;
 use App\Http\Controllers\Builder\BuilderIndexController;
 use App\Http\Controllers\Builder\BuilderInventoryController;
+use App\Http\Controllers\Builder\BuilderInventoryVisibilityController;
 use App\Http\Controllers\Builder\BuilderItemsController;
+use App\Http\Controllers\Builder\BuilderMarketplaceController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\ExportDataController;
 use App\Http\Controllers\FileController;
@@ -60,10 +62,14 @@ Route::prefix('/account-upgrade')->name('premium.')->group(function () {
     });
 });
 
+Route::get('/inventories/download/{inventory}', [BuilderDownloadController::class, 'downloadPublic'])->name('inventory.download');
+
 Route::prefix('/builder')->name('builder.')->middleware('auth')->group(function () {
+
     Route::get('/', [BuilderIndexController::class, 'index'])->name('index');
+    Route::get('/inventories', [BuilderMarketplaceController::class, 'inventories'])->name('inventories');
     Route::get('/inventory/{inventory}', [BuilderInventoryController::class, 'edit'])->name('edit');
-    Route::get('/test', [BuilderIndexController::class, 'test'])->name('test');
+    // Route::get('/test', [BuilderIndexController::class, 'test'])->name('test');
 
     Route::prefix('/api')->name('api.')->middleware('auth')->group(function () {
         Route::prefix('/folders')->name('folder.')->group(function () {
@@ -79,6 +85,7 @@ Route::prefix('/builder')->name('builder.')->middleware('auth')->group(function 
             Route::get('/{inventory}/download', [BuilderDownloadController::class, 'download'])->name('download');
             Route::post('/{inventory}/rename', [BuilderInventoryController::class, 'rename'])->name('rename');
             Route::post('/{inventory}/delete', [BuilderInventoryController::class, 'delete'])->name('delete');
+            Route::post('/{inventory}/visibility/{inventoryVisibility}', [BuilderInventoryVisibilityController::class, 'changeVisibility'])->name('visibility');
         });
         Route::prefix('/items')->name('items.')->group(function () {
             Route::get('/all', [BuilderItemsController::class, 'items'])->name('all');

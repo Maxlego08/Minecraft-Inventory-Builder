@@ -137,7 +137,7 @@ if (!function_exists('replaceDependency')) {
     {
         return match (str_replace(',', '', strtolower($string))) {
             "zmenu" => "<a href='https://minecraft-inventory-builder.com/resources/1' target='_blank'>$string</a>",
-            "itemadder" => "<a href='https://www.spigotmc.org/resources/73355/' target='_blank'>$string</a>",
+            "itemadder", "itemadders" => "<a href='https://www.spigotmc.org/resources/73355/' target='_blank'>$string</a>",
             "hdb", "headdatabase" => "<a href='https://www.spigotmc.org/resources/14280/' target='_blank'>$string</a>",
             "oraxen" => "<a href='https://www.spigotmc.org/resources/72448/' target='_blank'>$string</a>",
             "zauctionhouse" => "<a href='https://www.spigotmc.org/resources/63010/' target='_blank'>$string</a>",

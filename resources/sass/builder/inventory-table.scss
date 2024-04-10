@@ -1,0 +1,64 @@
+.inventory-table {
+
+    &-search {
+
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        padding: 5px 5px 0;
+
+        .search-icon {
+            padding: 0 10px 0 5px;
+            font-size: 30px;
+        }
+
+        .search-bar {
+            width: 100%;
+        }
+
+
+    }
+
+    hr {
+        margin: 0.5em 0 !important;
+    }
+
+    &-content {
+
+
+        td, th {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        th {
+            font-size: 0.85em !important;
+            font-weight: unset !important;
+            color: #929292;
+        }
+
+        .sort {
+            cursor: pointer;
+
+            &-current {
+                font-weight: bold !important;
+                color: white;
+            }
+        }
+
+
+        .select {
+            width: 20px;
+        }
+
+        &-actions {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .actions-element {
+            cursor: pointer;
+        }
+
+    }
+
+}

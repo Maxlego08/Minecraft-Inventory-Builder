@@ -15,6 +15,12 @@
         </div>
     </div>
 
+    <div class="p-4 d-flex justify-content-center align-items-center flex-column">
+        <a href="{{ route('builder.inventories') }}" class="btn btn-secondary mb-2">Inventory MarketPlace</a>
+        <span>Discover the list of inventories of other users. Share your inventories by making them public !</span>
+        <span>Use the <strong>/zmenu download [link]</strong> command to download inventories quickly !</span>
+    </div>
+
     <div id="builder">
         <div class="builder">
         </div>

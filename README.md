@@ -35,7 +35,8 @@ Thing to develop to open the site
 * [ ] Mistletoe presets for the glass
 * [ ] Added a way to have a tutorial on how to use the builder
 * [x] Be able to move in the inventory with the directional keys
-* [ ] Ability to navigate between multiple pages
+* [x] Ability to navigate between multiple pages
+* [ ] To be able to put your inventory in public, unregistered and private. If the inventory is public it will be listed on the public inventory page. If it is not listed it will be accessible only from a link.
 
 # How do I contribute?
 

@@ -34,6 +34,39 @@ class ResourcePagination
         });
     }
 
+    /**
+     * Retourne la liste des inventaires les plus stylés
+     *
+     * @return mixed
+     */
+    public static function mostInventoriesPagination(): mixed
+    {
+        return Cache::remember('resources:mostInventories', 86400, function () {
+            $mostInventoriesUsers = ResourcePagination::mostInventories();
+            $mostInventories = [];
+            foreach ($mostInventoriesUsers as $user) {
+                $mostInventories[] = ['name' => $user->displayNameAndLink(), 'url' => $user->authorPage(), 'count' => $user->inventories_count, 'image' => $user->getProfilePhotoUrlAttribute(),];
+            }
+            return $mostInventories;
+        });
+    }
+
+    public static function mostInventories()
+    {
+        return User::select('users.name', 'users.id', 'users.profile_photo_path', 'users.user_role_id', 'users.name_color_id')
+            ->addSelect(DB::raw("COUNT(`inventories`.`id`) AS `inventories_count`"))
+            ->join('inventories', 'inventories.user_id', '=', 'users.id')
+            ->where('inventories.inventory_visibility_id', 3)
+            ->groupBy('inventories.user_id')
+            ->groupBy('users.id')
+            ->groupBy('users.name')
+            ->groupBy('users.profile_photo_path')
+            ->groupBy('users.user_role_id')
+            ->groupBy('users.name_color_id')
+            ->orderBy('inventories_count', 'DESC')
+            ->limit(5)->get();
+    }
+
     public static function mostResources()
     {
         return User::select('users.name', 'users.id', 'users.profile_photo_path', 'users.user_role_id', 'users.name_color_id')

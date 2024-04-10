@@ -105,6 +105,11 @@ const renameInventory = (inventoryId, fileName) => {
     return apiClient.post(`/inventories/${inventoryId}/rename`, formData);
 }
 
+const changeInventoryVisibility = (inventoryId, visibilityId) => {
+    const formData = new FormData()
+    return apiClient.post(`/inventories/${inventoryId}/visibility/${visibilityId}`, formData);
+}
+
 const deleteInventory = (inventoryId) => {
     return apiClient.post(`/inventories/${inventoryId}/delete`);
 }
@@ -124,6 +129,7 @@ const apiFunctions = {
     deleteInventory,
     fetchHeads,
     getHeadUrl,
+    changeInventoryVisibility,
 };
 
 export default apiFunctions;
