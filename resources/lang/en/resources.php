@@ -403,7 +403,8 @@ return [
             'date' => 'Date',
             'earning' => 'Earnings',
             'details' => 'Details',
-            'transaction_details' => 'Transaction details'
+            'transaction_details' => 'Transaction details',
+            'price' => 'Price'
         ]
     ],
     'author' => [
@@ -412,5 +413,9 @@ return [
             'user' => 'User',
             'date' => 'Followed on'
         ],
-    ]
+    ],
+    'purchased' => [
+        'title' => 'Purchased Resources',
+        'description' => 'Find all the resources you bought or have access to.'
+    ],
 ];

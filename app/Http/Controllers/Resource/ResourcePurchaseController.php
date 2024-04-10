@@ -178,9 +178,45 @@ class ResourcePurchaseController extends Controller
     public function purchased(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
 
-        $mostResources = ResourcePagination::mostResourcesPagination();
-        $pagination = ResourcePagination::paginateUserAccessibleResources();
-        return view('resources.index', ['resources' => $pagination, 'categories' => $this->categories(), 'mostResources' => $mostResources,]);
+        $accesses = user()->accesses;
+        return view('resources.users.purchased', ['accesses' => $accesses]);
+    }
+
+    /**
+     * Afficher le détail d'un paiement
+     *
+     * @param Payment $payment
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|View|Application
+     */
+    public function paymentDetails(Payment $payment): Application|View|Factory|\Illuminate\Contracts\Foundation\Application
+    {
+        $currency = "eur";
+        $name = "";
+        $gift = $payment->gift;
+        $contentPrice = $payment->price;
+        $price = $payment->price;
+        $giftReduction = 0;
+        if ($payment->type == Payment::TYPE_RESOURCE) {
+            $resource = $payment->resource;
+            $contentPrice = $resource->price;
+            $currency = $payment->currency->currency;
+            $name = $resource->name;
+        }
+
+        if (isset($gift)) {
+            $giftReduction = ($contentPrice * $gift->reduction) / 100;
+            $price = $contentPrice - $giftReduction;
+        }
+
+        return view('resources.users.details', [
+            'payment' => $payment,
+            'price' => $price,
+            'name' => $name,
+            'currency' => $currency,
+            'gift' => $gift,
+            'giftReduction' => $giftReduction,
+            'contentPrice' => $contentPrice,
+        ]);
     }
 
 }
