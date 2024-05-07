@@ -11,7 +11,7 @@ class HeadController extends Controller
     public function heads()
     {
 
-        $values = Cache::remember("heads:json", 10, function (){
+        $values = Cache::remember("heads:json", 86400, function (){
 
             $result = [];
             $heads = Head::whereNotNull('category')->get();

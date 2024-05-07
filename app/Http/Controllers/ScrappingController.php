@@ -16,7 +16,7 @@ class ScrappingController extends Controller
 {
     public function index(): string
     {
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 88169; $i++) {
             ScrappingJob::dispatch($i);
         }
         return "ok";
@@ -24,9 +24,11 @@ class ScrappingController extends Controller
 
     public function index2(): string
     {
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 74127; $i <= 88169; $i++) {
             try {
-                Head::create(self::fetchUrl($i, new Client()));
+                $result = self::fetchUrl($i, new Client());
+                dd($result);
+                Head::create($result);
             } catch (Exception) {
             }
         }
@@ -74,6 +76,17 @@ class ScrappingController extends Controller
         }
 
         return "Échec du téléchargement de l'image.";
+    }
+
+    public function deleteAllData()
+    {
+        $heads = Head::where('created_at', '>=', '2024-04-18 00:00:00')->get();
+        foreach ($heads as $head) {
+            $imageName = basename($head->image_url);
+            Storage::delete("public/images/head/{$imageName}");
+            Storage::delete("public/images/head/{$head->image_name}");
+            $head->delete();
+        }
     }
 
     public function updateOtherValues(): string
