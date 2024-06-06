@@ -62,7 +62,7 @@ class Resource extends Model implements Likeable
         'donation_link', 'discord_server_id',
         'bstats_id', 'contributors', 'required_dependencies',
         'optional_dependencies', 'link_information', 'link_support', 'versions',
-        'version_base_mc', 'lang_support'];
+        'version_base_mc', 'lang_support', 'subscription'];
 
     /**
      * The icon
