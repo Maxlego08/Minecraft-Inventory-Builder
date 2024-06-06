@@ -22,10 +22,15 @@ class StatisticController extends Controller
         $inventories = Inventory::count();
         $inventoriesWithButtons = Inventory::whereHas('buttons')->count();
         $verifiedUsers = User::whereNotNull('email_verified_at')->count();
+        $premiums = User::where('user_role_id', 3)->count();
+        $pros = User::where('user_role_id', 4)->count();
+
         return view('admins.statistic.index', [
             'inventories' => $inventories,
             'inventoriesWithButtons' => $inventoriesWithButtons,
             'verifiedUsers' => $verifiedUsers,
+            'premiums' => $premiums,
+            'pros' => $pros,
         ]);
     }
 }
