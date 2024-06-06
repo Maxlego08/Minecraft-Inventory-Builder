@@ -85,6 +85,7 @@ Route::prefix('/builder')->name('builder.')->middleware('auth')->group(function 
             Route::get('/{inventory}/download', [BuilderDownloadController::class, 'download'])->name('download');
             Route::post('/{inventory}/rename', [BuilderInventoryController::class, 'rename'])->name('rename');
             Route::post('/{inventory}/delete', [BuilderInventoryController::class, 'delete'])->name('delete');
+            Route::post('/{inventory}/copy', [BuilderInventoryController::class, 'copy'])->name('copy');
             Route::post('/{inventory}/visibility/{inventoryVisibility}', [BuilderInventoryVisibilityController::class, 'changeVisibility'])->name('visibility');
         });
         Route::prefix('/items')->name('items.')->group(function () {
