@@ -91,9 +91,30 @@ const InventoryList = ({folder = null}) => {
                 ]);
             }
         } catch (error) {
-            console.error("Error deleting folder:", error);
+            console.error("Error creating folder:", error);
             // @ts-ignore
-            window.toast('error', 'Error !', `Error deleting folder: ${error}`, 5000)
+            window.toast('error', 'Error !', `Error creating folder: ${error}`, 5000)
+        }
+    }
+
+    // @ts-ignore
+    const handleCopyInventory = async (inventoryId) => {
+        try {
+            const response = await api.copyInventory(inventoryId)
+            api.displayToast(response)
+
+            if (response.data.result === 'success') {
+                // @ts-ignore
+                setInventories(currentInventories => [
+                    // @ts-ignore
+                    ...currentInventories,
+                    response.data.inventory
+                ]);
+            }
+        } catch (error) {
+            console.error("Error coping folder:", error);
+            // @ts-ignore
+            window.toast('error', 'Error !', `Error coping folder: ${error}`, 5000)
         }
     }
 
@@ -155,6 +176,7 @@ const InventoryList = ({folder = null}) => {
                         {data.map((inventory, index) => (
                             <InventoryTableLine key={`${index}-${folder.id}`} inventory={inventory}
                                                 handleDeleteInventory={handleDeleteInventory}
+                                                handleCopyInventory={handleCopyInventory}
                                                 updateInventory={updateInventory}/>
                         ))}
                         </tbody>

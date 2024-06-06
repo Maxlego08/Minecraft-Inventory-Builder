@@ -114,6 +114,10 @@ const deleteInventory = (inventoryId) => {
     return apiClient.post(`/inventories/${inventoryId}/delete`);
 }
 
+const copyInventory = (inventoryId) => {
+    return apiClient.post(`/inventories/${inventoryId}/copy`);
+}
+
 const apiFunctions = {
     fetchFolders,
     deleteFolder,
@@ -127,6 +131,7 @@ const apiFunctions = {
     getDownloadUrl,
     renameInventory,
     deleteInventory,
+    copyInventory,
     fetchHeads,
     getHeadUrl,
     changeInventoryVisibility,

@@ -1,17 +1,19 @@
 import {useEffect, useRef, useState} from "react";
 import api from "../../services/api"
 import DeleteConfirmationModal from '../modals/DeleteConfirmationModal';
+import CopyConfirmationModal from '../modals/CopyConfirmationModal';
 import date from '../../services/dateFormat'
 import color from '../../services/minecraftColor'
 import InventoryVisibility from "./InventoryVisibility";
 import DOMPurify from 'dompurify';
 
-const InventoryCard = ({inventory, handleDeleteInventory, updateInventory}) => {
+const InventoryCard = ({inventory, handleDeleteInventory, handleCopyInventory, updateInventory}) => {
 
     const [inventoryName, setInventoryName] = useState(inventory.file_name);
     const [isEditing, setIsEditing] = useState(false);
     const [editedName, setEditedName] = useState(inventory.file_name);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [showCopyModal, setShowCopyModal] = useState(false);
     const wrapperRef = useRef(null);
 
     useEffect(() => {
@@ -51,9 +53,19 @@ const InventoryCard = ({inventory, handleDeleteInventory, updateInventory}) => {
         setShowDeleteModal(true);
     }
 
+    const handleCopy = (event) => {
+        event.stopPropagation()
+        setShowCopyModal(true);
+    }
+
     const handleConfirmDelete = () => {
         setShowDeleteModal(false);
         handleDeleteInventory(inventory.id)
+    };
+
+    const handleConfirmCopy = () => {
+        setShowCopyModal(false);
+        handleCopyInventory(inventory.id)
     };
 
     return (
@@ -90,7 +102,7 @@ const InventoryCard = ({inventory, handleDeleteInventory, updateInventory}) => {
                     <a className={'actions-element'} href={`/builder/inventory/${inventory.id}#builder`}>
                         <i className="bi bi-pencil-square"/>
                     </a>
-                    <div className={'actions-element'}>
+                    <div className={'actions-element'} onClick={handleCopy}>
                         <i className="bi bi-copy"/>
                     </div>
                     <div className={'actions-element'} onClick={handleDelete}>
@@ -100,6 +112,12 @@ const InventoryCard = ({inventory, handleDeleteInventory, updateInventory}) => {
                         show={showDeleteModal}
                         handleClose={() => setShowDeleteModal(false)}
                         handleConfirm={handleConfirmDelete}
+                        itemToDelete={inventory.file_name}
+                    />
+                    <CopyConfirmationModal
+                        show={showCopyModal}
+                        handleClose={() => setShowCopyModal(false)}
+                        handleConfirm={handleConfirmCopy}
                         itemToDelete={inventory.file_name}
                     />
                 </div>

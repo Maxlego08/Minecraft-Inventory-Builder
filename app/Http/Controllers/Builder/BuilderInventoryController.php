@@ -276,7 +276,7 @@ class BuilderInventoryController extends Controller
                     'name' => $name,
                     'messages' => Str::limit($this->cleanSlotValue($slot, 'messages'), 65535),
                     'display_name' => Str::limit($this->cleanSlotValue($slot, 'display_name'), 65535),
-                    'lore' => Str::limit( $this->cleanSlotValue($slot, 'lore'), 65535),
+                    'lore' => Str::limit($this->cleanSlotValue($slot, 'lore'), 65535),
                     'is_permanent' => $this->getBoolean($slot, 'is_permanent'),
                     'close_inventory' => $this->getBoolean($slot, 'close_inventory'),
                     'refresh_on_click' => $this->getBoolean($slot, 'refresh_on_click'),
@@ -351,6 +351,34 @@ class BuilderInventoryController extends Controller
         return json_encode([
             'result' => 'success',
             'toast' => createToast('success', 'Success', 'Inventory successfully deleted.', 5000)
+        ]);
+    }
+
+    public function copy(Inventory $inventory): bool|string
+    {
+        $user = user();
+        if ($inventory->user_id != $user->id && !$user->isAdmin()) {
+            return json_encode([
+                'result' => 'error',
+                'toast' => createToast('error', 'Error', 'Cannot use this folder.', 5000)
+            ]);
+        }
+
+        $newInventory = $inventory->replicate();
+        $newInventory->save();
+
+        foreach ($inventory->buttons as $button) {
+            $newButton = $button->replicate();
+            $newButton->inventory_id = $newInventory->id;
+            $newButton->save();
+        }
+
+        userLog("Vient de copier l'inventaire $inventory->file_name.$inventory->id", UserLog::COLOR_SUCCESS, UserLog::ICON_CODE);
+
+        return json_encode([
+            'result' => 'success',
+            'inventory' => $newInventory,
+            'toast' => createToast('success', 'Success', 'Inventory successfully copied.', 5000)
         ]);
     }
 
