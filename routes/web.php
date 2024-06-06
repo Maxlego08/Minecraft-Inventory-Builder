@@ -36,6 +36,7 @@ use App\Http\Controllers\Resource\ResourceReviewController;
 use App\Http\Controllers\Resource\ResourceUpdateController;
 use App\Http\Controllers\Resource\ResourceVersionController;
 use App\Http\Controllers\Resource\ResourceViewController;
+use App\Http\Controllers\SubscriptionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -281,4 +282,8 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('export/data/to/json', [ExportDataController::class, 'index'])->name('export.data.json');
+});
+
+Route::prefix('subscribe')->name('subscribe.')->group(function () {
+    Route::get('/', [SubscriptionController::class, 'index'])->name('index');
 });

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Log;
 use App\Models\Payment\Gift;
 use App\Models\Resource\Resource;
 use App\Models\User;
