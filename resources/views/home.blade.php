@@ -72,6 +72,15 @@
                     </div>
                 </div>
             </div>
+            <section>
+                <div class=shufflevideo>
+                    <iframe width="820" height="460" src="https://www.youtube.com/embed/spxnyY7lY0Q?si=ijpYz0OCcmHK67xf"
+                            title="YouTube video player" border="0" allow="accelerometer; clipboard-write;
+                                encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"
+                            allowfullscreen>
+                    </iframe>
+                </div>
+            </section>
         </article>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 270"
              fill="none">
