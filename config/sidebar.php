@@ -76,6 +76,12 @@ return [
                     'icon' => 'fas fa-chart-line',
                     'power' => UserRole::ADMIN
                 ],
+                'videos' => [
+                    'name' => "Vidéos",
+                    'route'=> 'admin.videos.index',
+                    'icon' => 'fas fa-video',
+                    'power' => UserRole::ADMIN
+                ]
             ],
 
         ],
