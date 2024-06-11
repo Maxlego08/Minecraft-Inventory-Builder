@@ -19,7 +19,7 @@ class IndexController extends Controller
         $resource = Cache::remember('resource:index', 86400, function () {
             return Resource::first();
         });
-        $video = Video::getRandomVideo();
+        // $video = Video::getRandomVideo();
         return view('home', [
             'resource' => $resource,
         ]);

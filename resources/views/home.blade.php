@@ -72,58 +72,6 @@
                     </div>
                 </div>
             </div>
-            <section id="video">
-                    <div class="shuffleVideo">
-                            <!--img src="https://img.youtube.com/vi/spxnyY7lY0Q/hqdefault.jpg" alt="Miniature de la vidéo"-->
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/spxnyY7lY0Q&amp;autoplay=1" srcdoc="<style>*{
-    padding:0;
-    margin:0;
-    overflow:hidden
-}
-html,body{
-    height:100%
-}
-
-img,span{
-    position:absolute;
-    width:100%;
-    top:0;
-    bottom:0;
-    margin:auto
-}
-
-span{
-    height:1.5em;
-    text-align:center;
-    font:48px/1.5 sans-serif;
-    color:white;
-    text-shadow:0 0 0.5em black
-}
-</style>
-<a href=https://www.youtube.com/embed/spxnyY7lY0Q?autoplay=1>
-    <img src=https://img.youtube.com/vi/spxnyY7lY0Q/hqdefault.jpg alt='Trailer'>
-    <span>▶</span>
-</a>" frameborder="0" title="Trailer du serveur Craftok"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="">
-                        </iframe>
-                        </div>
-            </section>
-
-            <!--section id="video">
-                <div class="shuffleVideo">
-                    <iframe
-                    src="https://www.youtube.com/embed/spxnyY7lY0Q?enablejsapi=1;
-                    autoplay=1" srcdoc="
-    <a href=https://www.youtube.com/embed/spxnyY7lY0Q?autoplay=1>
-        <img src=https://img.youtube.com/vi/spxnyY7lY0Q/hqdefault.jpg alt='ZmenuVideo'>
-        <span>▶</span>
-    </a>" frameborder="0" title="Videos du Zmenu"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen>
-                    </iframe>
-                </div>
-            </section-->
-
         </article>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 270"
              fill="none">
