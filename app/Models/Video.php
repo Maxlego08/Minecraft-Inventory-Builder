@@ -9,4 +9,10 @@ class Video extends Model
 {
     use HasFactory;
     protected $fillable = ['url'];
+
+
+    public static function getRandomVideo()
+    {
+        return self::inRandomOrder()->first();
+    }
 }

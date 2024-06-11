@@ -41,7 +41,9 @@
                         <thead>
                         @foreach ($videos as $video)
                             <tr>
-                                <td>{{ $video->create}}</td>
+                                <td>
+                                    {{ format_date($video->created_at) }}
+                                </td>
                                 <td> {{$video->url}}</td>
                                 <td>
                                     <a href="{{ route('admin.videos.delete', $video) }}"

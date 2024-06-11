@@ -23,7 +23,6 @@ class VideoController extends Controller
     //
     public function create()
     {
-
         return view('admins.videos.create');
     }
 
@@ -33,6 +32,9 @@ class VideoController extends Controller
         // Valider les données du formulaire
         $this->validate($request, [
             'url' => ['required', 'string', 'unique:videos,url'],
+        ]);
+        Video::create ([
+            'url'=> $request->input('url'),
         ]);
         return Redirect::route("admin.videos.index");
     }
