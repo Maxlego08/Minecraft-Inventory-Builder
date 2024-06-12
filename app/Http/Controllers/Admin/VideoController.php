@@ -10,19 +10,22 @@ use Illuminate\Support\Facades\Redirect;
 
 class VideoController extends Controller
 {
+
+
     public function index()
     {
         $videos = Video::orderBy('created_at', 'DESC')->paginate();
         return view('admins.videos.index', [
             'videos' => $videos,
-        ]);
 
+        ]);
 
     }
 
     //
     public function create()
     {
+
         return view('admins.videos.create');
     }
 
@@ -43,4 +46,6 @@ class VideoController extends Controller
         $video->delete();
         return Redirect::route("admin.videos.index");
     }
+
+
 }

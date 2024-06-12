@@ -35,6 +35,8 @@
                         <tr>
                             <th>Dates de création</th>
                             <th>Lien vers la vidéo</th>
+                            <th>ID de la vidéo</th>
+                            <th>Code de la vidéo</th>
                         </tr>
                         </thead>
 
@@ -45,6 +47,8 @@
                                     {{ format_date($video->created_at) }}
                                 </td>
                                 <td> {{$video->url}}</td>
+                                <td> {{$video->id}}</td>
+                                <td> {{getYoutubeVideoId($video->url)}}</td>
                                 <td>
                                     <a href="{{ route('admin.videos.delete', $video) }}"
                                        class="mx-1"

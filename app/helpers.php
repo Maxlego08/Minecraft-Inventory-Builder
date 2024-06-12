@@ -365,3 +365,4 @@ if (!function_exists('replaceUrl')) {
         return str_replace("?page={$page}", "/page/{$page}", $url);
     }
 }
+
