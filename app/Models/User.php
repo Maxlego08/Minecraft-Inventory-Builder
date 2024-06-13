@@ -37,7 +37,9 @@ use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 
+
 /**
+ *
  * Class User
  * @package App\Models
  * @property int $id
@@ -87,14 +89,14 @@ class User extends Authenticate implements MustVerifyEmail
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'email', 'password', 'user_role_id', 'name_color_id', 'enable_conversation'];
+    protected $fillable = ['name', 'email', 'password', 'user_role_id', 'name_color_id', 'enable_conversation', 'newsletter_active', 'unsubscribe_key'];
 
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
      */
-    protected $hidden = ['password', 'remember_token',];
+    protected $hidden = ['password', 'remember_token'];
 
     /**
      * The attributes that should be cast.
@@ -510,6 +512,31 @@ class User extends Authenticate implements MustVerifyEmail
     {
         return $this->hasMany(Notification::class);
     }
+
+
+
+    public function Newsletter ()
+    {
+        return $this->hasOne(Newsletter::class);
+    }
+
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($users) {
+            if (empty($users->unsubscribe_key)){
+                $users->unsubscribe_key = Str::random(64);
+            }
+        });
+    }
+
+
+
+
+
+
 
     public function isAdmin(): bool
     {
