@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
+ * @property int $id
  * @property string $name
  * @property string $slot
  * @property Item $item
@@ -30,6 +31,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $button_data
  * @property ButtonType $buttonType
  * @property Head $head
+ * @method static InventoryButton[] all()
  */
 class InventoryButton extends Model
 {
