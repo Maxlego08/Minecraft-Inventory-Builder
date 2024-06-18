@@ -70,10 +70,7 @@
                                                 <i class="bi bi-currency-euro"></i> {{ __('payment.nav') }}</a>
                                         </li>
 
-                                        <li class="list-group-item mb-2">
-                                            <a href="{{ route('newsletter.index') }}"><i
-                                                    class="bi bi-envelope-paper"></i> {{ __('newsletter') }}</a>
-                                        </li>
+
 
 
 

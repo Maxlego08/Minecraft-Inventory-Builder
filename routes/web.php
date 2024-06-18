@@ -290,8 +290,10 @@ Route::prefix('subscribe')->name('subscribe.')->group(function () {
     Route::get('/', [SubscriptionController::class, 'index'])->name('index');
 });
 
+
+//Newsletter
 Route::middleware(['auth'])->group(function () {
     Route::get('/newsletter', [NewsletterController::class, 'index'])->name('newsletter.index');
-    Route::post('/newsletter/active', [NewsletterController::class, 'active'])->name('newsletter.active');
-    Route::post('/newsletter/inactive', [NewsletterController::class, 'inactive'])->name('newsletter.inactive');
+    Route::post('/newsletter/active', [NewsletterController::class, 'newsletterActive'])->name('newsletter.active');
+    Route::post('/newsletter/inactive', [NewsletterController::class, 'newsletterInactive'])->name('newsletter.inactive');
 });

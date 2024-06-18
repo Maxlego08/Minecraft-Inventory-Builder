@@ -1,4 +1,4 @@
-@extends('resources.layouts.dashboard')
+ @extends('resources.layouts.dashboard')
 
 @section('title', __('resources.dashboard.resource.title'))
 
