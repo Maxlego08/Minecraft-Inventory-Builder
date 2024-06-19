@@ -17,8 +17,11 @@ return new class extends Migration
             $table->boolean('newsletter_active')->default(true);
             $table->timestamp('newsletter_at')->nullable();
             $table->string('newsletter_key', 64)->unique()->nullable();
+
+
             //
         });
+
     }
 
     /**
@@ -30,6 +33,7 @@ return new class extends Migration
             $table->dropColumn('newsletter_active');
             $table->dropColumn('newsletter_at');
             $table->dropColumn('newsletter_key');
+
             //
         });
     }

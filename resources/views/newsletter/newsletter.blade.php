@@ -13,7 +13,7 @@
                 <form action="{{ route('newsletter.inactive') }}" method="POST">
                     @csrf
                     <div class="d-flex justify-content-center">
-                        <button type="submit" class="btn btn-danger">Se désabonner à la newsletter</button>
+                        <button type="submit" class="btn btn-danger">Unsubscribe</button>
                     </div>
 
                 </form>
@@ -21,7 +21,7 @@
                 <form action="{{ route('newsletter.active') }}" method="POST">
                     @csrf
                     <div class="d-flex justify-content-center">
-                        <button type="submit" class="btn btn-success">S'abonner à la newsletter</button>
+                        <button type="submit" class="btn btn-success">Subscribe</button>
                     </div>
                 </form>
             @endif

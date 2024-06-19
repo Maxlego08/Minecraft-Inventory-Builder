@@ -78,6 +78,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property NameColorAccess $names
  * @property boolean $newsletter_active
  * @property string $newsletter_key
+ * @property Carbon $newsletter_at
  * @method static User find(int $id)
  * @method string getProfilePhotoUrlAttribute()
  * @method string getProfilePhotoLargeUrlAttribute()
@@ -91,7 +92,7 @@ class User extends Authenticate implements MustVerifyEmail
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'email', 'password', 'user_role_id', 'name_color_id', 'enable_conversation', 'newsletter_active', 'newsletter_key', 'newsletter_at'];
+    protected $fillable = ['name', 'email', 'password', 'user_role_id', 'name_color_id', 'enable_conversation', 'newsletter_active', 'newsletter_key','newsletter_at'];
 
     /**
      * The attributes that should be hidden for serialization.

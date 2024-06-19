@@ -48,13 +48,6 @@
                                 <td>
                                     <i style="color: {{ $log->color }}" class="{{ $log->icon }}"></i>
                                     {{ $log->action }}
-                                    @if ($log->user->newsletter_at)
-                                        <div class="mt-2">
-                                            <span class="badge badge-info">
-                                                {{ $log->newsletter_active ? 'Abonné depuis le' : 'Désabonné le' }} {{ $log->newsletter_at->format('d/m/Y')}}
-                                            </span>
-                                        </div>
-                                    @endif
                                 </td>
                                 <td>{{ $log->ipv4 }}</td>
                                 <td>{{ format_date_compact($log->created_at) }}</td>

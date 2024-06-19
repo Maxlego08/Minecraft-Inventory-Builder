@@ -69,11 +69,6 @@
                                             <a href="{{ route('profile.payment.index') }}">
                                                 <i class="bi bi-currency-euro"></i> {{ __('payment.nav') }}</a>
                                         </li>
-
-
-
-
-
                                     @if(user()->countResources() > 0)
                                             <li class="list-group-item mb-2">
                                             <a href="{{ route('resources.dashboard.resources') }}"><i
