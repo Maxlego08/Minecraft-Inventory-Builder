@@ -62,6 +62,7 @@
         'versions' => $versions,
         'buttonTypes' => $buttonTypes,
         'sounds' => $sounds,
+        'actions' => $actions,
         ]) !!};
     </script>
 @endpush

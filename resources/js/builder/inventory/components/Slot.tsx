@@ -7,8 +7,6 @@ const Slot = ({id, currentItem, handleSlotClick, handleSlotDoubleClick, currentS
     const itemRef = useRef(null);
     const isSelect = currentSelectSlot == id || selectSlots.includes(id)
 
-    console.log(currentItem)
-
     return (
         <div id={`slot-${id}`} className={`slot ${isSelect ? 'slot-select' : ''}`}
              onClick={event => handleSlotClick(event, id)}

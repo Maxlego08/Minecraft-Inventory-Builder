@@ -17,6 +17,7 @@ $font-path: './fonts/';
 @import "editor/editor";
 
 @import "builder/saving";
+@import "builder/accordion";
 @import "builder/builder";
 @import "builder/folders";
 @import "builder/inventories";

@@ -1,0 +1,51 @@
+.builder-accordion {
+
+    .builder-accordion-item {
+
+        &:first-of-type {
+            border-top: none;
+        }
+
+        input[type="checkbox"] {
+            display: none;
+        }
+
+        .builder-accordion-header {
+            display: block;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            position: relative;
+
+            &::before {
+                content: '\25B6'; /* Unicode caractère pour la flèche droite */
+                position: absolute;
+                right: 20px;
+                font-size: 18px;
+                transition: transform 0.3s;
+            }
+        }
+
+        .builder-accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            padding: 0 20px;
+            transition: max-height 0.5s ease, padding 0.5s ease;
+        }
+
+        input[type="checkbox"]:checked {
+            ~ .builder-accordion-content {
+                max-height: 500px;
+                padding: 20px;
+                overflow-y: scroll;
+            }
+
+            ~ .builder-accordion-header {
+
+                &::before {
+                    transform: rotate(90deg); /* Tourne la flèche pour pointer vers le bas */
+                }
+            }
+        }
+    }
+}

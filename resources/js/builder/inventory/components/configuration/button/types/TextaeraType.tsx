@@ -12,7 +12,7 @@ const TextareaType = ({element, handleChange, defaultValue = ''}) => {
             </Form.Label>
             <Form.Control
                 as={'textarea'}
-                rows={10}
+                rows={4}
                 value={defaultValue}
                 name={element.key}
                 onChange={(event) => handleChange(event, element)}

@@ -5,6 +5,7 @@ namespace App\Models\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
@@ -22,12 +23,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property boolean $refresh_on_click
  * @property boolean $update_on_click
  * @property boolean $update
- * @property string $messages
- * @property string $commands
- * @property string $console_commands
- * @property string $sound
- * @property float $volume
- * @property float $pitch
  * @property string $button_data
  * @property ButtonType $buttonType
  * @property Head $head
@@ -45,9 +40,6 @@ class InventoryButton extends Model
         'item_id',
         'head_id',
         'slot',
-        'messages',
-        'commands',
-        'console_commands',
         'page',
         'is_permanent',
         'close_inventory',
@@ -60,9 +52,6 @@ class InventoryButton extends Model
         'data',
         'glow',
         'model_id',
-        'sound',
-        'pitch',
-        'volume',
         'button_data',
     ];
 
@@ -89,11 +78,21 @@ class InventoryButton extends Model
     /**
      * Returns the item used by the button
      *
-     * @return BelongsTo"
+     * @return BelongsTo
      */
     public function head(): BelongsTo
     {
         return $this->belongsTo(Head::class, 'head_id');
+    }
+
+    /**
+     * Returns the button actions
+     *
+     * @return HasMany
+     */
+    public function actions(): HasMany
+    {
+        return $this->hasMany(InventoryButtonAction::class);
     }
 
     /**

@@ -6,15 +6,12 @@ import CloseInventory from "./CloseInventory";
 import RefreshOnClick from "./RefreshOnClick";
 import UpdateOnClick from "./UpdateOnClick";
 import Update from "./Update";
-import Sound from "./Sound";
-import Messages from "./Messages";
-import Commands from "./Commands";
-import ConsoleCommands from "./ConsoleCommands";
+import Actions from "./Actions";
 import TextType from "./types/TextType";
 import TextareaType from "./types/TextaeraType";
 import NumberType from "./types/NumberType";
 
-const ButtonConfiguration = ({inventoryContent, buttonTypes, updateButton, selectedSlots, sounds}) => {
+const ButtonConfiguration = ({inventoryContent, buttonTypes, updateButton, selectedSlots, sounds, actions}) => {
 
     const slotsToUpdate = selectedSlots.length > 0 ? selectedSlots : [inventoryContent.currentSlot].filter(index => index >= 0);
     let currentSlot = inventoryContent.currentSlot >= 0 ? inventoryContent.slots[inventoryContent.currentSlot] : null;
@@ -94,6 +91,8 @@ const ButtonConfiguration = ({inventoryContent, buttonTypes, updateButton, selec
         return buttonTypes.find(button => currentSlot.button.type_id == button.id) ?? ''
     }
 
+    console.log(actions)
+
     return inventoryContent.currentSlot >= 0 ? (
         <div className={'configurations-button'}>
             <div className={'configurations-button-top p-2'}>
@@ -120,10 +119,7 @@ const ButtonConfiguration = ({inventoryContent, buttonTypes, updateButton, selec
                 <RefreshOnClick currentSlot={currentSlot} handleChange={handleChange}/>
                 <UpdateOnClick currentSlot={currentSlot} handleChange={handleChange}/>
                 <Update currentSlot={currentSlot} handleChange={handleChange}/>
-                <Sound sounds={sounds} currentSlot={currentSlot} handleChange={handleChange}/>
-                <Messages currentSlot={currentSlot} handleChange={handleChange}/>
-                <Commands currentSlot={currentSlot} handleChange={handleChange}/>
-                <ConsoleCommands currentSlot={currentSlot} handleChange={handleChange}/>
+                <Actions currentSlot={currentSlot} actions={actions}/>
             </div>
             <div className={'configurations-button-bottom p-2'}>
                 <div className={'configurations-button-header mb-2'}>
