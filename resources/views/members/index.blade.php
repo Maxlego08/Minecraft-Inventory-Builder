@@ -8,7 +8,9 @@
         @include('members.elements.email')
         @include('members.elements.password')
         @include('members.elements.discord')
+        @include('newsletter.newsletter')
         @include('profile.two-factor-authentication-form')
+
     </div>
 
 @endsection

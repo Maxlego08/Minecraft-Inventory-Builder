@@ -40,7 +40,9 @@
                             <th scope="col">Role</th>
                             <th scope="col">Discord</th>
                             <th scope="col">Inscrit le</th>
+                            <th scope="col"> Newsletter</th>
                             <th scope="col">Action</th>
+
                         </tr>
                         </thead>
                         <tbody>
@@ -86,11 +88,25 @@
                                         @endif
                                     </div>
                                 </th>
+
                                 <td @if($user->role->isBanned())style="color: rgba(0, 0, 0, 0.2)"@endif> {{ $user->role->name }} </td>
                                 <td @if($user->role->isBanned())style="color: rgba(0, 0, 0, 0.2)"@endif> {{ $user->discord?->username ?? '' }} </td>
                                 <td @if($user->role->isBanned())style="color: rgba(0, 0, 0, 0.2)"@endif>
                                     {{ format_date($user->created_at) }}
                                 </td>
+
+
+                                <td>
+                                    <div class="d-flex justify-content-center">
+                                        @if ($user->newsletter_active)
+                                            <i class="text-success fas fa-check"></i>
+                                        @else
+                                            <i class="text-danger fas fa-times"></i>
+                                        @endif
+                                    </div>
+                                </td>
+
+
                                 <td>
                                     <a href="{{ route('admin.users.show', ['user' => $user]) }}" class="mx-1"
                                        title="Edit user" data-toggle="tooltip"><i

@@ -17,7 +17,8 @@ return [
         ],
         'color' => 'Change name color',
         'upgrade' => 'Account upgrades',
-        'change_name' => 'Change username'
+        'change_name' => 'Change username',
+        'newsletter' => 'Newsletter',
     ],
 
     'avatar' => [
