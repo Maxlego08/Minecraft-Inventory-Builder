@@ -59,8 +59,27 @@
                     <div class="col-lg-9">
                         @yield('dashboard-section')
                     </div>
+                    <div>
+                        <table-- border="1">
+                            <thead>
+                            <tr>
+                                <th>Année</th>
+                                <th>Mois</th>
+                                <th>Nombre de téléchargements</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($downloads as $download)
+                                <tr>
+                                    <td>{{ $download->year }}</td>
+                                    <td>{{ $download->month }}</td>
+                                    <td>{{ $download->count }}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-
             </div>
         </div>
     </div>

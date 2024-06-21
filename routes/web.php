@@ -297,3 +297,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/newsletter/active', [NewsletterController::class, 'newsletterActive'])->name('newsletter.active');
     Route::post('/newsletter/inactive', [NewsletterController::class, 'newsletterInactive'])->name('newsletter.inactive');
 });
+
+//Statistiques téléchargement resources
+Route::get('/download-stats', [ResourceDownloadController::class, 'stats'])->name('download.stats');

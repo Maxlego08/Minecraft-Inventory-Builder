@@ -15,9 +15,22 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Http\Request;
 
 class ResourceDownloadController extends Controller
 {
+
+    /**
+     * Afficher les statistiques des téléchargements par mois
+     *
+     * @return \Illuminate\View\View
+     */
+    public function stats()
+    {
+        $downloads = Download::getMonthlyDownloadStats();
+
+        return view('download-stats', compact('downloads'));
+
 
     /**
      * Download a file
