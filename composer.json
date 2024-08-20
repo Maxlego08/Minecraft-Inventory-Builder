@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "barryvdh/laravel-debugbar": "^3.13",
         "inertiajs/inertia-laravel": "^1.0",
         "intervention/image": "^3.8",
         "laravel/fortify": "^1.23",
