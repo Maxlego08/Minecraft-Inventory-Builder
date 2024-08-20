@@ -7,10 +7,12 @@
     "require": {
         "php": "^8.2",
         "inertiajs/inertia-laravel": "^1.0",
+        "intervention/image": "^3.8",
         "laravel/fortify": "^1.23",
         "laravel/framework": "^11.9",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
+        "stripe/stripe-php": "^15.7",
         "tightenco/ziggy": "^2.0"
     },
     "require-dev": {

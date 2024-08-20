@@ -12,7 +12,10 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->name("home");
+
+Route::get('storage/images/preview/{file:file_name}.png', [FileController::class, 'preview'])->name('image.preview');
+Route::get('/tooltip/{user}', [TooltipController::class, 'tooltip'])->name('tooltip');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -24,4 +27,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/pending', function (){
+    return "FAUT DEV";
+})->name('profile.index');
+
+
 require __DIR__.'/auth.php';
+require __DIR__ . '/admin.php';
