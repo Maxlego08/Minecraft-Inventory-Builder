@@ -1,0 +1,127 @@
+/* width */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: $white;
+    border-radius: 5px;
+    transition: background 0.123s linear;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: $white;
+}
+
+
+.block_title {
+    max-width: 860px;
+    margin: 0 auto 95px;
+}
+
+.block_resources {
+    padding: 10px;
+
+    &_start {
+        position: relative;
+        flex: 0 1 40px;
+
+        .img_1 {
+            img {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        .img_2 {
+            top: 20px;
+            transform: translate(-10px, 7px);
+
+            img {
+                width: 21px;
+                height: 21px;
+            }
+        }
+    }
+
+    &_center {
+        flex: 1 1 60%;
+    }
+
+    &_end {
+        .navbar-nav {
+            width: 100%;
+
+            li {
+                span {
+                    &:first-child {
+                        min-width: 125px;
+                        display: inline-block;
+                    }
+                }
+            }
+        }
+    }
+
+    &_add {
+
+    }
+}
+
+@include media-breakpoint-up(lg) {
+
+    .block_resources {
+        padding: 10px;
+
+        &_start {
+            position: relative;
+            flex: 0 1 50px;
+
+            .img_1 {
+                img {
+                    width: 50px;
+                    height: 50px;
+                }
+            }
+
+            .img_2 {
+                top: 30px;
+                transform: translate(-15px, 5px);
+
+                img {
+                    width: 25px;
+                    height: 25px;
+                }
+            }
+        }
+        &_center {
+            flex: 1 1 auto;
+
+            p {
+                margin-left: 0;
+            }
+        }
+    }
+}
+
+@include media-breakpoint-up(xl) {
+
+    .block_resources {
+        //padding: 38px 74px 38px 51px;
+        padding: 10px;
+
+        &_end {
+            .navbar-nav {
+                width: 250px;
+            }
+        }
+
+    }
+}

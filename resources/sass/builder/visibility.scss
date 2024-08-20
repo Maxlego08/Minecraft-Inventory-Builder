@@ -1,0 +1,29 @@
+.visibility-container {
+    position: relative;
+    display: inline-block;
+}
+
+.visibility-box {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 5px;
+    padding: 8px;
+    background-color: rgba(24, 24, 32, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: rgba(255, 255, 255, 0.95);
+    text-align: left;
+    border-radius: 4px;
+    z-index: 1;
+    width: 400px;
+
+    .title {
+        margin-bottom: 8px;
+        font-size: 1.1em;
+    }
+
+    .option {
+        margin-bottom: 5px;
+    }
+}

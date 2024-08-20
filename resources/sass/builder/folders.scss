@@ -1,0 +1,58 @@
+.folders {
+
+    width: 300px;
+    height: 850px;
+    background: $color-primary;
+    border-right: 1px solid rgba(255, 255, 255, 0.5);
+    // overflow: scroll;
+
+    &-header {
+
+        padding: 10px;
+        background: $color-primary;
+        font-size: 1.5em;
+        display: flex;
+        justify-content: space-around;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+
+        .action {
+            width: 75px;
+            display: flex;
+            justify-content: center;
+            padding: 5px;
+            cursor: pointer;
+
+            &-disable {
+                color: rgba(255, 255, 255, 0.5);
+                cursor: not-allowed;
+            }
+
+        }
+
+    }
+
+    &-content {
+
+
+        .folder {
+
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+            background: $color-tertiary;
+            cursor: pointer;
+
+            &-name {
+                width: 100%;
+                padding: 10px;
+            }
+
+            &-action {
+                padding: 10px;
+            }
+
+        }
+
+    }
+
+}

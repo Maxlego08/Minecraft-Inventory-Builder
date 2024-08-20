@@ -1,0 +1,13 @@
+.footer {
+    a {
+        &:hover {
+            text-decoration: underline !important;
+        }
+    }
+
+    @include media-breakpoint-down(sm) {
+        .message {
+            width: 95%;
+        }
+    }
+}

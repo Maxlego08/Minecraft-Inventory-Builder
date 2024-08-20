@@ -1,0 +1,23 @@
+.accordion{
+    &-item{
+        margin-bottom: 1rem;
+        box-shadow: 0 0 0 1px $black;
+        border-radius: 0.25rem;
+    }
+
+    &-button{
+        border-radius: $border-radius;
+        border: none;
+        box-shadow: 0 0 0 2px $primary;
+        font-size: $h4-font-size;
+        &:not(.collapsed){
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+            box-shadow: 0 0 0 2px $primary;
+        }
+    }
+    &-body{
+        font-size: $h5-font-size;
+        color: $gray-500;
+    }
+}

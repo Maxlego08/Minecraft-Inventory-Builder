@@ -1,0 +1,42 @@
+@keyframes slideInFromRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutToRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.text-animation {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    visibility: hidden;
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background: rgba(227, 227, 227, 0.4);
+}
+
+.animate-in {
+    animation: slideInFromRight 0.2s ease-out forwards;
+    visibility: visible;
+}
+
+.animate-out {
+    animation: slideOutToRight 0.2s ease-out forwards;
+    visibility: visible;
+}

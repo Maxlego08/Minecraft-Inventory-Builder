@@ -1,0 +1,38 @@
+.nav {
+    &-tabs {
+        overflow-x: auto;
+        padding: 1px 0;
+
+        &::-webkit-scrollbar {
+            height: 5px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            border-radius: 0;
+        }
+
+        .nav-item {
+            @include media-breakpoint-up(lg) {
+                width: 100%;
+
+                &:last-child {
+                    button {
+                        border-top-right-radius: $border-radius-xl;
+                    }
+                }
+            }
+
+            &:first-child {
+                button {
+                    border-top-left-radius: $border-radius-xl;
+                }
+            }
+
+            button {
+                background-color: $blue-900;
+                width: 100%;
+                white-space: nowrap;
+            }
+        }
+    }
+}

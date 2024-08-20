@@ -1,0 +1,93 @@
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
+@import "highlight.js/styles/obsidian.css";
+@import "font/minecraft";
+
+$image-path: './../image/';
+$font-path: './fonts/';
+
+@import "variables-override";
+@import "bootstrap/scss/bootstrap";
+
+@import "mixin";
+
+@import "vars";
+@import "components/content-components";
+@import "editor/editor";
+
+@import "builder/saving";
+@import "builder/accordion";
+@import "builder/builder";
+@import "builder/folders";
+@import "builder/inventories";
+@import "builder/inventory-table";
+@import "builder/tooltip";
+@import "builder/visibility";
+@import "builder/inventory";
+@import "builder/minecraftTooltip";
+@import "builder/inventory/inventoryBuilder";
+
+@import "minecraft-icons";
+
+@import "videoshuffle.scss";
+
+
+.nav-tabs .nav-item a {
+    background-color: #13132a;
+    width: 100%;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.fs-8 {
+    font-size: 0.750rem !important;
+}
+
+.fs-9 {
+    font-size: 0.600rem !important;
+}
+
+.cursor-disabled {
+    cursor: not-allowed !important;
+    pointer-events: unset !important;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.cursor-load {
+    cursor: progress;
+}
+
+.text-muted {
+    --bs-text-opacity: 1;
+    color: #8a8a8a !important;
+}
+
+@media (max-width: 399px) {
+
+    .text-header {
+        font-size: 14px;
+
+    }
+
+    .container {
+        padding-right: 5px;
+        padding-left: 5px;
+    }
+
+    .px-3 {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .p-4 {
+        padding: 0.4rem !important;
+    }
+}
+
+.dropdown-menu-dark {
+    background: #262631 !important;
+}

@@ -1,0 +1,17 @@
+.username {
+    &-admin {
+        color: #dc0d0d!important;
+    }
+    &-moderator {
+        color: #19e55a!important;
+    }
+    &-premium {
+        color: #a02ce1 !important;
+    }
+    &-pro {
+        color: #16e6bf!important;
+    }
+    &-banned {
+        color: #000000 !important;
+    }
+}

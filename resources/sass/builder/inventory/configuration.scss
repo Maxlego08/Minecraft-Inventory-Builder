@@ -1,0 +1,99 @@
+.configurations {
+
+    margin-left: auto;
+    display: flex;
+    width: 1075px;
+    background: $color-primary;
+    flex-shrink: 0;
+
+    ::-moz-selection {
+        background-color: rgba(178, 193, 193, 0.5) !important;
+    }
+
+    ::selection {
+        background-color: rgba(178, 193, 193, 0.5) !important;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    &-itemstack {
+        width: 50%;
+        height: 100%;
+    }
+
+    .disabled {
+        cursor: not-allowed;
+    }
+
+    &-button {
+        width: 50%;
+        height: 100%;
+
+        &-header-second {
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+        }
+
+        &-header {
+            text-align: center;
+            font-size: 18px;
+        }
+
+        &-top {
+            width: 100%;
+            height: 70%;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        &-bottom {
+            border-top: 1px solid gray;
+            width: 100%;
+            height: 30%;
+            overflow-y: scroll;
+        }
+
+        &-actions {
+
+            border-bottom: 1px solid gray;
+            margin-bottom: 5px;
+
+            &-info {
+                display: flex;
+                flex-direction: column;
+
+                span {
+                    text-transform: capitalize;
+                }
+            }
+
+        }
+    }
+}
+
+.resizer-x {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #4d4d78;
+    padding: 3px;
+    height: 100%;
+    overflow: hidden;
+}
+
+.resizer-x {
+    z-index: 2;
+    cursor: col-resize;
+}
+
+.resizer-x::before,
+.resizer-x::after {
+    width: 2px;
+    height: 16px;
+    margin: 2px;
+    background: lightgray;
+}

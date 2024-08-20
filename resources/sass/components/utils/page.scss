@@ -1,0 +1,37 @@
+.main-row-2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-flow: row wrap;
+
+    .main-col-1 {
+        flex-basis: calc(25% - 30px);
+    }
+
+    .main-col-2 {
+        flex-basis: 75%;
+    }
+
+    @media screen and (max-width: 1052px) {
+        .main-col-1 {
+            flex-basis: 100%;
+            margin-bottom: 30px;
+        }
+
+        .main-col-2 {
+            flex-basis: 100%;
+        }
+    }
+}
+
+.page-wrapper {
+    margin-top: 40px;
+}
+
+.t-12 {
+    font-size: 12px;
+}
+
+.t-14 {
+    font-size: 14px;
+}

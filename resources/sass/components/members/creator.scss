@@ -1,0 +1,27 @@
+.creator {
+
+    color: #dfdfdf;
+
+    &-header {
+
+        height: 150px;
+        padding: 15px;
+        background-color: #151528;
+        border-bottom: 1px solid rgba(97, 97, 97, 0.5);
+
+    }
+
+    &-content {
+        margin: 5px 15px 15px 15px;
+
+        &-informations {
+            font-size: 14px;
+        }
+
+        hr {
+            margin: 5px 0 15px 0;
+        }
+
+    }
+
+}

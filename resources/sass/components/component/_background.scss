@@ -1,0 +1,13 @@
+// Background Blue
+@each $key, $value in $blues {
+    .bg-#{$key} {
+        background-color: #{$value};
+    }
+}
+
+// Background Colors
+@each $key, $value in $colors {
+    .bg-#{$key} {
+        background-color: #{$value};
+    }
+}

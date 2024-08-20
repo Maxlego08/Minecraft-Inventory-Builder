@@ -1,0 +1,18 @@
+.likes {
+    color: #ababab;
+    font-size: 14px;
+}
+
+.footer-section {
+
+    font-size: 14px;
+
+    &-like {
+        float: right;
+    }
+
+    &-report {
+        float: left;
+    }
+
+}
