@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('/v1')->name('v1.')->group(function () {
+Route::prefix('/v1')->name('api.v1.')->group(function () {
 
     Route::middleware(['auth:sanctum', 'abilities:' . env('ABILITY_RESOURCE')])->name('sanctum.')->group(function () {
 

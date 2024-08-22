@@ -297,3 +297,5 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/newsletter/active', [NewsletterController::class, 'newsletterActive'])->name('newsletter.active');
     Route::post('/newsletter/inactive', [NewsletterController::class, 'newsletterInactive'])->name('newsletter.inactive');
 });
+
+require __DIR__ . '/admin.php';
