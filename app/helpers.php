@@ -10,6 +10,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
+use App\Models\Video;
+
 
 if (!function_exists('user')) {
     function user(): User
@@ -336,7 +338,6 @@ if (!function_exists('replaceUrl')) {
 
     function replaceUrl($url): string
     {
-
         $route = Route::getCurrentRoute();
         if ($route->getName() === 'resources.index') {
             $explosions = explode('/page/', $url);
@@ -366,3 +367,9 @@ if (!function_exists('replaceUrl')) {
     }
 }
 
+if (!function_exists('getYoutubeVideoId')) {
+    function getYoutubeVideoId(string $url): string
+    {
+        return Video::getYoutubeVideoId($url);
+    }
+}
