@@ -17,6 +17,7 @@ use App\Http\Controllers\IndexController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\NameChangeController;
 use App\Http\Controllers\NameController;
+use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PremiumController;
 use App\Http\Controllers\ProfileController;
@@ -37,8 +38,8 @@ use App\Http\Controllers\Resource\ResourceUpdateController;
 use App\Http\Controllers\Resource\ResourceVersionController;
 use App\Http\Controllers\Resource\ResourceViewController;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\TutorialController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\NewsletterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -296,4 +297,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/newsletter', [NewsletterController::class, 'index'])->name('newsletter.index');
     Route::post('/newsletter/active', [NewsletterController::class, 'newsletterActive'])->name('newsletter.active');
     Route::post('/newsletter/inactive', [NewsletterController::class, 'newsletterInactive'])->name('newsletter.inactive');
+});
+
+Route::prefix('tutorial/')->name('tutorials.')->group(function () {
+    Route::get('', [TutorialController::class, 'index']);
 });
