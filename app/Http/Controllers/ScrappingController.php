@@ -24,27 +24,39 @@ class ScrappingController extends Controller
 
     public function index2(): string
     {
-        for ($i = 74127; $i <= 88169; $i++) {
+        $result = self::fetchUrl(86221, new Client());
+        var_dump($result);
+        if (empty($result)) return "empty !";
+        Head::create($result);
+
+        /*for ($i = 74127; $i <= 88169; $i++) {
             try {
                 $result = self::fetchUrl($i, new Client());
-                dd($result);
+                if (empty($result)) continue;
                 Head::create($result);
             } catch (Exception) {
             }
-        }
+        }*/
         return "ok";
     }
 
     public static function fetchUrl(int $id, Client $client): ?array
     {
+        dd(Head::where('url_id', $id)->count() > 0);
+        $alreadyExist = Head::where('url_id', $id)->count() > 0;
+        if ($alreadyExist) return [];
+
         $url = "https://minecraft-heads.com/custom-heads/head/$id";
         $crawler = $client->request('GET', $url);
 
         $imageUrls = [];
         $crawler->filter('.head-renders')->each(function ($node) use (&$imageUrls) {
-            $imageUrl = $node->filter('img')->first()->attr('src');
-            if ($imageUrl) {
-                $imageUrls[] = $imageUrl;
+            try {
+                $imageUrl = $node?->filter('img')?->first()?->attr('src');
+                if ($imageUrl) {
+                    $imageUrls[] = $imageUrl;
+                }
+            } catch (Exception $exception) {
             }
         });
 
@@ -158,6 +170,47 @@ class ScrappingController extends Controller
         }
 
         return "ok -> $amount";
+    }
+
+    public function test()
+    {
+
+        $head = Head::whereNull('category')->first();
+
+        var_dump($head);
+
+        $client = new Client();
+        $url = $head->url;
+        $crawler = $client->request('GET', $url);
+        $currentValues = [];
+
+        $crawler->filter('.row .mb-2')->each(function ($node) use (&$currentValues) {
+            $values = $node->filter('.col-sm-8');
+            if ($values->count() > 0) {
+
+                $current = $values->first()->text();
+                $currentTags = [];
+
+                if ($values->count() > 1) {
+                    $tags = $values->eq(1);
+                    $tags->filter('.text-decoration-none')->each(function ($node) use (&$currentTags) {
+                        $currentTags[] = $node->text();
+                    });
+                }
+
+                $currentValues[] = $current;
+                $currentValues[] = implode(', ', $currentTags);
+            }
+        });
+
+        if (!empty($currentValues)) {
+            $head->update([
+                'category' => $currentValues[0] ?? null,
+                'tags' => $currentValues[1] ?? null,
+            ]);
+        }
+
+        dd($currentValues);
     }
 
 }
