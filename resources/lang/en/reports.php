@@ -3,14 +3,14 @@
 return [
     // Messages relatifs à la création d'un report
     'report_submitted' => [
-        'title' => 'Success !',
+        'title' => 'Success!',
         'description' => 'Your report has been successfully submitted.'
     ],
     'report_failed' => 'Failed to submit the report. Please try again.',
 
     // Messages relatifs au cooldown
     'report_cooldown' => [
-        'title' => 'Please wait !',
+        'title' => 'Please wait!',
         'description' => 'You have recently submitted a report. Please wait before submitting another one.'
     ],
 

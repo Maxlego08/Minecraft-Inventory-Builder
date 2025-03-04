@@ -75,7 +75,7 @@ return [
     "username-color-autumn-blaze" => "Autumn Blaze",
     "username-color-polar-lights" => "Polar Lights",
     "username-color-dreamy-pink" => "Dreamy Pink",
-    "username-color-sunset-glow2" => "Sunset Glow's",
+    "username-color-sunset-glow2" => "Sunset Glow",
     "username-color-arctic-dawn" => "Arctic Dawn",
     "username-color-lush-garden" => "Lush Garden",
     "username-color-berry-fusion" => "Berry Fusion",
@@ -89,14 +89,13 @@ return [
     "username-color-golden-sunset" => "Golden Sunset",
     "username-color-moonlit-night" => "Moonlit Night",
 
-
-    'title' => 'Change the color of your username',
+    'title' => 'Change the Color of Your Username',
     'enable' => 'Activate',
     'disable' => 'Disable',
     'no' => 'No Permission',
     'buy' => 'Purchase for :price€',
     'success' => [
-        'title' => 'Success !',
+        'title' => 'Success!',
         'description' => 'You just equipped the color :name',
     ],
     'error' => [

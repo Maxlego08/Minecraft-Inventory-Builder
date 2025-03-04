@@ -2,23 +2,23 @@
 
 return [
     'title' => 'Images',
-    'alt' => 'Show the image',
+    'alt' => 'Show the Image',
     'upload' => [
         'title' => 'Upload',
         'button' => 'Upload',
-        'content' => 'You just upload a new image',
+        'content' => 'You just uploaded a new image',
     ],
     'table' => [
-        'delete_all' => 'Delete the selected images',
-        'name' => 'File name',
-        'size' => 'Image size',
+        'delete_all' => 'Delete the Selected Images',
+        'name' => 'File Name',
+        'size' => 'Image Size',
         'action' => 'Action',
         'delete' => 'Delete',
     ],
     'modal' => [
-        'title' =>'Confirmation',
-        'content' => 'You really want to remove this image.',
-        'content_all' => 'Do you really want to delete these images ?',
+        'title' => 'Confirmation',
+        'content' => 'Do you really want to remove this image?',
+        'content_all' => 'Do you really want to delete these images?',
     ],
     'delete' => [
         'errors' => [
@@ -33,10 +33,10 @@ return [
         ],
         'success' => [
             'title' => 'Success',
-            'content' => 'You just delete an image'
+            'content' => 'You just deleted an image.'
         ]
     ],
     'textarea' => [
-        'title' => 'Add an image'
+        'title' => 'Add an Image'
     ]
 ];

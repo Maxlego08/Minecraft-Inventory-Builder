@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Authentication Language Lines
@@ -20,14 +19,13 @@ return [
         'title' => 'Login',
     ],
     'forgot' => [
-        'info' => 'Forgot your password ? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.',
-        'link' => 'Password reset link',
-        'send' => 'If the user exists a reset link has been sent',
+        'info' => 'Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.',
+        'link' => 'Password Reset Link',
+        'send' => 'If the user exists, a reset link has been sent.',
     ],
     'register' => [
         'title' => 'Register',
-        'info' => 'Create your account on Minecraft Inventory Builder to be able to access the site features.',
+        'info' => 'Create your account on Minecraft Inventory Builder to access the site features.',
         'term' => 'I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a> of Minecraft Inventory Builder.',
     ],
-
 ];

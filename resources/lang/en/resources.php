@@ -4,8 +4,8 @@ return [
     'title' => 'Resources',
     'description' => 'Sell or upload your resources around zMenu',
     'add' => 'Add resource',
-    'review' => 'ratings',
-    'informations' => 'Informations',
+    'review' => 'Ratings',
+    'informations' => 'Information',
     'review-all-time' => 'All-Time Rating',
     'review-current' => 'Version Rating',
     'tools' => 'Resource Tools',
@@ -27,13 +27,13 @@ return [
         'update' => 'Post Resource Update',
         'purchase' => 'Buy the resource',
         'success' => [
-            'title' => 'Resource updated !',
+            'title' => 'Resource updated!',
             'content' => 'You have just updated your resource'
         ],
         'icon_modal' => [
             'title' => 'Edit Resource Icon',
             'success' => [
-                'title' => 'Felicitation !',
+                'title' => 'Congratulations!',
                 'content' => 'You have just changed the icon of your resource'
             ]
         ]
@@ -44,8 +44,8 @@ return [
             'description' => 'You will create a resource, it will be checked by the moderation team of the site. Please save the description of your resource, if it is rejected you will not be able to retrieve it.',
         ],
         'success' => [
-            'title' => 'You just create a new resource !',
-            'content' => 'Your resource is being validated, wait few hours'
+            'title' => 'You just created a new resource!',
+            'content' => 'Your resource is being validated, wait a few hours'
         ],
         'errors' => [
             'limit' => [
@@ -68,7 +68,7 @@ return [
         ],
         'optional_dependencies' => [
             'name' => 'Optional dependencies (Optional)',
-            'description' => 'List of dependencies optional for the resource',
+            'description' => 'List of optional dependencies for the resource',
         ],
         'tags' => [
             'name' => 'Tags (Required)',
@@ -84,7 +84,7 @@ return [
         ],
         'minecraft_version' => [
             'name' => 'Tested Minecraft Versions (Required)',
-            'description' => 'The versions of minecraft where the resource has been tested',
+            'description' => 'The versions of Minecraft where the resource has been tested',
         ],
         'code' => [
             'name' => 'Source code (Optional)',
@@ -99,12 +99,12 @@ return [
             'description' => 'Translations available in your plugin other than English',
         ],
         'informations' => [
-            'name' => 'Informations URL (Optional)',
+            'name' => 'Information URL (Optional)',
             'description' => 'Link to an information page of your resource',
         ],
         'support' => [
             'name' => 'Support URL (Required)',
-            'description' => 'Link to your support system. (Your discord or your site. We advise you to create documentation on <a href="https://gitbook.com/" target="_blank">gitbook.com</a>)',
+            'description' => 'Link to your support system. (Your Discord or your site. We advise you to create documentation on <a href="https://gitbook.com/" target="_blank">gitbook.com</a>)',
         ],
         'image' => [
             'name' => 'Icon (Required)',
@@ -122,12 +122,12 @@ return [
             'name' => 'Price',
             'description' => '<b>Read Me</b>: It appears that you are submitting a premium resource. Please take a moment to read the approval guidelines listed here. Not following them and our rules will lead to your resource getting rejected! Make sure that you save a copy of your description and other info locally, you will not be able to access that if rejected!',
             'permission' => 'You do not have permission to put a price on a resource. Click <a href="" target="_blank">here</a> to improve your account.',
-            'payment' => 'You forgot to add a payment method to your account, we advise you to do it now <a href="https://minecraft-builder-builder.com/profile/payment" target="_blank">here</a> !'
+            'payment' => 'You forgot to add a payment method to your account, we advise you to do it now <a href="https://minecraft-builder-builder.com/profile/payment" target="_blank">here</a>!'
         ],
         'discord' => [
             'name' => 'Discord ID',
-            'place' => 'Discord server id',
-            'description' => 'Allows you to display a link to your discord. You must enable the widget on your discord server to use this feature.',
+            'place' => 'Discord server ID',
+            'description' => 'Allows you to display a link to your Discord. You must enable the widget on your Discord server to use this feature.',
         ],
         'bstats' => [
             'name' => 'Bstats ID',
@@ -135,7 +135,7 @@ return [
         ],
     ],
     'download' => [
-        'login' => 'You must be connected to download this file.',
+        'login' => 'You must be logged in to download this file.',
         'access' => 'You need to purchase this resource.',
         'button' => 'Download',
         'errors' => [
@@ -148,15 +148,15 @@ return [
                 'content' => 'You are banned, you can\'t download this resource.',
             ],
             'purchase' => [
-                'title' => 'Error !',
+                'title' => 'Error!',
                 'content' => 'You don\'t have permission to download the plugin.',
             ],
             'cache' => [
-                'title' => 'Wait few seconds',
+                'title' => 'Wait a few seconds',
                 'content' => 'You have to wait a few seconds before you can download the plugin.',
             ],
             'other' => [
-                'title' => 'Error !',
+                'title' => 'Error!',
                 'content' => 'Unable to find the file to download, please contact an administrator.',
             ],
         ]
@@ -175,39 +175,39 @@ return [
         ],
         'delete' => [
             'title' => 'You just deleted your review',
-            'content' => 'Why did you delete your review ? Reviews are very important !',
+            'content' => 'Why did you delete your review? Reviews are very important!',
         ],
         'errors' => [
             'permission' => [
-                'title' => "You don’t have permission",
+                'title' => 'You don’t have permission',
                 'content' => 'You do not have permission to perform this action',
             ],
             'download' => [
-                'title' => 'You can\'t review !',
+                'title' => 'You can\'t review!',
                 'content' => 'You must download the resource before you can rate it.',
             ],
             'already' => [
-                'title' => 'You can\'t review !',
+                'title' => 'You can\'t review!',
                 'content' => 'You have already given a review for this version.',
             ],
             'self' => [
-                'title' => 'You can\'t review !',
-                'content' => 'You can\'t give yourself a rate.',
+                'title' => 'You can\'t review!',
+                'content' => 'You can\'t give yourself a rating.',
             ],
             'rate' => [
-                'title' => 'You can\'t review !',
-                'content' => 'Unable to find your note.',
+                'title' => 'You can\'t review!',
+                'content' => 'Unable to find your rating.',
             ],
         ],
         'success' => [
-            'title' => 'You just leave a review',
-            'content' => 'Thank you for taking the time to put a note to this resource.',
+            'title' => 'You just left a review',
+            'content' => 'Thank you for taking the time to rate this resource.',
         ],
         'response' => [
             'title' => 'Success',
-            'content' => 'You just delete your response.',
+            'content' => 'You just deleted your response.',
         ],
-        'alert' => ':user just put a review to your resource :content'
+        'alert' => ':user just left a review on your resource: :content'
     ],
     'update' => [
         'title' => 'Updates',
@@ -216,7 +216,7 @@ return [
             'version' => 'Version string',
         ],
         'success' => [
-            'title' => 'Resource updated !',
+            'title' => 'Resource updated!',
             'content' => 'You have just updated your resource.',
         ],
         'info' => [
@@ -231,24 +231,24 @@ return [
         'title' => 'Buyers',
         'search' => 'Find buyer',
         'user' => 'User',
-        'username' => 'User Name',
+        'username' => 'Username',
         'price' => 'Price',
         'added_on' => 'Added on',
         'free' => 'Free',
         'remove' => [
-            'title' => 'Perfect !',
-            'content' => 'You have just removed the access to the resource'
+            'title' => 'Perfect!',
+            'content' => 'You have just removed access to the resource'
         ],
         'create' => [
-            'title' => 'Perfect !',
+            'title' => 'Perfect!',
             'content' => 'You have just added a user to your resource'
         ],
         'error' => [
-            'title' => 'Error !',
-            'content' => 'Impossible to find this user.',
+            'title' => 'Error!',
+            'content' => 'Unable to find this user.',
         ],
         'already' => [
-            'title' => 'Error !',
+            'title' => 'Error!',
             'content' => 'This user already has access to this resource.',
         ],
         'add' => 'Add buyer',
@@ -262,32 +262,32 @@ return [
     'view' => [
         'errors' => [
             'pending' => [
-                'title' => 'Error !',
+                'title' => 'Error!',
                 'content' => 'You don\'t have permission to see this resource',
             ],
             'deleted' => [
-                'title' => 'Error !',
+                'title' => 'Error!',
                 'content' => 'You don\'t have permission to see this resource',
             ],
             'owner' => [
-                'title' => 'Error !',
+                'title' => 'Error!',
                 'content' => 'You don\'t have permission to see this resource',
             ],
             'permission' => [
-                'title' => 'Error !',
+                'title' => 'Error!',
                 'content' => 'You don\'t have permission to see this resource',
             ]
         ],
     ],
     'purchase' => [
-        'premium' => "Included with Premium upgrade",
+        'premium' => 'Included with Premium upgrade',
         'button' => 'Buy now for :price€',
         'error' => 'Unable to purchase this resource at this time.'
     ],
     'actions' => [
-        'resources' => 'your resources',
-        'purchase' => 'purchases resources',
-        'creator_board' => 'creator dashboard'
+        'resources' => 'Your resources',
+        'purchase' => 'Purchased resources',
+        'creator_board' => 'Creator dashboard'
     ],
 
     'dashboard' => [
@@ -313,8 +313,8 @@ return [
             'event' => 'Event',
             'username' => 'Username',
             'avatar_url' => 'Avatar URL',
-            'url_errors' => 'The url is not the right format.',
-            'permission' => 'You do not have permission to create a discord. You must have the role :role. Click <a href="">here</a> to upgrade your account.',
+            'url_errors' => 'The URL is not in the correct format.',
+            'permission' => 'You do not have permission to create a Discord Webhook. You must have the role :role. Click <a href="">here</a> to upgrade your account.',
             'embed' => [
                 'add' => 'Add Embed',
                 'title' => 'Embed Title',
@@ -327,37 +327,37 @@ return [
             'errors' => [
                 'limit' => [
                     'title' => 'Limit reached',
-                    'description' => 'You have just reached the webhook discord limit. You cannot create a new one.',
+                    'description' => 'You have just reached the Discord Webhook limit. You cannot create a new one.',
                 ],
             ],
             'error_permission' => [
                 'title' => 'No permission',
-                'description' => 'You don’t have permission to create a webhook discord',
+                'description' => 'You don’t have permission to create a Discord Webhook',
             ],
             'success' => [
                 'title' => 'New Discord Webhook',
-                'description' => 'You just created a discord webhook.',
+                'description' => 'You just created a Discord Webhook.',
             ],
             'update' => [
                 'title' => 'Update Discord Webhook',
-                'description' => 'You just updated a discord webhook.',
+                'description' => 'You just updated a Discord Webhook.',
             ],
             'delete' => [
                 'title' => 'Delete Discord Webhook',
-                'description' => 'You just deleted a discord webhook.',
+                'description' => 'You just deleted a Discord Webhook.',
             ],
             'test' => [
                 'title' => 'Test Discord Webhook',
-                'description' => 'You just send a test for your discord webhook.',
+                'description' => 'You just sent a test for your Discord Webhook.',
             ],
             'table' => [
                 'event' => 'Event',
                 'url' => 'URL',
                 'actions' => 'Actions',
                 'send' => 'Send a test',
-                'delete' => 'Delete this webhook',
-                'create' => 'Create a new webhook',
-                'edit' => 'Edit this webhook'
+                'delete' => 'Delete this Webhook',
+                'create' => 'Create a new Webhook',
+                'edit' => 'Edit this Webhook'
             ],
             'documentation' => [
                 'events' => 'Events',
