@@ -45,14 +45,11 @@ const InventoryBuilder = () => {
                     amount: 0,
                     display_name: null,
                     lore: null,
-                    messages: null,
                     name: `btn-${index}`,
-                    volume: 1.0,
-                    pitch: 1.0,
-                    sound: '',
                     glow: false,
                     button_data: '',
-                    head_id: null
+                    head_id: null,
+                    actions: [],
                 }
             })
         })
@@ -457,12 +454,6 @@ const InventoryBuilder = () => {
                 formData.append(`slot[${index}]update`, slot.button.update);
                 formData.append(`slot[${index}]glow`, slot.button.glow);
                 formData.append(`slot[${index}]model_id`, slot.button.model_id);
-                formData.append(`slot[${index}]volume`, slot.button.volume);
-                formData.append(`slot[${index}]pitch`, slot.button.pitch);
-                formData.append(`slot[${index}]sound`, slot.button?.sound ?? null);
-                formData.append(`slot[${index}]messages`, slot.button?.messages ?? null);
-                formData.append(`slot[${index}]commands`, slot.button?.commands ?? null);
-                formData.append(`slot[${index}]console_commands`, slot.button?.console_commands ?? null);
                 formData.append(`slot[${index}]button_data`, slot.button?.button_data ?? null);
                 if (slot.button?.display_name) formData.append(`slot[${index}]display_name`, slot.button.display_name);
                 if (slot.button?.lore) formData.append(`slot[${index}]lore`, slot.button.lore);
@@ -515,8 +506,9 @@ const InventoryBuilder = () => {
                     <ItemStackConfiguration inventoryContent={inventoryContent} updateButton={updateButton}
                                             selectedSlots={slots}/>
                     <div className={'resizer-x'}/>
-                    <ButtonConfiguration key={'configuration-button'} inventoryContent={inventoryContent} updateButton={updateButton}
-                                         selectedSlots={slots} buttonTypes={data.buttonTypes} sounds={data.sounds}/>
+                    <ButtonConfiguration key={'configuration-button'} inventoryContent={inventoryContent}
+                                         updateButton={updateButton}
+                                         selectedSlots={slots} buttonTypes={data.buttonTypes} sounds={data.sounds} actions={data.actions}/>
                 </div>
             </div>
         </div>

@@ -51,6 +51,7 @@
                                 </td>
                                 <td>{{ $log->ipv4 }}</td>
                                 <td>{{ format_date_compact($log->created_at) }}</td>
+
                             </tr>
                         @endforeach
 

@@ -35,7 +35,7 @@ class UpdateHeadValues implements ShouldQueue
         $url = $this->head->url;
         $crawler = $client->request('GET', $url);
         $currentValues = [];
-        $crawler->filter('.row .mb-0')->each(function ($node) use (&$currentValues) {
+        $crawler->filter('.row .mb-2')->each(function ($node) use (&$currentValues) {
             $values = $node->filter('.col-sm-8');
             if ($values->count() > 0) {
 

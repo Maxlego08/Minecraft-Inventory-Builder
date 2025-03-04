@@ -38,6 +38,7 @@ use App\Http\Controllers\Resource\ResourceVersionController;
 use App\Http\Controllers\Resource\ResourceViewController;
 use App\Http\Controllers\SubscriptionController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\NewsletterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -287,4 +288,12 @@ Route::middleware('auth')->group(function () {
 
 Route::prefix('subscribe')->name('subscribe.')->group(function () {
     Route::get('/', [SubscriptionController::class, 'index'])->name('index');
+});
+
+
+//Newsletter
+Route::middleware(['auth'])->group(function () {
+    Route::get('/newsletter', [NewsletterController::class, 'index'])->name('newsletter.index');
+    Route::post('/newsletter/active', [NewsletterController::class, 'newsletterActive'])->name('newsletter.active');
+    Route::post('/newsletter/inactive', [NewsletterController::class, 'newsletterInactive'])->name('newsletter.inactive');
 });

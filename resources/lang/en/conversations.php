@@ -3,20 +3,20 @@
 return [
     'title' => 'Conversations',
     'list' => [
-        'title' => 'See the conversation',
+        'title' => 'See the Conversation',
         'start' => "<span class='me-1'>Started by</span> :name<span class='me-1'>,</span> :date",
         'last' => "<span class='me-1'>Last</span> <a class='conversation-link me-1' href=':link' title='View last message'>message</a> <span class='me-1'>by</span> :name<span class='me-1'>,</span> :date",
     ],
     'empty' => 'You have no conversations.',
-    'enable' => 'Enable conversations.',
+    'enable' => 'Enable Conversations.',
     'show' => [
         'title' => ':title',
     ],
     'create' => [
         'start' => 'Start a New Conversation with :user',
-        'title' => 'New conversation - :user',
-        'button' => 'Start a conversation',
-        'subject' => 'Conversation title'
+        'title' => 'New Conversation - :user',
+        'button' => 'Start a Conversation',
+        'subject' => 'Conversation Title'
     ],
     'error_disable' => [
         'title' => 'Error',
@@ -28,27 +28,27 @@ return [
     ],
     'error_content' => [
         'title' => 'Error',
-        'description' => 'Impossible to read this conversation.'
+        'description' => 'Unable to read this conversation.'
     ],
     'error_create_self' => [
         'title' => 'Error',
-        'description' => 'You can\'t do this action.'
+        'description' => 'You cannot perform this action.'
     ],
     'cooldown' => [
         'title' => 'Error',
         'description' => 'You must wait :seconds seconds between each message.'
     ],
     'create_success' => [
-        'title' => 'New conversation',
+        'title' => 'New Conversation',
         'description' => 'You have just created a new conversation.'
     ],
     'textarea' => [
         'label' => '',
-        'submit' => 'Post reply',
+        'submit' => 'Post Reply',
     ],
     'send_success' => [
-        'title' => 'New reply',
-        'description' => 'You have just sent a reply'
+        'title' => 'New Reply',
+        'description' => 'You have just sent a reply.'
     ],
     'auto' => [
         'title' => 'Auto Response',
@@ -57,7 +57,7 @@ return [
             'title' => 'Update Auto Response',
             'description' => 'Update your auto response.'
         ],
-        'enable' => 'Activate the auto response.',
-        'info' => 'auto-reply',
+        'enable' => 'Activate the Auto Response.',
+        'info' => 'Auto-reply',
     ],
 ];

@@ -37,7 +37,9 @@ use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 
+
 /**
+ *
  * Class User
  * @package App\Models
  * @property int $id
@@ -74,6 +76,9 @@ use Laravel\Sanctum\HasApiTokens;
  * @property NameColorAccess[] $nameColorAccesses
  * @property Inventory[] $inventories
  * @property NameColorAccess $names
+ * @property boolean $newsletter_active
+ * @property string $newsletter_key
+ * @property Carbon $newsletter_at
  * @method static User find(int $id)
  * @method string getProfilePhotoUrlAttribute()
  * @method string getProfilePhotoLargeUrlAttribute()
@@ -87,21 +92,21 @@ class User extends Authenticate implements MustVerifyEmail
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'email', 'password', 'user_role_id', 'name_color_id', 'enable_conversation'];
+    protected $fillable = ['name', 'email', 'password', 'user_role_id', 'name_color_id', 'enable_conversation', 'newsletter_active', 'newsletter_key','newsletter_at'];
 
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
      */
-    protected $hidden = ['password', 'remember_token',];
+    protected $hidden = ['password', 'remember_token'];
 
     /**
      * The attributes that should be cast.
      *
      * @var array<string, string>
      */
-    protected $casts = ['email_verified_at' => 'datetime'];
+    protected $casts = ['email_verified_at' => 'datetime', 'newsletter_at' => 'datetime'];
 
     /**
      * Retourne la liste des logs de l'utilisateur
@@ -510,6 +515,23 @@ class User extends Authenticate implements MustVerifyEmail
     {
         return $this->hasMany(Notification::class);
     }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($users) {
+            if (empty($users->unsubscribe_key)){
+                $users->unsubscribe_key = Str::random(64);
+            }
+        });
+    }
+
+
+
+
+
+
 
     public function isAdmin(): bool
     {

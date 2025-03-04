@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Builder;
 
 use App\Http\Controllers\Controller;
+use App\Models\Builder\ActionType;
 use App\Models\Builder\ButtonType;
 use App\Models\Builder\Folder;
 use App\Models\Builder\Inventory;
@@ -69,14 +70,18 @@ class BuilderInventoryController extends Controller
 
         $versions = MinecraftVersion::all();
         $inventory = $inventory->load('buttons');
-        $inventory = $inventory->load(['buttons.head', 'buttons.item']);
+        $inventory = $inventory->load(['buttons.head', 'buttons.item', 'buttons.actions']);
+
         $buttonTypes = ButtonType::with('contents')->get();
+        $actions = ActionType::all();
+        $actions = $actions->load('contents');
 
         return view('builder.inventory', [
             'inventory' => $inventory,
             'versions' => $versions,
             'buttonTypes' => $buttonTypes,
             'sounds' => $sounds,
+            'actions' => $actions,
         ]);
     }
 

@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\ResourceController;
 use App\Http\Controllers\Admin\StatisticController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\VideoController;
 use App\Http\Controllers\ScrappingController;
 use Illuminate\Support\Facades\Route;
 
@@ -101,4 +102,11 @@ Route::middleware('admin')->group(function () {
             Route::post('/store/{button}', [ButtonController::class, 'storeContent'])->name('store');
         });
     });
+});
+
+Route::prefix('videos')->name('videos.')->group(function () {
+    Route::get('/', [VideoController::class, 'index'])->name('index');
+    Route::get('/create', [VideoController::class, 'create'])->name('create');
+    Route::post('/store', [VideoController::class, 'store'])->name('store');
+    Route::get('/delete/{video}', [VideoController::class, 'delete'])->name('delete');
 });

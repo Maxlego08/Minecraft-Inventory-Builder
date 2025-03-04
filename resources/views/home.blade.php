@@ -7,7 +7,7 @@
         <article class="home_background">
             <img class="img-fluid" src="{{ asset('images/newfondavril.png') }}" alt="">
             <div class="home_background_text">
-                <h1 class="display-5 fw-semibold">Minecraft Inventory Builder</h1>
+                <h1 class="display-5 fw-semibold">{{ __('about.title') }}</h1>
                 <p class="fs-7">{{ __('about.description') }}</p>
             </div>
             <a href="#home_marketplace" class="home_arrow_scroll text-white"><i class="bi bi-arrow-down fs-2"></i></a>
@@ -19,18 +19,11 @@
                         <div class="blur-background"></div>
                     </div>
                     <div class="col-lg-6">
-                        <h2 class="mt-2">What is the Minecraft-Inventory-Builder ?</h2>
+                        <h2 class="mt-2">{{ __('about.what.title') }}</h2>
                         <img class="d-block d-lg-none img-fluid rounded-4 my-4 w-100 blur-image"
                              src="{{ asset('images/builder-small.png') }}" alt="">
-                        <p>Welcome to the official website for zMenu. Our platform is more than just a website; it's a
-                            comprehensive ecosystem designed to enhance your zMenu experience.</p>
-                        <p>
-                            At the heart of our service is the Marketplace, a one-stop destination where you can buy and
-                            download exclusive content tailored for zMenu. Whether you're looking for custom
-                            configurations, unique items, or inventive mods, our Marketplace has it all. It's a vibrant
-                            community hub where creators share their masterpieces, allowing you to elevate your
-                            Minecraft adventures to new heights.
-                        </p>
+                        <p>{{ __('about.what.l1') }}</p>
+                        <p>{{ __('about.what.l2') }}</p>
                         <!--<p>
                             But we're more than just a marketplace. We understand the importance of community and
                             support, which is why we've integrated a dedicated Forum into our platform. Here, you can
@@ -38,18 +31,8 @@
                             troubleshooting an issue or seeking inspiration for your next project, our forum is your
                             go-to resource for all things zMenu.
                         </p>-->
-                        <p>
-                            And for those looking to fine-tune their zMenu setup, our Online Inventory Editor is a
-                            game-changer. This intuitive tool allows you to easily modify zMenu configurations directly
-                            from your browser. No more wrestling with complex files or coding – our editor simplifies
-                            the process, enabling you to customize your experience with just a few clicks.
-                        </p>
-                        <p>
-                            Our website is designed with you in mind, offering a seamless interface that makes
-                            navigating, downloading, and interacting with the zMenu community a breeze. Whether you're a
-                            seasoned Minecraft veteran or new to the world of zMenu, our site is your gateway to
-                            unlocking the full potential of this incredible plugin.
-                        </p>
+                        <p>{{ __('about.what.l3') }}</p>
+                        <p>{{ __('about.what.l4') }}</p>
                         <!--<div class="row row-cols-lg-3 flex-column flex-sm-row bg-blue-800 text-center rounded-1 justify-content-evenly
                         align-items-center py-2 mt-4 home_marketplace_block">
                             <div class="mb-3 mb-lg-0">
@@ -72,6 +55,45 @@
                     </div>
                 </div>
             </div>
+            <section id="video">
+                    <div class="shuffleVideo">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ $videoId }}amp?autoplay=1"
+                                srcdoc="<style>*{
+    padding:0;
+    margin:0;
+    overflow:hidden
+}
+html,body{
+    height:100%
+}
+
+img,span{
+    position:absolute;
+    width:100%;
+    top:0;
+    bottom:0;
+    margin:auto
+}
+
+span{
+    height:1.5em;
+    text-align:center;
+    font:48px/1.5 sans-serif;
+    color:white;
+    text-shadow:0 0 0.5em black
+}
+</style>
+<a href=https://www.youtube.com/embed/{{ $videoId }}?autoplay=1>
+    <img src=https://img.youtube.com/vi/{{ $videoId }}/hqdefault.jpg alt='Trailer'>
+    <span>▶</span>
+</a>" frameborder="0" title="Video Zmenu"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen="">
+                        </iframe>
+                        </div>
+
+            </section>
+
         </article>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 270"
              fill="none">
@@ -104,21 +126,20 @@
             <div class="container">
                 <div class="px-3 px-lg-0">
                     <div class="text-center block_title pt-5 mb-5">
-                        <h2>Ressources</h2>
+                        <h2>{{ __('about.resources.title') }}</h2>
                     </div>
                     <div class="row align-items-center">
                         <div class="col-lg-5">
                             <div class="bg-blue-800 rounded-1 p-4 me-lg-5 mb-4 text-center">
-                                <h3 class="fs-5">Our resource system</h3>
-                                <p>Want to share your creations or sell them ? Then the marketplace is for you. In just
-                                    a few minutes creates a new resource to share with the community </p>
+                                <h3 class="fs-5">{{ __('about.resources.info.title') }}</h3>
+                                <p>{{ __('about.resources.info.description') }}</p>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex align-items-center justify-content-center">
                                 <a href="{{route('resources.create.index')}}"
                                    class="home_ressources_add btn btn-primary rounded-1 d-flex align-items-center justify-content-center"><i
-                                        class="bi bi-plus-lg me-2 fs-4"></i>Add a resource</a>
+                                        class="bi bi-plus-lg me-2 fs-4"></i>{{ __('about.resources.info.button') }}</a>
                             </div>
                         </div>
                     </div>

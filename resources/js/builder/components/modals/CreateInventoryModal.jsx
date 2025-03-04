@@ -72,8 +72,8 @@ const CreateInventoryModal = ({show, handleClose, handleSave}) => {
                             placeholder={'Inventory'}
                         />
                         <small className="form-text text-muted">
-                            The name of the inventory that will be displayed. Please note that depending on your version
-                            you have a character limit. You can use color and placeholders.
+                            The name of the inventory that will be displayed. Please note that depending on your
+                            version, there may be a character limit. You can use colors and placeholders.
                         </small>
                     </Form.Group>
                     <Form.Group className="mb-3">
@@ -99,8 +99,8 @@ const CreateInventoryModal = ({show, handleClose, handleSave}) => {
                         />
                         <small className="form-text text-muted">
                             Allows you to define the time in seconds for the refresh of the buttons in the inventory.
-                            For the buttons to be updated you must have the update option enabled. More information <a
-                            href={'https://zmenu.groupez.dev/configurations/buttons'} target={'_blank'}>here</a>.
+                            For the buttons to be updated, you must have the update option enabled. More information <a
+                            href="https://zmenu.groupez.dev/configurations/buttons" target="_blank">here</a>.
                         </small>
                     </Form.Group>
                     <Form.Group className="mb-3">
@@ -113,8 +113,9 @@ const CreateInventoryModal = ({show, handleClose, handleSave}) => {
                             className={'rounded-1'}
                         />
                         <small className="form-text text-muted">
-                            Allows you to delete the player's inventory on opening and restore it on closing. Allows for
-                            example to use an image on your inventory without being hindered by the players' items.
+                            Allows you to delete the player's inventory on opening and restore it on closing. This can
+                            be useful, for example, to use an image in your inventory without being hindered by the
+                            player's items.
                         </small>
                     </Form.Group>
                 </Modal.Body>

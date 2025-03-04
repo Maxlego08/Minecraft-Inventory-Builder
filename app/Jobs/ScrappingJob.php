@@ -34,6 +34,8 @@ class ScrappingJob implements ShouldQueue
     {
         $client = new Client();
         $result = ScrappingController::fetchUrl($this->number, $client);
-        Head::create($result);
+        if (!empty($result)) {
+            Head::create($result);
+        }
     }
 }

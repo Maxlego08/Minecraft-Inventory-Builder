@@ -17,6 +17,7 @@ $font-path: './fonts/';
 @import "editor/editor";
 
 @import "builder/saving";
+@import "builder/accordion";
 @import "builder/builder";
 @import "builder/folders";
 @import "builder/inventories";
@@ -28,6 +29,8 @@ $font-path: './fonts/';
 @import "builder/inventory/inventoryBuilder";
 
 @import "minecraft-icons";
+
+@import "videoshuffle.scss";
 
 
 .nav-tabs .nav-item a {

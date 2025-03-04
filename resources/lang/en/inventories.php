@@ -14,17 +14,17 @@ return [
         'download' => 'Download',
         'copy' => 'Copy',
         'action' => 'Action',
-        'size' => 'size',
+        'size' => 'Size',
     ],
     'download' => 'Download Inventory',
     'copy' => [
-        'info' => 'Copy the inventory url',
-        'title' => 'Url copied',
-        'description' => 'You just copied the download url',
+        'info' => 'Copy the inventory URL',
+        'title' => 'URL Copied',
+        'description' => 'You just copied the download URL',
     ],
     'copy_command' => [
-        'info' => 'Copy the order to upload the inventory to your server',
-        'title' => 'Command copied',
+        'info' => 'Copy the command to upload the inventory to your server',
+        'title' => 'Command Copied',
         'description' => 'You just copied the download command',
     ],
 ];

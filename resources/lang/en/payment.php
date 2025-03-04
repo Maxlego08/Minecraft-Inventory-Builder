@@ -1,13 +1,11 @@
 <?php
 
-
 return [
-
     'title' => 'Payments',
-    'nav' => 'Manage your payments',
-    'description' => 'Gérer vos informations de paiement ici',
+    'nav' => 'Manage Your Payments',
+    'description' => 'Manage your payment information here',
     'button' => 'BUY NOW',
-    'how' => 'How do you want to pay ?',
+    'how' => 'How do you want to pay?',
 
     'cancel' => 'Checkout Cancel',
 
@@ -22,8 +20,8 @@ return [
     'total_end' => 'Total:',
     'subtotal' => 'Subtotal:',
     'gift' => [
-        'title' => 'Gift code',
-        'placeholder' => 'Enter gift code',
+        'title' => 'Gift Code',
+        'placeholder' => 'Enter Gift Code',
         'error' => 'Unable to validate the gift code. You cannot use it.'
     ],
 
@@ -33,20 +31,20 @@ return [
         'pk_live' => 'Stripe Secret Key',
         'info' => 'Create key here: <a target="_blank" href="https://dashboard.stripe.com/apikeys">https://dashboard.stripe.com/apikeys</a>',
         'success' => [
-            'title' => 'Update completed',
-            'description' => 'Update of your stripe informations'
+            'title' => 'Update Completed',
+            'description' => 'Update of your Stripe information'
         ],
         'delete' => [
-            'title' => 'Delete successfully',
-            'description' => 'Deletion of your stripe information'
+            'title' => 'Delete Successful',
+            'description' => 'Deletion of your Stripe information'
         ],
         'error_sk_live' => [
             'title' => 'Error',
-            'description' => 'Sk live key is no valide'
+            'description' => 'SK live key is not valid'
         ],
         'error_pk_live' => [
             'title' => 'Error',
-            'description' => 'Pk live key is no valide'
+            'description' => 'PK live key is not valid'
         ],
         'error_api' => [
             'title' => 'Error',
@@ -55,38 +53,37 @@ return [
     ],
 
     'paypal' => [
-        'title' => 'Paypal',
-        'email' => 'Paypal email',
-        'info' => 'Attention, paypal is less secure than stripe. Customers can dispute without reason, the tax on payments is also greater. We advise you to use stripe',
+        'title' => 'PayPal',
+        'email' => 'PayPal Email',
+        'info' => 'Note: PayPal is less secure than Stripe. Customers can dispute without reason, and the tax on payments is also greater. We advise you to use Stripe.',
         'success' => [
-            'title' => 'Update completed',
-            'description' => 'Update of your paypal email'
+            'title' => 'Update Completed',
+            'description' => 'Update of your PayPal email'
         ],
         'delete' => [
-            'title' => 'Delete successfully',
-            'description' => 'Deletion of your paypal information'
+            'title' => 'Delete Successful',
+            'description' => 'Deletion of your PayPal information'
         ],
     ],
 
     'currency' => [
         'title' => 'Currency',
         'success' => [
-            'title' => 'Update completed',
+            'title' => 'Update Completed',
             'description' => 'Update of your currency'
         ],
     ],
 
     'success' => [
-        'title' => 'Successful payment !',
-        'info' => 'Your payment has been accepted, another few minutes for it to validate.',
+        'title' => 'Successful Payment!',
+        'info' => 'Your payment has been accepted. It will take a few more minutes to validate.',
     ],
 
     'dashboard' => [
         'buyer' => 'Buyer',
-        'earning' => 'Your earnings',
+        'earning' => 'Your Earnings',
         'date' => 'Date',
-        'transaction' => 'Transactions ID',
+        'transaction' => 'Transaction ID',
         'gateway' => 'Gateway'
     ],
-
 ];

@@ -31,6 +31,12 @@
         width: 50%;
         height: 100%;
 
+        &-header-second {
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+        }
+
         &-header {
             text-align: center;
             font-size: 18px;
@@ -38,7 +44,7 @@
 
         &-top {
             width: 100%;
-            height: 60%;
+            height: 70%;
             overflow-y: scroll;
             overflow-x: hidden;
         }
@@ -46,8 +52,24 @@
         &-bottom {
             border-top: 1px solid gray;
             width: 100%;
-            height: 40%;
+            height: 30%;
             overflow-y: scroll;
+        }
+
+        &-actions {
+
+            border-bottom: 1px solid gray;
+            margin-bottom: 5px;
+
+            &-info {
+                display: flex;
+                flex-direction: column;
+
+                span {
+                    text-transform: capitalize;
+                }
+            }
+
         }
     }
 }
@@ -67,6 +89,7 @@
     z-index: 2;
     cursor: col-resize;
 }
+
 .resizer-x::before,
 .resizer-x::after {
     width: 2px;
