@@ -45,7 +45,6 @@
                     <li><a class="link-light text-decoration-none" href="https://groupez.dev/" target="_blank" title="GroupeZ website">GroupeZ</a></li>
                     <li><a class="link-light text-decoration-none" href="https://docs.zmenu.dev/" target="_blank" title="zMenu documentation">Documentation</a></li>
                     <li><a class="link-light text-decoration-none" href="https://serveur-minecraft-vote.fr/" target="_blank" title="Serveur Minecraft Vote website">Serveur Minecraft Vote</a></li>
-                    <li><a class="link-light text-decoration-none" href="https://stats.groupez.dev/" target="_blank" title="GroupeZ Stats website">Stats</a></li>
                 </ul>
             </div>
         </div>
