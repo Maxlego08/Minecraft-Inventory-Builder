@@ -21,247 +21,395 @@ return new class extends Migration {
             $table->timestamps();
         });
 
-        ActionTypeContent::create([
-            'type_id' => 1,
-            'key' => 'commands',
-            'data_type' => 'textarea',
-            'description' => 'Commands that the player must perform',
-        ]);
-        ActionTypeContent::create([
-            'type_id' => 1,
-            'key' => 'commandInChat',
-            'data_type' => 'bool',
-            'value' => 'false',
-            'description' => 'Allows to execute commands in chat'
-        ]);
+        // Assuming type_id starts from 1 and increments sequentially
+        $actionTypeContents = [
+            // player_command
+            [
+                'type_id' => 1,
+                'key' => 'commands',
+                'data_type' => 'textarea',
+                'description' => 'Commands that the player must perform',
+            ],
+            [
+                'type_id' => 1,
+                'key' => 'command-in-chat',
+                'data_type' => 'bool',
+                'value' => 'false',
+                'description' => 'Allows to execute commands in chat',
+            ],
 
-        ActionTypeContent::create([
-            'type_id' => 2,
-            'key' => 'commands',
-            'data_type' => 'textarea',
-            'description' => 'Commands that the console must perform'
-        ]);
+            // random_player_command
+            [
+                'type_id' => 2,
+                'key' => 'commands',
+                'data_type' => 'textarea',
+                'description' => 'Random commands that the player must perform',
+            ],
+            [
+                'type_id' => 2,
+                'key' => 'amount',
+                'data_type' => 'integer',
+                'value' => '1',
+                'description' => 'integer of random commands to execute',
+            ],
+            [
+                'type_id' => 2,
+                'key' => 'command-in-chat',
+                'data_type' => 'bool',
+                'value' => 'false',
+                'description' => 'Allows to execute commands in chat',
+            ],
 
-        ActionTypeContent::create([
-            'type_id' => 3,
-            'key' => 'messages',
-            'data_type' => 'textarea',
-            'description' => 'Messages to be displayed'
-        ]);
-        ActionTypeContent::create([
-            'type_id' => 3,
-            'key' => 'minimessage',
-            'data_type' => 'bool',
-            'value' => 'true',
-            'description' => 'Indicates if the message is a mini message'
-        ]);
+            // console_command
+            [
+                'type_id' => 3,
+                'key' => 'commands',
+                'data_type' => 'textarea',
+                'description' => 'Commands that the console must perform',
+            ],
 
-        ActionTypeContent::create([
-            'type_id' => 4,
-            'key' => 'messages',
-            'data_type' => 'textarea',
-            'description' => 'Broadcast messages to be displayed'
-        ]);
-        ActionTypeContent::create([
-            'type_id' => 4,
-            'key' => 'minimessage',
-            'data_type' => 'bool',
-            'value' => 'true',
-            'description' => 'Indicates if the broadcast message is a mini message'
-        ]);
+            // random_console_command
+            [
+                'type_id' => 4,
+                'key' => 'commands',
+                'data_type' => 'textarea',
+                'description' => 'Random commands that the console must perform',
+            ],
+            [
+                'type_id' => 4,
+                'key' => 'amount',
+                'data_type' => 'integer',
+                'value' => '1',
+                'description' => 'integer of random commands to execute',
+            ],
 
-        ActionTypeContent::create([
-            'type_id' => 5,
-            'key' => 'messages',
-            'data_type' => 'textarea',
-            'description' => 'Chat messages to be displayed'
-        ]);
+            // message
+            [
+                'type_id' => 5,
+                'key' => 'messages',
+                'data_type' => 'textarea',
+                'description' => 'Messages to send to the player',
+            ],
+            [
+                'type_id' => 5,
+                'key' => 'mini-message',
+                'data_type' => 'bool',
+                'value' => 'true',
+                'description' => 'Enable MiniMessage format if supported',
+            ],
 
-        ActionTypeContent::create([
-            'type_id' => 7,
-            'key' => 'inventory',
-            'data_type' => 'string',
-            'description' => 'Name of the inventory'
-        ]);
-        ActionTypeContent::create([
-            'type_id' => 7,
-            'key' => 'plugin',
-            'data_type' => 'string',
-            'value' => 'zMenu',
-            'description' => 'Name of the plugin'
-        ]);
-        ActionTypeContent::create([
-            'type_id' => 7,
-            'key' => 'page',
-            'data_type' => 'integer',
-            'value' => '1',
-            'description' => 'Page number'
-        ]);
-        ActionTypeContent::create([
-            'type_id' => 7,
-            'key' => 'arguments',
-            'data_type' => 'textarea',
-            'description' => 'List of arguments'
-        ]);
+            // broadcast
+            [
+                'type_id' => 6,
+                'key' => 'messages',
+                'data_type' => 'textarea',
+                'description' => 'Messages to broadcast to all online players',
+            ],
+            [
+                'type_id' => 6,
+                'key' => 'mini-message',
+                'data_type' => 'bool',
+                'value' => 'true',
+                'description' => 'Enable MiniMessage format if supported',
+            ],
 
-        ActionTypeContent::create([
-            'type_id' => 8,
-            'key' => 'server',
-            'data_type' => 'string',
-            'description' => 'Name of the server to connect to'
-        ]);
+            // chat
+            [
+                'type_id' => 7,
+                'key' => 'messages',
+                'data_type' => 'textarea',
+                'description' => 'Messages to send on behalf of the player',
+            ],
 
-        ActionTypeContent::create([
-            'type_id' => 9,
-            'key' => 'sound',
-            'data_type' => 'string',
-            'description' => 'Name of the sound to be played'
-        ]);
-        ActionTypeContent::create([
-            'type_id' => 9,
-            'key' => 'pitch',
-            'data_type' => 'float',
-            'value' => '1.0',
-            'description' => 'Pitch of the sound (default is 1.0f)'
-        ]);
-        ActionTypeContent::create([
-            'type_id' => 9,
-            'key' => 'volume',
-            'data_type' => 'float',
-            'value' => '1.0',
-            'description' => 'Volume of the sound (default is 1.0f)'
-        ]);
+            // close
+            /*[
+                'type_id' => 8,
+                'key' => 'action',
+                'data_type' => 'string',
+                'description' => 'Close the player\'s inventory',
+            ],*/
 
-        ActionTypeContent::create([
-            'type_id' => 10,
-            'key' => 'sound',
-            'data_type' => 'string',
-            'description' => 'Name of the sound to be broadcasted'
-        ]);
-        ActionTypeContent::create([
-            'type_id' => 10,
-            'key' => 'pitch',
-            'data_type' => 'float',
-            'description' => 'Pitch of the broadcasted sound (default is 1.0f)'
-        ]);
-        ActionTypeContent::create([
-            'type_id' => 10,
-            'key' => 'volume',
-            'data_type' => 'float',
-            'value' => '1.0',
-            'description' => 'Volume of the broadcasted sound (default is 1.0f)'
-        ]);
+            // inventory
+            [
+                'type_id' => 9,
+                'key' => 'inventory',
+                'data_type' => 'string',
+                'description' => 'Name of the inventory to open',
+            ],
+            [
+                'type_id' => 9,
+                'key' => 'plugin',
+                'data_type' => 'string',
+                'description' => 'Name of the plugin that provides the inventory',
+            ],
+            [
+                'type_id' => 9,
+                'key' => 'page',
+                'data_type' => 'integer',
+                'description' => 'Page integer of the inventory',
+            ],
+            [
+                'type_id' => 9,
+                'key' => 'arguments',
+                'data_type' => 'string',
+                'description' => 'Arguments for the inventory',
+            ],
 
-        ActionTypeContent::create([
-            'type_id' => 11,
-            'key' => 'action',
-            'data_type' => 'string',
-            'value' => '1.0',
-            'description' => 'Action to be performed (SET/REMOVE/ADD/SUBTRACT)'
-        ]);
-        ActionTypeContent::create([
-            'type_id' => 11,
-            'key' => 'key',
-            'data_type' => 'string',
-            'description' => 'Key of the data'
-        ]);
-        ActionTypeContent::create([
-            'type_id' => 11,
-            'key' => 'value',
-            'data_type' => 'string',
-            'description' => 'Value of the data'
-        ]);
-        ActionTypeContent::create([
-            'type_id' => 11,
-            'key' => 'seconds',
-            'data_type' => 'integer',
-            'description' => 'Expiration time in seconds (default is 0)'
-        ]);
+            // connect
+            [
+                'type_id' => 10,
+                'key' => 'server',
+                'data_type' => 'string',
+                'description' => 'Name of the server to connect to',
+            ],
 
-        ActionTypeContent::create([
-            'type_id' => 14,
-            'key' => 'name',
-            'data_type' => 'string',
-            'description' => 'Name of the shopkeeper'
-        ]);
+            // sound
+            [
+                'type_id' => 11,
+                'key' => 'sound',
+                'data_type' => 'string',
+                'description' => 'Sound to play using XSound',
+            ],
+            [
+                'type_id' => 11,
+                'key' => 'pitch',
+                'data_type' => 'integer',
+                'value' => '1.0',
+                'description' => 'Pitch of the sound',
+            ],
+            [
+                'type_id' => 11,
+                'key' => 'volume',
+                'data_type' => 'integer',
+                'value' => '1.0',
+                'description' => 'Volume of the sound',
+            ],
 
-        ActionTypeContent::create([
-            'type_id' => 15,
-            'key' => 'author',
-            'data_type' => 'string',
-            'description' => 'Book author'
-        ]);
-        ActionTypeContent::create([
-            'type_id' => 15,
-            'key' => 'title',
-            'data_type' => 'string',
-            'description' => 'Book title'
-        ]);
-        ActionTypeContent::create([
-            'type_id' => 15,
-            'key' => 'lines',
-            'data_type' => 'textarea',
-            'description' => 'Book pages'
-        ]);
+            // broadcast_sound
+            [
+                'type_id' => 12,
+                'key' => 'sound',
+                'data_type' => 'string',
+                'description' => 'Sound to broadcast using XSound',
+            ],
+            [
+                'type_id' => 12,
+                'key' => 'pitch',
+                'data_type' => 'integer',
+                'value' => '1.0',
+                'description' => 'Pitch of the sound',
+            ],
+            [
+                'type_id' => 12,
+                'key' => 'volume',
+                'data_type' => 'integer',
+                'value' => '1.0',
+                'description' => 'Volume of the sound',
+            ],
 
-        ActionTypeContent::create([
-            'type_id' => 16,
-            'key' => 'message',
-            'data_type' => 'string',
-            'description' => 'Message to be displayed in the action bar'
-        ]);
-        ActionTypeContent::create([
-            'type_id' => 16,
-            'key' => 'minimessage',
-            'data_type' => 'bool',
-            'description' => 'Indicates if the message is a mini message'
-        ]);
+            // data
+            [
+                'type_id' => 13,
+                'key' => 'action',
+                'data_type' => 'string',
+                'description' => 'Action to perform on player data (SET/REMOVE/ADD/SUBTRACT)',
+            ],
+            [
+                'type_id' => 13,
+                'key' => 'key',
+                'data_type' => 'string',
+                'description' => 'Data key to update',
+            ],
+            [
+                'type_id' => 13,
+                'key' => 'value',
+                'data_type' => 'string',
+                'description' => 'Value to set for the data key',
+            ],
+            [
+                'type_id' => 13,
+                'key' => 'seconds',
+                'data_type' => 'integer',
+                'value' => '0',
+                'description' => 'Expiration time in seconds',
+            ],
 
+            // refresh
+            /*[
+                'type_id' => 14,
+                'key' => 'action',
+                'data_type' => 'string',
+                'description' => 'Refresh the current button',
+            ],*/
 
-        ActionTypeContent::create([
-            'type_id' => 17,
-            'key' => 'amount',
-            'data_type' => 'integer',
-            'description' => 'Amount to withdraw'
-        ]);
+            // back
+            /*[
+                'type_id' => 15,
+                'key' => 'action',
+                'data_type' => 'string',
+                'description' => 'Return to the previous inventory',
+            ],*/
 
-        ActionTypeContent::create([
-            'type_id' => 17,
-            'key' => 'currency',
-            'data_type' => 'string',
-            'description' => 'Currency Name'
-        ]);
+            // shopkeeper
+            [
+                'type_id' => 16,
+                'key' => 'name',
+                'data_type' => 'string',
+                'description' => 'Name of the Shopkeeper inventory to open',
+            ],
 
-        ActionTypeContent::create([
-            'type_id' => 17,
-            'key' => 'economy',
-            'data_type' => 'string',
-            'description' => 'Economy Name (Only the zEssentials, CoinsEngine and EcoBits plugins need this)'
-        ]);
+            // book
+            [
+                'type_id' => 17,
+                'key' => 'author',
+                'data_type' => 'string',
+                'description' => 'Author of the book',
+            ],
+            [
+                'type_id' => 17,
+                'key' => 'title',
+                'data_type' => 'string',
+                'description' => 'Title of the book',
+            ],
+            [
+                'type_id' => 17,
+                'key' => 'lines',
+                'data_type' => 'textarea',
+                'description' => 'Content of the book pages',
+            ],
 
-        ActionTypeContent::create([
-            'type_id' => 18,
-            'key' => 'amount',
-            'data_type' => 'integer',
-            'description' => 'Amount to deposit'
-        ]);
+            // actionbar
+            [
+                'type_id' => 18,
+                'key' => 'message',
+                'data_type' => 'string',
+                'description' => 'Message to display in the action bar',
+            ],
+            [
+                'type_id' => 18,
+                'key' => 'mini-message',
+                'data_type' => 'bool',
+                'value' => 'true',
+                'description' => 'Enable MiniMessage format if supported',
+            ],
 
-        ActionTypeContent::create([
-            'type_id' => 18,
-            'key' => 'currency',
-            'data_type' => 'string',
-            'description' => 'Currency Name'
-        ]);
+            // withdraw
+            [
+                'type_id' => 19,
+                'key' => 'amount',
+                'data_type' => 'integer',
+                'description' => 'Amount to withdraw from the player\'s account',
+            ],
+            [
+                'type_id' => 19,
+                'key' => 'currency',
+                'data_type' => 'string',
+                'description' => 'Name of the currency to withdraw',
+            ],
+            [
+                'type_id' => 19,
+                'key' => 'economy',
+                'data_type' => 'string',
+                'description' => 'Name of the economy plugin (if required)',
+            ],
 
-        ActionTypeContent::create([
-            'type_id' => 18,
-            'key' => 'economy',
-            'data_type' => 'string',
-            'description' => 'Economy Name (Only the zEssentials, CoinsEngine and EcoBits plugins need this)'
-        ]);
+            // deposit
+            [
+                'type_id' => 20,
+                'key' => 'amount',
+                'data_type' => 'integer',
+                'description' => 'Amount to deposit to the player\'s account',
+            ],
+            [
+                'type_id' => 20,
+                'key' => 'currency',
+                'data_type' => 'string',
+                'description' => 'Name of the currency to deposit',
+            ],
+            [
+                'type_id' => 20,
+                'key' => 'economy',
+                'data_type' => 'string',
+                'description' => 'Name of the economy plugin (if required)',
+            ],
 
+            // title
+            [
+                'type_id' => 21,
+                'key' => 'title',
+                'data_type' => 'string',
+                'description' => 'Title to display',
+            ],
+            [
+                'type_id' => 21,
+                'key' => 'subtitle',
+                'data_type' => 'string',
+                'description' => 'Subtitle to display',
+            ],
+            [
+                'type_id' => 21,
+                'key' => 'start',
+                'data_type' => 'integer',
+                'description' => 'Start time in milliseconds',
+            ],
+            [
+                'type_id' => 21,
+                'key' => 'duration',
+                'data_type' => 'integer',
+                'description' => 'Duration in milliseconds',
+            ],
+            [
+                'type_id' => 21,
+                'key' => 'end',
+                'data_type' => 'integer',
+                'description' => 'End time in milliseconds',
+            ],
 
+            // teleport
+            [
+                'type_id' => 22,
+                'key' => 'world',
+                'data_type' => 'string',
+                'description' => 'Name of the world to teleport to',
+                'value' => 'world',
+            ],
+            [
+                'type_id' => 22,
+                'key' => 'x',
+                'data_type' => 'float',
+                'description' => 'X coordinate',
+            ],
+            [
+                'type_id' => 22,
+                'key' => 'y',
+                'data_type' => 'float',
+                'description' => 'Y coordinate',
+            ],
+            [
+                'type_id' => 22,
+                'key' => 'z',
+                'data_type' => 'float',
+                'description' => 'Z coordinate',
+            ],
+            [
+                'type_id' => 22,
+                'key' => 'yaw',
+                'data_type' => 'float',
+                'description' => 'Yaw rotation',
+                'value' => '0',
+            ],
+            [
+                'type_id' => 22,
+                'key' => 'pitch',
+                'data_type' => 'float',
+                'description' => 'Pitch rotation',
+                'value' => '0',
+            ],
+        ];
 
+        foreach ($actionTypeContents as $content) {
+            ActionTypeContent::create($content);
+        }
     }
 
     /**
