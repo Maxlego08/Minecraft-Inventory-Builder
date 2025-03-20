@@ -155,15 +155,16 @@ class BuilderDownloadController extends Controller
                 if ($value) {
                     if ($content->data_type === 'textarea') {
                         $currentAction[$content->key] = explode("\n", $value);
-                    } else if ($content->data_type === 'bool') {
-                        $currentAction[$content->key] = settype($value, 'bool') ?: $value;
-                    } else if ($content->data_type === 'integer') {
-                        $currentAction[$content->key] = (int)settype($value, 'integer') ?: $value;
-                    } else if ($content->data_type === 'float') {
-                        $currentAction[$content->key] = (float)settype($value, 'float') ?: $value;
+                    } elseif ($content->data_type === 'bool') {
+                        $currentAction[$content->key] = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) ?? $value;
+                    } elseif ($content->data_type === 'integer') {
+                        $currentAction[$content->key] = filter_var($value, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE) ?? $value;
+                    } elseif ($content->data_type === 'float') {
+                        $currentAction[$content->key] = filter_var($value, FILTER_VALIDATE_FLOAT, FILTER_NULL_ON_FAILURE) ?? $value;
                     } else {
                         $currentAction[$content->key] = $value;
                     }
+
                 }
             }
             $actions[] = $currentAction;

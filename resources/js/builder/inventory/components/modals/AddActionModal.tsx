@@ -15,7 +15,7 @@ const AddActionModal = ({handleClose, show, actions, createNewAction}) => {
                                 <span>
                                     {action.name}
                                     { action.documentation_url && (<a className={'ms-2 text-decoration-none'}
-                                                                      href={'https://docs.zmenu.dev/configurations/buttons/actions'}
+                                                                      href={action.documentation_url}
                                                                       target={'_blank'}>(<i
                                         className="bi bi-question-lg"></i>)</a>)}
                                 </span>
