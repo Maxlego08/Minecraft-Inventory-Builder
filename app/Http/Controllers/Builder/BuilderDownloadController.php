@@ -112,19 +112,13 @@ class BuilderDownloadController extends Controller
 
         if (isset($button->lore)) $array['item']['lore'] = explode("\n", $button->lore);
 
-        if ($button->model_id != 0) $array['item']['modelId'] = $button->model_id;
+        if ($button->model_id != 0) $array['item']['model-id'] = $button->model_id;
         if ($button->glow) $array['item']['glow'] = true;
-        if ($button->is_permanent) $array['isPermanent'] = true;
-        if ($button->close_inventory) $array['closeInventory'] = true;
-        if ($button->refresh_on_click) $array['refreshOnClick'] = true;
-        if ($button->update_on_click) $array['updateOnClick'] = true;
+        if ($button->is_permanent) $array['is-permanent'] = true;
+        if ($button->close_inventory) $array['close-inventory'] = true;
+        if ($button->refresh_on_click) $array['refresh-on-click'] = true;
+        if ($button->update_on_click) $array['update-on-click'] = true;
         if ($button->update) $array['update'] = true;
-        if (isset($button->sound)) $array['sound'] = $button->sound;
-        if ($button->pitch != 1) $array['pitch'] = $button->pitch;
-        if ($button->volume != 1) $array['volume'] = $button->volume;
-        if (isset($button->messages)) $array['messages'] = explode("\n", $button->messages);
-        if (isset($button->commands)) $array['commands'] = explode("\n", $button->commands);
-        if (isset($button->console_commands)) $array['consoleCommands'] = explode("\n", $button->console_commands);
 
         $data = json_decode($button->button_data ?? '{}', true);
         foreach ($button->buttonType->contents as $content) {
@@ -148,6 +142,38 @@ class BuilderDownloadController extends Controller
                 }
             }
         }
+
+        $actions = [];
+
+        foreach ($button->actions as $action) {
+            $json = json_decode($action->data, true);
+            $currentAction = [
+                'type' => $action->action->name,
+            ];
+            foreach ($action->action->contents as $content) {
+                $value = $json[$content->key];
+                if ($value) {
+                    if ($content->data_type === 'textarea') {
+                        $currentAction[$content->key] = explode("\n", $value);
+                    } elseif ($content->data_type === 'bool') {
+                        $currentAction[$content->key] = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) ?? $value;
+                    } elseif ($content->data_type === 'integer') {
+                        $currentAction[$content->key] = filter_var($value, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE) ?? $value;
+                    } elseif ($content->data_type === 'float') {
+                        $currentAction[$content->key] = filter_var($value, FILTER_VALIDATE_FLOAT, FILTER_NULL_ON_FAILURE) ?? $value;
+                    } else {
+                        $currentAction[$content->key] = $value;
+                    }
+
+                }
+            }
+            $actions[] = $currentAction;
+        }
+
+        if (!empty($actions)) {
+            $array['actions'] = $actions;
+        }
+        // dd($array);
 
         return $array;
     }

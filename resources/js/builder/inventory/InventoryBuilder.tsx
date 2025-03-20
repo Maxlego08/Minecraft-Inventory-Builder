@@ -1,7 +1,6 @@
 import {useCallback, useEffect, useState} from "react";
 import Items from "./components/items/Items";
 import Inventory from "./components/Inventory"
-import slot from "./components/Slot";
 import api from "../services/api"
 import ButtonConfiguration from "./components/configuration/button/ButtonConfiguration";
 import ItemStackConfiguration from "./components/configuration/itemstack/ItemStackConfiguration";
@@ -457,6 +456,14 @@ const InventoryBuilder = () => {
                 formData.append(`slot[${index}]button_data`, slot.button?.button_data ?? null);
                 if (slot.button?.display_name) formData.append(`slot[${index}]display_name`, slot.button.display_name);
                 if (slot.button?.lore) formData.append(`slot[${index}]lore`, slot.button.lore);
+
+                slot.button.actions.forEach((action, actionIndex) => {
+                    formData.append(`slot[${index}]actions[${actionIndex}][data]`, action.data);
+                    if (action?.id) {
+                        formData.append(`slot[${index}]actions[${actionIndex}][id]`, action.id);
+                    }
+                    formData.append(`slot[${index}]actions[${actionIndex}][inventory_action_type_id]`, action.inventory_action_type_id);
+                });
             }
         });
 
@@ -508,7 +515,8 @@ const InventoryBuilder = () => {
                     <div className={'resizer-x'}/>
                     <ButtonConfiguration key={'configuration-button'} inventoryContent={inventoryContent}
                                          updateButton={updateButton}
-                                         selectedSlots={slots} buttonTypes={data.buttonTypes} sounds={data.sounds} actions={data.actions}/>
+                                         selectedSlots={slots} buttonTypes={data.buttonTypes} sounds={data.sounds}
+                                         actions={data.actions}/>
                 </div>
             </div>
         </div>

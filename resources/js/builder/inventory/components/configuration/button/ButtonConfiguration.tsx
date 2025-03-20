@@ -52,6 +52,18 @@ const ButtonConfiguration = ({inventoryContent, buttonTypes, updateButton, selec
         });
     };
 
+
+    const updateActions = (actions) => {
+        slotsToUpdate.forEach(slotIndex => {
+            const updatedButton = {
+                ...inventoryContent.slots[slotIndex].button,
+                ['actions']: actions,
+            };
+
+            updateButton(slotIndex, updatedButton);
+        });
+    }
+
     const handleChangeData = (event, element) => {
 
 
@@ -91,8 +103,6 @@ const ButtonConfiguration = ({inventoryContent, buttonTypes, updateButton, selec
         return buttonTypes.find(button => currentSlot.button.type_id == button.id) ?? ''
     }
 
-    console.log(actions)
-
     return inventoryContent.currentSlot >= 0 ? (
         <div className={'configurations-button'}>
             <div className={'configurations-button-top p-2'}>
@@ -119,7 +129,7 @@ const ButtonConfiguration = ({inventoryContent, buttonTypes, updateButton, selec
                 <RefreshOnClick currentSlot={currentSlot} handleChange={handleChange}/>
                 <UpdateOnClick currentSlot={currentSlot} handleChange={handleChange}/>
                 <Update currentSlot={currentSlot} handleChange={handleChange}/>
-                <Actions currentSlot={currentSlot} actions={actions}/>
+                <Actions currentSlot={currentSlot} actions={actions} updateActions={updateActions}/>
             </div>
             <div className={'configurations-button-bottom p-2'}>
                 <div className={'configurations-button-header mb-2'}>
