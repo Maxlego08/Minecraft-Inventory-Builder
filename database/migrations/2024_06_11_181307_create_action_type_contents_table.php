@@ -36,14 +36,14 @@ return new class extends Migration {
         ActionTypeContent::create([
             'type_id' => 2,
             'key' => 'commands',
-            'data_type' => 'array',
+            'data_type' => 'textarea',
             'description' => 'Commands that the console must perform'
         ]);
 
         ActionTypeContent::create([
             'type_id' => 3,
             'key' => 'messages',
-            'data_type' => 'array',
+            'data_type' => 'textarea',
             'description' => 'Messages to be displayed'
         ]);
         ActionTypeContent::create([
@@ -56,7 +56,7 @@ return new class extends Migration {
         ActionTypeContent::create([
             'type_id' => 4,
             'key' => 'messages',
-            'data_type' => 'array',
+            'data_type' => 'textarea',
             'description' => 'Broadcast messages to be displayed'
         ]);
         ActionTypeContent::create([
@@ -69,7 +69,7 @@ return new class extends Migration {
         ActionTypeContent::create([
             'type_id' => 5,
             'key' => 'messages',
-            'data_type' => 'array',
+            'data_type' => 'textarea',
             'description' => 'Chat messages to be displayed'
         ]);
 
@@ -94,7 +94,7 @@ return new class extends Migration {
         ActionTypeContent::create([
             'type_id' => 7,
             'key' => 'arguments',
-            'data_type' => 'array',
+            'data_type' => 'textarea',
             'description' => 'List of arguments'
         ]);
 
@@ -190,7 +190,7 @@ return new class extends Migration {
         ActionTypeContent::create([
             'type_id' => 15,
             'key' => 'lines',
-            'data_type' => 'array',
+            'data_type' => 'textarea',
             'description' => 'Book pages'
         ]);
 

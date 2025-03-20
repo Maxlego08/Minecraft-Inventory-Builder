@@ -10,14 +10,14 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::table('inventory_buttons', function (Blueprint $table) {
+        /*Schema::table('inventory_buttons', function (Blueprint $table) {
             $table->dropColumn('messages');
             $table->dropColumn('console_commands');
             $table->dropColumn('commands');
             $table->dropColumn('sound');
             $table->dropColumn('volume');
             $table->dropColumn('pitch');
-        });
+        });*/
     }
 
     /**
@@ -25,7 +25,7 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::table('inventory_buttons', function (Blueprint $table) {
+        /*Schema::table('inventory_buttons', function (Blueprint $table) {
 
             $table->longText('messages')->after('button_data')->nullable();
 
@@ -35,6 +35,6 @@ return new class extends Migration {
 
             $table->longText('commands')->after('button_data')->nullable();
             $table->longText('console_commands')->after('button_data')->nullable();
-        });
+        });*/
     }
 };

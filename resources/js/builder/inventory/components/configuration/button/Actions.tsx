@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import TextareaType from "./types/TextaeraType";
 
-const Actions = ({currentSlot, actions}) => {
+const Actions = ({currentSlot, actions, updateActions}) => {
 
     const [currentActions, setCurrentActions] = useState([]);
     useEffect(() => setCurrentActions(currentSlot.button.actions))
@@ -35,14 +35,18 @@ const Actions = ({currentSlot, actions}) => {
                         return (<div>ERROR</div>)
                     }
 
-                    const handleChangeData = () => {
-
+                    const handleChangeData = (event, element) => {
+                        console.log(event.target.value)
+                        console.log(element)
+                        const newActions = currentActions.map((a, i) => i === index ? {...a, data: event.target.value} : a);
+                        updateActions(newActions)
                     }
 
                     return (
                         <div className="builder-accordion-item" key={index}>
                             <input type="checkbox" id={`item-${index}`}/>
-                            <label htmlFor={`item-${index}`} className="builder-accordion-header">{currentAction.name}</label>
+                            <label htmlFor={`item-${index}`}
+                                   className="builder-accordion-header">{currentAction.name}</label>
                             <div className="builder-accordion-content">
                                 <small className="form-text text-muted">{currentAction.description}</small>
                                 {currentAction?.contents?.map((actionType, indexType) => {
@@ -50,7 +54,7 @@ const Actions = ({currentSlot, actions}) => {
                                     if (actionType.data_type === 'textarea') {
                                         return (<TextareaType key={`${indexType}-textarea`} element={actionType}
                                                               handleChange={handleChangeData}
-                                                              defaultValue={''}/>)
+                                                              defaultValue={action.data}/>)
                                     } else {
                                         return (<div>ToDo</div>)
                                     }

@@ -8,6 +8,7 @@ use App\Models\Builder\ButtonType;
 use App\Models\Builder\Folder;
 use App\Models\Builder\Inventory;
 use App\Models\Builder\InventoryButton;
+use App\Models\Builder\InventoryButtonAction;
 use App\Models\Builder\Item;
 use App\Models\MinecraftVersion;
 use App\Models\UserLog;
@@ -69,8 +70,7 @@ class BuilderInventoryController extends Controller
         });
 
         $versions = MinecraftVersion::all();
-        $inventory = $inventory->load('buttons');
-        $inventory = $inventory->load(['buttons.head', 'buttons.item', 'buttons.actions']);
+        $inventory = $inventory->load(['buttons', 'buttons.head', 'buttons.item', 'buttons.actions']);
 
         $buttonTypes = ButtonType::with('contents')->get();
         $actions = ActionType::all();
@@ -82,65 +82,6 @@ class BuilderInventoryController extends Controller
             'buttonTypes' => $buttonTypes,
             'sounds' => $sounds,
             'actions' => $actions,
-        ]);
-    }
-
-    /**
-     * Permet de créer un inventaire
-     *
-     * @param Request $request
-     * @param Folder $folder
-     * @return string
-     */
-    public function create(Request $request, Folder $folder): string
-    {
-        $validatedData = $request->validate([
-            'name' => 'nullable|string|max:500|min:0',
-            'file_name' => 'required|string|max:100|min:3',
-            'size' => 'required|integer',
-            'update_interval' => 'required|integer',
-            'clear_inventory' => 'required'
-        ]);
-
-        $user = user();
-        if ($folder->user_id != $user->id && !$user->isAdmin()) {
-            return json_encode([
-                'result' => 'error',
-                'toast' => createToast('error', 'Error', 'Cannot use this folder.', 5000)
-            ]);
-        }
-
-        $counts = Inventory::where('user_id', $user->id)->count();
-        if ($counts >= $user->role->max_inventories) {
-            return json_encode([
-                'result' => 'error',
-                'toast' => createToast('error', 'Error', 'You cannot create a new inventory, please upgrade your account.', 5000)
-            ]);
-        }
-
-        if ($validatedData['size'] % 9 != 0) {
-            return json_encode([
-                'result' => 'error',
-                'toast' => createToast('error', 'Error', 'Error with your inventory size.', 5000)
-            ]);
-        }
-
-        $inventory = Inventory::create([
-            'name' => $validatedData['name'],
-            'file_name' => $validatedData['file_name'],
-            'size' => $validatedData['size'],
-            'update_interval' => $validatedData['update_interval'],
-            'clear_inventory' => $validatedData['name'] === 'true',
-            'user_id' => $user->id,
-            'folder_id' => $folder->id,
-            'inventory_visibility_id' => 1,
-        ]);
-        userLog("Vient de créer l'inventaire $inventory->file_name.$inventory->id", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
-
-        return json_encode([
-            'result' => 'success',
-            'inventory' => $inventory,
-            'toast' => createToast('success', 'Success', 'InventoryBuilder successfully created.', 5000)
         ]);
     }
 
@@ -271,7 +212,7 @@ class BuilderInventoryController extends Controller
 
             $typeId = $buttonTypes[$slot['type_id']]?->id ?? 1;
 
-            InventoryButton::updateOrCreate(
+            $button = InventoryButton::updateOrCreate(
                 ['inventory_id' => $inventory->id, 'slot' => $currentSlot, 'page' => $page],
                 [
                     'item_id' => $item->id,
@@ -279,7 +220,6 @@ class BuilderInventoryController extends Controller
                     'type_id' => $typeId,
                     'head_id' => $this->cleanSlotValue($slot, 'head_id', null, 'int'),
                     'name' => $name,
-                    'messages' => Str::limit($this->cleanSlotValue($slot, 'messages'), 65535),
                     'display_name' => Str::limit($this->cleanSlotValue($slot, 'display_name'), 65535),
                     'lore' => Str::limit($this->cleanSlotValue($slot, 'lore'), 65535),
                     'is_permanent' => $this->getBoolean($slot, 'is_permanent'),
@@ -289,14 +229,41 @@ class BuilderInventoryController extends Controller
                     'update' => $this->getBoolean($slot, 'update'),
                     'glow' => $this->getBoolean($slot, 'glow'),
                     'model_id' => $this->cleanSlotValue($slot, 'model_id', 0, 'int'),
-                    'sound' => $this->cleanSlotValue($slot, 'sound'),
                     'button_data' => $this->cleanSlotValue($slot, 'button_data'),
-                    'volume' => $this->cleanSlotValue($slot, 'volume', 1),
-                    'pitch' => $this->cleanSlotValue($slot, 'pitch', 1),
-                    'commands' => Str::limit($this->cleanSlotValue($slot, 'commands'), 65535),
-                    'console_commands' => Str::limit($this->cleanSlotValue($slot, 'console_commands'), 65535),
+                    // 'messages' => Str::limit($this->cleanSlotValue($slot, 'messages'), 65535),
+                    // 'sound' => $this->cleanSlotValue($slot, 'sound'),
+                    // 'volume' => $this->cleanSlotValue($slot, 'volume', 1),
+                    // 'pitch' => $this->cleanSlotValue($slot, 'pitch', 1),
+                    // 'commands' => Str::limit($this->cleanSlotValue($slot, 'commands'), 65535),
+                    // 'console_commands' => Str::limit($this->cleanSlotValue($slot, 'console_commands'), 65535),
                 ]
             );
+
+            $actions = $slot['actions'] ?? [];
+            $actionToKeep = [];
+            foreach ($actions as $action) {
+                $actionTypeId = $action['inventory_action_type_id'] ?? -1;
+                if ($actionTypeId === -1) continue;
+                $id = $action['id'] ?? null;
+
+                $toUpdate = [
+                    'inventory_button_id' => $button->id,
+                    'inventory_action_type_id' => $actionTypeId,
+                    'data' => Str::limit($action['data'], 65535),
+                ];
+
+                if ($id) {
+                    $inventoryAction = InventoryButtonAction::updateOrCreate(
+                        [
+                            'id' => $id,
+                        ],
+                        $toUpdate
+                    );
+                } else {
+                    $inventoryAction = InventoryButtonAction::create($toUpdate);
+                }
+                $actionToKeep[] = $inventoryAction->id;
+            }
         }
 
         InventoryButton::where('inventory_id', $inventory->id)->whereNotIn('slot', $slotsToKeep)->delete();
@@ -330,6 +297,65 @@ class BuilderInventoryController extends Controller
         }
 
         return $defaultValue;
+    }
+
+    /**
+     * Permet de créer un inventaire
+     *
+     * @param Request $request
+     * @param Folder $folder
+     * @return string
+     */
+    public function create(Request $request, Folder $folder): string
+    {
+        $validatedData = $request->validate([
+            'name' => 'nullable|string|max:500|min:0',
+            'file_name' => 'required|string|max:100|min:3',
+            'size' => 'required|integer',
+            'update_interval' => 'required|integer',
+            'clear_inventory' => 'required'
+        ]);
+
+        $user = user();
+        if ($folder->user_id != $user->id && !$user->isAdmin()) {
+            return json_encode([
+                'result' => 'error',
+                'toast' => createToast('error', 'Error', 'Cannot use this folder.', 5000)
+            ]);
+        }
+
+        $counts = Inventory::where('user_id', $user->id)->count();
+        if ($counts >= $user->role->max_inventories) {
+            return json_encode([
+                'result' => 'error',
+                'toast' => createToast('error', 'Error', 'You cannot create a new inventory, please upgrade your account.', 5000)
+            ]);
+        }
+
+        if ($validatedData['size'] % 9 != 0) {
+            return json_encode([
+                'result' => 'error',
+                'toast' => createToast('error', 'Error', 'Error with your inventory size.', 5000)
+            ]);
+        }
+
+        $inventory = Inventory::create([
+            'name' => $validatedData['name'],
+            'file_name' => $validatedData['file_name'],
+            'size' => $validatedData['size'],
+            'update_interval' => $validatedData['update_interval'],
+            'clear_inventory' => $validatedData['name'] === 'true',
+            'user_id' => $user->id,
+            'folder_id' => $folder->id,
+            'inventory_visibility_id' => 1,
+        ]);
+        userLog("Vient de créer l'inventaire $inventory->file_name.$inventory->id", UserLog::COLOR_SUCCESS, UserLog::ICON_ADD);
+
+        return json_encode([
+            'result' => 'success',
+            'inventory' => $inventory,
+            'toast' => createToast('success', 'Success', 'InventoryBuilder successfully created.', 5000)
+        ]);
     }
 
     /**
