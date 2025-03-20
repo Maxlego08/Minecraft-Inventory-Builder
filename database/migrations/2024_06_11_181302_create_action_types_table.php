@@ -17,6 +17,8 @@ return new class extends Migration {
             $table->string('name');
             $table->longText('description');
             $table->longText('example')->nullable();
+            $table->longText('documentation_url')->nullable();
+            $table->boolean('is_zmenu_plus')->default(false);
             $table->timestamps();
         });
 
@@ -24,7 +26,8 @@ return new class extends Migration {
             'addon_id' => 1,
             'name' => 'player_command',
             'description' => 'Execute commands as the player. You can send the command in the player tchat.',
-            'exampel' => '- type: player_command
+            'documentation_url' => 'https://docs.zmenu.dev/configurations/buttons/actions#commands',
+            'example' => '- type: player_command
   commands:
     - "firstcommand"
     - "seconds commands %player%"
@@ -35,7 +38,7 @@ return new class extends Migration {
             'addon_id' => 1,
             'name' => 'console_command',
             'description' => 'Execute commands as the console.',
-            'exampel' => '- type: console_command
+            'example' => '- type: console_command
   commands:
     - "firstcommand"
     - "seconds commands %player%"',
@@ -45,7 +48,7 @@ return new class extends Migration {
             'addon_id' => 1,
             'name' => 'message',
             'description' => 'Send a message to the player. You can use placeholders and color/format codes here. Mini message format is enable by default if your server support it.',
-            'exampel' => '- type: message
+            'example' => '- type: message
   messages:
     - "my message"
     - "my second messages"
@@ -56,7 +59,7 @@ return new class extends Migration {
             'addon_id' => 1,
             'name' => 'broadcast',
             'description' => 'Send a message to the online players. You can use placeholders and color/format codes here. Mini message format is enable by default if your server support it.',
-            'exampel' => '- type: broadcast
+            'example' => '- type: broadcast
   messages:
     - "my message"
     - "my second message to %player%"
@@ -67,7 +70,7 @@ return new class extends Migration {
             'addon_id' => 1,
             'name' => 'chat',
             'description' => 'Sends messages instead of the player.',
-            'exampel' => '- type: chat
+            'example' => '- type: chat
   messages:
     - "my message"',
         ]);
@@ -76,14 +79,14 @@ return new class extends Migration {
             'addon_id' => 1,
             'name' => 'close',
             'description' => 'Closes the player’s inventory.',
-            'exampel' => '- type: close',
+            'example' => '- type: close',
         ]);
 
         ActionType::create([
             'addon_id' => 1,
             'name' => 'inventory',
             'description' => 'Opens an inventory of zMenu.',
-            'exampel' => '- type: inventory
+            'example' => '- type: inventory
   inventory: <inventory name>
   plugin: <plugin name>
   page: <page>
@@ -94,7 +97,7 @@ return new class extends Migration {
             'addon_id' => 1,
             'name' => 'connect',
             'description' => 'Allows sending the player to another server, only works with BungeeCord and Velocity.',
-            'exampel' => '- type: connect
+            'example' => '- type: connect
   server: <server name>',
         ]);
 
@@ -102,7 +105,7 @@ return new class extends Migration {
             'addon_id' => 1,
             'name' => 'sound',
             'description' => 'Send a sound to a player, you must use XSound for sound.',
-            'exampel' => '- type: sound
+            'example' => '- type: sound
   sound: <xsound>
   pitch: <sound pitch> # 1.0f by default
   volume: <sound volume> # 1.0f by default',
@@ -112,7 +115,7 @@ return new class extends Migration {
             'addon_id' => 1,
             'name' => 'broadcast_sound',
             'description' => 'Send a sound to the online players, you must use XSound for sound.',
-            'exampel' => '- type: broadcast_sound
+            'example' => '- type: broadcast_sound
   sound: <xsound>
   pitch: <sound pitch> # 1.0f by default
   volume: <sound volume> # 1.0f by default',
@@ -122,7 +125,7 @@ return new class extends Migration {
             'addon_id' => 1,
             'name' => 'data',
             'description' => 'Update player data.',
-            'exampel' => '- type: data
+            'example' => '- type: data
   action: <SET/REMOVE/ADD/SUBTRACT>
   key: <data key>
   value: <data value>
@@ -133,21 +136,21 @@ return new class extends Migration {
             'addon_id' => 1,
             'name' => 'refresh',
             'description' => 'Refresh current button. Work only in click requirement',
-            'exampel' => '- type: refresh',
+            'example' => '- type: refresh',
         ]);
 
         ActionType::create([
             'addon_id' => 1,
             'name' => 'back',
             'description' => 'Return to previous inventory.',
-            'exampel' => '- type: back',
+            'example' => '- type: back',
         ]);
 
         ActionType::create([
             'addon_id' => 1,
             'name' => 'shopkeeeper',
             'description' => 'Open a Shopkeeper trading inventory',
-            'exampel' => '- type: shopkeeper
+            'example' => '- type: shopkeeper
   name: <shopkeeper name>',
         ]);
 
@@ -155,7 +158,7 @@ return new class extends Migration {
             'addon_id' => 1,
             'name' => 'book',
             'description' => 'Open a book',
-            'exampel' => "- type: book
+            'example' => "- type: book
   author: 'Maxlego08' # Book author
   title: '&cTest' # Book title
   lines: # Book pages
@@ -170,7 +173,7 @@ return new class extends Migration {
             'addon_id' => 1,
             'name' => 'actionbar',
             'description' => 'Allows to send a message in the action bar of the player',
-            'exampel' => '- type: actionbar
+            'example' => '- type: actionbar
   message: "my message"
   minimessage: true # true by default',
         ]);
@@ -179,7 +182,7 @@ return new class extends Migration {
             'addon_id' => 1,
             'name' => 'withdraw',
             'description' => 'Allows you to withdraw money from the player’s account. Works with the Vault.',
-            'exampel' => '- type: withdraw
+            'example' => '- type: withdraw
   amount: <amount>',
         ]);
 
@@ -187,7 +190,7 @@ return new class extends Migration {
             'addon_id' => 1,
             'name' => 'deposit',
             'description' => 'Allows you to deposit money from the player’s account. Works with the Vault.',
-            'exampel' => '- type: deposit
+            'example' => '- type: deposit
   amount: <amount>',
         ]);
     }

@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->string('key');
             $table->longText('data_type');
             $table->longText('description')->nullable();
+            $table->longText('value')->nullable();
             $table->timestamps();
         });
 
@@ -24,12 +25,13 @@ return new class extends Migration {
             'type_id' => 1,
             'key' => 'commands',
             'data_type' => 'textarea',
-            'description' => 'Commands that the player must perform'
+            'description' => 'Commands that the player must perform',
         ]);
         ActionTypeContent::create([
             'type_id' => 1,
             'key' => 'commandInChat',
             'data_type' => 'bool',
+            'value' => 'false',
             'description' => 'Allows to execute commands in chat'
         ]);
 
@@ -50,6 +52,7 @@ return new class extends Migration {
             'type_id' => 3,
             'key' => 'minimessage',
             'data_type' => 'bool',
+            'value' => 'true',
             'description' => 'Indicates if the message is a mini message'
         ]);
 
@@ -63,6 +66,7 @@ return new class extends Migration {
             'type_id' => 4,
             'key' => 'minimessage',
             'data_type' => 'bool',
+            'value' => 'true',
             'description' => 'Indicates if the broadcast message is a mini message'
         ]);
 
@@ -83,12 +87,14 @@ return new class extends Migration {
             'type_id' => 7,
             'key' => 'plugin',
             'data_type' => 'string',
+            'value' => 'zMenu',
             'description' => 'Name of the plugin'
         ]);
         ActionTypeContent::create([
             'type_id' => 7,
             'key' => 'page',
             'data_type' => 'integer',
+            'value' => '1',
             'description' => 'Page number'
         ]);
         ActionTypeContent::create([
@@ -115,12 +121,14 @@ return new class extends Migration {
             'type_id' => 9,
             'key' => 'pitch',
             'data_type' => 'float',
+            'value' => '1.0',
             'description' => 'Pitch of the sound (default is 1.0f)'
         ]);
         ActionTypeContent::create([
             'type_id' => 9,
             'key' => 'volume',
             'data_type' => 'float',
+            'value' => '1.0',
             'description' => 'Volume of the sound (default is 1.0f)'
         ]);
 
@@ -140,6 +148,7 @@ return new class extends Migration {
             'type_id' => 10,
             'key' => 'volume',
             'data_type' => 'float',
+            'value' => '1.0',
             'description' => 'Volume of the broadcasted sound (default is 1.0f)'
         ]);
 
@@ -147,6 +156,7 @@ return new class extends Migration {
             'type_id' => 11,
             'key' => 'action',
             'data_type' => 'string',
+            'value' => '1.0',
             'description' => 'Action to be performed (SET/REMOVE/ADD/SUBTRACT)'
         ]);
         ActionTypeContent::create([
@@ -216,10 +226,38 @@ return new class extends Migration {
         ]);
 
         ActionTypeContent::create([
+            'type_id' => 17,
+            'key' => 'currency',
+            'data_type' => 'string',
+            'description' => 'Currency Name'
+        ]);
+
+        ActionTypeContent::create([
+            'type_id' => 17,
+            'key' => 'economy',
+            'data_type' => 'string',
+            'description' => 'Economy Name (Only the zEssentials, CoinsEngine and EcoBits plugins need this)'
+        ]);
+
+        ActionTypeContent::create([
             'type_id' => 18,
             'key' => 'amount',
             'data_type' => 'integer',
             'description' => 'Amount to deposit'
+        ]);
+
+        ActionTypeContent::create([
+            'type_id' => 18,
+            'key' => 'currency',
+            'data_type' => 'string',
+            'description' => 'Currency Name'
+        ]);
+
+        ActionTypeContent::create([
+            'type_id' => 18,
+            'key' => 'economy',
+            'data_type' => 'string',
+            'description' => 'Economy Name (Only the zEssentials, CoinsEngine and EcoBits plugins need this)'
         ]);
 
 

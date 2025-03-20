@@ -12,6 +12,6 @@ class ActionTypeContent extends Model
     protected $table = 'inventory_action_type_contents';
 
     protected $fillable = [
-        'type_id', 'data_type', 'key', 'description', 'documentation_url'
+        'type_id', 'data_type', 'key', 'description', 'value'
     ];
 }

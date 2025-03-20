@@ -13,7 +13,7 @@ class ActionType extends Model
     protected $table = 'inventory_action_types';
 
     protected $fillable = [
-        'name', 'description', 'addon_id', 'example'
+        'name', 'description', 'addon_id', 'example', 'documentation_url'
     ];
 
     /**
