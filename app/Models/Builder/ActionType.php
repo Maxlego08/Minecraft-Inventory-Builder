@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property int $id
+ * @property int $name
+ * @property ActionTypeContent[] $contents
+ */
 class ActionType extends Model
 {
     use HasFactory;
@@ -13,7 +18,7 @@ class ActionType extends Model
     protected $table = 'inventory_action_types';
 
     protected $fillable = [
-        'name', 'description', 'addon_id', 'example', 'documentation_url'
+        'id', 'name', 'description', 'addon_id', 'example', 'documentation_url'
     ];
 
     /**

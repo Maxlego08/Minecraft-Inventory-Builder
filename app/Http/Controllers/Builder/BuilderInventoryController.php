@@ -193,7 +193,7 @@ class BuilderInventoryController extends Controller
                 // 'console_commands' => Str::limit($this->cleanSlotValue($slot, 'console_commands'), 65535),
             ]);
 
-            $this->updateButton($button);
+            $this->updateActions($button, $slot);
         }
 
         InventoryButton::where('inventory_id', $inventory->id)->whereNotIn('slot', $slotsToKeep)->delete();
@@ -271,7 +271,7 @@ class BuilderInventoryController extends Controller
         return json_encode(['result' => 'success', 'inventory' => $newInventory, 'toast' => createToast('success', 'Success', 'Inventory successfully copied.', 5000)]);
     }
 
-    private function updateActions($button): void
+    private function updateActions($button, $slot): void
     {
         $actions = $slot['actions'] ?? [];
         $actionToKeep = [];

@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $button_data
  * @property ButtonType $buttonType
  * @property Head $head
+ * @property InventoryButtonAction[] $actions
  * @method static InventoryButton[] all()
  */
 class InventoryButton extends Model
@@ -53,6 +54,13 @@ class InventoryButton extends Model
         'glow',
         'model_id',
         'button_data',
+
+        'sound',
+        'pitch',
+        'volume',
+        'console_commands',
+        'commands',
+        'messages',
     ];
 
     /**
