@@ -63,7 +63,7 @@ class BuilderInventoryController extends Controller
         }
 
         $sounds = Cache::remember('xsound:values', 86400, function () {
-            $content = file_get_contents('https://raw.githubusercontent.com/CryptoMorin/XSeries/master/src/main/java/com/cryptomorin/xseries/XSound.java');
+            $content = file_get_contents('https://raw.githubusercontent.com/CryptoMorin/XSeries/refs/heads/master/core/src/main/java/com/cryptomorin/xseries/XSound.java');
             preg_match_all('/^\s{4}([A-Z_]+)(?=\(|,)/m', $content, $matches);
             return $matches[1];
         });
