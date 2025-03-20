@@ -10,9 +10,19 @@ const AddActionModal = ({handleClose, show, actions, createNewAction}) => {
             <Modal.Body>
                 {
                     actions.map((action, index) => (
-                        <div key={index} className={'mt-2'} onClick={() => createNewAction(action)}>
-                            {action.name}
-
+                        <div key={index} className={'mt-2'}>
+                            <div className={'d-flex justify-content-between'}>
+                                <span>
+                                    {action.name}
+                                    { action.documentation_url && (<a className={'ms-2 text-decoration-none'}
+                                                                      href={'https://docs.zmenu.dev/configurations/buttons/actions'}
+                                                                      target={'_blank'}>(<i
+                                        className="bi bi-question-lg"></i>)</a>)}
+                                </span>
+                                <span className={'cursor-pointer'} onClick={() => createNewAction(action)}>Add this action <i
+                                    className="bi bi-arrow-right"></i></span>
+                            </div>
+                            <small className={'text-secondary'}>{action.description}</small>
                         </div>
                     ))
                 }
