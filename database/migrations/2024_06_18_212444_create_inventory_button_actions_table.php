@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('inventory_button_actions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('inventory_button_id')->constrained();
-            $table->foreignId('inventory_action_type_id')->constrained();
+            $table->foreignId('inventory_button_id')->constrained()->onDelete('cascade');
+            $table->foreignId('inventory_action_type_id')->constrained()->onDelete('cascade');
             $table->longText("data");
             $table->timestamps();
         });

@@ -457,7 +457,6 @@ const InventoryBuilder = () => {
                 if (slot.button?.display_name) formData.append(`slot[${index}]display_name`, slot.button.display_name);
                 if (slot.button?.lore) formData.append(`slot[${index}]lore`, slot.button.lore);
 
-                console.log(slot.button.actions);
                 slot.button.actions.forEach((action, actionIndex) => {
                     formData.append(`slot[${index}]actions[${actionIndex}][data]`, action.data);
                     if (action?.id) {

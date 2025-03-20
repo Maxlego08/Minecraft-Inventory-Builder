@@ -1,6 +1,10 @@
 import { Form } from "react-bootstrap";
 
 const BooleanType = ({ element, handleChange, defaultValue = false }) => {
+    // Convertir "false" ou "true" en booléen si besoin
+    // @ts-ignore
+    const isChecked = defaultValue === true || defaultValue === "true";
+
     return (
         <Form.Group className="mb-2">
             <Form.Check
@@ -16,7 +20,7 @@ const BooleanType = ({ element, handleChange, defaultValue = false }) => {
                     </span>
                 }
                 name={element.key}
-                checked={defaultValue}
+                checked={isChecked}
                 onChange={(event) => handleChange(event, element)}
                 className="rounded-1"
             />
