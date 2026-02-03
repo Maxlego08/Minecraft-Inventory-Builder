@@ -99,6 +99,12 @@ return [
                     'route' => 'admin.heads.index',
                     'icon' => 'fas fa-skull',
                     'power' => UserRole::ADMIN
+                ],
+                'files' => [
+                    'name' => 'Fichiers',
+                    'route' => 'admin.files.index',
+                    'icon' => 'fas fa-hdd',
+                    'power' => UserRole::ADMIN
                 ]
             ],
 

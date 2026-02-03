@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Builder\ActionType;
 use App\Models\Builder\ActionTypeContent;
+use App\Models\Builder\Addon;
 use App\Models\UserLog;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -35,7 +36,10 @@ class ActionTypeController extends Controller
      */
     public function create(): \Illuminate\Foundation\Application|View|Factory|Application
     {
-        return view('admins.actions.create');
+        $addons = Addon::all();
+        return view('admins.actions.create', [
+            'addons' => $addons,
+        ]);
     }
 
     /**
@@ -52,10 +56,10 @@ class ActionTypeController extends Controller
             'example' => 'nullable',
             'documentation_url' => 'nullable|url',
             'is_zmenu_plus' => 'nullable|boolean',
+            'addon_id' => 'required|integer|exists:inventory_addons,id',
         ]);
 
         $validatedData['is_zmenu_plus'] = $request->has('is_zmenu_plus');
-        $validatedData['addon_id'] = 1;
 
         $action = ActionType::create($validatedData);
 
@@ -72,8 +76,10 @@ class ActionTypeController extends Controller
      */
     public function edit(ActionType $action): View|\Illuminate\Foundation\Application|Factory|Application
     {
+        $addons = Addon::all();
         return view('admins.actions.edit', [
-            'action' => $action
+            'action' => $action,
+            'addons' => $addons,
         ]);
     }
 
@@ -92,6 +98,7 @@ class ActionTypeController extends Controller
             'example' => 'nullable',
             'documentation_url' => 'nullable|url',
             'is_zmenu_plus' => 'nullable|boolean',
+            'addon_id' => 'required|integer|exists:inventory_addons,id',
         ]);
 
         $validatedData['is_zmenu_plus'] = $request->has('is_zmenu_plus');

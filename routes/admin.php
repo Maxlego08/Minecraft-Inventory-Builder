@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\ActionTypeController;
 use App\Http\Controllers\Admin\AddonController;
 use App\Http\Controllers\Admin\ButtonController;
 use App\Http\Controllers\Admin\ConversationController;
+use App\Http\Controllers\Admin\FileController;
 use App\Http\Controllers\Admin\GiftController;
 use App\Http\Controllers\Admin\HeadController;
 use App\Http\Controllers\Admin\IndexController;
@@ -56,6 +57,12 @@ Route::prefix('reports/')->name('reports.')->group(function () {
 
 // Admin access
 Route::middleware('admin')->group(function () {
+
+    Route::prefix('files/')->name('files.')->group(function () {
+        Route::get('/', [FileController::class, 'index'])->name('index');
+        Route::delete('/{file}', [FileController::class, 'destroy'])->name('destroy');
+        Route::post('/clear-cache', [FileController::class, 'clearCache'])->name('clear-cache');
+    });
 
     Route::prefix('heads/')->name('heads.')->group(function () {
         Route::get('/', [HeadController::class, 'index'])->name('index');

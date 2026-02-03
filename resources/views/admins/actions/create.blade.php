@@ -33,6 +33,15 @@
                         <input type="url" class="form-control" id="documentation_url" name="documentation_url" value="{{ old('documentation_url') }}">
                     </div>
 
+                    <div class="form-group">
+                        <label for="addon_id">Addon</label>
+                        <select class="form-control" id="addon_id" name="addon_id" required>
+                            @foreach($addons as $addon)
+                                <option value="{{ $addon->id }}" {{ old('addon_id') == $addon->id ? 'selected' : '' }}>{{ $addon->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
                     <div class="form-group form-check">
                         <input type="checkbox" class="form-check-input" id="is_zmenu_plus" name="is_zmenu_plus" value="1" {{ old('is_zmenu_plus') ? 'checked' : '' }}>
                         <label class="form-check-label" for="is_zmenu_plus">zMenu+</label>
