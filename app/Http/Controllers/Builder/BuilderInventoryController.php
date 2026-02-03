@@ -63,7 +63,7 @@ class BuilderInventoryController extends Controller
             return $matches[1];
         });
 
-        $versions = MinecraftVersion::all();
+        $versions = MinecraftVersion::orderBy('minecraft_version', 'desc')->get();
         $inventory = $inventory->load(['buttons', 'buttons.head', 'buttons.item', 'buttons.actions']);
 
         $buttonTypes = ButtonType::with('contents')->get();
