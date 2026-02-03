@@ -20,23 +20,37 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalLabel">Information !</h5>
+                    <h5 class="modal-title" id="modalLabel">Website Update!</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
                 </div>
                 <div class="modal-body">
-                    <p>The inventory editor is currently in development.
-                        <br>
-                        You may encounter bugs during your use. It will also be missing features.
-                    </p>
-                    <p class="text-danger">Please report your bugs and ideas here: <a
-                            href="https://github.com/Maxlego08/Minecraft-Inventory-Builder/issues" target="_blank">https://github.com/Maxlego08/Minecraft-Inventory-Builder/issues</a>
-                    </p>
-                        <hr>
-                    <p>If you want to help the development of the site do not hesitate, your help will be welcome to improve the site</p>
+
+                    <h6><strong>What's new?</strong></h6>
+                    <ul>
+                        <li>Minecraft <strong>1.21.1</strong> is now available in the builder</li>
+                        <li>New actions are available for your inventories</li>
+                        <li>New heads have been added</li>
+                        <li>Several bugs have been fixed</li>
+                    </ul>
+
                     <hr>
+
+                    <h6><strong>Partner - Minestrator</strong></h6>
+                    <p>Minestrator is our official partner for Minecraft server hosting. Reliable, performant, and affordable hosting for your servers.</p>
+                    <p>Use the code <strong>GROUPEZ</strong> to get <strong>10% off</strong> on your order!</p>
+                    <a href="https://minestrator.com/a/GROUPEZ" target="_blank">https://minestrator.com</a>
+
+                    <hr>
+
+                    <h6><strong>Discover zTextGenerator</strong></h6>
+                    <p>A new plugin to easily generate text in your inventories. Check it out on Spigot:</p>
+                    <a href="https://www.spigotmc.org/resources/ztextgenerator.130697/" target="_blank">https://www.spigotmc.org/resources/ztextgenerator.130697/</a>
+
+                    <hr>
+
                     <div>Discord: <a href="https://discord.groupez.dev/" target="_blank">https://discord.groupez.dev/</a></div>
                     <div>Support the project: <a href="{{ route('premium.index') }}">Upgrade my account</a></div>
-                    <div>Changelogs: <a href="https://github.com/Maxlego08/Minecraft-Inventory-Builder/blob/master/changelog.md" target="_blank">Click here</a></div>
+                    <div>Report bugs: <a href="https://github.com/Maxlego08/Minecraft-Inventory-Builder/issues" target="_blank">GitHub Issues</a></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
