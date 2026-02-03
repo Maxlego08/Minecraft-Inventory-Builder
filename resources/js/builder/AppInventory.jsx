@@ -9,9 +9,14 @@ root.render(<InventoryBuilder/>)
 
 window.addEventListener("load", function () {
 
-    let isLocal = ((import.meta.env.VITE_APP_ENV ?? 'prod') === 'local')
-    if (isLocal) return
+    /*let isLocal = ((import.meta.env.VITE_APP_ENV ?? 'prod') === 'local')
+    if (isLocal) return*/
+
+    if (localStorage.getItem('monModalSeen')) return
 
     let monModal = new Modal(document.getElementById('monModal'));
-    setTimeout(() => monModal.show(), 1000)
+    setTimeout(() => {
+        monModal.show()
+        localStorage.setItem('monModalSeen', '1')
+    }, 1000)
 });
