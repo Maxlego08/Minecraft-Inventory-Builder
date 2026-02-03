@@ -34,7 +34,7 @@
                         </tr>
                         <tr>
                             <th>Version</th>
-                            <td>{{ $resource->version->version }}</td>
+                            <td>{{ $resource->version?->version ?? 'N/A' }}</td>
                         </tr>
                         <tr>
                             <th>Catégorie</th>

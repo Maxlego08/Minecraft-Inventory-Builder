@@ -64,6 +64,18 @@ return [
                     'icon' => 'fas fa-gifts',
                     'power' => UserRole::ADMIN
                 ],
+                'addons' => [
+                    'name' => "Addons",
+                    'route' => 'admin.addons.index',
+                    'icon' => 'fas fa-plug',
+                    'power' => UserRole::ADMIN
+                ],
+                'actions' => [
+                    'name' => "Actions",
+                    'route' => 'admin.actions.index',
+                    'icon' => 'fas fa-bolt',
+                    'power' => UserRole::ADMIN
+                ],
                 'buttons' => [
                     'name' => "Boutons",
                     'route' => 'admin.buttons.index',
@@ -80,6 +92,12 @@ return [
                     'name' => "Vidéos",
                     'route'=> 'admin.videos.index',
                     'icon' => 'fas fa-video',
+                    'power' => UserRole::ADMIN
+                ],
+                'heads' => [
+                    'name' => 'Têtes',
+                    'route' => 'admin.heads.index',
+                    'icon' => 'fas fa-skull',
                     'power' => UserRole::ADMIN
                 ]
             ],

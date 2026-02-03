@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\ActionTypeController;
+use App\Http\Controllers\Admin\AddonController;
 use App\Http\Controllers\Admin\ButtonController;
 use App\Http\Controllers\Admin\ConversationController;
 use App\Http\Controllers\Admin\GiftController;
+use App\Http\Controllers\Admin\HeadController;
 use App\Http\Controllers\Admin\IndexController;
 use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Admin\ItemController;
@@ -13,16 +16,11 @@ use App\Http\Controllers\Admin\ResourceController;
 use App\Http\Controllers\Admin\StatisticController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\VideoController;
-use App\Http\Controllers\ScrappingController;
 use Illuminate\Support\Facades\Route;
 
 // Moderator access
 Route::get('/', [IndexController::class, 'index'])->name('index');
 Route::get('/statistics', [StatisticController::class, 'index'])->name('statistics');
-Route::get('/test', [ScrappingController::class, 'index2'])->name('test.scrapping');
-// Route::get('/test2', [ScrappingController::class, 'renameFiles'])->name('test.rename');
-// Route::get('/test3', [ScrappingController::class, 'updateDatabase'])->name('test.updatedatabase');
-// Route::get('/test4', [ScrappingController::class, 'updateOtherValues'])->name('test.updateOtherValues');
 
 Route::prefix('resources/')->name('resources.')->group(function () {
     Route::get('/', [ResourceController::class, 'index'])->name('index');
@@ -59,6 +57,13 @@ Route::prefix('reports/')->name('reports.')->group(function () {
 // Admin access
 Route::middleware('admin')->group(function () {
 
+    Route::prefix('heads/')->name('heads.')->group(function () {
+        Route::get('/', [HeadController::class, 'index'])->name('index');
+        Route::post('/download', [HeadController::class, 'downloadCategories'])->name('download');
+        Route::post('/categorize', [HeadController::class, 'categorizeHeads'])->name('categorize');
+        Route::post('/scrape', [HeadController::class, 'scrapeHeads'])->name('scrape');
+    });
+
     Route::get('/update/items', [ItemController::class, 'updateItems'])->name('update.items');
     Route::get('/update/json', [ItemController::class, 'updateJson'])->name('update.json');
 
@@ -88,6 +93,29 @@ Route::middleware('admin')->group(function () {
         Route::post('/store', [GiftController::class, 'store'])->name('store');
         Route::get('/edit/{gift}', [GiftController::class, 'edit'])->name('edit');
         Route::post('/update/{gift}', [GiftController::class, 'update'])->name('update');
+    });
+
+    Route::prefix('/addons')->name('addons.')->group(function () {
+        Route::get('/', [AddonController::class, 'index'])->name('index');
+        Route::get('/create', [AddonController::class, 'create'])->name('create');
+        Route::post('/store', [AddonController::class, 'store'])->name('store');
+        Route::get('/{addon}', [AddonController::class, 'edit'])->name('edit');
+        Route::post('/{addon}/update', [AddonController::class, 'update'])->name('update');
+    });
+
+    Route::prefix('/actions')->name('actions.')->group(function () {
+        Route::get('/', [ActionTypeController::class, 'index'])->name('index');
+        Route::get('/create', [ActionTypeController::class, 'create'])->name('create');
+        Route::post('/store', [ActionTypeController::class, 'store'])->name('store');
+        Route::get('/{action}', [ActionTypeController::class, 'edit'])->name('edit');
+        Route::post('/{action}/update', [ActionTypeController::class, 'update'])->name('update');
+        Route::prefix('/content')->name('content.')->group(function () {
+            Route::get('/{content}', [ActionTypeController::class, 'editContent'])->name('edit');
+            Route::post('/update/{content}', [ActionTypeController::class, 'updateContent'])->name('update');
+            Route::post('/destroy/{content}', [ActionTypeController::class, 'destroyContent'])->name('destroy');
+            Route::get('/create/{action}', [ActionTypeController::class, 'createContent'])->name('create');
+            Route::post('/store/{action}', [ActionTypeController::class, 'storeContent'])->name('store');
+        });
     });
 
     Route::prefix('/buttons')->name('buttons.')->group(function () {

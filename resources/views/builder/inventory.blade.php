@@ -8,13 +8,6 @@
 @section('title', 'Inventory Builder')
 
 @section('app')
-
-    <div class="p-4">
-        <div class="alert alert-warning" role="alert">
-            <i class="bi bi-exclamation-diamond"></i> The Inventory Builder is currently under development. The site is on <a href="https://github.com/Maxlego08/Minecraft-Inventory-Builder" target="_blank">GitHub <i class="bi bi-github"></i></a>. If you want to participate in improving it, do not hesitate!
-        </div>
-    </div>
-
     <div id="builder">
         <div class="inventory-builder">
 

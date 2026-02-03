@@ -4,7 +4,7 @@ const ModelId = ({handleChange, currentSlot}) => {
 
     return (
         <Form.Group className="mb-3">
-            <Form.Label>Custom Model Id <a className={'ms-2'} href={'https://docs.zmenu.dev/configurations/items#modelid'} target={'_blank'}>(<i className="bi bi-question-lg"></i>)</a></Form.Label>
+            <Form.Label>Custom Model Id <a className={'ms-2'} href={'https://docs.groupez.dev/zmenu/configurations/items/item#model-id'} target={'_blank'}>(<i className="bi bi-question-lg"></i>)</a></Form.Label>
             <Form.Control
                 type="number"
                 min={0}

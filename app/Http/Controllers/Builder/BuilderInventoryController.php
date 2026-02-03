@@ -140,21 +140,23 @@ class BuilderInventoryController extends Controller
      */
     private function updateButton(Request $request, Inventory $inventory): void
     {
-        $itemIds = array_column($request['slot'], 'item_id');
+        $slots = $request['slot'] ?? [];
+
+        $itemIds = array_column($slots, 'item_id');
         $itemIds = array_unique(array_filter($itemIds));
 
-        $typeIds = array_column($request['slot'], 'type_id');
+        $typeIds = array_column($slots, 'type_id');
         $typeIds = array_unique(array_filter($typeIds));
 
 
         $items = Item::findMany($itemIds)->keyBy('id');
         $buttonTypes = ButtonType::findMany($typeIds)->keyBy('id');
 
-        $slotsToKeep = array_filter(array_column($request['slot'], 'slot'), function ($value) {
+        $slotsToKeep = array_filter(array_column($slots, 'slot'), function ($value) {
             return ($value !== null && $value !== false);
         });
 
-        foreach ($request['slot'] as $slot) {
+        foreach ($slots as $slot) {
             if (empty($slot) || !isset($items[$slot['item_id']])) continue;
 
             $currentSlot = $slot['slot'];

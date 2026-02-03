@@ -12,7 +12,7 @@ const CloseInventory = ({currentSlot, handleChange}) => {
                 checked={currentSlot.button?.close_inventory ?? false}
                 className={'rounded-1'}
             />
-            <a className={'ms-2'} href={'https://docs.zmenu.dev/configurations/buttons#closeinventory'} target={'_blank'}>(<i className="bi bi-question-lg"></i>)</a>
+            <a className={'ms-2'} href={'https://docs.groupez.dev/zmenu/configurations/buttons/button#close-inventory'} target={'_blank'}>(<i className="bi bi-question-lg"></i>)</a>
         </Form.Group>
     )
 
