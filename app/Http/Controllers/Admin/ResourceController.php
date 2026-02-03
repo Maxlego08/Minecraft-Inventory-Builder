@@ -98,27 +98,34 @@ class ResourceController extends Controller
         ]);
 
         $file = $resource->icon;
-        $fileId = $file->id;
-        Storage::disk('public')->delete("images/$file->file_name.$file->file_extension");
+        $fileId = $file?->id;
+        if ($file) {
+            Storage::disk('public')->delete("images/$file->file_name.$file->file_extension");
+        }
 
         foreach ($resource->versions()->get() as $version) {
             $file = $version->file;
-            Storage::disk('plugins')->delete("$resource->id/$file->file_name.$file->file_extension");
-            foreach ($version->downloads()->get() as $download) $download->delete();
+            if ($file) {
+                Storage::disk('plugins')->delete("$resource->id/$file->file_name.$file->file_extension");
+                $file->delete();
+            }
+            $version->downloads()->delete();
+            $version->likes()->delete();
+            $version->reports()->delete();
+            $version->reviews()->delete();
             $version->delete();
-            $file->delete();
         }
 
-        foreach ($resource->buyers as $buyer) {
-            $buyer->delete();
-        }
-
-        foreach ($resource->reviews as $review) {
-            $review->delete();
-        }
+        $resource->buyers()->delete();
+        $resource->reviews()->delete();
+        $resource->notifications()->delete();
+        $resource->likes()->delete();
+        $resource->reports()->delete();
 
         $resource->delete();
-        File::where('id', $fileId)->delete();
+        if ($fileId) {
+            File::where('id', $fileId)->delete();
+        }
         Storage::disk('plugins')->deleteDirectory($resource->id);
 
         createAlert($resource->user_id, $resource->name, AlertUser::ICON_TRASH, AlertUser::DANGER, 'alerts.alerts.resources.deleted');

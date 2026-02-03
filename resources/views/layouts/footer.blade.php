@@ -18,7 +18,7 @@
                             <a class="nav-link link-primary" href="https://discord.groupez.dev/" target="_blank"><i class="bi bi-discord fs-3"></i></a>
                         </li>
                         <li class="nav-item ms-2">
-                            <a class="nav-link link-primary" href="https://docs.zmenu.dev/" target="_blank"><i class="bi bi-newspaper fs-3"></i></a>
+                            <a class="nav-link link-primary" href="https://docs.groupez.dev/zmenu/getting-started" target="_blank"><i class="bi bi-newspaper fs-3"></i></a>
                         </li>
                     </ul>
                 </div>
@@ -31,11 +31,9 @@
                 <h2 class="text-primary fw-bold fs-4 text-uppercase">{{ __('messages.links.title') }}</h2>
                 <ul class="list-unstyled">
                     <li><a class="link-light text-decoration-none" href="{{ route('resources.create.index') }}">Create a resource</a></li>
-                    <li><a class="link-light text-decoration-none" href="#">Terms</a></li>
-                    <li><a class="link-light text-decoration-none" href="#">Rule</a></li>
                     <li><a class="link-light text-decoration-none" href="https://discord.groupez.dev/" target="_blank">Discord</a></li>
                     <li><a class="link-light text-decoration-none" href="https://discord.groupez.dev/" target="_blank">Contact us</a></li>
-                    <li><a class="link-light text-decoration-none" href="https://serveur-minecraft-vote.fr/" target="_blank">Serveur minecraft Vote</a></li>
+                    <li><a class="link-light text-decoration-none" href="https://minestrator.com/a/GROUPEZ" target="_blank">MineStrator</a></li>
                 </ul>
             </div>
             <div class="col-xs-6 col-xl-2">
@@ -43,7 +41,7 @@
                 <ul class="list-unstyled">
                     <li><a class="link-light text-decoration-none" href="https://github.com/Maxlego08/Minecraft-Inventory-Builder" target="_blank" title="GroupeZ website">Github</a></li>
                     <li><a class="link-light text-decoration-none" href="https://groupez.dev/" target="_blank" title="GroupeZ website">GroupeZ</a></li>
-                    <li><a class="link-light text-decoration-none" href="https://docs.zmenu.dev/" target="_blank" title="zMenu documentation">Documentation</a></li>
+                    <li><a class="link-light text-decoration-none" href="https://docs.groupez.dev/zmenu/getting-started" target="_blank" title="zMenu documentation">Documentation</a></li>
                     <li><a class="link-light text-decoration-none" href="https://serveur-minecraft-vote.fr/" target="_blank" title="Serveur Minecraft Vote website">Serveur Minecraft Vote</a></li>
                 </ul>
             </div>

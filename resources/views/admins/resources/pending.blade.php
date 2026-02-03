@@ -40,7 +40,7 @@
                                 <th>
                                     <a href="{{ route('admin.users.show', ['user' => $resource->user ]) }}">{{ $resource->user->name }}</a>
                                 </th>
-                                <th>{{ $resource->version->version }}</th>
+                                <th>{{ $resource->version?->version ?? 'N/A' }}</th>
                                 <th>{{ $resource->category->name }}</th>
                                 <th style="@if(!$resource->price == 0) color: rgb(72, 187, 156); @else color: rgb(0, 0, 0); @endif">{{ $resource->price == 0 ? 'Gratuit' : $resource->price . "€" }}</th>
                                 <th>{{ format_date($resource->created_at, true) }}</th>

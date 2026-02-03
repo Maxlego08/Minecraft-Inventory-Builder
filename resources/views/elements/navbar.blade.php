@@ -79,7 +79,7 @@
                        {{Route::currentRouteNamed(('premium.*')) ?"aria-current='page''" : ""}} href="{{ route('premium.index') }}" title="{{ __('messages.account-upgrade') }}">{{ __('messages.premium') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link py-2 me-2" href="https://docs.zmenu.dev/" target="_blank" title="{{ __('messages.documentation') }}">{{ __('messages.documentation') }}</a>
+                    <a class="nav-link py-2 me-2" href="https://docs.groupez.dev/zmenu/getting-started" target="_blank" title="{{ __('messages.documentation') }}">{{ __('messages.documentation') }}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link py-2 me-2" href="https://discord.groupez.dev/" target="_blank" title="GroupeZ Discord">Discord</a>

@@ -10,7 +10,7 @@
         @include('admins.elements.user', ['currentUser' => $resource->user])
     </td>
     <td>{{ $resource->name }}</td>
-    <td>{{ $resource->version->version }}</td>
+    <td>{{ $resource->version?->version ?? 'N/A' }}</td>
     <td style="@if(!$resource->price == 0) color: rgb(72, 187, 156); @else color: rgb(0, 0, 0); @endif">{{ $resource->price == 0 ? 'Gratuit' : $resource->price . "€" }}</td>
     <td>ToDo</td>
     <td>{{ $resource->countDownload() }}</td>

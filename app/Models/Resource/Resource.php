@@ -221,9 +221,9 @@ class Resource extends Model implements Likeable
         $this->clear('last.review');
         $this->clear('start.percent.resource');
 
-        $this->version->clear('start.percent');
-        $this->version->clear('count.review.version');
-        $this->version->clear('count.score.version');
+        $this->version?->clear('start.percent');
+        $this->version?->clear('count.review.version');
+        $this->version?->clear('count.score.version');
     }
 
     /**

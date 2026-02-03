@@ -86,7 +86,12 @@ class BuilderDownloadController extends Controller
             'items' => $items,
         ];
 
-        return Yaml::dump($data, 99, 2, Yaml::DUMP_OBJECT_AS_MAP | Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
+        $yaml = Yaml::dump($data, 99, 2, Yaml::DUMP_OBJECT_AS_MAP | Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
+
+        // Collapse expanded array items ("- \n  key: val" → "- key: val")
+        $yaml = preg_replace('/^(\s*)-\n\s+(\S)/m', '$1- $2', $yaml);
+
+        return $yaml;
     }
 
     private static function buttonToArray(InventoryButton $button, int $slot): array

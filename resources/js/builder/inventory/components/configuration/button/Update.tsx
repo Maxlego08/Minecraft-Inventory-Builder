@@ -12,7 +12,7 @@ const IsPermanent = ({currentSlot, handleChange}) => {
                 checked={currentSlot.button?.update ?? false}
                 className={'rounded-1'}
             />
-            <a className={'ms-2'} href={'https://docs.zmenu.dev/configurations/buttons#update'} target={'_blank'}>(<i className="bi bi-question-lg"></i>)</a>
+            <a className={'ms-2'} href={'https://docs.groupez.dev/zmenu/configurations/buttons/button#update'} target={'_blank'}>(<i className="bi bi-question-lg"></i>)</a>
         </Form.Group>
     )
 

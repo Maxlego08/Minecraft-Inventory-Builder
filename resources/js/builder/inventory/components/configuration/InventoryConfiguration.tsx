@@ -84,9 +84,9 @@ const InventoryConfiguration = ({inventory, updateInventory, page, setPage, maxP
                             className={'rounded-1'}
                         />
                         <small className="form-text text-muted">
-                            Allows you to define the time in seconds for the refresh of the buttons in the inventory.
+                            Allows you to define the time in milliseconds for the refresh of the buttons in the inventory.
                             For the buttons to be updated, you must have the update option enabled. More information <a
-                            href="https://zmenu.groupez.dev/configurations/buttons" target="_blank">here</a>.
+                            href="https://docs.groupez.dev/zmenu/configurations/inventories/inventory#update-interval" target="_blank">here</a>.
                         </small>
                     </Form.Group>
                     <Form.Group className="mb-3">

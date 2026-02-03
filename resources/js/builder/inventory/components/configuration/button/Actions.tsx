@@ -47,7 +47,7 @@ const Actions = ({currentSlot, actions, updateActions}) => {
         <hr/>
         <div className={'configurations-button-header-second mb-2'}>
             <div>
-                Actions <a className={'ms-2'} href={'https://docs.zmenu.dev/configurations/buttons/actions'}
+                Actions <a className={'ms-2'} href={'https://docs.groupez.dev/zmenu/configurations/buttons/actions'}
                            target={'_blank'}>(<i className="bi bi-question-lg"></i>)</a>
             </div>
             <div className={'btn btn-sm btn-secondary action'} onClick={() => setShowModal(true)}>
