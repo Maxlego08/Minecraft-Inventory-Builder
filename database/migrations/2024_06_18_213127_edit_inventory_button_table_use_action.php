@@ -11,10 +11,10 @@ return new class extends Migration {
     public function up(): void
     {
 
-        $lastButton = InventoryButton::orderBy('id', 'desc')->first();
+        /*$lastButton = InventoryButton::orderBy('id', 'desc')->first();
         for ($i = 1; $i <= $lastButton->id; $i++) {
             \App\Jobs\UpdateInventoryButtonJob::dispatch($i);
-        }
+        }*/
     }
 
     /**

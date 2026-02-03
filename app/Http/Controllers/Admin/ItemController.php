@@ -21,7 +21,7 @@ class ItemController extends Controller
             if (isset($item)) {
                 $version = MinecraftVersion::where('minecraft_version', $value['item']['version'] ?? 1.08)->first();
                 $item->update([
-                    'version_id' => $version?->id ?? 1,
+                    'version_id' => $version?->id ?? 14,
                     'minecraft_id' => $value['item']['id'] ?? null,
                     'name' => $value['name'],
                     'data' => $value['item']['data'] ?? 0,
@@ -34,7 +34,7 @@ class ItemController extends Controller
 
                 $version = MinecraftVersion::where('minecraft_version', $value['item']['version'] ?? 1.08)->first();
                 Item::create([
-                    'version_id' => $version?->id ?? 1,
+                    'version_id' => $version?->id ?? 14,
                     'minecraft_id' => $value['item']['id'] ?? null,
                     'name' => $value['name'],
                     'data' => $value['item']['data'] ?? 0,
